@@ -6,6 +6,20 @@
   color: #fff;
 }
 
+.villian-toolbar {
+  padding: 4px;
+  background: #353b48;
+}
+
+.villian button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  margin: 4px;
+  padding: 2px 8px;
+}
+
 .villian-canvas {
   width: 100%;
   height: 100%;

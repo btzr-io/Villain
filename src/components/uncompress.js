@@ -14,15 +14,12 @@ class Uncompress extends Component {
   static defaultProps = {
     file: null,
     workerPath: null,
+    initialPage: 0,
   }
 
   constructor(props) {
     super(props)
     this.archive = null
-    this.state = {
-      ready: false,
-      loading: true,
-    }
   }
 
   loadArchiveFromUrl(url) {
@@ -62,6 +59,7 @@ class Uncompress extends Component {
 
   extract = async blob => {
     try {
+      const { initialPage } = this.props
       // Compressed files
       const list = await this.openArchive(blob)
 
@@ -76,19 +74,21 @@ class Uncompress extends Component {
         const page = { index, url, name, size, type: 'image', buildPyramid: false }
         this.context.createPage(page)
 
-        // Display cover
-        if (index === 0) {
-          this.context.trigger('ready')
+        if (index === initialPage) {
+          this.context.trigger('ready', { totalPages: list.length })
         }
       })
     } catch (err) {
       // Handle Errors
       this.handleError(err)
     } finally {
-      if (this.context.state.ready) {
-        console.info('done!')
+      const { ready } = this.context.state
+
+      if (ready) {
+        console.log('done!')
       } else {
-        this.handleError('unable to read archive!')
+        // Archive is empty, unsupported or encrypted!
+        this.context.trigger('error', 'Extraction failed!')
       }
     }
   }
@@ -105,19 +105,18 @@ class Uncompress extends Component {
 
   render() {
     const { ready, error } = this.context.state
-    const isLoading = !ready && !error
-
     return (
       <React.Fragment>
-        {error && <Error />}
-        {isLoading ? <Loader /> : this.props.children}
+        {(error && <Error />) || (!ready ? <Loader /> : this.props.children)}
       </React.Fragment>
     )
   }
 }
 
 Uncompress.propTypes = {
+  file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
   workerPath: PropTypes.string,
+  initialPage: PropTypes.number,
 }
 
 export default Uncompress

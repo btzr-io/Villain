@@ -5,15 +5,18 @@ import Uncompress from './components/uncompress'
 import CanvasRender from './components/render'
 import { ReaderContext, ReaderProvider } from './context'
 
+const defaultOpts = {
+  theme: 'dark',
+  initialPage: 0,
+  workerPath: null,
+}
+
 class Villian extends Component {
   static contextType = ReaderContext
 
   static defaultProps = {
     file: null,
-    options: {
-      theme: 'dark',
-      workerPath: null,
-    },
+    options: { ...defaultOpts },
   }
 
   constructor(props) {
@@ -22,14 +25,23 @@ class Villian extends Component {
 
   render() {
     const { file, options } = this.props
+    const opts = { ...defaultOpts, ...options }
 
     return (
       <ReaderProvider>
         <div className={'villian'}>
-          <Uncompress file={file} workerPath={options.workerPath}>
+          <Uncompress
+            file={file}
+            workerPath={opts.workerPath}
+            initialPage={opts.initialPage}
+          >
             <ReaderContext.Consumer>
               {({ state }) => (
-                <CanvasRender id={'osd-canvas-render'} currentPage={state.currentPage} />
+                <CanvasRender
+                  id={'osd-canvas-render'}
+                  currentPage={state.currentPage}
+                  initialPage={options.initialPage}
+                />
               )}
             </ReaderContext.Consumer>
           </Uncompress>

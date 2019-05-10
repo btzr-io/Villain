@@ -5,6 +5,9 @@ const defaultState = {
   pages: [],
   ready: false,
   error: null,
+  totalPages: 0,
+  isLastPage: false,
+  isFirstPage: true,
   currentPage: null,
 }
 
@@ -23,13 +26,38 @@ export class ReaderProvider extends Component {
   trigger = (eventName, data) => {
     // Ready to display first page (cover)
     if (eventName === 'ready') {
-      this.setState({ ...defaultState, ready: true, currentPage: 0 })
+      this.setState({ ready: true, error: null, currentPage: 0, ...data })
     }
 
     if (eventName === 'error' && data) {
       console.error(data)
-      this.setState({ ...defaultState, error: data })
+      this.setState({ ready: false, error: data })
     }
+  }
+
+  navigateForward = () => {
+    this.setState(prevState => {
+      if (prevState.isLastPage) return {}
+
+      const { totalPages, currentPage } = prevState
+      const nextPage = currentPage + 1
+      const isLastPage = nextPage === totalPages - 1
+      const isFirstPage = nextPage === 0
+      console.info(nextPage)
+      return { isLastPage, isFirstPage, currentPage: nextPage }
+    })
+  }
+
+  navigateBackward = () => {
+    this.setState(prevState => {
+      if (prevState.isFirstPage) return {}
+      const { totalPages, currentPage } = prevState
+      const prevPage = currentPage - 1
+      const isLastPage = prevPage === totalPages - 1
+      const isFirstPage = prevPage === 0
+      console.info(prevPage)
+      return { isLastPage, isFirstPage, currentPage: prevPage }
+    })
   }
 
   getPage = index => {
@@ -45,6 +73,8 @@ export class ReaderProvider extends Component {
           getPage: this.getPage,
           createPage: this.createPage,
           updateState: this.updateState,
+          navigateForward: this.navigateForward,
+          navigateBackward: this.navigateBackward,
         }}
       >
         {this.props.children}

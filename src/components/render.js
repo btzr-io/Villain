@@ -3,7 +3,13 @@ import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '../osd.config'
 import { ReaderContext } from '../context'
 
+import Toolbar from './toolbar'
+
 class CanvasRender extends Component {
+  static defaultProps = {
+    initialPage: 0,
+  }
+
   static contextType = ReaderContext
 
   constructor(props) {
@@ -53,7 +59,7 @@ class CanvasRender extends Component {
 
   renderPage(index) {
     const page = this.context.getPage(index)
-    this.viewer.open(page, 1)
+    page && this.viewer.open(page, 1)
   }
 
   renderCover() {
@@ -61,22 +67,32 @@ class CanvasRender extends Component {
   }
 
   componentDidMount() {
+    const { initialPage } = this.props
     this.initOpenSeaDragon()
-    this.renderCover()
+    this.renderPage(initialPage)
   }
 
   componentDidUpdate(prevProps) {
-    // Render new page
+    const { totalPages } = this.context.state
     const { currentPage } = this.props
 
+    // Page changed
     if (currentPage !== prevProps.currentPage) {
-      console.info(currentPage, prevProps.currentPage)
+      // Render new valid page
+      if (currentPage >= 0 || currentPage < totalPages) {
+        this.renderPage(currentPage)
+      }
     }
   }
 
   render() {
     const { id } = this.props
-    return <div id={id} className={'villian-canvas'} />
+    return (
+      <React.Fragment>
+        <Toolbar />
+        <div id={id} className={'villian-canvas'} />
+      </React.Fragment>
+    )
   }
 }
 

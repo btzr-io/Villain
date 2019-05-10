@@ -6,11 +6,11 @@ import Villian from '../src/index.js'
 import '../src/css/styles.css'
 
 const villianOpts = {
-  workerPath: '/build/libarchive/worker-bundle.js',
+  workerPath: '/build/worker-bundle.js',
 }
 
 const testFile =
-  'https://raw.githubusercontent.com/workhorsy/uncompress.js/master/example_with_password.zip '
+  'https://raw.githubusercontent.com/workhorsy/uncompress.js/master/example.tar '
 
 ReactDOM.render(
   <div>
