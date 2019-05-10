@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 // Remplace path with build
-import Villian from '../src/index.js'
+import Villain from '../src/index.js'
 import '../src/css/styles.css'
 
-const villianOpts = {
+const villainOpts = {
   workerPath: '/build/worker-bundle.js',
 }
 
@@ -15,7 +15,7 @@ const testFile =
 ReactDOM.render(
   <div>
     <h1> Test example! </h1>
-    <Villian file={testFile} options={villianOpts} />
+    <Villain file={testFile} options={villainOpts} />
   </div>,
   document.getElementById('app')
 )

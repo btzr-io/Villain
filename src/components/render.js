@@ -49,7 +49,7 @@ class CanvasRender extends Component {
       // Set Zoom options
       const targetZoom = this.getTargetZoom()
       viewport.maxZoomLevel = targetZoom
-      console.info('loaded!')
+      this.renderBookModeLayout()
     })
     this.viewer.addHandler('close', () => {})
     this.viewer.addHandler('open-failed', e => {
@@ -59,11 +59,42 @@ class CanvasRender extends Component {
 
   renderPage(index) {
     const page = this.context.getPage(index)
-    page && this.viewer.open(page, 1)
+    page && this.viewer.open(page)
   }
 
   renderCover() {
     this.renderPage(0)
+  }
+
+  renderBookModeLayout() {
+    const { viewport, world } = this.viewer
+    const { currentPage } = this.context.state
+    const pos = new OpenSeaDragon.Point(0, 0)
+    const count = world.getItemCount()
+
+    for (let i = 0; i < count; i++) {
+      const tiledImage = world.getItemAt(i)
+      if (tiledImage) {
+        const bounds = tiledImage.getBounds()
+        tiledImage.setPosition(pos, true)
+        pos.x += bounds.width
+      }
+    }
+
+    this.fitPages(true)
+  }
+
+  fitPages(fast = false) {
+    const { viewport, world } = this.viewer
+    const count = world.getItemCount()
+    const tiledImage = world.getItemAt(0)
+
+    if (tiledImage) {
+      const bounds = tiledImage.getBounds()
+      const margin = 8 / viewport.getContainerSize().x
+      bounds.width = (bounds.width + margin) * count
+      viewport.fitBoundsWithConstraints(bounds, fast)
+    }
   }
 
   componentDidMount() {
@@ -74,13 +105,20 @@ class CanvasRender extends Component {
 
   componentDidUpdate(prevProps) {
     const { totalPages } = this.context.state
-    const { currentPage } = this.props
+    const { currentPage, bookMode } = this.props
 
     // Page changed
-    if (currentPage !== prevProps.currentPage) {
+    if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
       // Render new valid page
       if (currentPage >= 0 || currentPage < totalPages) {
         this.renderPage(currentPage)
+      }
+    }
+
+    // Page changed
+    if (bookMode !== prevProps.bookMode) {
+      if (bookMode) {
+        this.renderBookModeLayout()
       }
     }
   }
@@ -90,7 +128,7 @@ class CanvasRender extends Component {
     return (
       <React.Fragment>
         <Toolbar />
-        <div id={id} className={'villian-canvas'} />
+        <div id={id} className={'villain-canvas'} />
       </React.Fragment>
     )
   }

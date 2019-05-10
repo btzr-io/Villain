@@ -9,6 +9,11 @@ const defaultState = {
   isLastPage: false,
   isFirstPage: true,
   currentPage: null,
+
+  // Settings
+  theme: 'dark',
+  bookMode: true,
+  fullscreen: false,
 }
 
 export class ReaderProvider extends Component {
@@ -16,6 +21,10 @@ export class ReaderProvider extends Component {
 
   updateState = data => {
     this.setState(data)
+  }
+
+  toggleSetting = setting => {
+    this.setState(prevState => ({ [setting]: !prevState[setting] }))
   }
 
   createPage = page => {
@@ -43,7 +52,7 @@ export class ReaderProvider extends Component {
       const nextPage = currentPage + 1
       const isLastPage = nextPage === totalPages - 1
       const isFirstPage = nextPage === 0
-      console.info(nextPage)
+
       return { isLastPage, isFirstPage, currentPage: nextPage }
     })
   }
@@ -55,13 +64,27 @@ export class ReaderProvider extends Component {
       const prevPage = currentPage - 1
       const isLastPage = prevPage === totalPages - 1
       const isFirstPage = prevPage === 0
-      console.info(prevPage)
+
       return { isLastPage, isFirstPage, currentPage: prevPage }
     })
   }
 
   getPage = index => {
-    return this.state.pages[index] || null
+    const { pages, bookMode, totalPages } = this.state
+    const page = pages[index]
+    const nextIndex = index + 1
+    const nextPageExists = nextIndex >= 0 || nextIndex < totalPages
+    const shouldRenderBookMode =
+      nextPageExists && !(index === 0 || index === totalPages - 1)
+
+    // Return two pages
+    if (this.state.bookMode && shouldRenderBookMode) {
+      const nextPage = pages[nextIndex]
+      return [page, nextPage]
+    }
+
+    // Return single page
+    return page
   }
 
   render() {
@@ -73,6 +96,7 @@ export class ReaderProvider extends Component {
           getPage: this.getPage,
           createPage: this.createPage,
           updateState: this.updateState,
+          toggleSetting: this.toggleSetting,
           navigateForward: this.navigateForward,
           navigateBackward: this.navigateBackward,
         }}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import Wrapp from './components/wrapp'
 import Uncompress from './components/uncompress'
 import CanvasRender from './components/render'
 import { ReaderContext, ReaderProvider } from './context'
@@ -9,9 +9,10 @@ const defaultOpts = {
   theme: 'dark',
   initialPage: 0,
   workerPath: null,
+  overlay: true,
 }
 
-class Villian extends Component {
+class Villain extends Component {
   static contextType = ReaderContext
 
   static defaultProps = {
@@ -29,7 +30,7 @@ class Villian extends Component {
 
     return (
       <ReaderProvider>
-        <div className={'villian'}>
+        <Wrapp>
           <Uncompress
             file={file}
             workerPath={opts.workerPath}
@@ -39,19 +40,20 @@ class Villian extends Component {
               {({ state }) => (
                 <CanvasRender
                   id={'osd-canvas-render'}
+                  bookMode={state.bookMode}
                   currentPage={state.currentPage}
                   initialPage={options.initialPage}
                 />
               )}
             </ReaderContext.Consumer>
           </Uncompress>
-        </div>
+        </Wrapp>
       </ReaderProvider>
     )
   }
 }
 
-Villian.propTypes = {
+Villain.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
   options: PropTypes.shape({
     theme: PropTypes.string,
@@ -59,4 +61,4 @@ Villian.propTypes = {
   }),
 }
 
-export default Villian
+export default Villain

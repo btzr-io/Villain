@@ -82,14 +82,6 @@ class Uncompress extends Component {
       // Handle Errors
       this.handleError(err)
     } finally {
-      const { ready } = this.context.state
-
-      if (ready) {
-        console.log('done!')
-      } else {
-        // Archive is empty, unsupported or encrypted!
-        this.context.trigger('error', 'Extraction failed!')
-      }
     }
   }
 

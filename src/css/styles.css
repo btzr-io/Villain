@@ -1,4 +1,4 @@
-.villian {
+.villain {
   width: 480px;
   height: 320px;
   position: relative;
@@ -6,28 +6,42 @@
   color: #fff;
 }
 
-.villian-toolbar {
-  padding: 4px;
-  background: #353b48;
+.villain-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  z-index: 99;
 }
 
-.villian button {
+.villain-toolbar {
+  padding: 4px;
+  background: #353b48;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.villain button {
   background: rgba(255, 255, 255, 0.2);
   border: 0;
   border-radius: 4px;
   color: #fff;
   margin: 4px;
   padding: 2px 8px;
+  cursor: pointer;
 }
 
-.villian-canvas {
+.villain-canvas {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
 img,
-.villian-overlay {
+.villain-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -41,14 +55,14 @@ img,
   justify-content: center;
 }
 
-.villian-loader-indicator,
-.villian-loader-indicator:after {
+.villain-loader-indicator,
+.villain-loader-indicator:after {
   border-radius: 50%;
   width: 10em;
   height: 10em;
 }
 
-.villian-loader-indicator {
+.villain-loader-indicator {
   margin: 60px auto;
   font-size: 4px;
   position: relative;

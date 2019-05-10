@@ -8,7 +8,7 @@ class Error extends Component {
   render() {
     const { id } = this.props
     return (
-      <div className={'villian-overlay'}>
+      <div className={'villain-overlay'}>
         <div>Error!</div>
       </div>
     )

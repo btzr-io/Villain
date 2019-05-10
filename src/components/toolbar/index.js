@@ -10,11 +10,15 @@ class Toolbar extends Component {
 
   render() {
     const { id } = this.props
-    const { navigateForward, navigateBackward } = this.context
+    const { navigateForward, navigateBackward, toggleSetting } = this.context
+    const { currentPage, totalPages } = this.context.state
     return (
-      <div className={'villian-toolbar'}>
+      <div className={'villain-toolbar'}>
         <button onClick={navigateBackward}>Previous page</button>
+        <div>{`${currentPage + 1} / ${totalPages}`}</div>
         <button onClick={navigateForward}>Next page</button>
+        <button onClick={() => toggleSetting('bookMode')}>Book mode</button>
+        <button onClick={() => toggleSetting('fullscreen')}>fullscreen</button>
       </div>
     )
   }

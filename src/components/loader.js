@@ -8,8 +8,8 @@ class Loader extends Component {
   render() {
     const { id } = this.props
     return (
-      <div className={'villian-overlay'}>
-        <div className={'villian-loader-indicator'} />
+      <div className={'villain-overlay'}>
+        <div className={'villain-loader-indicator'} />
       </div>
     )
   }
