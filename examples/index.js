@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 // Remplace path with build
-import Villain from '../src/index.js'
+import Villain from '../build/villain.js'
 import '../src/css/styles.css'
 
 const villainOpts = {

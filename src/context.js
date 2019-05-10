@@ -12,7 +12,7 @@ const defaultState = {
 
   // Settings
   theme: 'dark',
-  bookMode: true,
+  bookMode: false,
   fullscreen: false,
 }
 
