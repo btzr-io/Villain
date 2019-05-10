@@ -21,11 +21,6 @@
     "url": "https://github.com/btzr-io/Villain/issues"
   },
   "homepage": "https://github.com/btzr-io/Villain#readme",
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "dependencies": {
     "clsx": "^1.0.4",
     "libarchive.js": "^1.1.0",
