@@ -2,15 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 // Remplace path with build
-import Villain from '../build/villain.js'
+import Villain from '../src/index.js'
 import '../src/css/styles.css'
 
 const villainOpts = {
   workerPath: '/build/worker-bundle.js',
 }
 
-const testFile =
-  'https://raw.githubusercontent.com/workhorsy/uncompress.js/master/example.tar '
+const testFile = '/build/test_files/test.cbr'
 
 ReactDOM.render(
   <div>

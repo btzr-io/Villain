@@ -3,11 +3,8 @@ const config = {
   initialPage: 0,
   visibilityRatio: 1,
   imageLoaderLimit: 500,
-
   // Zoom - Pan
   constrainDuringPan: true,
-  preserveImageSizeOnResize: true,
-
   // UI
   toolbar: false,
   showNavigationControl: false,
@@ -16,10 +13,11 @@ const config = {
   showFullPageControl: false,
   immediateRender: true,
 
+  // --- Experimental ---
   //Flick bug -> placeholderFillStyle: '#FFF',
-
   // Animations
-  springStiffness: 18.0,
+  // springStiffness: 12,
+  // preserveImageSizeOnResize: true,
 }
 
 export default config

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
-import { getMimeType, fetchArchive, isValidImageType } from '../utils'
+import { asyncForEach, getMimeType, fetchArchive, isValidImageType } from '../lib/utils'
 import { ReaderContext } from '../context'
 
 // Components
@@ -23,14 +23,14 @@ class Uncompress extends Component {
   }
 
   loadArchiveFromUrl(url) {
-    fetchArchive(url, this.extract)
+    fetchArchive(url, this.extract, this.handleError)
   }
 
   loadArchiveFromBlob(blob) {
     this.extract(blob)
   }
 
-  handleError(err) {
+  handleError = err => {
     this.context.trigger('error', err)
   }
 
@@ -39,49 +39,55 @@ class Uncompress extends Component {
 
     // Setup worker
     Archive.init({ workerUrl })
-
     // Open archive
     const archive = await Archive.open(file)
     const comporessedFiles = await archive.getFilesArray()
-
-    // Filter images
+    console.info(comporessedFiles)
     const images = comporessedFiles.filter(item => isValidImageType(item.file.name))
 
-    // Fix sort order
-    images.sort((a, b) => {
-      if (a.file.name > b.file.name) return 1
-      if (a.file.name < b.file.name) return -1
-      return 0
-    })
+    if (images.length > 1) {
+      // Fix sort order
+      images.sort((a, b) => {
+        if (a.file.name > b.file.name) return 1
+        if (a.file.name < b.file.name) return -1
+        return 0
+      })
+    }
 
-    return images
+    return images.length > 0 ? images : null
   }
 
   extract = async blob => {
     try {
-      const { initialPage } = this.props
       // Compressed files
+      console.time()
       const list = await this.openArchive(blob)
+      console.timeEnd()
 
-      const pages = await list.map(async (item, index) => {
-        const file = await item.file.extract()
-        const { size, name } = file
+      if (list && list.length > 0) {
+        await asyncForEach(list, async (item, index) => {
+          const file = await item.file.extract()
+          const { size, name } = file
 
-        const type = getMimeType(name)
-        const blob = new Blob([file], { type })
-        const url = URL.createObjectURL(blob)
+          const type = getMimeType(name)
+          const blob = new Blob([file], { type })
+          const url = URL.createObjectURL(blob)
 
-        const page = { index, url, name, size, type: 'image', buildPyramid: false }
-        this.context.createPage(page)
+          // Create page
+          const page = { index, url, name, size, type: 'image', buildPyramid: true }
+          this.context.createPage(page)
 
-        if (index === initialPage) {
-          this.context.trigger('ready', { totalPages: list.length })
-        }
-      })
+          // Initial extraction: Cover (first page)
+          if (index === 0) {
+            this.context.trigger('ready', { totalPages: list.length })
+          }
+        })
+      } else {
+        this.context.trigger('error', 'No files!')
+      }
     } catch (err) {
       // Handle Errors
       this.handleError(err)
-    } finally {
     }
   }
 

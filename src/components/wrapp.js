@@ -13,7 +13,7 @@ class Wrapp extends Component {
     const { width, height } = this.props
     const { fullscreen } = this.context.state
     const size = { width, height }
-    console.info(size)
+
     return (
       <div className={clsx('villain', fullscreen && 'villain-fullscreen')} style={size}>
         {this.props.children}

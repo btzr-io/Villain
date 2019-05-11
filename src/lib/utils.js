@@ -1,15 +1,6 @@
 // Regex to detect image type
 const regexImage = new RegExp('^.+.(jpeg|jpg|png|bpm|webp|gif)$')
 
-// Check if file is a valid image-type
-export const isValidImageType = name => regexImage.test(name)
-
-// Extract file MIME Type
-export const getMimeType = name => {
-  const mime = regexImage.exec(name)
-  return `image/${mime ? mime[1] : 'jpeg'}`
-}
-
 // Handle response status
 const status = response => {
   if (response.status >= 200 && response.status < 300) {
@@ -19,8 +10,17 @@ const status = response => {
   }
 }
 
+// Check if file is a valid image-type
+export const isValidImageType = name => regexImage.test(name)
+
+// Extract file MIME Type
+export const getMimeType = name => {
+  const mime = regexImage.exec(name)
+  return `image/${mime ? mime[1] : 'jpeg'}`
+}
+
 // Load archive from server
-export const fetchArchive = (url, callback) => {
+export const fetchArchive = (url, callback, errorCallback) => {
   fetch(url, { mode: 'cors' })
     .then(status)
     .then(res => {
@@ -30,6 +30,13 @@ export const fetchArchive = (url, callback) => {
     })
     .then(callback)
     .catch(error => {
+      errorCallback && errorCallback(error)
       console.error('Request failed', error)
     })
+}
+
+export const asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array)
+  }
 }
