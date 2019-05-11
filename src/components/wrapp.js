@@ -10,9 +10,12 @@ class Wrapp extends Component {
   }
 
   render() {
+    const { width, height } = this.props
     const { fullscreen } = this.context.state
+    const size = { width, height }
+    console.info(size)
     return (
-      <div className={clsx('villain', fullscreen && 'villain-fullscreen')}>
+      <div className={clsx('villain', fullscreen && 'villain-fullscreen')} style={size}>
         {this.props.children}
       </div>
     )

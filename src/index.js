@@ -17,6 +17,8 @@ class Villain extends Component {
 
   static defaultProps = {
     file: null,
+    width: '640px',
+    height: '320px',
     options: { ...defaultOpts },
   }
 
@@ -25,12 +27,12 @@ class Villain extends Component {
   }
 
   render() {
-    const { file, options } = this.props
+    const { file, width, height, options } = this.props
     const opts = { ...defaultOpts, ...options }
 
     return (
       <ReaderProvider>
-        <Wrapp>
+        <Wrapp width={width} height={height}>
           <Uncompress
             file={file}
             workerPath={opts.workerPath}
@@ -55,6 +57,8 @@ class Villain extends Component {
 
 Villain.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
+  width: PropTypes.string,
+  height: PropTypes.string,
   options: PropTypes.shape({
     theme: PropTypes.string,
     workerPath: PropTypes.string,

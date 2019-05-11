@@ -1254,10 +1254,20 @@
 
     render() {
       const {
+        width,
+        height
+      } = this.props;
+      const {
         fullscreen
       } = this.context.state;
+      const size = {
+        width,
+        height
+      };
+      console.info(size);
       return React__default.createElement("div", {
-        className: clsx('villain', fullscreen && 'villain-fullscreen')
+        className: clsx('villain', fullscreen && 'villain-fullscreen'),
+        style: size
       }, this.props.children);
     }
 
@@ -24390,12 +24400,17 @@
     render() {
       const {
         file,
+        width,
+        height,
         options
       } = this.props;
       const opts = { ...defaultOpts,
         ...options
       };
-      return React__default.createElement(ReaderProvider, null, React__default.createElement(Wrapp, null, React__default.createElement(Uncompress, {
+      return React__default.createElement(ReaderProvider, null, React__default.createElement(Wrapp, {
+        width: width,
+        height: height
+      }, React__default.createElement(Uncompress, {
         file: file,
         workerPath: opts.workerPath,
         initialPage: opts.initialPage
@@ -24415,12 +24430,16 @@
 
   _defineProperty(Villain, "defaultProps", {
     file: null,
+    width: '640px',
+    height: '320px',
     options: { ...defaultOpts
     }
   });
 
   Villain.propTypes = {
     file: propTypes.oneOfType([propTypes.string, propTypes.instanceOf(Blob)]),
+    width: propTypes.string,
+    height: propTypes.string,
     options: propTypes.shape({
       theme: propTypes.string,
       workerPath: propTypes.string
