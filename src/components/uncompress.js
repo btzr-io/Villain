@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
-import { asyncForEach, getMimeType, fetchArchive, isValidImageType } from '../lib/utils'
+import { asyncForEach, fetchArchive, isValidImageType } from '../lib/utils'
 import { ReaderContext } from '../context'
 
 // Components
@@ -14,7 +14,6 @@ class Uncompress extends Component {
   static defaultProps = {
     file: null,
     workerPath: null,
-    initialPage: 0,
   }
 
   constructor(props) {
@@ -30,6 +29,14 @@ class Uncompress extends Component {
     this.extract(blob)
   }
 
+  handleExtractedFile = (file, index) => {
+    const { size, name } = file
+    const defultPageOpts = { type: 'image', buildPyramid: false }
+    const url = URL.createObjectURL(file)
+    const page = { index, url, name, size, ...defultPageOpts }
+    this.context.createPage(page)
+  }
+
   handleError = err => {
     this.context.trigger('error', err)
   }
@@ -39,13 +46,13 @@ class Uncompress extends Component {
 
     // Setup worker
     Archive.init({ workerUrl })
+
     // Open archive
     const archive = await Archive.open(file)
     const comporessedFiles = await archive.getFilesArray()
-    console.info(comporessedFiles)
     const images = comporessedFiles.filter(item => isValidImageType(item.file.name))
 
-    if (images.length > 1) {
+    if (images.length > 1 && false) {
       // Fix sort order
       images.sort((a, b) => {
         if (a.file.name > b.file.name) return 1
@@ -53,13 +60,17 @@ class Uncompress extends Component {
         return 0
       })
     }
+    // Load archive data
+    const { type, size } = file
+    const archiveData = { type, size, totalPages: images.length }
+    this.context.trigger('loaded', archiveData)
 
     return images.length > 0 ? images : null
   }
 
   extract = async blob => {
     try {
-      // Compressed files
+      // Compressed files 1437
       console.time()
       const list = await this.openArchive(blob)
       console.timeEnd()
@@ -67,20 +78,7 @@ class Uncompress extends Component {
       if (list && list.length > 0) {
         await asyncForEach(list, async (item, index) => {
           const file = await item.file.extract()
-          const { size, name } = file
-
-          const type = getMimeType(name)
-          const blob = new Blob([file], { type })
-          const url = URL.createObjectURL(blob)
-
-          // Create page
-          const page = { index, url, name, size, type: 'image', buildPyramid: true }
-          this.context.createPage(page)
-
-          // Initial extraction: Cover (first page)
-          if (index === 0) {
-            this.context.trigger('ready', { totalPages: list.length })
-          }
+          this.handleExtractedFile(file, index)
         })
       } else {
         this.context.trigger('error', 'No files!')
@@ -93,6 +91,7 @@ class Uncompress extends Component {
 
   componentDidMount() {
     const { file } = this.props
+
     // Load archive from valid source
     if (typeof file === 'string') {
       this.loadArchiveFromUrl(file)
@@ -114,7 +113,6 @@ class Uncompress extends Component {
 Uncompress.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
   workerPath: PropTypes.string,
-  initialPage: PropTypes.number,
 }
 
 export default Uncompress

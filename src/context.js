@@ -29,44 +29,57 @@ export class ReaderProvider extends Component {
 
   createPage = page => {
     const pages = this.state.pages.concat(page)
-    this.setState({ pages })
+    if (page.index === 0) {
+      this.setState({
+        ready: true,
+        error: null,
+        currentPage: 0,
+        pages,
+      })
+    } else {
+      this.setState({ pages })
+    }
   }
 
   trigger = (eventName, data) => {
-    // Ready to display first page (cover)
-    if (eventName === 'ready') {
-      this.setState({ ready: true, error: null, currentPage: 0, ...data })
-    }
-
     if (eventName === 'error' && data) {
       console.error(data)
       this.setState({ ready: false, error: data })
     }
+
+    if (eventName === 'loaded' && data) {
+      this.setState({ ...data })
+    }
+  }
+
+  navigateToPage = pageIndex => {
+    this.setState(prevState => {
+      const { totalPages } = prevState.totalPages
+      // Validate page index
+      if (
+        (pageIndex < 0 && pageIndex >= totalPages) ||
+        pageIndex == prevState.currentPage
+      )
+        return {}
+      // Update state
+      const isLastPage = pageIndex === totalPages - 1
+      const isFirstPage = pageIndex === 0
+      return { isLastPage, isFirstPage, currentPage: pageIndex }
+    })
   }
 
   navigateForward = () => {
-    this.setState(prevState => {
-      if (prevState.isLastPage) return {}
-
-      const { totalPages, currentPage } = prevState
-      const nextPage = currentPage + 1
-      const isLastPage = nextPage === totalPages - 1
-      const isFirstPage = nextPage === 0
-
-      return { isLastPage, isFirstPage, currentPage: nextPage }
-    })
+    const { isLastPage, currentPage } = this.state
+    if (!isLastPage) {
+      this.navigateToPage(currentPage + 1)
+    }
   }
 
   navigateBackward = () => {
-    this.setState(prevState => {
-      if (prevState.isFirstPage) return {}
-      const { totalPages, currentPage } = prevState
-      const prevPage = currentPage - 1
-      const isLastPage = prevPage === totalPages - 1
-      const isFirstPage = prevPage === 0
-
-      return { isLastPage, isFirstPage, currentPage: prevPage }
-    })
+    const { isFirstPage, currentPage } = this.state
+    if (!isFirstPage) {
+      this.navigateToPage(currentPage - 1)
+    }
   }
 
   getPage = index => {
@@ -97,6 +110,7 @@ export class ReaderProvider extends Component {
           createPage: this.createPage,
           updateState: this.updateState,
           toggleSetting: this.toggleSetting,
+          navigateToPage: this.navigateToPage,
           navigateForward: this.navigateForward,
           navigateBackward: this.navigateBackward,
         }}

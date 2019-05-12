@@ -22,10 +22,6 @@ module.exports = {
         },
       },
       {
-        test: /\.worker\.js$/,
-        use: { loader: 'worker-loader' },
-      },
-      {
         test: /\.css$/,
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
       },

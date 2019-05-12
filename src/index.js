@@ -7,7 +7,6 @@ import { ReaderContext, ReaderProvider } from './context'
 
 const defaultOpts = {
   theme: 'dark',
-  initialPage: 0,
   workerPath: null,
   overlay: true,
 }
@@ -33,18 +32,13 @@ class Villain extends Component {
     return (
       <ReaderProvider>
         <Wrapp width={width} height={height}>
-          <Uncompress
-            file={file}
-            workerPath={opts.workerPath}
-            initialPage={opts.initialPage}
-          >
+          <Uncompress file={file} workerPath={opts.workerPath}>
             <ReaderContext.Consumer>
               {({ state }) => (
                 <CanvasRender
                   id={'osd-canvas-render'}
                   bookMode={state.bookMode}
                   currentPage={state.currentPage}
-                  initialPage={options.initialPage}
                 />
               )}
             </ReaderContext.Consumer>

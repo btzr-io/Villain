@@ -33,15 +33,10 @@ class CanvasRender extends Component {
 
   initOpenSeaDragon() {
     const { id } = this.props
-
-    const tileSources = {
-      type: 'image',
-      url: 'https://bookofbadarguments.com/images/1.jpg',
-      buildPyramid: false,
-    }
+    const { pages } = this.context.state
 
     // Create viewer
-    this.viewer = OpenSeaDragon({ id, tileSources, ...OSDConfig })
+    this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
 
     // Events hanlder
     this.viewer.addHandler('open', () => {
@@ -110,7 +105,7 @@ class CanvasRender extends Component {
     // Page changed
     if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
       // Render new valid page
-      if (currentPage >= 0 || currentPage < totalPages) {
+      if (currentPage >= 0 && currentPage < totalPages) {
         this.renderPage(currentPage)
       }
     }

@@ -2,6 +2,27 @@
   position: relative;
   background-color: #23262f;
   color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.villain-toolbar .villain-input {
+  -moz-appearance: textfield;
+  min-width: 16px;
+  text-align: right;
+  width: 40px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  padding: 0 4px;
+  color: #fff;
+  margin: 4px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.villain-toolbar .villain-label {
+  margin: 2px;
+  opacity: 0.8;
+  font-size: 15px;
 }
 
 .villain-fullscreen {
@@ -21,6 +42,7 @@
   align-items: center;
   justify-content: flex-start;
   height: 45px;
+  font-size: 14px;
 }
 
 .villain button {
