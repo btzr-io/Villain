@@ -31,7 +31,7 @@ class Uncompress extends Component {
 
   handleExtractedFile = (file, index) => {
     const { size, name } = file
-    const defultPageOpts = { type: 'image', buildPyramid: false }
+    const defultPageOpts = { type: 'image' }
     const url = URL.createObjectURL(file)
     const page = { index, url, name, size, ...defultPageOpts }
     this.context.createPage(page)

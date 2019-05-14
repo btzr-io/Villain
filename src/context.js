@@ -54,15 +54,12 @@ export class ReaderProvider extends Component {
 
   navigateToPage = pageIndex => {
     this.setState(prevState => {
-      const { totalPages } = prevState.totalPages
+      const { totalPages } = prevState
+      const lastIndex = totalPages - 1
       // Validate page index
-      if (
-        (pageIndex < 0 && pageIndex >= totalPages) ||
-        pageIndex == prevState.currentPage
-      )
-        return {}
+      if (pageIndex < 0 || pageIndex > lastIndex) return {}
       // Update state
-      const isLastPage = pageIndex === totalPages - 1
+      const isLastPage = pageIndex === lastIndex
       const isFirstPage = pageIndex === 0
       return { isLastPage, isFirstPage, currentPage: pageIndex }
     })

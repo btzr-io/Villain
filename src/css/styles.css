@@ -5,6 +5,26 @@
   font-family: Arial, sans-serif;
 }
 
+.villain .villain-icon {
+  fill: #fff;
+}
+
+.buffer {
+  height: 100%;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  z-index: 0;
+}
+
+.villain .villain-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+}
+
 .villain-toolbar .villain-input {
   -moz-appearance: textfield;
   min-width: 16px;
@@ -14,14 +34,18 @@
   border: 1px solid rgba(0, 0, 0, 0.4);
   padding: 0 4px;
   color: #fff;
-  margin: 4px;
+  margin: 0 6px;
   border-radius: 4px;
   font-size: 14px;
 }
 
-.villain-toolbar .villain-label {
-  margin: 2px;
-  opacity: 0.8;
+.villain-toolbar .villain-input:focus {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.villain-label {
+  margin: 0 6px;
+  opacity: 0.64;
   font-size: 15px;
 }
 
@@ -40,28 +64,101 @@
   background: #353b48;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  height: 45px;
+  justify-content: space-between;
+  height: 50px;
+  padding-top: 6px;
   font-size: 14px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.villain-toolbar-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
 }
 
 .villain button {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   border: 0;
   border-radius: 4px;
   color: #fff;
-  margin: 4px;
+  margin: 0 6px;
   padding: 2px 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.villain .button-icon {
+  padding: 4px;
+  border-radius: 16px;
+  background: transparent;
+}
+
+.villain .button-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.villain .button-toggler {
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  width: 140px;
+}
+
+.villain button[disabled] {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .villain-canvas {
   width: 100%;
-  height: calc(100% - 45px);
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 56px;
+  margin: 0;
 }
 
-img,
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted #444;
+  margin-left: 22px;
+}
+
+.tooltip .tooltiptext {
+  width: 100px;
+  background-color: #353b48;
+  color: #fff;
+  opacity: 0.84;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #444 transparent transparent transparent;
+}
+
 .villain-overlay {
   position: absolute;
   width: 100%;

@@ -21,6 +21,24 @@
     return obj;
   }
 
+  function _extends() {
+    _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+
+      return target;
+    };
+
+    return _extends.apply(this, arguments);
+  }
+
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   function unwrapExports (x) {
@@ -1109,22 +1127,22 @@
 
       _defineProperty(this, "createPage", page => {
         const pages = this.state.pages.concat(page);
-        this.setState({
-          pages
-        });
-      });
 
-      _defineProperty(this, "trigger", (eventName, data) => {
-        // Ready to display first page (cover)
-        if (eventName === 'ready') {
+        if (page.index === 0) {
           this.setState({
             ready: true,
             error: null,
             currentPage: 0,
-            ...data
+            pages
+          });
+        } else {
+          this.setState({
+            pages
           });
         }
+      });
 
+      _defineProperty(this, "trigger", (eventName, data) => {
         if (eventName === 'error' && data) {
           console.error(data);
           this.setState({
@@ -1132,42 +1150,52 @@
             error: data
           });
         }
+
+        if (eventName === 'loaded' && data) {
+          this.setState({ ...data
+          });
+        }
+      });
+
+      _defineProperty(this, "navigateToPage", pageIndex => {
+        this.setState(prevState => {
+          const {
+            totalPages
+          } = prevState;
+          const lastIndex = totalPages - 1; // Validate page index
+
+          if (pageIndex < 0 || pageIndex > lastIndex) return {}; // Update state
+
+          const isLastPage = pageIndex === lastIndex;
+          const isFirstPage = pageIndex === 0;
+          return {
+            isLastPage,
+            isFirstPage,
+            currentPage: pageIndex
+          };
+        });
       });
 
       _defineProperty(this, "navigateForward", () => {
-        this.setState(prevState => {
-          if (prevState.isLastPage) return {};
-          const {
-            totalPages,
-            currentPage
-          } = prevState;
-          const nextPage = currentPage + 1;
-          const isLastPage = nextPage === totalPages - 1;
-          const isFirstPage = nextPage === 0;
-          return {
-            isLastPage,
-            isFirstPage,
-            currentPage: nextPage
-          };
-        });
+        const {
+          isLastPage,
+          currentPage
+        } = this.state;
+
+        if (!isLastPage) {
+          this.navigateToPage(currentPage + 1);
+        }
       });
 
       _defineProperty(this, "navigateBackward", () => {
-        this.setState(prevState => {
-          if (prevState.isFirstPage) return {};
-          const {
-            totalPages,
-            currentPage
-          } = prevState;
-          const prevPage = currentPage - 1;
-          const isLastPage = prevPage === totalPages - 1;
-          const isFirstPage = prevPage === 0;
-          return {
-            isLastPage,
-            isFirstPage,
-            currentPage: prevPage
-          };
-        });
+        const {
+          isFirstPage,
+          currentPage
+        } = this.state;
+
+        if (!isFirstPage) {
+          this.navigateToPage(currentPage - 1);
+        }
       });
 
       _defineProperty(this, "getPage", index => {
@@ -1200,6 +1228,7 @@
           createPage: this.createPage,
           updateState: this.updateState,
           toggleSetting: this.toggleSetting,
+          navigateToPage: this.navigateToPage,
           navigateForward: this.navigateForward,
           navigateBackward: this.navigateBackward
         }
@@ -1264,7 +1293,6 @@
         width,
         height
       };
-      console.info(size);
       return React__default.createElement("div", {
         className: clsx('villain', fullscreen && 'villain-fullscreen'),
         style: size
@@ -1507,14 +1535,7 @@
   }
 
   // Regex to detect image type
-  const regexImage = new RegExp('^.+.(jpeg|jpg|png|bpm|webp|gif)$'); // Check if file is a valid image-type
-
-  const isValidImageType = name => regexImage.test(name); // Extract file MIME Type
-
-  const getMimeType = name => {
-    const mime = regexImage.exec(name);
-    return `image/${mime ? mime[1] : 'jpeg'}`;
-  }; // Handle response status
+  const regexImage = new RegExp('^.+.(jpeg|jpg|png|bpm|webp|gif)$'); // Handle response status
 
   const status = response => {
     if (response.status >= 200 && response.status < 300) {
@@ -1522,10 +1543,12 @@
     } else {
       return Promise.reject(new Error(response.statusText));
     }
-  }; // Load archive from server
+  }; // Check if file is a valid image-type
 
 
-  const fetchArchive = (url, callback) => {
+  const isValidImageType = name => regexImage.test(name); // Extract file MIME Type
+
+  const fetchArchive = (url, callback, errorCallback) => {
     fetch(url, {
       mode: 'cors'
     }).then(status).then(res => {
@@ -1533,8 +1556,14 @@
       const contentType = res.headers.get('Content-Type');
       return res.blob();
     }).then(callback).catch(error => {
+      errorCallback && errorCallback(error);
       console.error('Request failed', error);
     });
+  };
+  const asyncForEach = async (array, callback) => {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
   };
 
   class Error$1 extends React.Component {
@@ -1575,6 +1604,29 @@
     constructor(props) {
       super(props);
 
+      _defineProperty(this, "handleExtractedFile", (file, index) => {
+        const {
+          size,
+          name
+        } = file;
+        const defultPageOpts = {
+          type: 'image'
+        };
+        const url = URL.createObjectURL(file);
+        const page = {
+          index,
+          url,
+          name,
+          size,
+          ...defultPageOpts
+        };
+        this.context.createPage(page);
+      });
+
+      _defineProperty(this, "handleError", err => {
+        this.context.trigger('error', err);
+      });
+
       _defineProperty(this, "openArchive", async file => {
         const {
           workerPath: workerUrl
@@ -1585,71 +1637,62 @@
         }); // Open archive
 
         const archive = await Archive.open(file);
-        const comporessedFiles = await archive.getFilesArray(); // Filter images
+        const comporessedFiles = await archive.getFilesArray();
+        const images = comporessedFiles.filter(item => isValidImageType(item.file.name));
 
-        const images = comporessedFiles.filter(item => isValidImageType(item.file.name)); // Fix sort order
+        if (images.length > 1 && false) {
+          // Fix sort order
+          images.sort((a, b) => {
+            if (a.file.name > b.file.name) return 1;
+            if (a.file.name < b.file.name) return -1;
+            return 0;
+          });
+        } // Load archive data
 
-        images.sort((a, b) => {
-          if (a.file.name > b.file.name) return 1;
-          if (a.file.name < b.file.name) return -1;
-          return 0;
-        });
-        return images;
+
+        const {
+          type,
+          size
+        } = file;
+        const archiveData = {
+          type,
+          size,
+          totalPages: images.length
+        };
+        this.context.trigger('loaded', archiveData);
+        return images.length > 0 ? images : null;
       });
 
       _defineProperty(this, "extract", async blob => {
         try {
-          const {
-            initialPage
-          } = this.props; // Compressed files
-
+          // Compressed files 1437
+          console.time();
           const list = await this.openArchive(blob);
-          const pages = await list.map(async (item, index) => {
-            const file = await item.file.extract();
-            const {
-              size,
-              name
-            } = file;
-            const type = getMimeType(name);
-            const blob = new Blob([file], {
-              type
-            });
-            const url = URL.createObjectURL(blob);
-            const page = {
-              index,
-              url,
-              name,
-              size,
-              type: 'image',
-              buildPyramid: false
-            };
-            this.context.createPage(page);
+          console.timeEnd();
 
-            if (index === initialPage) {
-              this.context.trigger('ready', {
-                totalPages: list.length
-              });
-            }
-          });
+          if (list && list.length > 0) {
+            await asyncForEach(list, async (item, index) => {
+              const file = await item.file.extract();
+              this.handleExtractedFile(file, index);
+            });
+          } else {
+            this.context.trigger('error', 'No files!');
+          }
         } catch (err) {
           // Handle Errors
           this.handleError(err);
-        } finally {}
+        }
       });
 
       this.archive = null;
     }
 
     loadArchiveFromUrl(url) {
-      fetchArchive(url, this.extract);
+      fetchArchive(url, this.extract, this.handleError);
     }
 
     loadArchiveFromBlob(blob) {
       this.extract(blob);
-    }
-
-    handleError(err) {
-      this.context.trigger('error', err);
     }
 
     componentDidMount() {
@@ -1678,14 +1721,12 @@
 
   _defineProperty(Uncompress, "defaultProps", {
     file: null,
-    workerPath: null,
-    initialPage: 0
+    workerPath: null
   });
 
   Uncompress.propTypes = {
     file: propTypes.oneOfType([propTypes.string, propTypes.instanceOf(Blob)]),
-    workerPath: propTypes.string,
-    initialPage: propTypes.number
+    workerPath: propTypes.string
   };
 
   var openseadragon = createCommonjsModule(function (module) {
@@ -24185,18 +24226,2136 @@
     imageLoaderLimit: 500,
     // Zoom - Pan
     constrainDuringPan: true,
-    preserveImageSizeOnResize: true,
     // UI
     toolbar: false,
     showNavigationControl: false,
     showHomeControl: false,
     showSequenceControl: false,
     showFullPageControl: false,
-    immediateRender: true,
+    immediateRender: true // --- Experimental ---
     //Flick bug -> placeholderFillStyle: '#FFF',
     // Animations
-    springStiffness: 18.0
+    // springStiffness: 12,
+    // preserveImageSizeOnResize: true,
+
   };
+
+  var Icon = createCommonjsModule(function (module) {
+  module.exports=function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=2)}([function(e,t){e.exports=propTypes;},function(e,t){e.exports=React__default;},function(e,t,r){r.r(t);var n=r(1),o=r(0),l=function(){return (l=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},i=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},a=function(e){var t=e.size,r=void 0===t?null:t,o=e.color,a=void 0===o?null:o,s=e.horizontal,u=void 0===s?null:s,p=e.vertical,c=void 0===p?null:p,f=e.rotate,y=void 0===f?null:f,d=e.spin,v=void 0===d?null:d,m=e.style,b=void 0===m?{}:m,h=e.children,g=i(e,["size","color","horizontal","vertical","rotate","spin","style","children"]),O=null!==v&&v,z=n.Children.map(h,function(e){var t=e;!0!==O&&(O=!0===(null===v?t.props.spin:v));var o=t.props.size;"number"==typeof r&&"number"==typeof t.props.size&&(o=t.props.size/r);var l={size:o,color:null===a?t.props.color:a,horizontal:null===u?t.props.horizontal:u,vertical:null===c?t.props.vertical:c,rotate:null===y?t.props.rotate:y,spin:null===v?t.props.spin:v,inStack:!0};return n.cloneElement(t,l)});return null!==r&&(b.width="string"==typeof r?r:1.5*r+"rem"),n.createElement("svg",l({viewBox:"0 0 24 24",style:b},g),O&&n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }","@keyframes spin-inverse { to { transform: rotate(-360deg) } }"),z)};a.displayName="Stack",a.propTypes={size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),children:o.oneOfType([o.arrayOf(o.node),o.node]).isRequired,className:o.string,style:o.object},a.defaultProps={size:null,color:null,horizontal:null,vertical:null,rotate:null,spin:null};var s=a;r.d(t,"Icon",function(){return c}),r.d(t,"Stack",function(){return s});var u=function(){return (u=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},p=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},c=function(e){var t=e.path,r=e.size,o=void 0===r?null:r,l=e.color,i=void 0===l?null:l,a=e.horizontal,s=void 0!==a&&a,c=e.vertical,f=void 0!==c&&c,y=e.rotate,d=void 0===y?0:y,v=e.spin,m=void 0!==v&&v,b=e.style,h=void 0===b?{}:b,g=e.inStack,O=void 0!==g&&g,z=p(e,["path","size","color","horizontal","vertical","rotate","spin","style","inStack"]),j={},w=[];null!==o&&(O?w.push("scale("+o+")"):(h.width="string"==typeof o?o:1.5*o+"rem",h.height=h.width)),s&&w.push("scaleX(-1)"),f&&w.push("scaleY(-1)"),0!==d&&w.push("rotate("+d+"deg)"),null!==i&&(j.fill=i);var P=n.createElement("path",u({d:t,style:j},O?z:{})),S=P;w.length>0&&(h.transform=w.join(" "),h.transformOrigin="center",O&&(S=n.createElement("g",{style:h},P,n.createElement("rect",{width:"24",height:"24",fill:"transparent"}))));var x=S;if(m){var E=!0===m||"number"!=typeof m?2:m,k=!O&&(s||f);E<0&&(k=!k),x=n.createElement("g",{style:{animation:"spin"+(k?"-inverse":"")+" linear "+Math.abs(E)+"s infinite",transformOrigin:"center"}},S,!(s||f||0!==d)&&n.createElement("rect",{width:"24",height:"24",fill:"transparent"}));}return O?x:n.createElement("svg",u({viewBox:"0 0 24 24",style:h},z),!O&&m&&(s||f?n.createElement("style",null,"@keyframes spin-inverse { to { transform: rotate(-360deg) } }"):n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }")),x)};c.displayName="Icon",c.propTypes={path:o.string.isRequired,size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),style:o.object,inStack:o.bool,className:o.string},c.defaultProps={size:null,color:null,horizontal:!1,vertical:!1,rotate:0,spin:!1};t.default=c;}]);
+
+  });
+
+  var Icon$1 = unwrapExports(Icon);
+
+  class Button extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+
+    render() {
+      const {
+        type,
+        onClick,
+        icon,
+        label,
+        title,
+        disabled,
+        toggle
+      } = this.props;
+      return React__default.createElement("button", {
+        title: title,
+        onClick: onClick,
+        disabled: disabled,
+        className: clsx('button', type && `button-${type}`, toggle && 'button-toggle')
+      }, icon && React__default.createElement(Icon$1, {
+        path: icon,
+        size: 0.92,
+        className: 'villain-icon'
+      }), label && React__default.createElement("span", {
+        className: 'villain-label'
+      }, label), this.props.children && React__default.createElement("span", {
+        className: 'villain-label'
+      }, this.props.children));
+    }
+
+  }
+
+  // Material Design Icons v3.6.95
+  var mdiBookOpen = "M13,12H20V13.5H13M13,9.5H20V11H13M13,14.5H20V16H13M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M21,19H12V6H21";
+  var mdiBookOpenOutline = "M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M3,19V6H11V19H3M21,19H13V6H21V19M14,9.5H20V11H14V9.5M14,12H20V13.5H14V12M14,14.5H20V16H14V14.5Z";
+  var mdiChevronLeft = "M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z";
+  var mdiChevronRight = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z";
+  var mdiFullscreen = "M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z";
+
+  class Navigation extends React.Component {
+    constructor(props) {
+      super(props);
+
+      _defineProperty(this, "resetInput", () => {
+        const {
+          currentPage
+        } = this.context.state;
+        this.setState({
+          value: currentPage + 1
+        });
+      });
+
+      _defineProperty(this, "triggerNavigation", () => {
+        const {
+          value
+        } = this.state;
+        const {
+          totalPages
+        } = this.context.state;
+
+        if (value) {
+          const num = parseInt(value, 10);
+
+          if (num <= totalPages && num > 0) {
+            // Valid index
+            this.context.navigateToPage(num - 1);
+          } else {
+            // Reset input
+            this.resetInput();
+          }
+        } else {
+          // Reset input
+          this.resetInput();
+        }
+      });
+
+      _defineProperty(this, "handlePageNumber", event => {
+        const {
+          value
+        } = event.target;
+        const {
+          currentPage
+        } = this.context.state;
+        const format = value.replace(/\..*|^0+/gm, '');
+
+        if (format.length < 5) {
+          this.setState({
+            value: value ? format : currentPage + 1
+          });
+        }
+      });
+
+      _defineProperty(this, "handleBlur", () => {
+        this.triggerNavigation();
+      });
+
+      _defineProperty(this, "handleKeyPress", e => {
+        if (e.key === 'Enter') {
+          this.triggerNavigation();
+        }
+      });
+
+      this.state = {
+        value: this.props.currentPage || 1
+      };
+    }
+
+    componentDidUpdate(prevProps) {
+      const {
+        currentPage
+      } = this.props;
+
+      if (currentPage !== prevProps.currentPage) {
+        this.resetInput();
+      }
+    }
+
+    render() {
+      const {
+        navigateForward,
+        navigateBackward,
+        toggleSetting
+      } = this.context;
+      const {
+        totalPages,
+        isFirstPage,
+        isLastPage
+      } = this.context.state;
+      return React__default.createElement("div", {
+        className: 'villain-toolbar-group'
+      }, React__default.createElement(Button, {
+        type: 'icon',
+        title: 'Previous Page',
+        onClick: navigateBackward,
+        disabled: isFirstPage,
+        icon: mdiChevronLeft
+      }), React__default.createElement(Button, {
+        type: 'icon',
+        title: 'Next Page',
+        onClick: navigateForward,
+        disabled: isLastPage,
+        icon: mdiChevronRight
+      }), React__default.createElement("input", {
+        min: 1,
+        step: 1,
+        max: totalPages,
+        type: "number",
+        title: "Page",
+        pattern: 'd+',
+        className: 'villain-input',
+        onBlur: this.handleBlur,
+        onChange: this.handlePageNumber,
+        onKeyPress: this.handleKeyPress,
+        value: this.state.value
+      }), React__default.createElement("div", {
+        className: 'villain-label'
+      }, ` of ${totalPages}`));
+    }
+
+  }
+
+  _defineProperty(Navigation, "contextType", ReaderContext);
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArrayLimit(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  }
+
+  function _extends$1() {
+    _extends$1 = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+
+      return target;
+    };
+
+    return _extends$1.apply(this, arguments);
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
+  function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
+
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
+      _typeof = function _typeof(obj) {
+        return _typeof2(obj);
+      };
+    } else {
+      _typeof = function _typeof(obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
+      };
+    }
+
+    return _typeof(obj);
+  }
+
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return self;
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (call && (_typeof(call) === "object" || typeof call === "function")) {
+      return call;
+    }
+
+    return _assertThisInitialized(self);
+  }
+
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
+
+    return _setPrototypeOf(o, p);
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  }
+
+  function _defineProperty$1(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  /**
+   * Copyright 2014-2015, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the BSD-style license found in the
+   * LICENSE file in the root directory of this source tree. An additional grant
+   * of patent rights can be found in the PATENTS file in the same directory.
+   */
+
+  var warning = function() {};
+
+  {
+    warning = function(condition, format, args) {
+      var len = arguments.length;
+      args = new Array(len > 2 ? len - 2 : 0);
+      for (var key = 2; key < len; key++) {
+        args[key - 2] = arguments[key];
+      }
+      if (format === undefined) {
+        throw new Error(
+          '`warning(condition, format, ...args)` requires a warning ' +
+          'message argument'
+        );
+      }
+
+      if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+        throw new Error(
+          'The warning format should be able to uniquely identify this ' +
+          'warning. Please, use a more descriptive format than: ' + format
+        );
+      }
+
+      if (!condition) {
+        var argIndex = 0;
+        var message = 'Warning: ' +
+          format.replace(/%s/g, function() {
+            return args[argIndex++];
+          });
+        if (typeof console !== 'undefined') {
+          console.error(message);
+        }
+        try {
+          // This error was thrown as a convenience so that you can use this stack
+          // to find the callsite that caused this warning to fire.
+          throw new Error(message);
+        } catch(x) {}
+      }
+    };
+  }
+
+  var warning_1 = warning;
+
+  function _objectSpread(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+      var ownKeys = Object.keys(source);
+
+      if (typeof Object.getOwnPropertySymbols === 'function') {
+        ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }));
+      }
+
+      ownKeys.forEach(function (key) {
+        _defineProperty$1(target, key, source[key]);
+      });
+    }
+
+    return target;
+  }
+
+  var callAll = function callAll() {
+    for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
+      fns[_key] = arguments[_key];
+    }
+
+    return function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return fns.forEach(function (fn) {
+        return fn && fn.apply(void 0, args);
+      });
+    };
+  };
+
+  var Rail =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(Rail, _Component);
+
+    function Rail() {
+      var _getPrototypeOf2;
+
+      var _this;
+
+      _classCallCheck(this, Rail);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Rail)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+      _defineProperty$1(_assertThisInitialized(_this), "getRailProps", function () {
+        var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var _this$props = _this.props,
+            emitMouse = _this$props.emitMouse,
+            emitTouch = _this$props.emitTouch;
+        return _objectSpread({}, props, {
+          onMouseDown: callAll(props.onMouseDown, emitMouse),
+          onTouchStart: callAll(props.onTouchStart, emitTouch)
+        });
+      });
+
+      return _this;
+    }
+
+    _createClass(Rail, [{
+      key: "render",
+      value: function render() {
+        var getRailProps = this.getRailProps,
+            _this$props2 = this.props,
+            getEventData = _this$props2.getEventData,
+            activeHandleID = _this$props2.activeHandleID,
+            children = _this$props2.children;
+        var renderedChildren = children({
+          getEventData: getEventData,
+          activeHandleID: activeHandleID,
+          getRailProps: getRailProps
+        });
+        return renderedChildren && React__default.Children.only(renderedChildren);
+      }
+    }]);
+
+    return Rail;
+  }(React.Component);
+
+  Rail.propTypes = {
+    /** @ignore */
+    getEventData: propTypes.func,
+
+    /** @ignore */
+    activeHandleID: propTypes.string,
+
+    /** @ignore */
+    emitMouse: propTypes.func,
+
+    /** @ignore */
+    emitTouch: propTypes.func,
+
+    /**
+     * A function to render the rail. Note: `getEventData` can be called with an event and get the value and percent at that location (used for tooltips etc). `activeHandleID` will be a string or null.  Function signature: `({ getEventData, activeHandleID, getRailProps }): element`
+     */
+    children: propTypes.func.isRequired
+  };
+
+  var Ticks =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(Ticks, _Component);
+
+    function Ticks() {
+      _classCallCheck(this, Ticks);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(Ticks).apply(this, arguments));
+    }
+
+    _createClass(Ticks, [{
+      key: "render",
+      value: function render() {
+        var _this$props = this.props,
+            children = _this$props.children,
+            values = _this$props.values,
+            scale = _this$props.scale,
+            count = _this$props.count,
+            getEventData = _this$props.getEventData,
+            activeHandleID = _this$props.activeHandleID;
+        var ticks = (values ? values : scale.getTicks(count)).map(function (value) {
+          return {
+            id: "$$-".concat(value),
+            value: value,
+            percent: scale.getValue(value)
+          };
+        });
+        var renderedChildren = children({
+          getEventData: getEventData,
+          activeHandleID: activeHandleID,
+          ticks: ticks
+        });
+        return renderedChildren && React__default.Children.only(renderedChildren);
+      }
+    }]);
+
+    return Ticks;
+  }(React.Component);
+
+  Ticks.propTypes = {
+    /** @ignore */
+    scale: propTypes.object,
+
+    /**
+     * Approximate number of ticks you want to render.
+     * If you supply your own ticks using the values prop this prop has no effect.
+     */
+    count: propTypes.number,
+
+    /**
+     * The values prop should be an array of unique numbers.
+     * Use this prop if you want to specify your own tick values instead of ticks generated by the slider.
+     * The numbers should be valid numbers in the domain and correspond to the step value.
+     * Invalid values will be coerced to the closet matching value in the domain.
+     */
+    values: propTypes.array,
+
+    /** @ignore */
+    getEventData: propTypes.func,
+
+    /** @ignore */
+    activeHandleID: propTypes.string,
+
+    /** @ignore */
+    emitMouse: propTypes.func,
+
+    /** @ignore */
+    emitTouch: propTypes.func,
+
+    /**
+     * A function to render the ticks.
+     * The function receives an object with an array of ticks. Note: `getEventData` can be called with an event and get the value and percent at that location (used for tooltips etc). `activeHandleID` will be a string or null.  Function signature:
+     * `({ getEventData, activeHandleID, ticks  }): element`
+     */
+    children: propTypes.func.isRequired
+  };
+  Ticks.defaultProps = {
+    count: 10
+  };
+
+  var Tracks =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(Tracks, _Component);
+
+    function Tracks() {
+      var _getPrototypeOf2;
+
+      var _this;
+
+      _classCallCheck(this, Tracks);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Tracks)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+      _defineProperty$1(_assertThisInitialized(_this), "getTrackProps", function () {
+        var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var _this$props = _this.props,
+            emitMouse = _this$props.emitMouse,
+            emitTouch = _this$props.emitTouch;
+        return _objectSpread({}, props, {
+          onMouseDown: callAll(props.onMouseDown, emitMouse),
+          onTouchStart: callAll(props.onTouchStart, emitTouch)
+        });
+      });
+
+      return _this;
+    }
+
+    _createClass(Tracks, [{
+      key: "render",
+      value: function render() {
+        var getTrackProps = this.getTrackProps,
+            _this$props2 = this.props,
+            children = _this$props2.children,
+            left = _this$props2.left,
+            right = _this$props2.right,
+            scale = _this$props2.scale,
+            handles = _this$props2.handles,
+            getEventData = _this$props2.getEventData,
+            activeHandleID = _this$props2.activeHandleID;
+        var domain = scale.getDomain();
+        var tracks = [];
+
+        for (var i = 0; i < handles.length + 1; i++) {
+          var source = handles[i - 1];
+          var target = handles[i];
+
+          if (i === 0 && left === true) {
+            source = {
+              id: '$',
+              value: domain[0],
+              percent: 0
+            };
+          } else if (i === handles.length && right === true) {
+            target = {
+              id: '$',
+              value: domain[1],
+              percent: 100
+            };
+          }
+
+          if (source && target) {
+            tracks.push({
+              id: "".concat(source.id, "-").concat(target.id),
+              source: source,
+              target: target
+            });
+          }
+        }
+
+        var renderedChildren = children({
+          getEventData: getEventData,
+          activeHandleID: activeHandleID,
+          tracks: tracks,
+          getTrackProps: getTrackProps
+        });
+        return renderedChildren && React__default.Children.only(renderedChildren);
+      }
+    }]);
+
+    return Tracks;
+  }(React.Component);
+
+  Tracks.propTypes = {
+    /**
+     * Boolean value to control whether the left most track is included in the tracks array.
+     */
+    left: propTypes.bool,
+
+    /**
+     * Boolean value to control whether the right most track is included in the tracks array.
+     */
+    right: propTypes.bool,
+
+    /** @ignore */
+    getEventData: propTypes.func,
+
+    /** @ignore */
+    activeHandleID: propTypes.string,
+
+    /** @ignore */
+    scale: propTypes.object,
+
+    /** @ignore */
+    handles: propTypes.array,
+
+    /** @ignore */
+    emitMouse: propTypes.func,
+
+    /** @ignore */
+    emitTouch: propTypes.func,
+
+    /**
+     * A function to render the tracks. The function receives an object with an array of tracks. Note: `getEventData` can be called with an event and get the value and percent at that location (used for tooltips etc). `activeHandleID` will be a string or null.  Function signature:  `({ getEventData, activeHandleID, tracks, getTrackProps }): element`
+     */
+    children: propTypes.func.isRequired
+  };
+  Tracks.defaultProps = {
+    left: true,
+    right: true
+  };
+
+  var Handles =
+  /*#__PURE__*/
+  function (_Component) {
+    _inherits(Handles, _Component);
+
+    function Handles() {
+      var _getPrototypeOf2;
+
+      var _this;
+
+      _classCallCheck(this, Handles);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Handles)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+      _defineProperty$1(_assertThisInitialized(_this), "autofocus", function (e) {
+        e.target.focus();
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "getHandleProps", function (id) {
+        var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var _this$props = _this.props,
+            emitKeyboard = _this$props.emitKeyboard,
+            emitMouse = _this$props.emitMouse,
+            emitTouch = _this$props.emitTouch;
+        return _objectSpread({}, props, {
+          onKeyDown: callAll(props.onKeyDown, function (e) {
+            return emitKeyboard(e, id);
+          }),
+          onMouseDown: callAll(props.onMouseDown, _this.autofocus, function (e) {
+            return emitMouse(e, id);
+          }),
+          onTouchStart: callAll(props.onTouchStart, function (e) {
+            return emitTouch(e, id);
+          })
+        });
+      });
+
+      return _this;
+    }
+
+    _createClass(Handles, [{
+      key: "render",
+      value: function render() {
+        var getHandleProps = this.getHandleProps,
+            _this$props2 = this.props,
+            activeHandleID = _this$props2.activeHandleID,
+            children = _this$props2.children,
+            handles = _this$props2.handles;
+        var renderedChildren = children({
+          handles: handles,
+          activeHandleID: activeHandleID,
+          getHandleProps: getHandleProps
+        });
+        return renderedChildren && React__default.Children.only(renderedChildren);
+      }
+    }]);
+
+    return Handles;
+  }(React.Component);
+
+  Handles.propTypes = {
+    /** @ignore */
+    activeHandleID: propTypes.string,
+
+    /** @ignore */
+    handles: propTypes.array,
+
+    /** @ignore */
+    emitKeyboard: propTypes.func,
+
+    /** @ignore */
+    emitMouse: propTypes.func,
+
+    /** @ignore */
+    emitTouch: propTypes.func,
+
+    /**
+     * A function to render the handles.
+     * The function receives an object with an array of handles and functions to get handle props
+     * `({ handles, getHandleProps }): element`
+     */
+    children: propTypes.func.isRequired
+  };
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+
+      return arr2;
+    }
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
+  }
+
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  }
+
+  var prfx = 'react-compound-slider:';
+  function getSortByVal(reversed) {
+    return function sortByVal(a, b) {
+      if (a.val > b.val) {
+        return reversed ? -1 : 1;
+      }
+
+      if (b.val > a.val) {
+        return reversed ? 1 : -1;
+      }
+
+      return 0;
+    };
+  }
+  function getUpdatedHandles(handles, updateKey, updateValue, reversed) {
+    var index = handles.findIndex(function (v) {
+      return v.key === updateKey;
+    });
+
+    if (index !== -1) {
+      var _handles$index = handles[index],
+          key = _handles$index.key,
+          val = _handles$index.val;
+
+      if (val === updateValue) {
+        return handles;
+      }
+
+      return [].concat(_toConsumableArray(handles.slice(0, index)), [{
+        key: key,
+        val: updateValue
+      }], _toConsumableArray(handles.slice(index + 1))).sort(getSortByVal(reversed));
+    }
+
+    return handles;
+  }
+  function getSliderDomain(slider, vertical) {
+    if (!slider) {
+      return [0, 0];
+    }
+
+    var s = slider.getBoundingClientRect();
+    var d0 = vertical ? s.top : s.left;
+    var d1 = vertical ? s.bottom : s.right;
+    return [d0, d1];
+  }
+  function isNotValidTouch(_ref) {
+    var _ref$type = _ref.type,
+        type = _ref$type === void 0 ? '' : _ref$type,
+        touches = _ref.touches;
+    return !touches || touches.length > 1 || type.toLowerCase() === 'touchend' && touches.length > 0;
+  }
+  function getTouchPosition(vertical, e) {
+    return vertical ? e.touches[0].clientY : e.touches[0].pageX;
+  }
+  function getHandles() {
+    var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var reversed = arguments.length > 1 ? arguments[1] : undefined;
+    var valueToStep = arguments.length > 2 ? arguments[2] : undefined;
+    var warn = arguments.length > 3 ? arguments[3] : undefined;
+    var changes = 0;
+    var handles = values.map(function (x) {
+      var val = valueToStep.getValue(x);
+
+      if (x !== val) {
+        changes += 1;
+        warning_1(!warn, "".concat(prfx, " Invalid value encountered. Changing ").concat(x, " to ").concat(val, "."));
+      }
+
+      return val;
+    }).map(function (val, i) {
+      return {
+        key: "$$-".concat(i),
+        val: val
+      };
+    }).sort(getSortByVal(reversed));
+    return {
+      handles: handles,
+      changes: changes
+    };
+  }
+
+  /* eslint complexity: "off", max-statements: "off", max-depth: "off" */
+
+  function mode1(curr, next) {
+    return next;
+  } // prevent duplicate values and crossing
+
+  function mode2(curr, next) {
+    for (var i = 0; i < curr.length; i++) {
+      if (curr[i].key !== next[i].key) {
+        return curr;
+      }
+
+      if (next[i + 1] && next[i].val === next[i + 1].val) {
+        return curr;
+      }
+    }
+
+    return next;
+  } // pushable mode
+
+  function mode3(curr, next, step, reversed, getValue) {
+    var indexForMovingHandle = -1;
+    var handleMoveIsPositive = true;
+
+    for (var i = 0; i < curr.length; i++) {
+      var c = curr[i];
+      var n = next[i]; // make sure keys are in same order if not return curr
+
+      if (!n || n.key !== c.key) {
+        return curr;
+      } else if (n.val !== c.val) {
+        indexForMovingHandle = i;
+        handleMoveIsPositive = n.val - c.val > 0;
+      }
+    } // nothing has changed (shouldn't happen but just in case).
+
+
+    if (indexForMovingHandle === -1) {
+      return curr;
+    } else {
+      var increment = handleMoveIsPositive ? step : -step;
+
+      for (var _i = 0; _i < next.length; _i++) {
+        var n0 = next[_i];
+        var n1 = next[_i + 1];
+
+        if (n1 && n0.val === n1.val) {
+          if (_i === indexForMovingHandle) {
+            var newStep = n1.val + increment;
+
+            if (getValue(newStep) === newStep) {
+              var clone = getUpdatedHandles(next, n1.key, n1.val + increment, reversed);
+              var check = mode3(next, clone, step, reversed, getValue);
+
+              if (check === next) {
+                return curr;
+              } else {
+                return check;
+              }
+            } else {
+              return curr;
+            }
+          } else {
+            var _newStep = n0.val + increment;
+
+            if (getValue(_newStep) === _newStep) {
+              var _clone = getUpdatedHandles(next, n0.key, n0.val + increment, reversed);
+
+              var _check = mode3(next, _clone, step, reversed, getValue);
+
+              if (_check === next) {
+                return curr;
+              } else {
+                return _check;
+              }
+            } else {
+              return curr;
+            }
+          }
+        }
+      }
+    }
+
+    return next;
+  }
+
+  function ascending(a, b) {
+    return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+  }
+
+  function bisector(compare) {
+    if (compare.length === 1) compare = ascendingComparator(compare);
+    return {
+      left: function(a, x, lo, hi) {
+        if (lo == null) lo = 0;
+        if (hi == null) hi = a.length;
+        while (lo < hi) {
+          var mid = lo + hi >>> 1;
+          if (compare(a[mid], x) < 0) lo = mid + 1;
+          else hi = mid;
+        }
+        return lo;
+      },
+      right: function(a, x, lo, hi) {
+        if (lo == null) lo = 0;
+        if (hi == null) hi = a.length;
+        while (lo < hi) {
+          var mid = lo + hi >>> 1;
+          if (compare(a[mid], x) > 0) hi = mid;
+          else lo = mid + 1;
+        }
+        return lo;
+      }
+    };
+  }
+
+  function ascendingComparator(f) {
+    return function(d, x) {
+      return ascending(f(d), x);
+    };
+  }
+
+  var ascendingBisect = bisector(ascending);
+
+  var e10 = Math.sqrt(50),
+      e5 = Math.sqrt(10),
+      e2 = Math.sqrt(2);
+
+  function ticks(start, stop, count) {
+    var reverse,
+        i = -1,
+        n,
+        ticks,
+        step;
+
+    stop = +stop, start = +start, count = +count;
+    if (start === stop && count > 0) return [start];
+    if (reverse = stop < start) n = start, start = stop, stop = n;
+    if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
+
+    if (step > 0) {
+      start = Math.ceil(start / step);
+      stop = Math.floor(stop / step);
+      ticks = new Array(n = Math.ceil(stop - start + 1));
+      while (++i < n) ticks[i] = (start + i) * step;
+    } else {
+      start = Math.floor(start * step);
+      stop = Math.ceil(stop * step);
+      ticks = new Array(n = Math.ceil(start - stop + 1));
+      while (++i < n) ticks[i] = (start - i) / step;
+    }
+
+    if (reverse) ticks.reverse();
+
+    return ticks;
+  }
+
+  function tickIncrement(start, stop, count) {
+    var step = (stop - start) / Math.max(0, count),
+        power = Math.floor(Math.log(step) / Math.LN10),
+        error = step / Math.pow(10, power);
+    return power >= 0
+        ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power)
+        : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
+  }
+
+  var LinearScale =
+  /*#__PURE__*/
+  function () {
+    function LinearScale() {
+      _classCallCheck(this, LinearScale);
+
+      this.domain = [0, 1];
+      this.range = [0, 1];
+      this.interpolator = null;
+    }
+
+    _createClass(LinearScale, [{
+      key: "createInterpolator",
+      value: function createInterpolator(domain, range) {
+        var d0 = domain[0];
+        var d1 = domain[1];
+        var r0 = range[0];
+        var r1 = range[1];
+
+        if (d1 < d0) {
+          d0 = this.deinterpolateValue(d1, d0);
+          r0 = this.interpolateValue(r1, r0);
+        } else {
+          d0 = this.deinterpolateValue(d0, d1);
+          r0 = this.interpolateValue(r0, r1);
+        }
+
+        return function (x) {
+          return r0(d0(x));
+        };
+      }
+    }, {
+      key: "interpolateValue",
+      value: function interpolateValue(a, b) {
+        return a = +a, b -= a, function i(t) {
+          return a + b * t;
+        };
+      }
+    }, {
+      key: "deinterpolateValue",
+      value: function deinterpolateValue(a, b) {
+        return (b -= a = +a) ? function (x) {
+          return (x - a) / b;
+        } : function () {
+          return b;
+        }; // eslint-disable-line
+      }
+    }, {
+      key: "rescale",
+      value: function rescale() {
+        this.interpolator = null;
+        return this;
+      }
+    }, {
+      key: "getValue",
+      value: function getValue(x) {
+        var domain = this.domain,
+            range = this.range;
+        return (this.interpolator || (this.interpolator = this.createInterpolator(domain, range)))(+x);
+      }
+    }, {
+      key: "setDomain",
+      value: function setDomain(val) {
+        this.domain = val.map(function (d) {
+          return +d;
+        });
+        this.rescale();
+        return this;
+      }
+    }, {
+      key: "getDomain",
+      value: function getDomain() {
+        return this.domain;
+      }
+    }, {
+      key: "setRange",
+      value: function setRange(val) {
+        this.range = val.map(function (d) {
+          return +d;
+        });
+        return this;
+      }
+    }, {
+      key: "getTicks",
+      value: function getTicks(count) {
+        var d = this.domain;
+        return ticks(d[0], d[d.length - 1], count ? count : 10);
+      }
+    }]);
+
+    return LinearScale;
+  }();
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  var DiscreteScale = function DiscreteScale() {
+    var _this = this;
+
+    _classCallCheck(this, DiscreteScale);
+
+    _defineProperty$1(this, "setDomain", function (val) {
+      _this.domain = val.slice();
+      return _this;
+    });
+
+    _defineProperty$1(this, "setRange", function (val) {
+      _this.range = val.slice();
+      return _this;
+    });
+
+    _defineProperty$1(this, "setStep", function (val) {
+      _this.step = val;
+      return _this;
+    });
+
+    _defineProperty$1(this, "getValue", function (x) {
+      var _this$domain = _slicedToArray(_this.domain, 2),
+          d0 = _this$domain[0],
+          d1 = _this$domain[1],
+          _this$range = _slicedToArray(_this.range, 2),
+          r0 = _this$range[0],
+          r1 = _this$range[1],
+          step = _this.step;
+
+      var p = (clamp(x, d0, d1) - d0) / (d1 - d0);
+      var b = step * Math.round(p * (r1 - r0) / step) + r0;
+      return clamp(b, r0 < r1 ? r0 : r1, r1 > r0 ? r1 : r0);
+    });
+
+    this.step = 1;
+    this.domain = [0, 1];
+    this.range = [0, 1];
+  };
+
+  var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+  var noop = function noop() {};
+
+  var compare = function compare(b) {
+    return function (m, d, i) {
+      return m && b[i] === d;
+    };
+  };
+
+  var equal = function equal(a, b) {
+    return a === b || a.length === b.length && a.reduce(compare(b), true);
+  };
+
+  var getNextValue = function getNextValue(curr, step, domain, reversed) {
+    var newVal = reversed ? curr - step : curr + step;
+    return reversed ? Math.max(domain[0], newVal) : Math.min(domain[1], newVal);
+  };
+
+  var getPrevValue = function getPrevValue(curr, step, domain, reversed) {
+    var newVal = reversed ? curr + step : curr - step;
+    return reversed ? Math.min(domain[1], newVal) : Math.max(domain[0], newVal);
+  };
+
+  var Slider =
+  /*#__PURE__*/
+  function (_PureComponent) {
+    _inherits(Slider, _PureComponent);
+
+    function Slider() {
+      var _getPrototypeOf2;
+
+      var _this;
+
+      _classCallCheck(this, Slider);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Slider)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+      _defineProperty$1(_assertThisInitialized(_this), "state", {
+        step: null,
+        values: null,
+        domain: null,
+        handles: null,
+        reversed: null,
+        activeHandleID: null,
+        valueToPerc: null,
+        valueToStep: null,
+        pixelToStep: null
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "slider", React__default.createRef());
+
+      _defineProperty$1(_assertThisInitialized(_this), "onKeyDown", function (e, handleID) {
+        var validUpKeys = ['ArrowRight', 'ArrowUp'];
+        var validDownKeys = ['ArrowDown', 'ArrowLeft'];
+
+        var _assertThisInitialize = _assertThisInitialized(_this),
+            handles = _assertThisInitialize.state.handles,
+            _assertThisInitialize2 = _assertThisInitialize.props,
+            step = _assertThisInitialize2.step,
+            reversed = _assertThisInitialize2.reversed,
+            vertical = _assertThisInitialize2.vertical,
+            domain = _assertThisInitialize2.domain;
+
+        var key = e.key || e.keyCode;
+
+        if (!validUpKeys.concat(validDownKeys).includes(key)) {
+          return;
+        }
+
+        if (vertical) {
+          var _ref = [validDownKeys, validUpKeys];
+          validUpKeys = _ref[0];
+          validDownKeys = _ref[1];
+        }
+
+        e.stopPropagation && e.stopPropagation();
+        e.preventDefault && e.preventDefault();
+        var found = handles.find(function (value) {
+          return value.key === handleID;
+        });
+
+        if (!found) {
+          return;
+        }
+
+        var currVal = found.val;
+        var newVal = currVal;
+
+        if (validUpKeys.includes(key)) {
+          newVal = getNextValue(currVal, step, domain, reversed);
+        } else if (validDownKeys.includes(key)) {
+          newVal = getPrevValue(currVal, step, domain, reversed);
+        }
+
+        var nextHandles = handles.map(function (v) {
+          return v.key === handleID ? {
+            key: v.key,
+            val: newVal
+          } : v;
+        });
+
+        _this.submitUpdate(nextHandles, true);
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "onMouseDown", function (e, handleID) {
+        _this.onStart(e, handleID, false);
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "onTouchStart", function (e, handleID) {
+        if (isNotValidTouch(e)) {
+          return;
+        }
+
+        _this.onStart(e, handleID, true);
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "getEventData", function (e, isTouch) {
+        var _assertThisInitialize3 = _assertThisInitialized(_this),
+            _assertThisInitialize4 = _assertThisInitialize3.state,
+            pixelToStep = _assertThisInitialize4.pixelToStep,
+            valueToPerc = _assertThisInitialize4.valueToPerc,
+            vertical = _assertThisInitialize3.props.vertical; // double check the dimensions of the slider
+
+
+        pixelToStep.setDomain(getSliderDomain(_this.slider.current, vertical));
+        var value;
+
+        if (isTouch) {
+          value = pixelToStep.getValue(getTouchPosition(vertical, e));
+        } else {
+          value = pixelToStep.getValue(vertical ? e.clientY : e.pageX);
+        }
+
+        return {
+          value: value,
+          percent: valueToPerc.getValue(value)
+        };
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "onMouseMove", function (e) {
+        var _assertThisInitialize5 = _assertThisInitialized(_this),
+            _assertThisInitialize6 = _assertThisInitialize5.state,
+            curr = _assertThisInitialize6.handles,
+            pixelToStep = _assertThisInitialize6.pixelToStep,
+            activeHandleID = _assertThisInitialize6.activeHandleID,
+            _assertThisInitialize7 = _assertThisInitialize5.props,
+            vertical = _assertThisInitialize7.vertical,
+            reversed = _assertThisInitialize7.reversed; // double check the dimensions of the slider
+
+
+        pixelToStep.setDomain(getSliderDomain(_this.slider.current, vertical)); // find the closest value (aka step) to the event location
+
+        var updateValue = pixelToStep.getValue(vertical ? e.clientY : e.pageX); // generate a "candidate" set of values - a suggestion of what to do
+
+        var nextHandles = getUpdatedHandles(curr, activeHandleID, updateValue, reversed); // submit the candidate values
+
+        _this.submitUpdate(nextHandles);
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "onTouchMove", function (e) {
+        var _assertThisInitialize8 = _assertThisInitialized(_this),
+            _assertThisInitialize9 = _assertThisInitialize8.state,
+            curr = _assertThisInitialize9.handles,
+            pixelToStep = _assertThisInitialize9.pixelToStep,
+            activeHandleID = _assertThisInitialize9.activeHandleID,
+            _assertThisInitialize10 = _assertThisInitialize8.props,
+            vertical = _assertThisInitialize10.vertical,
+            reversed = _assertThisInitialize10.reversed;
+
+        if (isNotValidTouch(e)) {
+          return;
+        } // double check the dimensions of the slider
+
+
+        pixelToStep.setDomain(getSliderDomain(_this.slider.current, vertical)); // find the closest value (aka step) to the event location
+
+        var updateValue = pixelToStep.getValue(getTouchPosition(vertical, e)); // generate a "candidate" set of values - a suggestion of what to do
+
+        var nextHandles = getUpdatedHandles(curr, activeHandleID, updateValue, reversed); // submit the candidate values
+
+        _this.submitUpdate(nextHandles);
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "onMouseUp", function () {
+        var _assertThisInitialize11 = _assertThisInitialized(_this),
+            _assertThisInitialize12 = _assertThisInitialize11.state,
+            handles = _assertThisInitialize12.handles,
+            activeHandleID = _assertThisInitialize12.activeHandleID,
+            _assertThisInitialize13 = _assertThisInitialize11.props,
+            onChange = _assertThisInitialize13.onChange,
+            onSlideEnd = _assertThisInitialize13.onSlideEnd;
+
+        onChange(handles.map(function (d) {
+          return d.val;
+        }));
+        onSlideEnd(handles.map(function (d) {
+          return d.val;
+        }), {
+          activeHandleID: activeHandleID
+        });
+
+        _this.setState({
+          activeHandleID: null
+        });
+
+        if (isBrowser) {
+          document.removeEventListener('mousemove', _this.onMouseMove);
+          document.removeEventListener('mouseup', _this.onMouseUp);
+        }
+      });
+
+      _defineProperty$1(_assertThisInitialized(_this), "onTouchEnd", function () {
+        var _assertThisInitialize14 = _assertThisInitialized(_this),
+            _assertThisInitialize15 = _assertThisInitialize14.state,
+            handles = _assertThisInitialize15.handles,
+            activeHandleID = _assertThisInitialize15.activeHandleID,
+            _assertThisInitialize16 = _assertThisInitialize14.props,
+            onChange = _assertThisInitialize16.onChange,
+            onSlideEnd = _assertThisInitialize16.onSlideEnd;
+
+        onChange(handles.map(function (d) {
+          return d.val;
+        }));
+        onSlideEnd(handles.map(function (d) {
+          return d.val;
+        }), {
+          activeHandleID: activeHandleID
+        });
+
+        _this.setState({
+          activeHandleID: null
+        });
+
+        if (isBrowser) {
+          document.removeEventListener('touchmove', _this.onTouchMove);
+          document.removeEventListener('touchend', _this.onTouchEnd);
+        }
+      });
+
+      return _this;
+    }
+
+    _createClass(Slider, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        var pixelToStep = this.state.pixelToStep;
+        var vertical = this.props.vertical;
+        pixelToStep.setDomain(getSliderDomain(this.slider.current, vertical));
+      }
+    }, {
+      key: "componentWillUnmount",
+      value: function componentWillUnmount() {
+        this.removeListeners();
+      }
+    }, {
+      key: "removeListeners",
+      value: function removeListeners() {
+        if (isBrowser) {
+          document.removeEventListener('mousemove', this.onMouseMove);
+          document.removeEventListener('mouseup', this.onMouseUp);
+          document.removeEventListener('touchmove', this.onTouchMove);
+          document.removeEventListener('touchend', this.onTouchEnd);
+        }
+      }
+    }, {
+      key: "onStart",
+      value: function onStart(e, handleID, isTouch) {
+        var handles = this.state.handles,
+            onSlideStart = this.props.onSlideStart;
+
+        if (!isTouch) {
+          e.preventDefault && e.preventDefault();
+        }
+
+        e.stopPropagation && e.stopPropagation();
+        var found = handles.find(function (value) {
+          return value.key === handleID;
+        });
+
+        if (found) {
+          this.setState({
+            activeHandleID: handleID
+          });
+          onSlideStart(handles.map(function (d) {
+            return d.val;
+          }), {
+            activeHandleID: handleID
+          });
+          isTouch ? this.addTouchEvents() : this.addMouseEvents();
+        } else {
+          this.setState({
+            activeHandleID: null
+          });
+          this.handleRailAndTrackClicks(e, isTouch);
+        }
+      }
+    }, {
+      key: "handleRailAndTrackClicks",
+      value: function handleRailAndTrackClicks(e, isTouch) {
+        var _this$state = this.state,
+            curr = _this$state.handles,
+            pixelToStep = _this$state.pixelToStep,
+            _this$props = this.props,
+            vertical = _this$props.vertical,
+            reversed = _this$props.reversed;
+        var slider = this.slider; // double check the dimensions of the slider
+
+        pixelToStep.setDomain(getSliderDomain(slider.current, vertical)); // find the closest value (aka step) to the event location
+
+        var updateValue;
+
+        if (isTouch) {
+          updateValue = pixelToStep.getValue(getTouchPosition(vertical, e));
+        } else {
+          updateValue = pixelToStep.getValue(vertical ? e.clientY : e.pageX);
+        } // find the closest handle key
+
+
+        var updateKey = null;
+        var minDiff = Infinity;
+
+        for (var i = 0; i < curr.length; i++) {
+          var _curr$i = curr[i],
+              key = _curr$i.key,
+              val = _curr$i.val;
+          var diff = Math.abs(val - updateValue);
+
+          if (diff < minDiff) {
+            updateKey = key;
+            minDiff = diff;
+          }
+        } // generate a "candidate" set of values - a suggestion of what to do
+
+
+        var nextHandles = getUpdatedHandles(curr, updateKey, updateValue, reversed); // submit the candidate values
+
+        this.submitUpdate(nextHandles, true);
+      }
+    }, {
+      key: "addMouseEvents",
+      value: function addMouseEvents() {
+        if (isBrowser) {
+          document.addEventListener('mousemove', this.onMouseMove);
+          document.addEventListener('mouseup', this.onMouseUp);
+        }
+      }
+    }, {
+      key: "addTouchEvents",
+      value: function addTouchEvents() {
+        if (isBrowser) {
+          document.addEventListener('touchmove', this.onTouchMove);
+          document.addEventListener('touchend', this.onTouchEnd);
+        }
+      }
+    }, {
+      key: "submitUpdate",
+      value: function submitUpdate(next, callOnChange) {
+        var _this$props2 = this.props,
+            mode = _this$props2.mode,
+            step = _this$props2.step,
+            onUpdate = _this$props2.onUpdate,
+            onChange = _this$props2.onChange,
+            reversed = _this$props2.reversed;
+        var getValue = this.state.valueToStep.getValue;
+        this.setState(function (_ref2) {
+          var curr = _ref2.handles;
+          var handles; // given the current handles and a candidate set, decide what to do
+
+          if (typeof mode === 'function') {
+            handles = mode(curr, next, step, reversed, getValue);
+            warning_1(Array.isArray(handles), 'Custom mode function did not return an array.');
+          } else {
+            switch (mode) {
+              case 1:
+                handles = mode1(curr, next);
+                break;
+
+              case 2:
+                handles = mode2(curr, next);
+                break;
+
+              case 3:
+                handles = mode3(curr, next, step, reversed, getValue);
+                break;
+
+              default:
+                handles = next;
+                warning_1(false, "".concat(prfx, " Invalid mode value."));
+            }
+          }
+
+          onUpdate(handles.map(function (d) {
+            return d.val;
+          }));
+
+          if (callOnChange) {
+            onChange(handles.map(function (d) {
+              return d.val;
+            }));
+          }
+
+          return {
+            handles: handles
+          };
+        });
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        var _this$state2 = this.state,
+            handles = _this$state2.handles,
+            valueToPerc = _this$state2.valueToPerc,
+            activeHandleID = _this$state2.activeHandleID,
+            _this$props3 = this.props,
+            className = _this$props3.className,
+            rootStyle = _this$props3.rootStyle,
+            rootProps = _this$props3.rootProps,
+            Comp = _this$props3.component,
+            disabled = _this$props3.disabled,
+            flatten = _this$props3.flatten;
+        var mappedHandles = handles.map(function (_ref3) {
+          var key = _ref3.key,
+              val = _ref3.val;
+          return {
+            id: key,
+            value: val,
+            percent: valueToPerc.getValue(val)
+          };
+        });
+        var children = React__default.Children.map(this.props.children, function (child) {
+          if (child && (child.type.name === Rail.name || child.type.name === Ticks.name || child.type.name === Tracks.name || child.type.name === Handles.name)) {
+            return React__default.cloneElement(child, {
+              scale: valueToPerc,
+              handles: mappedHandles,
+              activeHandleID: activeHandleID,
+              getEventData: _this2.getEventData,
+              emitKeyboard: disabled ? noop : _this2.onKeyDown,
+              emitMouse: disabled ? noop : _this2.onMouseDown,
+              emitTouch: disabled ? noop : _this2.onTouchStart
+            });
+          }
+
+          return child;
+        });
+        return flatten ? React__default.createElement(React.Fragment, null, React__default.createElement(Comp, _extends$1({}, rootProps, {
+          style: rootStyle,
+          className: className,
+          ref: this.slider
+        })), children) : React__default.createElement(Comp, _extends$1({}, rootProps, {
+          style: rootStyle,
+          className: className,
+          ref: this.slider
+        }), children);
+      }
+    }], [{
+      key: "getDerivedStateFromProps",
+      value: function getDerivedStateFromProps(nextProps, prevState) {
+        var step = nextProps.step,
+            values = nextProps.values,
+            domain = nextProps.domain,
+            reversed = nextProps.reversed,
+            onUpdate = nextProps.onUpdate,
+            onChange = nextProps.onChange,
+            warnOnChanges = nextProps.warnOnChanges;
+        var valueToPerc = prevState.valueToPerc;
+        var valueToStep = prevState.valueToStep;
+        var pixelToStep = prevState.pixelToStep;
+        var nextState = {};
+
+        if (!valueToPerc || !valueToStep || !pixelToStep) {
+          valueToPerc = new LinearScale();
+          valueToStep = new DiscreteScale();
+          pixelToStep = new DiscreteScale();
+          nextState.valueToPerc = valueToPerc;
+          nextState.valueToStep = valueToStep;
+          nextState.pixelToStep = pixelToStep;
+        }
+
+        if (prevState.step === null || prevState.domain === null || prevState.reversed === null || step !== prevState.step || domain[0] !== prevState.domain[0] || domain[1] !== prevState.domain[1] || reversed !== prevState.reversed) {
+          var _domain = _slicedToArray(domain, 2),
+              min = _domain[0],
+              max = _domain[1];
+
+          valueToStep.setStep(step).setRange([min, max]).setDomain([min, max]);
+
+          if (reversed === true) {
+            valueToPerc.setDomain([min, max]).setRange([100, 0]);
+            pixelToStep.setStep(step).setRange([max, min]);
+          } else {
+            valueToPerc.setDomain([min, max]).setRange([0, 100]);
+            pixelToStep.setStep(step).setRange([min, max]);
+          }
+
+          warning_1(max > min, "".concat(prfx, " Max must be greater than min (even if reversed). Max is ").concat(max, ". Min is ").concat(min, "."));
+
+          var _getHandles = getHandles(values || prevState.values, reversed, valueToStep, warnOnChanges),
+              handles = _getHandles.handles,
+              changes = _getHandles.changes;
+
+          if (changes || values === undefined || values === prevState.values) {
+            onUpdate(handles.map(function (d) {
+              return d.val;
+            }));
+            onChange(handles.map(function (d) {
+              return d.val;
+            }));
+          }
+
+          nextState.step = step;
+          nextState.values = values;
+          nextState.domain = domain;
+          nextState.handles = handles;
+          nextState.reversed = reversed;
+        } else if (!equal(values, prevState.values)) {
+          var _getHandles2 = getHandles(values, reversed, valueToStep, warnOnChanges),
+              _handles = _getHandles2.handles,
+              _changes = _getHandles2.changes;
+
+          if (_changes) {
+            onUpdate(_handles.map(function (d) {
+              return d.val;
+            }));
+            onChange(_handles.map(function (d) {
+              return d.val;
+            }));
+          }
+
+          nextState.values = values;
+          nextState.handles = _handles;
+        }
+
+        if (Object.keys(nextState).length) {
+          return nextState;
+        }
+
+        return null;
+      }
+    }]);
+
+    return Slider;
+  }(React.PureComponent);
+
+  Slider.propTypes = {
+    /**
+     * String component used for slider root. Defaults to 'div'.
+     */
+    component: propTypes.string,
+
+    /**
+     * An object with any inline styles you want applied to the root element.
+     */
+    rootStyle: propTypes.object,
+
+    /**
+     * An object with any props you want applied to the root element.
+     */
+    rootProps: propTypes.object,
+
+    /**
+     * CSS class name applied to the root element of the slider.
+     */
+    className: propTypes.string,
+
+    /**
+     * Two element array of numbers providing the min and max values for the slider [min, max] e.g. [0, 100].
+     * It does not matter if the slider is reversed on the screen, domain is always [min, max] with min < max.
+     */
+    domain: propTypes.array,
+
+    /**
+     * An array of numbers. You can supply one for a value slider, two for a range slider or more to create n-handled sliders.
+     * The values should correspond to valid step values in the domain.
+     * The numbers will be forced into the domain if they are two small or large.
+     */
+    values: propTypes.array,
+
+    /**
+     * The step value for the slider.
+     */
+    step: propTypes.number,
+
+    /**
+     * The interaction mode. Value of 1 will allow handles to cross each other.
+     * Value of 2 will keep the sliders from crossing and separated by a step.
+     * Value of 3 will make the handles pushable and keep them a step apart.
+     * ADVANCED: You can also supply a function that will be passed the current values and the incoming update.
+     * Your function should return what the state should be set as.
+     */
+    mode: propTypes.oneOfType([propTypes.number, propTypes.func]),
+
+    /**
+     * Set to true if the slider is displayed vertically to tell the slider to use the height to calculate positions.
+     */
+    vertical: propTypes.bool,
+
+    /**
+     * Reverse the display of slider values.
+     */
+    reversed: propTypes.bool,
+
+    /**
+     * Function triggered when the value of the slider has changed. This will recieve changes at the end of a slide as well as changes from clicks on rails and tracks. Receives values.
+     */
+    onChange: propTypes.func,
+
+    /**
+     * Function called with the values at each update (caution: high-volume updates when dragging). Receives values.
+     */
+    onUpdate: propTypes.func,
+
+    /**
+     * Function triggered with ontouchstart or onmousedown on a handle. Receives values.
+     */
+    onSlideStart: propTypes.func,
+
+    /**
+     * Function triggered on ontouchend or onmouseup on a handle. Receives values.
+     */
+    onSlideEnd: propTypes.func,
+
+    /**
+     * Ignore all mouse, touch and keyboard events.
+     */
+    disabled: propTypes.bool,
+
+    /**
+     * Render slider children as siblings. This is primarily for SVG sliders. See the SVG example.
+     */
+    flatten: propTypes.bool,
+
+    /**
+     * When true, the slider will warn if values are changed to fit domain and step values.  Defaults to false.
+     */
+    warnOnChanges: propTypes.bool,
+
+    /**
+     * Component children to render.
+     */
+    children: propTypes.any
+  };
+  Slider.defaultProps = {
+    mode: 1,
+    step: 0.1,
+    domain: [0, 100],
+    component: 'div',
+    rootProps: {},
+    rootStyle: {},
+    vertical: false,
+    reversed: false,
+    onChange: noop,
+    onUpdate: noop,
+    onSlideStart: noop,
+    onSlideEnd: noop,
+    disabled: false,
+    flatten: false,
+    warnOnChanges: false
+  };
+
+  Slider.Rail = Rail;
+  Slider.Ticks = Ticks;
+  Slider.Tracks = Tracks;
+  Slider.Handles = Handles;
+
+  const handleStyle = {
+    position: 'absolute',
+    marginLeft: '-11px',
+    marginTop: '-35px'
+  };
+
+  class Handle extends React.Component {
+    constructor(...args) {
+      super(...args);
+
+      _defineProperty(this, "state", {
+        mouseOver: false
+      });
+
+      _defineProperty(this, "onMouseEnter", () => {
+        this.setState({
+          mouseOver: true
+        });
+      });
+
+      _defineProperty(this, "onMouseLeave", () => {
+        this.setState({
+          mouseOver: false
+        });
+      });
+    }
+
+    render() {
+      const {
+        domain: [min, max],
+        handle: {
+          id,
+          value,
+          percent
+        },
+        isActive,
+        disabled,
+        getHandleProps
+      } = this.props;
+      const {
+        mouseOver
+      } = this.state;
+      return React__default.createElement(React.Fragment, null, (mouseOver || isActive) && !disabled ? React__default.createElement("div", {
+        style: {
+          left: `${percent}%`,
+          ...handleStyle
+        }
+      }, React__default.createElement("div", {
+        className: "tooltip"
+      }, React__default.createElement("span", {
+        className: "tooltiptext"
+      }, "Page: ", value))) : null, React__default.createElement("div", _extends({
+        style: {
+          left: `${percent}%`,
+          position: 'absolute',
+          transform: 'translate(-50%, -50%)',
+          WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+          zIndex: 400,
+          width: 26,
+          height: 42,
+          cursor: 'pointer',
+          // border: '1px solid grey',
+          backgroundColor: 'none'
+        }
+      }, getHandleProps(id, {
+        onMouseEnter: this.onMouseEnter,
+        onMouseLeave: this.onMouseLeave
+      }))), React__default.createElement("div", {
+        role: "slider",
+        "aria-valuemin": min,
+        "aria-valuemax": max,
+        "aria-valuenow": value,
+        style: {
+          left: `${percent}%`,
+          position: 'absolute',
+          transform: 'translate(-50%, -50%)',
+          WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+          zIndex: 300,
+          width: 14,
+          height: 14,
+          border: 0,
+          borderRadius: '50%',
+          boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
+          backgroundColor: disabled ? trasnsparent : '#fff'
+        }
+      }));
+    }
+
+  }
+
+  Handle.propTypes = {
+    domain: propTypes.array.isRequired,
+    handle: propTypes.shape({
+      id: propTypes.string.isRequired,
+      value: propTypes.number.isRequired,
+      percent: propTypes.number.isRequired
+    }).isRequired,
+    getHandleProps: propTypes.func.isRequired,
+    isActive: propTypes.bool.isRequired,
+    disabled: propTypes.bool
+  };
+  Handle.defaultProps = {
+    disabled: false
+  };
+
+  const mainColor = '#ff6b6b';
+  const sliderStyle = {
+    position: 'absolute',
+    width: '100%',
+    height: 6,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 99
+  };
+  const railStyle = {
+    margin: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)'
+  };
+  const trackStyle = {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    margin: 0,
+    zIndex: 1,
+    backgroundColor: mainColor,
+    cursor: 'pointer'
+  };
+
+  const Track = ({
+    source,
+    target,
+    getTrackProps
+  }) => {
+    return React__default.createElement("div", _extends({
+      style: {
+        left: `${source.percent}%`,
+        width: `${target.percent - source.percent}%`,
+        ...trackStyle
+      }
+    }, getTrackProps()));
+  };
+
+  const defaultValues = [1];
+
+  class SliderUI extends React.Component {
+    constructor(props) {
+      super(props);
+
+      _defineProperty(this, "state", {
+        values: defaultValues.slice(),
+        seeking: false
+      });
+
+      _defineProperty(this, "setValue", value => {
+        this.setState({
+          values: [value]
+        });
+      });
+
+      _defineProperty(this, "onUpdate", update => {
+        // Start seeking
+        this.setState({
+          seeking: true
+        });
+      });
+
+      _defineProperty(this, "onChange", values => {
+        console.info(values);
+        this.props.onChange(values[0] - 1); // Stop seeking
+
+        this.setState({
+          seeking: false
+        });
+      });
+    }
+
+    componentDidUpdate(prevProps) {
+      const {
+        value
+      } = this.props;
+
+      if (value !== prevProps.value && !this.state.seeking) {
+        this.setValue(value);
+      }
+    }
+
+    render() {
+      const {
+        max,
+        bufferProgress
+      } = this.props;
+      const domain = [1, max];
+      const {
+        values
+      } = this.state;
+      return React__default.createElement("div", {
+        className: 'villain-slider',
+        style: {
+          height: sliderStyle.height
+        }
+      }, React__default.createElement(Slider, {
+        rootStyle: sliderStyle,
+        domain: domain,
+        step: 1,
+        mode: 2,
+        values: values,
+        onUpdate: this.onUpdate,
+        onChange: this.onChange
+      }, React__default.createElement(Rail, null, ({
+        getRailProps
+      }) => React__default.createElement("div", _extends({
+        style: railStyle
+      }, getRailProps()))), React__default.createElement(Handles, null, ({
+        handles,
+        activeHandleID,
+        getHandleProps
+      }) => React__default.createElement("div", {
+        className: "slider-handles"
+      }, handles.map(handle => React__default.createElement(Handle, {
+        key: handle.id,
+        handle: handle,
+        domain: domain,
+        isActive: handle.id === activeHandleID,
+        getHandleProps: getHandleProps
+      })))), React__default.createElement(Tracks, {
+        right: false
+      }, ({
+        tracks,
+        getTrackProps
+      }) => React__default.createElement("div", {
+        className: "slider-tracks"
+      }, tracks.map(({
+        id,
+        source,
+        target
+      }) => React__default.createElement(Track, {
+        key: id,
+        source: source,
+        target: target,
+        getTrackProps: getTrackProps
+      }))))), React__default.createElement("div", {
+        className: 'buffer',
+        style: {
+          width: `${bufferProgress}%`
+        }
+      }));
+    }
+
+  }
+
+  _defineProperty(SliderUI, "contextType", ReaderContext);
+
+  _defineProperty(SliderUI, "defaultProps", {
+    max: 1,
+    onUpdate: update => {},
+    bufferProgress: 0
+  });
 
   class Toolbar extends React.Component {
     constructor(props) {
@@ -24205,28 +26364,43 @@
 
     render() {
       const {
-        id
-      } = this.props;
-      const {
         navigateForward,
         navigateBackward,
         toggleSetting
       } = this.context;
       const {
+        pages,
+        bookMode,
         currentPage,
         totalPages
       } = this.context.state;
+      const layoutProps = {
+        icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
+        label: bookMode ? 'Book mode' : 'Single page',
+        title: bookMode ? 'Book mode' : 'Single page'
+      };
+      const progress = pages.length / totalPages * 100;
       return React__default.createElement("div", {
         className: 'villain-toolbar'
-      }, React__default.createElement("button", {
-        onClick: navigateBackward
-      }, "Previous page"), React__default.createElement("div", null, `${currentPage + 1} / ${totalPages}`), React__default.createElement("button", {
-        onClick: navigateForward
-      }, "Next page"), React__default.createElement("button", {
+      }, React__default.createElement(SliderUI, {
+        max: totalPages,
+        value: currentPage,
+        bufferProgress: progress,
+        onChange: this.context.navigateToPage
+      }), React__default.createElement(Navigation, {
+        currentPage: currentPage,
+        totalPages: totalPages
+      }), React__default.createElement("div", {
+        className: 'villain-toolbar-group'
+      }, React__default.createElement(Button, _extends({
+        type: 'toggler',
         onClick: () => toggleSetting('bookMode')
-      }, "Book mode"), React__default.createElement("button", {
+      }, layoutProps)), React__default.createElement(Button, {
+        type: 'icon',
+        title: 'Fullscreen',
+        icon: mdiFullscreen,
         onClick: () => toggleSetting('fullscreen')
-      }, "fullscreen"));
+      })));
     }
 
   }
@@ -24258,15 +26432,13 @@
       const {
         id
       } = this.props;
-      const tileSources = {
-        type: 'image',
-        url: 'https://bookofbadarguments.com/images/1.jpg',
-        buildPyramid: false // Create viewer
+      const {
+        pages
+      } = this.context.state; // Create viewer
 
-      };
       this.viewer = openseadragon({
         id,
-        tileSources,
+        tileSources: pages[0],
         ...config
       }); // Events hanlder
 
@@ -24354,7 +26526,7 @@
 
       if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
         // Render new valid page
-        if (currentPage >= 0 || currentPage < totalPages) {
+        if (currentPage >= 0 && currentPage < totalPages) {
           this.renderPage(currentPage);
         }
       } // Page changed
@@ -24387,7 +26559,6 @@
 
   const defaultOpts = {
     theme: 'dark',
-    initialPage: 0,
     workerPath: null,
     overlay: true
   };
@@ -24412,15 +26583,13 @@
         height: height
       }, React__default.createElement(Uncompress, {
         file: file,
-        workerPath: opts.workerPath,
-        initialPage: opts.initialPage
+        workerPath: opts.workerPath
       }, React__default.createElement(ReaderContext.Consumer, null, ({
         state
       }) => React__default.createElement(CanvasRender, {
         id: 'osd-canvas-render',
         bookMode: state.bookMode,
-        currentPage: state.currentPage,
-        initialPage: options.initialPage
+        currentPage: state.currentPage
       })))));
     }
 

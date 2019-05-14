@@ -29,6 +29,7 @@
     "openseadragon": "^2.4.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-compound-slider": "^1.2.2",
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
@@ -36,6 +37,8 @@
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
+    "@mdi/js": "^3.6.95",
+    "@mdi/react": "^1.1.1",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
     "express": "^4.16.4",
