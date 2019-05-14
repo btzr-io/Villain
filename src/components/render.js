@@ -67,15 +67,32 @@ class CanvasRender extends Component {
     const pos = new OpenSeaDragon.Point(0, 0)
     const count = world.getItemCount()
 
+    // Cache tile data
+    let bounds = null
+    let tiledImage = null
+    let firstPageBounds = null
+
     for (let i = 0; i < count; i++) {
-      const tiledImage = world.getItemAt(i)
+      // Get current page
+      tiledImage = world.getItemAt(i)
+
       if (tiledImage) {
-        const bounds = tiledImage.getBounds()
+        // Get page bounds
+        bounds = tiledImage.getBounds()
+        // Get first page bounds
+        if (i === 0) firstPageBounds = bounds
+        // Auto resize pages to fit first page height
+        else {
+          tiledImage.setHeight(firstPageBounds.height, true)
+        }
+        // Recalculate bounds
+        bounds = tiledImage.getBounds()
+        // Position next page
         tiledImage.setPosition(pos, true)
         pos.x += bounds.width
       }
     }
-
+    // Update viewer zoom
     this.fitPages(true)
   }
 

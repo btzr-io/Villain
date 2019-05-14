@@ -107,7 +107,7 @@
 
 .villain .button-toggler {
   padding: 4px;
-  background: rgba(0, 0, 0, 0.2);
+  background: transparent;
   width: 140px;
 }
 

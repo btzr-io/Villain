@@ -17,6 +17,7 @@ const config = {
   //Flick bug -> placeholderFillStyle: '#FFF',
   // Animations
   // springStiffness: 12,
+  // animationTime: 0.9,
   // preserveImageSizeOnResize: true,
 }
 
