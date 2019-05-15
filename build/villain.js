@@ -1103,6 +1103,7 @@
     isLastPage: false,
     isFirstPage: true,
     currentPage: null,
+    currentZoom: null,
     // Settings
     theme: 'dark',
     bookMode: false,
@@ -24226,17 +24227,20 @@
     imageLoaderLimit: 500,
     // Zoom - Pan
     constrainDuringPan: true,
+    preserveImageSizeOnResize: false,
+    // Render
+    // imageSmoothingEnabled: true,
+    immediateRender: true,
     // UI
     toolbar: false,
     showNavigationControl: false,
     showHomeControl: false,
     showSequenceControl: false,
-    showFullPageControl: false,
-    immediateRender: true // --- Experimental ---
+    showFullPageControl: false // --- Experimental ---
     //Flick bug -> placeholderFillStyle: '#FFF',
     // Animations
     // springStiffness: 12,
-    // preserveImageSizeOnResize: true,
+    // animationTime: 0.9,
 
   };
 
@@ -24269,7 +24273,7 @@
         className: clsx('button', type && `button-${type}`, toggle && 'button-toggle')
       }, icon && React__default.createElement(Icon$1, {
         path: icon,
-        size: 0.92,
+        size: '26px',
         className: 'villain-icon'
       }), label && React__default.createElement("span", {
         className: 'villain-label'
@@ -24286,6 +24290,110 @@
   var mdiChevronLeft = "M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z";
   var mdiChevronRight = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z";
   var mdiFullscreen = "M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z";
+  var mdiMinus = "M19,13H5V11H19V13Z";
+  var mdiPlus = "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z";
+
+  class ZoomControls extends React.Component {
+    constructor(props) {
+      super(props);
+
+      _defineProperty(this, "triggerUpdate", () => {
+        const {
+          value
+        } = this.state;
+        this.props.onUpdate(value);
+      });
+
+      _defineProperty(this, "triggerIncrement", () => {
+        const {
+          currentZoom
+        } = this.props;
+        const scale = (currentZoom + 10) / 100;
+        this.props.onUpdate(scale);
+      });
+
+      _defineProperty(this, "triggerDecrement", () => {
+        const {
+          currentZoom
+        } = this.props;
+        const scale = (currentZoom - 10) / 100;
+        this.props.onUpdate(scale);
+      });
+
+      _defineProperty(this, "handleChange", event => {
+        const {
+          value
+        } = event.target;
+        const {
+          currentZoom
+        } = this.context.state;
+
+        if (value.length < 5) {
+          this.setState({
+            value
+          });
+        }
+      });
+
+      _defineProperty(this, "handleBlur", () => {
+        this.triggerUpdate();
+      });
+
+      _defineProperty(this, "handleKeyPress", e => {
+        if (e.key === 'Enter') {
+          this.triggerUpdate();
+        }
+      });
+
+      this.state = {
+        value: '0%'
+      };
+    }
+
+    componentDidUpdate(prevProps) {
+      const {
+        currentZoom
+      } = this.props;
+
+      if (currentZoom !== prevProps.currentZoom) {
+        this.setState({
+          value: `${currentZoom}%`
+        });
+      }
+    }
+
+    render() {
+      const {
+        currentZoom
+      } = this.props;
+      const canZoomIn = currentZoom < 100;
+      const canZoomOut = currentZoom > 25;
+      return React__default.createElement(React__default.Fragment, null, React__default.createElement(Button, {
+        type: 'icon',
+        title: 'Zoom in',
+        icon: mdiPlus,
+        disabled: !canZoomIn,
+        onClick: this.triggerIncrement
+      }), React__default.createElement(Button, {
+        type: 'icon',
+        icon: mdiMinus,
+        title: 'Zoom out',
+        disabled: !canZoomOut,
+        onClick: this.triggerDecrement
+      }), React__default.createElement("input", {
+        type: "text",
+        title: "Zoom",
+        value: this.state.value,
+        onBlur: this.hanldeBlur,
+        onChange: this.handleChange,
+        onKeyPress: this.handleKeyPress,
+        className: 'villain-input'
+      }));
+    }
+
+  }
+
+  _defineProperty(ZoomControls, "contextType", ReaderContext);
 
   class Navigation extends React.Component {
     constructor(props) {
@@ -26266,7 +26374,6 @@
       });
 
       _defineProperty(this, "onChange", values => {
-        console.info(values);
         this.props.onChange(values[0] - 1); // Stop seeking
 
         this.setState({
@@ -26372,11 +26479,12 @@
         pages,
         bookMode,
         currentPage,
+        currentZoom,
         totalPages
       } = this.context.state;
       const layoutProps = {
         icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
-        label: bookMode ? 'Book mode' : 'Single page',
+        // label: bookMode ? 'Book mode' : 'Single page',
         title: bookMode ? 'Book mode' : 'Single page'
       };
       const progress = pages.length / totalPages * 100;
@@ -26392,8 +26500,13 @@
         totalPages: totalPages
       }), React__default.createElement("div", {
         className: 'villain-toolbar-group'
-      }, React__default.createElement(Button, _extends({
-        type: 'toggler',
+      }, React__default.createElement(ZoomControls, {
+        onUpdate: this.props.updateZoom,
+        currentZoom: currentZoom
+      }), React__default.createElement("div", {
+        className: "divider"
+      }), React__default.createElement(Button, _extends({
+        type: 'icon',
         onClick: () => toggleSetting('bookMode')
       }, layoutProps)), React__default.createElement(Button, {
         type: 'icon',
@@ -26410,17 +26523,62 @@
   class CanvasRender extends React.Component {
     constructor(props) {
       super(props);
-      this.viewer = null;
-    }
 
-    getTargetZoom() {
-      const {
-        viewport,
-        world
-      } = this.viewer;
-      const page = world.getItemAt(0);
-      const targetZoom = page ? page.source.dimensions.x / viewport.getContainerSize().x : 0.25;
-      return targetZoom;
+      _defineProperty(this, "getTargetZoom", (scale = 1) => {
+        const {
+          viewport,
+          world
+        } = this.viewer;
+        const count = world.getItemCount(); // MAX: Original size (1:1)
+
+        if (count > 1) {
+          const tile = world.getItemAt(0);
+          return tile.imageToViewportZoom(scale);
+        } else if (count && count === 1) {
+          return viewport.imageToViewportZoom(scale);
+        }
+      });
+
+      _defineProperty(this, "updateZoomLimits", () => {
+        const {
+          viewport,
+          world
+        } = this.viewer; // MAX: Original size (1:1)
+
+        viewport.maxZoomLevel = this.getTargetZoom(); // MIN: 1/4
+
+        viewport.minZoomLevel = viewport.maxZoomLevel / 4;
+      });
+
+      _defineProperty(this, "updateZoom", (scale = 1) => {
+        const {
+          viewport
+        } = this.viewer;
+        let zoom = scale; // Convert to int
+
+        if (typeof scale === 'string') {
+          zoom = parseInt(scale);
+          zoom = zoom ? zoom / 100 : null;
+        }
+
+        if (zoom) {
+          zoom = this.getTargetZoom(zoom); // Fix max
+
+          if (zoom > viewport.maxZoomLevel) {
+            zoom = viewport.maxZoomLevel;
+          } // Fix min
+
+
+          if (zoom < viewport.minZoomLevel) {
+            zoom = viewport.minZoomLevel;
+          } // Zoom
+
+
+          viewport.zoomTo(zoom, null, true);
+        }
+      });
+
+      this.viewer = null;
     }
 
     zoomToOriginalSize() {
@@ -26443,14 +26601,22 @@
       }); // Events hanlder
 
       this.viewer.addHandler('open', () => {
-        const {
-          viewport,
-          world
-        } = this.viewer; // Set Zoom options
+        this.updateZoomLimits();
+        this.renderLayout();
+      }); // Events hanlder
 
-        const targetZoom = this.getTargetZoom();
-        viewport.maxZoomLevel = targetZoom;
-        this.renderBookModeLayout();
+      this.viewer.addHandler('resize', () => {
+        this.updateZoomLimits();
+      }); // Events hanlder
+
+      this.viewer.addHandler('zoom', e => {
+        const {
+          viewport
+        } = this.viewer;
+        const currentZoom = parseInt(e.zoom / this.getTargetZoom() * 100);
+        this.context.updateState({
+          currentZoom
+        });
       });
       this.viewer.addHandler('close', () => {});
       this.viewer.addHandler('open-failed', e => {
@@ -26467,7 +26633,7 @@
       this.renderPage(0);
     }
 
-    renderBookModeLayout() {
+    renderLayout() {
       const {
         viewport,
         world
@@ -26476,22 +26642,37 @@
         currentPage
       } = this.context.state;
       const pos = new openseadragon.Point(0, 0);
-      const count = world.getItemCount();
+      const count = world.getItemCount(); // Cache tile data
+
+      let bounds = null;
+      let tiledImage = null;
+      let firstPageBounds = null;
 
       for (let i = 0; i < count; i++) {
-        const tiledImage = world.getItemAt(i);
+        // Get current page
+        tiledImage = world.getItemAt(i);
 
         if (tiledImage) {
-          const bounds = tiledImage.getBounds();
+          // Get page bounds
+          bounds = tiledImage.getBounds(); // Get first page bounds
+
+          if (i === 0) firstPageBounds = bounds; // Auto resize pages to fit first page height
+          else {
+              tiledImage.setHeight(firstPageBounds.height, true);
+            } // Recalculate bounds
+
+          bounds = tiledImage.getBounds(); // Position next page
+
           tiledImage.setPosition(pos, true);
           pos.x += bounds.width;
         }
-      }
+      } // Update viewer zoom
 
-      this.fitPages(true);
+
+      this.fitPages();
     }
 
-    fitPages(fast = false) {
+    fitPagesLegacy() {
       const {
         viewport,
         world
@@ -26503,7 +26684,26 @@
         const bounds = tiledImage.getBounds();
         const margin = 8 / viewport.getContainerSize().x;
         bounds.width = (bounds.width + margin) * count;
-        viewport.fitBoundsWithConstraints(bounds, fast);
+        viewport.fitBoundsWithConstraints(bounds, true);
+      }
+    }
+
+    fitPages(orientation) {
+      const {
+        viewport,
+        world
+      } = this.viewer;
+
+      if (!orientation) {
+        this.fitPagesLegacy();
+      }
+
+      if (orientation === 'vertical') {
+        viewport.fitVertically(true);
+      }
+
+      if (orientation === 'horizontal') {
+        viewport.fitHorizontally(true);
       }
     }
 
@@ -26513,6 +26713,11 @@
       } = this.props;
       this.initOpenSeaDragon();
       this.renderPage(initialPage);
+    }
+
+    componentWillUnmount() {
+      this.viewer.destroy();
+      this.viewer = null;
     }
 
     componentDidUpdate(prevProps) {
@@ -26534,7 +26739,8 @@
 
       if (bookMode !== prevProps.bookMode) {
         if (bookMode) {
-          this.renderBookModeLayout();
+          // Trigger re-render layout
+          this.renderLayout();
         }
       }
     }
@@ -26543,7 +26749,9 @@
       const {
         id
       } = this.props;
-      return React__default.createElement(React__default.Fragment, null, React__default.createElement(Toolbar, null), React__default.createElement("div", {
+      return React__default.createElement(React__default.Fragment, null, React__default.createElement(Toolbar, {
+        updateZoom: this.updateZoom
+      }), React__default.createElement("div", {
         id: id,
         className: 'villain-canvas'
       }));
