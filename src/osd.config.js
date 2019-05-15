@@ -5,20 +5,22 @@ const config = {
   imageLoaderLimit: 500,
   // Zoom - Pan
   constrainDuringPan: true,
+  preserveImageSizeOnResize: false,
+  // Render
+  // imageSmoothingEnabled: true,
+  immediateRender: true,
   // UI
   toolbar: false,
   showNavigationControl: false,
   showHomeControl: false,
   showSequenceControl: false,
   showFullPageControl: false,
-  immediateRender: true,
 
   // --- Experimental ---
   //Flick bug -> placeholderFillStyle: '#FFF',
   // Animations
   // springStiffness: 12,
   // animationTime: 0.9,
-  // preserveImageSizeOnResize: true,
 }
 
 export default config

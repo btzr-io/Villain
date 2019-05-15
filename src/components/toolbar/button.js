@@ -16,7 +16,7 @@ class Button extends Component {
         disabled={disabled}
         className={clsx('button', type && `button-${type}`, toggle && 'button-toggle')}
       >
-        {icon && <Icon path={icon} size={0.92} className={'villain-icon'} />}
+        {icon && <Icon path={icon} size={'26px'} className={'villain-icon'} />}
         {label && <span className={'villain-label'}>{label}</span>}
         {this.props.children && (
           <span className={'villain-label'}>{this.props.children}</span>

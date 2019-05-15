@@ -9,6 +9,7 @@ const defaultState = {
   isLastPage: false,
   isFirstPage: true,
   currentPage: null,
+  currentZoom: null,
 
   // Settings
   theme: 'dark',

@@ -9,6 +9,13 @@
   fill: #fff;
 }
 
+.divider {
+  height: 1em;
+  width: 2px;
+  margin: 0 12px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
 .buffer {
   height: 100%;
   margin: 0;
@@ -32,7 +39,7 @@
   width: 40px;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.4);
-  padding: 0 4px;
+  padding: 2px 6px;
   color: #fff;
   margin: 0 6px;
   border-radius: 4px;
@@ -96,12 +103,16 @@
 }
 
 .villain .button-icon {
-  padding: 4px;
-  border-radius: 16px;
+  padding: 2px;
+  border-radius: 4px;
   background: transparent;
 }
 
-.villain .button-icon:hover {
+.villain .button-icon:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.villain .button-icon:active:not(:disabled) {
   background: rgba(255, 255, 255, 0.2);
 }
 

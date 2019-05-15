@@ -9,7 +9,7 @@ const villainOpts = {
   workerPath: '/build/worker-bundle.js',
 }
 
-const testFile = '/build/test_files/test.cbr'
+const testFile = '/build/test_files/test.cbz'
 
 ReactDOM.render(
   <div>

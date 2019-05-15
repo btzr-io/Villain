@@ -17,13 +17,48 @@ class CanvasRender extends Component {
     this.viewer = null
   }
 
-  getTargetZoom() {
+  getTargetZoom = (scale = 1) => {
     const { viewport, world } = this.viewer
-    const page = world.getItemAt(0)
-    const targetZoom = page
-      ? page.source.dimensions.x / viewport.getContainerSize().x
-      : 0.25
-    return targetZoom
+    const count = world.getItemCount()
+    // MAX: Original size (1:1)
+    if (count > 1) {
+      const tile = world.getItemAt(0)
+      return tile.imageToViewportZoom(scale)
+    } else if (count && count === 1) {
+      return viewport.imageToViewportZoom(scale)
+    }
+  }
+
+  updateZoomLimits = () => {
+    const { viewport, world } = this.viewer
+    // MAX: Original size (1:1)
+    viewport.maxZoomLevel = this.getTargetZoom()
+    // MIN: 1/4
+    viewport.minZoomLevel = viewport.maxZoomLevel / 4
+  }
+
+  updateZoom = (scale = 1) => {
+    const { viewport } = this.viewer
+    let zoom = scale
+    // Convert to int
+    if (typeof scale === 'string') {
+      zoom = parseInt(scale)
+      zoom = zoom ? zoom / 100 : null
+    }
+
+    if (zoom) {
+      zoom = this.getTargetZoom(zoom)
+      // Fix max
+      if (zoom > viewport.maxZoomLevel) {
+        zoom = viewport.maxZoomLevel
+      }
+      // Fix min
+      if (zoom < viewport.minZoomLevel) {
+        zoom = viewport.minZoomLevel
+      }
+      // Zoom
+      viewport.zoomTo(zoom, null, true)
+    }
   }
 
   zoomToOriginalSize() {
@@ -40,13 +75,26 @@ class CanvasRender extends Component {
 
     // Events hanlder
     this.viewer.addHandler('open', () => {
-      const { viewport, world } = this.viewer
-      // Set Zoom options
-      const targetZoom = this.getTargetZoom()
-      viewport.maxZoomLevel = targetZoom
-      this.renderBookModeLayout()
+      this.updateZoomLimits()
+      this.renderLayout()
     })
+
+    // Events hanlder
+    this.viewer.addHandler('resize', () => {
+      this.updateZoomLimits()
+    })
+
+    // Events hanlder
+    this.viewer.addHandler('zoom', e => {
+      const { viewport } = this.viewer
+
+      const currentZoom = parseInt((e.zoom / this.getTargetZoom()) * 100)
+
+      this.context.updateState({ currentZoom })
+    })
+
     this.viewer.addHandler('close', () => {})
+
     this.viewer.addHandler('open-failed', e => {
       console.error(e)
     })
@@ -61,7 +109,7 @@ class CanvasRender extends Component {
     this.renderPage(0)
   }
 
-  renderBookModeLayout() {
+  renderLayout() {
     const { viewport, world } = this.viewer
     const { currentPage } = this.context.state
     const pos = new OpenSeaDragon.Point(0, 0)
@@ -93,10 +141,10 @@ class CanvasRender extends Component {
       }
     }
     // Update viewer zoom
-    this.fitPages(true)
+    this.fitPages()
   }
 
-  fitPages(fast = false) {
+  fitPagesLegacy() {
     const { viewport, world } = this.viewer
     const count = world.getItemCount()
     const tiledImage = world.getItemAt(0)
@@ -105,7 +153,23 @@ class CanvasRender extends Component {
       const bounds = tiledImage.getBounds()
       const margin = 8 / viewport.getContainerSize().x
       bounds.width = (bounds.width + margin) * count
-      viewport.fitBoundsWithConstraints(bounds, fast)
+      viewport.fitBoundsWithConstraints(bounds, true)
+    }
+  }
+
+  fitPages(orientation) {
+    const { viewport, world } = this.viewer
+
+    if (!orientation) {
+      this.fitPagesLegacy()
+    }
+
+    if (orientation === 'vertical') {
+      viewport.fitVertically(true)
+    }
+
+    if (orientation === 'horizontal') {
+      viewport.fitHorizontally(true)
     }
   }
 
@@ -113,6 +177,11 @@ class CanvasRender extends Component {
     const { initialPage } = this.props
     this.initOpenSeaDragon()
     this.renderPage(initialPage)
+  }
+
+  componentWillUnmount() {
+    this.viewer.destroy()
+    this.viewer = null
   }
 
   componentDidUpdate(prevProps) {
@@ -130,7 +199,8 @@ class CanvasRender extends Component {
     // Page changed
     if (bookMode !== prevProps.bookMode) {
       if (bookMode) {
-        this.renderBookModeLayout()
+        // Trigger re-render layout
+        this.renderLayout()
       }
     }
   }
@@ -139,7 +209,7 @@ class CanvasRender extends Component {
     const { id } = this.props
     return (
       <React.Fragment>
-        <Toolbar />
+        <Toolbar updateZoom={this.updateZoom} />
         <div id={id} className={'villain-canvas'} />
       </React.Fragment>
     )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Button from './button'
-import Navigation from './navigation'
+import ZoomControls from './zoom'
+import NavigationControls from './navigation'
 import Slider from './slider/index.js'
 import { ReaderContext } from '../../context'
 
@@ -15,10 +16,11 @@ class Toolbar extends Component {
 
   render() {
     const { navigateForward, navigateBackward, toggleSetting } = this.context
-    const { pages, bookMode, currentPage, totalPages } = this.context.state
+    const { pages, bookMode, currentPage, currentZoom, totalPages } = this.context.state
+
     const layoutProps = {
       icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
-      label: bookMode ? 'Book mode' : 'Single page',
+      // label: bookMode ? 'Book mode' : 'Single page',
       title: bookMode ? 'Book mode' : 'Single page',
     }
 
@@ -32,10 +34,12 @@ class Toolbar extends Component {
           bufferProgress={progress}
           onChange={this.context.navigateToPage}
         />
-        <Navigation currentPage={currentPage} totalPages={totalPages} />
+        <NavigationControls currentPage={currentPage} totalPages={totalPages} />
         <div className={'villain-toolbar-group'}>
+          <ZoomControls onUpdate={this.props.updateZoom} currentZoom={currentZoom} />
+          <div className="divider" />
           <Button
-            type={'toggler'}
+            type={'icon'}
             onClick={() => toggleSetting('bookMode')}
             {...layoutProps}
           />

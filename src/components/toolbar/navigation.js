@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { ReaderContext } from '../../context'
-import Icon from '@mdi/react'
 import Button from './button'
+import { ReaderContext } from '../../context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 
 class Navigation extends Component {
