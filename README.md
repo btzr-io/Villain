@@ -32,11 +32,16 @@ const opts = {
 Import the component and the css styles
 
 ```JSX
-
+// Component
 import Villain from 'villain'
+
+// Css styles
 import 'villain/dist/style.min.css'
 
+// Path of the comicbook archive
 const url = '/files/test.cbz'
+
+//...
 
 <Villain file={url} options={opts} />
 ```
