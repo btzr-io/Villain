@@ -23,7 +23,7 @@ so you will need to provide the path of `webworker`:
 
 ```JSX
 const opts = {
-  workerPath: '/build/worker-bundle.js',
+  workerPath: 'villain/build/worker-bundle.js',
   ...
 }
 ```
@@ -33,8 +33,8 @@ Import the component and the css styles
 
 ```JSX
 
-import Villain from '../src/index.js'
-import '../src/css/styles.css'
+import Villain from 'villain'
+import 'villain/dist/style.min.css'
 
 const url = '/files/test.cbz'
 
