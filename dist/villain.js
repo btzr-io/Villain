@@ -26309,13 +26309,14 @@
     disabled: false
   };
 
-  const mainColor = '#ff6b6b';
+  const mainColor = '#FFF';
   const sliderStyle = {
     position: 'absolute',
     width: '100%',
     height: 6,
     display: 'flex',
     alignItems: 'center',
+    borderRadius: '4px',
     justifyContent: 'center',
     zIndex: 99
   };
@@ -26323,6 +26324,7 @@
     margin: 0,
     width: '100%',
     height: '100%',
+    borderRadius: '4px',
     backgroundColor: 'rgba(255, 255, 255, 0.2)'
   };
   const trackStyle = {
@@ -26331,6 +26333,7 @@
     bottom: 0,
     margin: 0,
     zIndex: 1,
+    borderRadius: '4px',
     backgroundColor: mainColor,
     cursor: 'pointer'
   };
@@ -26449,7 +26452,8 @@
       }))))), React__default.createElement("div", {
         className: 'buffer',
         style: {
-          width: `${bufferProgress}%`
+          width: `${bufferProgress}%`,
+          borderRadius: '4px'
         }
       }));
     }
@@ -26490,15 +26494,17 @@
       const progress = pages.length / totalPages * 100;
       return React__default.createElement("div", {
         className: 'villain-toolbar'
+      }, React__default.createElement(Navigation, {
+        currentPage: currentPage,
+        totalPages: totalPages
+      }), React__default.createElement("div", {
+        className: 'villain-toolbar-group villain-toolbar-group-expand'
       }, React__default.createElement(SliderUI, {
         max: totalPages,
         value: currentPage,
         bufferProgress: progress,
         onChange: this.context.navigateToPage
-      }), React__default.createElement(Navigation, {
-        currentPage: currentPage,
-        totalPages: totalPages
-      }), React__default.createElement("div", {
+      })), React__default.createElement("div", {
         className: 'villain-toolbar-group'
       }, React__default.createElement(ZoomControls, {
         onUpdate: this.props.updateZoom,
@@ -26539,15 +26545,26 @@
         }
       });
 
+      _defineProperty(this, "getMinZoom", () => {
+        const {
+          viewport,
+          world
+        } = this.viewer;
+        const tiledImage = world.getItemAt(0);
+        const imageBounds = tiledImage.getBounds();
+        const imageAspect = imageBounds.width / imageBounds.height;
+        const aspectFactor = imageAspect / viewport.getAspectRatio();
+        const zoom = (aspectFactor >= 1 ? 1 : aspectFactor) / imageBounds.width;
+        return zoom;
+      });
+
       _defineProperty(this, "updateZoomLimits", () => {
         const {
           viewport,
           world
-        } = this.viewer; // MAX: Original size (1:1)
-
-        viewport.maxZoomLevel = this.getTargetZoom(); // MIN: 1/4
-
-        viewport.minZoomLevel = viewport.maxZoomLevel / 4;
+        } = this.viewer;
+        viewport.maxZoomLevel = this.getTargetZoom();
+        viewport.minZoomLevel = this.getMinZoom();
       });
 
       _defineProperty(this, "updateZoom", (scale = 1) => {
