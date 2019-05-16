@@ -29,12 +29,20 @@ class CanvasRender extends Component {
     }
   }
 
+  getMinZoom = () => {
+    const { viewport, world } = this.viewer
+    const tiledImage = world.getItemAt(0)
+    const imageBounds = tiledImage.getBounds()
+    const imageAspect = imageBounds.width / imageBounds.height
+    const aspectFactor = imageAspect / viewport.getAspectRatio()
+    const zoom = (aspectFactor >= 1 ? 1 : aspectFactor) / imageBounds.width
+    return zoom
+  }
+
   updateZoomLimits = () => {
     const { viewport, world } = this.viewer
-    // MAX: Original size (1:1)
     viewport.maxZoomLevel = this.getTargetZoom()
-    // MIN: 1/4
-    viewport.minZoomLevel = viewport.maxZoomLevel / 4
+    viewport.minZoomLevel = this.getMinZoom()
   }
 
   updateZoom = (scale = 1) => {

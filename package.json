@@ -2,7 +2,7 @@
   "name": "villain",
   "version": "0.0.2",
   "description": "An open source and touch friendly web based comic book reader",
-  "main": "./build/villain.js",
+  "main": "./dist/villain.js",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development --open --hot",
     "build": "rollup -c rollup.config.js",
@@ -48,6 +48,7 @@
     "rollup": "^1.11.3",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-css-porter": "^1.0.2",
     "rollup-plugin-node-resolve": "^4.2.3",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-replace": "^2.2.0",

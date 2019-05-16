@@ -3,7 +3,7 @@ import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
 import Handle from './handle'
 import { ReaderContext } from '../../../context'
 
-const mainColor = '#ff6b6b'
+const mainColor = '#FFF'
 
 const sliderStyle = {
   position: 'absolute',
@@ -11,6 +11,7 @@ const sliderStyle = {
   height: 6,
   display: 'flex',
   alignItems: 'center',
+  borderRadius: '4px',
   justifyContent: 'center',
   zIndex: 99,
 }
@@ -19,6 +20,7 @@ const railStyle = {
   margin: 0,
   width: '100%',
   height: '100%',
+  borderRadius: '4px',
   backgroundColor: 'rgba(255, 255, 255, 0.2)',
 }
 
@@ -28,6 +30,7 @@ const trackStyle = {
   bottom: 0,
   margin: 0,
   zIndex: 1,
+  borderRadius: '4px',
   backgroundColor: mainColor,
   cursor: 'pointer',
 }
@@ -138,7 +141,10 @@ class SliderUI extends Component {
           </Tracks>
         </Slider>
 
-        <div className={'buffer'} style={{ width: `${bufferProgress}%` }} />
+        <div
+          className={'buffer'}
+          style={{ width: `${bufferProgress}%`, borderRadius: '4px' }}
+        />
       </div>
     )
   }

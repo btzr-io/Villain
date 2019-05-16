@@ -28,13 +28,17 @@ class Toolbar extends Component {
 
     return (
       <div className={'villain-toolbar'}>
-        <Slider
-          max={totalPages}
-          value={currentPage}
-          bufferProgress={progress}
-          onChange={this.context.navigateToPage}
-        />
         <NavigationControls currentPage={currentPage} totalPages={totalPages} />
+
+        <div className={'villain-toolbar-group villain-toolbar-group-expand'}>
+          <Slider
+            max={totalPages}
+            value={currentPage}
+            bufferProgress={progress}
+            onChange={this.context.navigateToPage}
+          />
+        </div>
+
         <div className={'villain-toolbar-group'}>
           <ZoomControls onUpdate={this.props.updateZoom} currentZoom={currentZoom} />
           <div className="divider" />

@@ -5,6 +5,9 @@ import Uncompress from './components/uncompress'
 import CanvasRender from './components/render'
 import { ReaderContext, ReaderProvider } from './context'
 
+// Css
+import './css/styles.css'
+
 const defaultOpts = {
   theme: 'dark',
   workerPath: null,
