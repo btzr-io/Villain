@@ -30,7 +30,7 @@ export const fetchArchive = (url, callback, errorCallback) => {
     })
     .then(callback)
     .catch(error => {
-      errorCallback && errorCallback(error)
+      errorCallback && errorCallback("Can't load archive!")
       console.error('Request failed', error)
     })
 }

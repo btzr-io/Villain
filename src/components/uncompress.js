@@ -38,7 +38,7 @@ class Uncompress extends Component {
   }
 
   handleError = err => {
-    this.context.trigger('error', err)
+    this.context.trigger('error', err.message || err)
   }
 
   openArchive = async file => {
@@ -81,7 +81,7 @@ class Uncompress extends Component {
           this.handleExtractedFile(file, index)
         })
       } else {
-        this.context.trigger('error', 'No files!')
+        this.context.trigger('error', "Can't open archive!")
       }
     } catch (err) {
       // Handle Errors
@@ -104,7 +104,8 @@ class Uncompress extends Component {
     const { ready, error } = this.context.state
     return (
       <React.Fragment>
-        {(error && <Error />) || (!ready ? <Loader /> : this.props.children)}
+        {(error && <Error message={error.message || error} />) ||
+          (!ready ? <Loader /> : this.props.children)}
       </React.Fragment>
     )
   }

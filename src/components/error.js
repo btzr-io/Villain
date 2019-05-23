@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
-
+import Icon from '@mdi/react'
+import { mdiChatAlert } from '@mdi/js'
 class Error extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { id } = this.props
+    const { id, message } = this.props
     return (
       <div className={'villain-overlay'}>
-        <div>Error!</div>
+        <Icon className={'villain-icon'} path={mdiChatAlert} size={3} />
+        <div>
+          <h3>{message}</h3>
+        </div>
       </div>
     )
   }
