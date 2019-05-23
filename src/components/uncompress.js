@@ -41,6 +41,16 @@ class Uncompress extends Component {
     this.context.trigger('error', err.message || err)
   }
 
+  handleDestroy = () => {
+    const { pages } = this.context.state
+    // Release memory
+    if (pages && pages.length > 0) {
+      pages.forEach(page => {
+        URL.revokeObjectURL(page.src)
+      })
+    }
+  }
+
   openArchive = async file => {
     const { workerPath: workerUrl } = this.props
 
@@ -91,13 +101,17 @@ class Uncompress extends Component {
 
   componentDidMount() {
     const { file } = this.props
-
     // Load archive from valid source
     if (typeof file === 'string') {
       this.loadArchiveFromUrl(file)
     } else {
       this.loadArchiveFromBlob(file)
     }
+  }
+
+  componentWillUnmount() {
+    // Free memory
+    this.handleDestroy()
   }
 
   render() {
