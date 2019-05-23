@@ -1,6 +1,6 @@
 {
   "name": "villain",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An open source and touch friendly web based comic book reader",
   "main": "./dist/villain.js",
   "scripts": {
