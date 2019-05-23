@@ -155,14 +155,14 @@
 .villain-toolbar .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted #444;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.84);
   margin-left: 22px;
   margin-bottom: 100px;
 }
 
 .villain-toolbar .tooltip .tooltiptext {
   width: 100px;
-  background-color: #353b48;
+  background-color: rgba(0, 0, 0, 0.84);
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -182,7 +182,7 @@
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #444 transparent transparent transparent;
+  border-color: rgba(0, 0, 0, 0.84) transparent transparent transparent;
 }
 
 /* Layout */
