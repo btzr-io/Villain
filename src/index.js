@@ -10,8 +10,9 @@ import './css/styles.css'
 
 const defaultOpts = {
   theme: 'dark',
-  workerPath: null,
   overlay: true,
+  workerPath: null,
+  allowFullScreen: true,
 }
 
 class Villain extends Component {
@@ -42,6 +43,7 @@ class Villain extends Component {
                   id={'osd-canvas-render'}
                   bookMode={state.bookMode}
                   currentPage={state.currentPage}
+                  allowFullScreen={opts.allowFullScreen}
                 />
               )}
             </ReaderContext.Consumer>

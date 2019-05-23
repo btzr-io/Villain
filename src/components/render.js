@@ -214,10 +214,10 @@ class CanvasRender extends Component {
   }
 
   render() {
-    const { id } = this.props
+    const { id, allowFullScreen } = this.props
     return (
       <React.Fragment>
-        <Toolbar updateZoom={this.updateZoom} />
+        <Toolbar updateZoom={this.updateZoom} allowFullScreen={allowFullScreen} />
         <div id={id} className={'villain-canvas'} />
       </React.Fragment>
     )

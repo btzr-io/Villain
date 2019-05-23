@@ -15,6 +15,7 @@ class Toolbar extends Component {
   }
 
   render() {
+    const { allowFullScreen } = this.props
     const { navigateForward, navigateBackward, toggleSetting } = this.context
     const { pages, bookMode, currentPage, currentZoom, totalPages } = this.context.state
 
@@ -47,12 +48,14 @@ class Toolbar extends Component {
             onClick={() => toggleSetting('bookMode')}
             {...layoutProps}
           />
-          <Button
-            type={'icon'}
-            title={'Fullscreen'}
-            icon={mdiFullscreen}
-            onClick={() => toggleSetting('fullscreen')}
-          />
+          {allowFullScreen && (
+            <Button
+              type={'icon'}
+              title={'Fullscreen'}
+              icon={mdiFullscreen}
+              onClick={() => toggleSetting('fullscreen')}
+            />
+          )}
         </div>
       </div>
     )
