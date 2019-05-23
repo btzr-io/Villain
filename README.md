@@ -10,7 +10,7 @@ An open source and touch friendly web based comic book reader.
 ## Installation
 
 ```SHELL
-$ yarn add btzr-io/Villain/
+$ yarn add btzr-io/Villain
 ```
 
 ## WebWorker
@@ -46,4 +46,10 @@ const url = '/files/test.cbz'
 <Villain file={url} options={opts} />
 ```
 
-```
+## Options
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| workerPath | string | null | path to libarchive.js `worker-bundle`. |
+| allowFullScreen | bool | true |  Show full screen button. |
+| autoHideControls | bool | true | Auto hide and show toolbar on `hover`, `focus` or `blur` events. |
