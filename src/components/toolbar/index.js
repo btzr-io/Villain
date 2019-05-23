@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import clsx from 'clsx'
 import Button from './button'
 import ZoomControls from './zoom'
 import NavigationControls from './navigation'
@@ -15,7 +16,7 @@ class Toolbar extends Component {
   }
 
   render() {
-    const { allowFullScreen } = this.props
+    const { allowFullScreen, showControls } = this.props
     const { navigateForward, navigateBackward, toggleSetting } = this.context
     const { pages, bookMode, currentPage, currentZoom, totalPages } = this.context.state
 
@@ -28,7 +29,7 @@ class Toolbar extends Component {
     const progress = (pages.length / totalPages) * 100
 
     return (
-      <div className={'villain-toolbar'}>
+      <div className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}>
         <NavigationControls currentPage={currentPage} totalPages={totalPages} />
 
         <div className={'villain-toolbar-group villain-toolbar-group-expand'}>

@@ -37,19 +37,18 @@ class Villain extends Component {
 
     return (
       <ReaderProvider>
-        <Wrapp
-          className={clsx(opts.autoHideControls && 'villain-autoHideControls')}
-          width={width}
-          height={height}
-        >
+        <Wrapp width={width} height={height}>
           <Uncompress file={file} workerPath={opts.workerPath}>
             <ReaderContext.Consumer>
               {({ state }) => (
                 <CanvasRender
                   id={'osd-canvas-render'}
+                  hover={state.hover}
+                  focus={state.focus}
                   bookMode={state.bookMode}
                   currentPage={state.currentPage}
                   allowFullScreen={opts.allowFullScreen}
+                  autoHideControls={opts.autoHideControls}
                 />
               )}
             </ReaderContext.Consumer>

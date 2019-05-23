@@ -63,19 +63,12 @@
 
 /* toolbar */
 
-.villain-autoHideControls .villain-toolbar {
+.villain-toolbar.villain-toolbar-hide:not(:hover) {
   bottom: -50px;
   opacity: 0;
   transition: 0.3s ease;
   transition-property: opacity, bottom;
   transition-delay: 1s;
-}
-
-.villain-autoHideControls:focus .villain-toolbar,
-.villain-autoHideControls:hover .villain-toolbar {
-  bottom: 0;
-  opacity: 1;
-  transition-delay: 0.1s;
 }
 
 .villain-toolbar {
@@ -90,7 +83,11 @@
   bottom: 0;
   left: 0;
   right: 0;
+  opacity: 1;
   z-index: 1;
+  transition: 0.3s ease;
+  transition-property: opacity, bottom;
+  transition-delay: 0.1s;
 }
 
 .villain-toolbar .divider {

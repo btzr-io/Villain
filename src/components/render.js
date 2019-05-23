@@ -74,12 +74,47 @@ class CanvasRender extends Component {
     this.viewer.viewport.zoomTo(targetZoom, null, true)
   }
 
+  handleFocus = () => {
+    const { autoHideControls } = this.props
+
+    if (autoHideControls) {
+      this.context.updateState({ focus: true })
+    }
+  }
+
+  handleBlur = () => {
+    const { autoHideControls } = this.props
+
+    if (autoHideControls) {
+      this.context.updateState({ focus: false })
+    }
+  }
+
+  handleEnter = () => {
+    const { autoHideControls } = this.props
+
+    if (autoHideControls) {
+      this.context.updateState({ hover: true })
+    }
+  }
+
+  handleExit = () => {
+    const { autoHideControls } = this.props
+
+    if (autoHideControls) {
+      this.context.updateState({ hover: false })
+    }
+  }
+
   initOpenSeaDragon() {
     const { id } = this.props
     const { pages } = this.context.state
 
     // Create viewer
     this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
+
+    this.viewer.canvas.addEventListener('blur', this.handleBlur)
+    this.viewer.canvas.addEventListener('focus', this.handleFocus)
 
     // Events hanlder
     this.viewer.addHandler('open', () => {
@@ -92,16 +127,14 @@ class CanvasRender extends Component {
       this.updateZoomLimits()
     })
 
-    // Events hanlder
     this.viewer.addHandler('zoom', e => {
       const { viewport } = this.viewer
-
       const currentZoom = parseInt((e.zoom / this.getTargetZoom()) * 100)
-
       this.context.updateState({ currentZoom })
     })
 
-    this.viewer.addHandler('close', () => {})
+    this.viewer.addHandler('canvas-exit', this.handleExit)
+    this.viewer.addHandler('canvas-enter', this.handleEnter)
 
     this.viewer.addHandler('open-failed', e => {
       console.error(e)
@@ -188,13 +221,22 @@ class CanvasRender extends Component {
   }
 
   componentWillUnmount() {
+    this.viewer.canvas.removeEventListener('focus', this.handleFocus)
+    this.viewer.canvas.removeEventListener('blur', this.handleBlur)
     this.viewer.destroy()
     this.viewer = null
   }
 
   componentDidUpdate(prevProps) {
     const { totalPages } = this.context.state
-    const { currentPage, bookMode } = this.props
+    const {
+      hover,
+      focus,
+      currentPage,
+      bookMode,
+      allowFullScreen,
+      autoHideControls,
+    } = this.props
 
     // Page changed
     if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
@@ -211,13 +253,37 @@ class CanvasRender extends Component {
         this.renderLayout()
       }
     }
+
+    // Handle toolbar visibility
+    if (autoHideControls !== this.props.autoHideControls) {
+      if (!autoHideControls) {
+        this.context.updateState({ showControls: true })
+      }
+    }
+
+    if (autoHideControls) {
+      if (focus !== prevProps.focus) {
+        this.context.updateState({ showControls: focus })
+      }
+
+      if (hover !== prevProps.hover) {
+        if (!focus) {
+          this.context.updateState({ showControls: hover })
+        }
+      }
+    }
   }
 
   render() {
-    const { id, allowFullScreen } = this.props
+    const { id, allowFullScreen, autoHideControls } = this.props
+    const { showControls } = this.context.state
     return (
       <React.Fragment>
-        <Toolbar updateZoom={this.updateZoom} allowFullScreen={allowFullScreen} />
+        <Toolbar
+          updateZoom={this.updateZoom}
+          allowFullScreen={allowFullScreen}
+          showControls={!autoHideControls || showControls}
+        />
         <div id={id} className={'villain-canvas'} />
       </React.Fragment>
     )

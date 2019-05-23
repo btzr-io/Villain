@@ -4,6 +4,8 @@ export const ReaderContext = React.createContext()
 const defaultState = {
   pages: [],
   ready: false,
+  focus: false,
+  hover: false,
   error: null,
   totalPages: 0,
   isLastPage: false,
@@ -15,6 +17,7 @@ const defaultState = {
   theme: 'dark',
   bookMode: false,
   fullscreen: false,
+  showControls: false,
 }
 
 export class ReaderProvider extends Component {
@@ -51,6 +54,10 @@ export class ReaderProvider extends Component {
     if (eventName === 'loaded' && data) {
       this.setState({ ...data })
     }
+  }
+
+  toggleControls(show = true) {
+    this.setState({ showControls: show })
   }
 
   navigateToPage = pageIndex => {
