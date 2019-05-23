@@ -48,6 +48,8 @@ const url = '/files/test.cbz'
 
 ## Options
 
+Available options to customize the reader component:
+
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | workerPath | string | null | path to libarchive.js `worker-bundle`. |
