@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import Wrapp from './components/wrapp'
 import Uncompress from './components/uncompress'
@@ -13,6 +14,7 @@ const defaultOpts = {
   overlay: true,
   workerPath: null,
   allowFullScreen: true,
+  autoHideControls: true,
 }
 
 class Villain extends Component {
@@ -35,7 +37,11 @@ class Villain extends Component {
 
     return (
       <ReaderProvider>
-        <Wrapp width={width} height={height}>
+        <Wrapp
+          className={clsx(opts.autoHideControls && 'villain-autoHideControls')}
+          width={width}
+          height={height}
+        >
           <Uncompress file={file} workerPath={opts.workerPath}>
             <ReaderContext.Consumer>
               {({ state }) => (
