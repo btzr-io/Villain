@@ -7,6 +7,7 @@ import '../src/css/styles.css'
 
 const villainOpts = {
   workerPath: '/build/worker-bundle.js',
+  allowFullScreen: false,
 }
 
 const testFile = '/build/test_files/test.cbr'

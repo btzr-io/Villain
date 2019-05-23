@@ -81,9 +81,7 @@ class Uncompress extends Component {
   extract = async blob => {
     try {
       // Compressed files 1437
-      console.time()
       const list = await this.openArchive(blob)
-      console.timeEnd()
 
       if (list && list.length > 0) {
         await asyncForEach(list, async (item, index) => {

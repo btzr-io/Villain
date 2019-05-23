@@ -39,6 +39,44 @@
     return _extends.apply(this, arguments);
   }
 
+  function toVal(mix) {
+  	var k, y, str='';
+  	if (mix) {
+  		if (typeof mix === 'object') {
+  			if (!!mix.push) {
+  				for (k=0; k < mix.length; k++) {
+  					if (mix[k] && (y = toVal(mix[k]))) {
+  						str && (str += ' ');
+  						str += y;
+  					}
+  				}
+  			} else {
+  				for (k in mix) {
+  					if (mix[k] && (y = toVal(k))) {
+  						str && (str += ' ');
+  						str += y;
+  					}
+  				}
+  			}
+  		} else if (typeof mix !== 'boolean' && !mix.call) {
+  			str && (str += ' ');
+  			str += mix;
+  		}
+  	}
+  	return str;
+  }
+
+  function clsx () {
+  	var i=0, x, str='';
+  	while (i < arguments.length) {
+  		if (x = toVal(arguments[i++])) {
+  			str && (str += ' ');
+  			str += x;
+  		}
+  	}
+  	return str;
+  }
+
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   function unwrapExports (x) {
@@ -1098,6 +1136,8 @@
   const defaultState = {
     pages: [],
     ready: false,
+    focus: false,
+    hover: false,
     error: null,
     totalPages: 0,
     isLastPage: false,
@@ -1107,7 +1147,8 @@
     // Settings
     theme: 'dark',
     bookMode: false,
-    fullscreen: false
+    fullscreen: false,
+    showControls: false
   };
   class ReaderProvider extends React.Component {
     constructor(...args) {
@@ -1220,6 +1261,12 @@
       });
     }
 
+    toggleControls(show = true) {
+      this.setState({
+        showControls: show
+      });
+    }
+
     render() {
       return React__default.createElement(ReaderContext.Provider, {
         value: {
@@ -1238,44 +1285,6 @@
 
   } //  Access context
   // <ReaderContext.Consumer> { context => (<div />)}<ReaderContext.Consumer/>
-
-  function toVal(mix) {
-  	var k, y, str='';
-  	if (mix) {
-  		if (typeof mix === 'object') {
-  			if (!!mix.push) {
-  				for (k=0; k < mix.length; k++) {
-  					if (mix[k] && (y = toVal(mix[k]))) {
-  						str && (str += ' ');
-  						str += y;
-  					}
-  				}
-  			} else {
-  				for (k in mix) {
-  					if (mix[k] && (y = toVal(k))) {
-  						str && (str += ' ');
-  						str += y;
-  					}
-  				}
-  			}
-  		} else if (typeof mix !== 'boolean' && !mix.call) {
-  			str && (str += ' ');
-  			str += mix;
-  		}
-  	}
-  	return str;
-  }
-
-  function clsx () {
-  	var i=0, x, str='';
-  	while (i < arguments.length) {
-  		if (x = toVal(arguments[i++])) {
-  			str && (str += ' ');
-  			str += x;
-  		}
-  	}
-  	return str;
-  }
 
   class Wrapp extends React.Component {
     constructor(props) {
@@ -1557,7 +1566,7 @@
       const contentType = res.headers.get('Content-Type');
       return res.blob();
     }).then(callback).catch(error => {
-      errorCallback && errorCallback(error);
+      errorCallback && errorCallback("Can't load archive!");
       console.error('Request failed', error);
     });
   };
@@ -1567,6 +1576,23 @@
     }
   };
 
+  var Icon = createCommonjsModule(function (module) {
+  module.exports=function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=2)}([function(e,t){e.exports=propTypes;},function(e,t){e.exports=React__default;},function(e,t,r){r.r(t);var n=r(1),o=r(0),l=function(){return (l=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},i=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},a=function(e){var t=e.size,r=void 0===t?null:t,o=e.color,a=void 0===o?null:o,s=e.horizontal,u=void 0===s?null:s,p=e.vertical,c=void 0===p?null:p,f=e.rotate,y=void 0===f?null:f,d=e.spin,v=void 0===d?null:d,m=e.style,b=void 0===m?{}:m,h=e.children,g=i(e,["size","color","horizontal","vertical","rotate","spin","style","children"]),O=null!==v&&v,z=n.Children.map(h,function(e){var t=e;!0!==O&&(O=!0===(null===v?t.props.spin:v));var o=t.props.size;"number"==typeof r&&"number"==typeof t.props.size&&(o=t.props.size/r);var l={size:o,color:null===a?t.props.color:a,horizontal:null===u?t.props.horizontal:u,vertical:null===c?t.props.vertical:c,rotate:null===y?t.props.rotate:y,spin:null===v?t.props.spin:v,inStack:!0};return n.cloneElement(t,l)});return null!==r&&(b.width="string"==typeof r?r:1.5*r+"rem"),n.createElement("svg",l({viewBox:"0 0 24 24",style:b},g),O&&n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }","@keyframes spin-inverse { to { transform: rotate(-360deg) } }"),z)};a.displayName="Stack",a.propTypes={size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),children:o.oneOfType([o.arrayOf(o.node),o.node]).isRequired,className:o.string,style:o.object},a.defaultProps={size:null,color:null,horizontal:null,vertical:null,rotate:null,spin:null};var s=a;r.d(t,"Icon",function(){return c}),r.d(t,"Stack",function(){return s});var u=function(){return (u=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},p=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},c=function(e){var t=e.path,r=e.size,o=void 0===r?null:r,l=e.color,i=void 0===l?null:l,a=e.horizontal,s=void 0!==a&&a,c=e.vertical,f=void 0!==c&&c,y=e.rotate,d=void 0===y?0:y,v=e.spin,m=void 0!==v&&v,b=e.style,h=void 0===b?{}:b,g=e.inStack,O=void 0!==g&&g,z=p(e,["path","size","color","horizontal","vertical","rotate","spin","style","inStack"]),j={},w=[];null!==o&&(O?w.push("scale("+o+")"):(h.width="string"==typeof o?o:1.5*o+"rem",h.height=h.width)),s&&w.push("scaleX(-1)"),f&&w.push("scaleY(-1)"),0!==d&&w.push("rotate("+d+"deg)"),null!==i&&(j.fill=i);var P=n.createElement("path",u({d:t,style:j},O?z:{})),S=P;w.length>0&&(h.transform=w.join(" "),h.transformOrigin="center",O&&(S=n.createElement("g",{style:h},P,n.createElement("rect",{width:"24",height:"24",fill:"transparent"}))));var x=S;if(m){var E=!0===m||"number"!=typeof m?2:m,k=!O&&(s||f);E<0&&(k=!k),x=n.createElement("g",{style:{animation:"spin"+(k?"-inverse":"")+" linear "+Math.abs(E)+"s infinite",transformOrigin:"center"}},S,!(s||f||0!==d)&&n.createElement("rect",{width:"24",height:"24",fill:"transparent"}));}return O?x:n.createElement("svg",u({viewBox:"0 0 24 24",style:h},z),!O&&m&&(s||f?n.createElement("style",null,"@keyframes spin-inverse { to { transform: rotate(-360deg) } }"):n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }")),x)};c.displayName="Icon",c.propTypes={path:o.string.isRequired,size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),style:o.object,inStack:o.bool,className:o.string},c.defaultProps={size:null,color:null,horizontal:!1,vertical:!1,rotate:0,spin:!1};t.default=c;}]);
+
+  });
+
+  var Icon$1 = unwrapExports(Icon);
+
+  // Material Design Icons v3.6.95
+  var mdiBookOpen = "M13,12H20V13.5H13M13,9.5H20V11H13M13,14.5H20V16H13M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M21,19H12V6H21";
+  var mdiBookOpenOutline = "M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M3,19V6H11V19H3M21,19H13V6H21V19M14,9.5H20V11H14V9.5M14,12H20V13.5H14V12M14,14.5H20V16H14V14.5Z";
+  var mdiChatAlert = "M12,3C17.5,3 22,6.58 22,11C22,15.42 17.5,19 12,19C10.76,19 9.57,18.82 8.47,18.5C5.55,21 2,21 2,21C4.33,18.67 4.7,17.1 4.75,16.5C3.05,15.07 2,13.13 2,11C2,6.58 6.5,3 12,3M11,14V16H13V14H11M11,12H13V6H11V12Z";
+  var mdiChevronLeft = "M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z";
+  var mdiChevronRight = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z";
+  var mdiFullscreen = "M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z";
+  var mdiMinus = "M19,13H5V11H19V13Z";
+  var mdiPlus = "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z";
+
   class Error$1 extends React.Component {
     constructor(props) {
       super(props);
@@ -1574,11 +1600,16 @@
 
     render() {
       const {
-        id
+        id,
+        message
       } = this.props;
       return React__default.createElement("div", {
         className: 'villain-overlay'
-      }, React__default.createElement("div", null, "Error!"));
+      }, React__default.createElement(Icon$1, {
+        className: 'villain-icon',
+        path: mdiChatAlert,
+        size: 3
+      }), React__default.createElement("div", null, React__default.createElement("h3", null, message)));
     }
 
   }
@@ -1625,7 +1656,19 @@
       });
 
       _defineProperty(this, "handleError", err => {
-        this.context.trigger('error', err);
+        this.context.trigger('error', err.message || err);
+      });
+
+      _defineProperty(this, "handleDestroy", () => {
+        const {
+          pages
+        } = this.context.state; // Release memory
+
+        if (pages && pages.length > 0) {
+          pages.forEach(page => {
+            URL.revokeObjectURL(page.src);
+          });
+        }
       });
 
       _defineProperty(this, "openArchive", async file => {
@@ -1667,9 +1710,7 @@
       _defineProperty(this, "extract", async blob => {
         try {
           // Compressed files 1437
-          console.time();
           const list = await this.openArchive(blob);
-          console.timeEnd();
 
           if (list && list.length > 0) {
             await asyncForEach(list, async (item, index) => {
@@ -1677,7 +1718,7 @@
               this.handleExtractedFile(file, index);
             });
           } else {
-            this.context.trigger('error', 'No files!');
+            this.context.trigger('error', "Can't open archive!");
           }
         } catch (err) {
           // Handle Errors
@@ -1708,12 +1749,19 @@
       }
     }
 
+    componentWillUnmount() {
+      // Free memory
+      this.handleDestroy();
+    }
+
     render() {
       const {
         ready,
         error
       } = this.context.state;
-      return React__default.createElement(React__default.Fragment, null, error && React__default.createElement(Error$1, null) || (!ready ? React__default.createElement(Loader, null) : this.props.children));
+      return React__default.createElement(React__default.Fragment, null, error && React__default.createElement(Error$1, {
+        message: error.message || error
+      }) || (!ready ? React__default.createElement(Loader, null) : this.props.children));
     }
 
   }
@@ -24244,13 +24292,6 @@
 
   };
 
-  var Icon = createCommonjsModule(function (module) {
-  module.exports=function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=2)}([function(e,t){e.exports=propTypes;},function(e,t){e.exports=React__default;},function(e,t,r){r.r(t);var n=r(1),o=r(0),l=function(){return (l=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},i=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},a=function(e){var t=e.size,r=void 0===t?null:t,o=e.color,a=void 0===o?null:o,s=e.horizontal,u=void 0===s?null:s,p=e.vertical,c=void 0===p?null:p,f=e.rotate,y=void 0===f?null:f,d=e.spin,v=void 0===d?null:d,m=e.style,b=void 0===m?{}:m,h=e.children,g=i(e,["size","color","horizontal","vertical","rotate","spin","style","children"]),O=null!==v&&v,z=n.Children.map(h,function(e){var t=e;!0!==O&&(O=!0===(null===v?t.props.spin:v));var o=t.props.size;"number"==typeof r&&"number"==typeof t.props.size&&(o=t.props.size/r);var l={size:o,color:null===a?t.props.color:a,horizontal:null===u?t.props.horizontal:u,vertical:null===c?t.props.vertical:c,rotate:null===y?t.props.rotate:y,spin:null===v?t.props.spin:v,inStack:!0};return n.cloneElement(t,l)});return null!==r&&(b.width="string"==typeof r?r:1.5*r+"rem"),n.createElement("svg",l({viewBox:"0 0 24 24",style:b},g),O&&n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }","@keyframes spin-inverse { to { transform: rotate(-360deg) } }"),z)};a.displayName="Stack",a.propTypes={size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),children:o.oneOfType([o.arrayOf(o.node),o.node]).isRequired,className:o.string,style:o.object},a.defaultProps={size:null,color:null,horizontal:null,vertical:null,rotate:null,spin:null};var s=a;r.d(t,"Icon",function(){return c}),r.d(t,"Stack",function(){return s});var u=function(){return (u=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},p=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},c=function(e){var t=e.path,r=e.size,o=void 0===r?null:r,l=e.color,i=void 0===l?null:l,a=e.horizontal,s=void 0!==a&&a,c=e.vertical,f=void 0!==c&&c,y=e.rotate,d=void 0===y?0:y,v=e.spin,m=void 0!==v&&v,b=e.style,h=void 0===b?{}:b,g=e.inStack,O=void 0!==g&&g,z=p(e,["path","size","color","horizontal","vertical","rotate","spin","style","inStack"]),j={},w=[];null!==o&&(O?w.push("scale("+o+")"):(h.width="string"==typeof o?o:1.5*o+"rem",h.height=h.width)),s&&w.push("scaleX(-1)"),f&&w.push("scaleY(-1)"),0!==d&&w.push("rotate("+d+"deg)"),null!==i&&(j.fill=i);var P=n.createElement("path",u({d:t,style:j},O?z:{})),S=P;w.length>0&&(h.transform=w.join(" "),h.transformOrigin="center",O&&(S=n.createElement("g",{style:h},P,n.createElement("rect",{width:"24",height:"24",fill:"transparent"}))));var x=S;if(m){var E=!0===m||"number"!=typeof m?2:m,k=!O&&(s||f);E<0&&(k=!k),x=n.createElement("g",{style:{animation:"spin"+(k?"-inverse":"")+" linear "+Math.abs(E)+"s infinite",transformOrigin:"center"}},S,!(s||f||0!==d)&&n.createElement("rect",{width:"24",height:"24",fill:"transparent"}));}return O?x:n.createElement("svg",u({viewBox:"0 0 24 24",style:h},z),!O&&m&&(s||f?n.createElement("style",null,"@keyframes spin-inverse { to { transform: rotate(-360deg) } }"):n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }")),x)};c.displayName="Icon",c.propTypes={path:o.string.isRequired,size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),style:o.object,inStack:o.bool,className:o.string},c.defaultProps={size:null,color:null,horizontal:!1,vertical:!1,rotate:0,spin:!1};t.default=c;}]);
-
-  });
-
-  var Icon$1 = unwrapExports(Icon);
-
   class Button extends React.Component {
     constructor(props) {
       super(props);
@@ -24283,15 +24324,6 @@
     }
 
   }
-
-  // Material Design Icons v3.6.95
-  var mdiBookOpen = "M13,12H20V13.5H13M13,9.5H20V11H13M13,14.5H20V16H13M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M21,19H12V6H21";
-  var mdiBookOpenOutline = "M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M3,19V6H11V19H3M21,19H13V6H21V19M14,9.5H20V11H14V9.5M14,12H20V13.5H14V12M14,14.5H20V16H14V14.5Z";
-  var mdiChevronLeft = "M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z";
-  var mdiChevronRight = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z";
-  var mdiFullscreen = "M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z";
-  var mdiMinus = "M19,13H5V11H19V13Z";
-  var mdiPlus = "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z";
 
   class ZoomControls extends React.Component {
     constructor(props) {
@@ -26475,6 +26507,10 @@
 
     render() {
       const {
+        allowFullScreen,
+        showControls
+      } = this.props;
+      const {
         navigateForward,
         navigateBackward,
         toggleSetting
@@ -26493,7 +26529,7 @@
       };
       const progress = pages.length / totalPages * 100;
       return React__default.createElement("div", {
-        className: 'villain-toolbar'
+        className: clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')
       }, React__default.createElement(Navigation, {
         currentPage: currentPage,
         totalPages: totalPages
@@ -26514,7 +26550,7 @@
       }), React__default.createElement(Button, _extends({
         type: 'icon',
         onClick: () => toggleSetting('bookMode')
-      }, layoutProps)), React__default.createElement(Button, {
+      }, layoutProps)), allowFullScreen && React__default.createElement(Button, {
         type: 'icon',
         title: 'Fullscreen',
         icon: mdiFullscreen,
@@ -26595,6 +26631,54 @@
         }
       });
 
+      _defineProperty(this, "handleFocus", () => {
+        const {
+          autoHideControls
+        } = this.props;
+
+        if (autoHideControls) {
+          this.context.updateState({
+            focus: true
+          });
+        }
+      });
+
+      _defineProperty(this, "handleBlur", () => {
+        const {
+          autoHideControls
+        } = this.props;
+
+        if (autoHideControls) {
+          this.context.updateState({
+            focus: false
+          });
+        }
+      });
+
+      _defineProperty(this, "handleEnter", () => {
+        const {
+          autoHideControls
+        } = this.props;
+
+        if (autoHideControls) {
+          this.context.updateState({
+            hover: true
+          });
+        }
+      });
+
+      _defineProperty(this, "handleExit", () => {
+        const {
+          autoHideControls
+        } = this.props;
+
+        if (autoHideControls) {
+          this.context.updateState({
+            hover: false
+          });
+        }
+      });
+
       this.viewer = null;
     }
 
@@ -26615,7 +26699,9 @@
         id,
         tileSources: pages[0],
         ...config
-      }); // Events hanlder
+      });
+      this.viewer.canvas.addEventListener('blur', this.handleBlur);
+      this.viewer.canvas.addEventListener('focus', this.handleFocus); // Events hanlder
 
       this.viewer.addHandler('open', () => {
         this.updateZoomLimits();
@@ -26624,8 +26710,7 @@
 
       this.viewer.addHandler('resize', () => {
         this.updateZoomLimits();
-      }); // Events hanlder
-
+      });
       this.viewer.addHandler('zoom', e => {
         const {
           viewport
@@ -26635,7 +26720,8 @@
           currentZoom
         });
       });
-      this.viewer.addHandler('close', () => {});
+      this.viewer.addHandler('canvas-exit', this.handleExit);
+      this.viewer.addHandler('canvas-enter', this.handleEnter);
       this.viewer.addHandler('open-failed', e => {
         console.error(e);
       });
@@ -26733,6 +26819,8 @@
     }
 
     componentWillUnmount() {
+      this.viewer.canvas.removeEventListener('focus', this.handleFocus);
+      this.viewer.canvas.removeEventListener('blur', this.handleBlur);
       this.viewer.destroy();
       this.viewer = null;
     }
@@ -26742,8 +26830,12 @@
         totalPages
       } = this.context.state;
       const {
+        hover,
+        focus,
         currentPage,
-        bookMode
+        bookMode,
+        allowFullScreen,
+        autoHideControls
       } = this.props; // Page changed
 
       if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
@@ -26759,15 +26851,47 @@
           // Trigger re-render layout
           this.renderLayout();
         }
+      } // Handle toolbar visibility
+
+
+      if (autoHideControls !== this.props.autoHideControls) {
+        if (!autoHideControls) {
+          this.context.updateState({
+            showControls: true
+          });
+        }
+      }
+
+      if (autoHideControls) {
+        if (focus !== prevProps.focus) {
+          this.context.updateState({
+            showControls: focus
+          });
+        }
+
+        if (hover !== prevProps.hover) {
+          if (!focus) {
+            this.context.updateState({
+              showControls: hover
+            });
+          }
+        }
       }
     }
 
     render() {
       const {
-        id
+        id,
+        allowFullScreen,
+        autoHideControls
       } = this.props;
+      const {
+        showControls
+      } = this.context.state;
       return React__default.createElement(React__default.Fragment, null, React__default.createElement(Toolbar, {
-        updateZoom: this.updateZoom
+        updateZoom: this.updateZoom,
+        allowFullScreen: allowFullScreen,
+        showControls: !autoHideControls || showControls
       }), React__default.createElement("div", {
         id: id,
         className: 'villain-canvas'
@@ -26784,8 +26908,10 @@
 
   const defaultOpts = {
     theme: 'dark',
+    overlay: true,
     workerPath: null,
-    overlay: true
+    allowFullScreen: true,
+    autoHideControls: true
   };
 
   class Villain extends React.Component {
@@ -26813,8 +26939,12 @@
         state
       }) => React__default.createElement(CanvasRender, {
         id: 'osd-canvas-render',
+        hover: state.hover,
+        focus: state.focus,
         bookMode: state.bookMode,
-        currentPage: state.currentPage
+        currentPage: state.currentPage,
+        allowFullScreen: opts.allowFullScreen,
+        autoHideControls: opts.autoHideControls
       })))));
     }
 
