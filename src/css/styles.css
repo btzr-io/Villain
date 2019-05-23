@@ -32,9 +32,9 @@
 .villain-toolbar .villain-input {
   -moz-appearance: textfield;
   text-align: right;
-  width: 40px;
+  width: 50px;
   background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0, 0, 0, 0.4);
   padding: 2px 6px;
   color: #fff;
   margin: 0 6px;
@@ -44,7 +44,8 @@
 }
 
 .villain-toolbar .villain-input:focus {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(225, 225, 225, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .villain-toolbar input[type='number']::-webkit-inner-spin-button,
@@ -72,7 +73,7 @@
 }
 
 .villain-toolbar {
-  background: rgba(21, 22, 28, 0.8);
+  background: rgba(21, 22, 28, 0.92);
   padding: 0 4px;
   display: flex;
   align-items: center;
