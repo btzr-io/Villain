@@ -1,9 +1,10 @@
+import clsx from 'clsx'
 import React, { Component } from 'react'
 import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '../osd.config'
-import { ReaderContext } from '../context'
-
 import Toolbar from './toolbar'
+
+import { ReaderContext } from '../context'
 
 class CanvasRender extends Component {
   static defaultProps = {
@@ -229,14 +230,7 @@ class CanvasRender extends Component {
 
   componentDidUpdate(prevProps) {
     const { totalPages } = this.context.state
-    const {
-      hover,
-      focus,
-      currentPage,
-      bookMode,
-      allowFullScreen,
-      autoHideControls,
-    } = this.props
+    const { hover, focus, currentPage, bookMode, autoHideControls } = this.props
 
     // Page changed
     if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
@@ -264,27 +258,22 @@ class CanvasRender extends Component {
     if (autoHideControls) {
       if (focus !== prevProps.focus) {
         this.context.updateState({ showControls: focus })
-      }
-
-      if (hover !== prevProps.hover) {
-        if (!focus) {
-          this.context.updateState({ showControls: hover })
-        }
+      } else if (hover !== prevProps.hover) {
+        this.context.updateState({ showControls: hover })
       }
     }
   }
 
   render() {
-    const { id, allowFullScreen, autoHideControls } = this.props
+    const { id, autoHideControls } = this.props
     const { showControls } = this.context.state
     return (
       <React.Fragment>
         <Toolbar
           updateZoom={this.updateZoom}
-          allowFullScreen={allowFullScreen}
           showControls={!autoHideControls || showControls}
         />
-        <div id={id} className={'villain-canvas'} />
+        <div id={id} className={clsx('villain-canvas')} />
       </React.Fragment>
     )
   }

@@ -1,9 +1,22 @@
 .villain {
+  --toolbar-height: 50px;
+}
+
+.villain {
   position: relative;
   background-color: #23262f;
   color: #fff;
   font-family: Arial, sans-serif;
   overflow: hidden;
+}
+
+.villain--static .villain-toolbar {
+  margin: 0;
+  border-radius: 0;
+}
+
+.villain--static .villain-canvas {
+  bottom: var(--toolbar-height);
 }
 
 .villain .villain-icon {
@@ -78,7 +91,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 50px;
+  height: var(--toolbar-height);
   font-size: 14px;
   position: absolute;
   bottom: 0;
@@ -86,6 +99,8 @@
   right: 0;
   opacity: 1;
   z-index: 1;
+  margin: 8px;
+  border-radius: 8px;
   transition: 0.3s ease;
   transition-property: opacity, bottom;
   transition-delay: 0.1s;
@@ -131,12 +146,13 @@
   background: transparent;
 }
 
-.villain .button-icon:hover:not(:disabled) {
+.villain .button-icon:hover:not(:disabled):not(.button--active) {
   background: rgba(0, 0, 0, 0.2);
 }
 
+.villain .button--active,
 .villain .button-icon:active:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .villain .button-toggler {

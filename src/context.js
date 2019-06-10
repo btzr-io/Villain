@@ -18,6 +18,7 @@ const defaultState = {
   bookMode: false,
   fullscreen: false,
   showControls: false,
+  autoHideControls: false,
 }
 
 export class ReaderProvider extends Component {
@@ -54,6 +55,13 @@ export class ReaderProvider extends Component {
     if (eventName === 'loaded' && data) {
       this.setState({ ...data })
     }
+  }
+
+  togglePin = () => {
+    console.info(this.state.autoHideControls)
+    this.setState(prevState => ({
+      autoHideControls: !prevState.autoHideControls,
+    }))
   }
 
   toggleControls(show = true) {
@@ -112,6 +120,7 @@ export class ReaderProvider extends Component {
           state: this.state,
           trigger: this.trigger,
           getPage: this.getPage,
+          togglePin: this.togglePin,
           createPage: this.createPage,
           updateState: this.updateState,
           toggleSetting: this.toggleSetting,

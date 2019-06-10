@@ -13,8 +13,6 @@ const defaultOpts = {
   theme: 'dark',
   overlay: true,
   workerPath: null,
-  allowFullScreen: true,
-  autoHideControls: true,
 }
 
 class Villain extends Component {
@@ -47,8 +45,7 @@ class Villain extends Component {
                   focus={state.focus}
                   bookMode={state.bookMode}
                   currentPage={state.currentPage}
-                  allowFullScreen={opts.allowFullScreen}
-                  autoHideControls={opts.autoHideControls}
+                  autoHideControls={state.autoHideControls}
                 />
               )}
             </ReaderContext.Consumer>

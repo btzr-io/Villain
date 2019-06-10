@@ -8,13 +8,13 @@ class Button extends Component {
   }
 
   render() {
-    const { type, onClick, icon, label, title, disabled, toggle } = this.props
+    const { type, onClick, icon, label, title, disabled, active } = this.props
     return (
       <button
         title={title}
         onClick={onClick}
         disabled={disabled}
-        className={clsx('button', type && `button-${type}`, toggle && 'button-toggle')}
+        className={clsx('button', type && `button-${type}`, active && 'button--active')}
       >
         {icon && <Icon path={icon} size={'26px'} className={'villain-icon'} />}
         {label && <span className={'villain-label'}>{label}</span>}

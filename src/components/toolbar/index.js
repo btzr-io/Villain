@@ -6,7 +6,7 @@ import NavigationControls from './navigation'
 import Slider from './slider/index.js'
 import { ReaderContext } from '../../context'
 
-import { mdiBookOpen, mdiFullscreen, mdiBookOpenOutline } from '@mdi/js'
+import { mdiPin, mdiBookOpen, mdiFullscreen, mdiBookOpenOutline } from '@mdi/js'
 
 class Toolbar extends Component {
   static contextType = ReaderContext
@@ -17,8 +17,15 @@ class Toolbar extends Component {
 
   render() {
     const { allowFullScreen, showControls } = this.props
-    const { navigateForward, navigateBackward, toggleSetting } = this.context
-    const { pages, bookMode, currentPage, currentZoom, totalPages } = this.context.state
+    const { navigateForward, navigateBackward, toggleSetting, togglePin } = this.context
+    const {
+      pages,
+      bookMode,
+      currentPage,
+      currentZoom,
+      totalPages,
+      autoHideControls,
+    } = this.context.state
 
     const layoutProps = {
       icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
@@ -46,17 +53,22 @@ class Toolbar extends Component {
           <div className="divider" />
           <Button
             type={'icon'}
+            title={'Pin'}
+            icon={mdiPin}
+            active={!autoHideControls}
+            onClick={() => togglePin()}
+          />
+          <Button
+            type={'icon'}
             onClick={() => toggleSetting('bookMode')}
             {...layoutProps}
           />
-          {allowFullScreen && (
-            <Button
-              type={'icon'}
-              title={'Fullscreen'}
-              icon={mdiFullscreen}
-              onClick={() => toggleSetting('fullscreen')}
-            />
-          )}
+          <Button
+            type={'icon'}
+            title={'Fullscreen'}
+            icon={mdiFullscreen}
+            onClick={() => toggleSetting('fullscreen')}
+          />
         </div>
       </div>
     )
