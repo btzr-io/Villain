@@ -1,11 +1,24 @@
-# Villain
+<h1 align=center>
+ <img width="32%" src="https://user-images.githubusercontent.com/14793624/59959492-854cd400-9475-11e9-9149-4d21baa5591c.png" />
+</h1>
 
-<img width="54%" src="https://user-images.githubusercontent.com/14793624/57827036-002e1b00-7763-11e9-8b59-1a6c8abcdbe1.png" />
+<h2 align=center>
+  <a href="https://david-dm.org/btzr-io/Villain" title="dependencies status">
+    <img src="https://david-dm.org/btzr-io/Villain/status.svg"/>
+  </a>
+  <a href="https://github.com/btzr-io/Villain/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/btzr-io/Villain.svg" alt="license"  />
+  </a>
+  <a href="https://github.com/btzr-io/Villain/graphs/contributors">
+    <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btzr-io/Villain.svg" alt="contributors">
+  </a>
+</h2>
 
-
+<h4 align="center">
 An open source and touch friendly web based comic book reader.
+</h4>
 
-
+<br/>
 
 ## Installation
 
