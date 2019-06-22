@@ -15,7 +15,7 @@
 </h2>
 
 <h4 align="center">
-An open source and touch friendly web based comic book reader.
+An open source web-based comic book reader.
 </h4>
 
 <br/>
