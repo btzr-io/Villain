@@ -1,7 +1,7 @@
 {
-  "name": "villain",
-  "version": "0.0.7",
-  "description": "An open source and touch friendly web based comic book reader",
+  "name": "villain-react",
+  "version": "0.0.8",
+  "description": "An open source and touch friendly web based comic book reader as a react component",
   "main": "./dist/villain.js",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development --open --hot",

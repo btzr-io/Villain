@@ -10,7 +10,7 @@ const villainOpts = {
   allowFullScreen: false,
 }
 
-const testFile = '/build/test_files/test.cbr'
+const testFile = '/build/test_files/archive.cbz'
 
 ReactDOM.render(
   <div>
