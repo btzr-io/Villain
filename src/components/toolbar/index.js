@@ -6,7 +6,13 @@ import NavigationControls from './navigation'
 import Slider from './slider/index.js'
 import { ReaderContext } from '../../context'
 
-import { mdiPin, mdiBookOpen, mdiFullscreen, mdiBookOpenOutline } from '@mdi/js'
+import {
+  mdiPin,
+  mdiBookOpen,
+  mdiFullscreen,
+  mdiFullscreenExit,
+  mdiBookOpenOutline,
+} from '@mdi/js'
 
 class Toolbar extends Component {
   static contextType = ReaderContext
@@ -21,6 +27,7 @@ class Toolbar extends Component {
     const {
       pages,
       bookMode,
+      fullscreen,
       currentPage,
       currentZoom,
       totalPages,
@@ -33,6 +40,7 @@ class Toolbar extends Component {
       title: bookMode ? 'Book mode' : 'Single page',
     }
 
+    const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
     const progress = (pages.length / totalPages) * 100
 
     return (
@@ -66,7 +74,7 @@ class Toolbar extends Component {
           <Button
             type={'icon'}
             title={'Fullscreen'}
-            icon={mdiFullscreen}
+            icon={fullScreenIcon}
             onClick={() => toggleSetting('fullscreen')}
           />
         </div>
