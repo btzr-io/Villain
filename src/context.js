@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { requestFullscreen, exitFullscreen } from './lib/full-screen'
 export const ReaderContext = React.createContext()
 
 const defaultState = {
@@ -25,6 +26,11 @@ const defaultState = {
 
 export class ReaderProvider extends Component {
   state = { ...defaultState }
+
+  constructor(props) {
+    super(props)
+    this.detectFullScreen = this.detectFullScreen.bind(this)
+  }
 
   updateState = data => {
     this.setState(data)
@@ -63,6 +69,28 @@ export class ReaderProvider extends Component {
     this.setState(prevState => ({
       autoHideControls: !prevState.autoHideControls,
     }))
+  }
+
+  toggleFullscreen = () => {
+    const { fullscreen } = this.state
+    if (fullscreen) {
+      exitFullscreen()
+    } else {
+      requestFullscreen(document.querySelector('body'))
+    }
+  }
+
+  detectFullScreen() {
+    const isFullscreen = document.fullscreenElement !== null
+    this.setState({ fullscreen: isFullscreen })
+  }
+
+  componentDidMount() {
+    document.addEventListener('fullscreenchange', this.detectFullScreen)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('fullscreenchange', this.detectFullScreen)
   }
 
   toggleControls(show = true) {
@@ -125,6 +153,7 @@ export class ReaderProvider extends Component {
           createPage: this.createPage,
           updateState: this.updateState,
           toggleSetting: this.toggleSetting,
+          toggleFullscreen: this.toggleFullscreen,
           navigateToPage: this.navigateToPage,
           navigateForward: this.navigateForward,
           navigateBackward: this.navigateBackward,

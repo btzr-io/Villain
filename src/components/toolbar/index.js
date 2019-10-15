@@ -23,7 +23,13 @@ class Toolbar extends Component {
 
   render() {
     const { allowFullScreen, showControls } = this.props
-    const { navigateForward, navigateBackward, toggleSetting, togglePin } = this.context
+    const {
+      navigateForward,
+      navigateBackward,
+      toggleSetting,
+      togglePin,
+      toggleFullscreen,
+    } = this.context
     const {
       pages,
       bookMode,
@@ -73,9 +79,9 @@ class Toolbar extends Component {
           />
           <Button
             type={'icon'}
-            title={'Fullscreen'}
+            title={fullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
             icon={fullScreenIcon}
-            onClick={() => toggleSetting('fullscreen')}
+            onClick={() => toggleFullscreen()}
           />
         </div>
       </div>

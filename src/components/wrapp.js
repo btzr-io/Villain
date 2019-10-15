@@ -16,11 +16,7 @@ class Wrapp extends Component {
 
     return (
       <div
-        className={clsx(
-          'villain',
-          fullscreen && 'villain-fullscreen',
-          !autoHideControls && 'villain--static'
-        )}
+        className={clsx('villain', !autoHideControls && 'villain--static')}
         style={size}
       >
         {this.props.children}
