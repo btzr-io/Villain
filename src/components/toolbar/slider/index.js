@@ -85,7 +85,7 @@ class SliderUI extends Component {
   componentDidUpdate(prevProps) {
     const { value } = this.props
     if (value !== prevProps.value && !this.state.seeking) {
-      this.setValue(value)
+      this.setValue(value + 1)
     }
   }
 
