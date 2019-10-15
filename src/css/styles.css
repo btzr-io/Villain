@@ -4,7 +4,7 @@
 
 .villain {
   position: relative;
-  background-color: #23262f;
+  background-color: #0d0e12;
   color: #fff;
   font-family: Arial, sans-serif;
   overflow: hidden;
@@ -86,7 +86,7 @@
 }
 
 .villain-toolbar {
-  background: rgba(21, 22, 28, 0.92);
+  background: rgba(32, 33, 43, 0.92);
   padding: 0 4px;
   display: flex;
   align-items: center;

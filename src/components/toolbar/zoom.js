@@ -21,13 +21,13 @@ class ZoomControls extends Component {
 
   triggerIncrement = () => {
     const { currentZoom } = this.props
-    const scale = (currentZoom + 10) / 100
+    const scale = currentZoom + 10
     this.props.onUpdate(scale)
   }
 
   triggerDecrement = () => {
     const { currentZoom } = this.props
-    const scale = (currentZoom - 10) / 100
+    const scale = currentZoom - 10
     this.props.onUpdate(scale)
   }
 
@@ -58,9 +58,8 @@ class ZoomControls extends Component {
   }
 
   render() {
-    const { currentZoom } = this.props
-    const canZoomIn = currentZoom < 100
-    const canZoomOut = currentZoom > 25
+    const { currentZoom, canZoomIn, canZoomOut } = this.context.state
+
     return (
       <React.Fragment>
         <Button

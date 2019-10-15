@@ -11,11 +11,12 @@ const villainOpts = {
 }
 
 const testFile = '/build/test_files/archive.cbz'
+const testFile2 = '/build/test_files/test.cbz'
 
 ReactDOM.render(
   <div>
     <h1> Test example! </h1>
-    <Villain file={testFile} options={villainOpts} />
+    <Villain file={testFile2} options={villainOpts} />
   </div>,
   document.getElementById('app')
 )

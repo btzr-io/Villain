@@ -3,6 +3,7 @@ const config = {
   initialPage: 0,
   visibilityRatio: 1,
   imageLoaderLimit: 500,
+  maxZoomPixelRatio: 1,
   // Zoom - Pan
   constrainDuringPan: true,
   preserveImageSizeOnResize: false,
@@ -19,8 +20,8 @@ const config = {
   // --- Experimental ---
   //Flick bug -> placeholderFillStyle: '#FFF',
   // Animations
-  // springStiffness: 12,
-  // animationTime: 0.9,
+  springStiffness: 12,
+  animationTime: 0.9,
 }
 
 export default config

@@ -12,6 +12,8 @@ const defaultState = {
   isFirstPage: true,
   currentPage: null,
   currentZoom: null,
+  canZoomIn: false,
+  canZoomOut: false,
 
   // Settings
   theme: 'dark',

@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '../osd.config'
 import Toolbar from './toolbar'
-
 import { ReaderContext } from '../context'
+import { onFullscreenChange } from '../lib/full-screen'
 
 class CanvasRender extends Component {
   static defaultProps = {
@@ -30,47 +30,56 @@ class CanvasRender extends Component {
     }
   }
 
-  getMinZoom = () => {
-    const { viewport, world } = this.viewer
-    const tiledImage = world.getItemAt(0)
-    const imageBounds = tiledImage.getBounds()
-    const imageAspect = imageBounds.width / imageBounds.height
-    const aspectFactor = imageAspect / viewport.getAspectRatio()
-    const zoom = (aspectFactor >= 1 ? 1 : aspectFactor) / imageBounds.width
-    return zoom
-  }
-
   updateZoomLimits = () => {
-    const { viewport, world } = this.viewer
-    viewport.maxZoomLevel = this.getTargetZoom()
-    viewport.minZoomLevel = this.getMinZoom()
+    const { viewport } = this.viewer
+    const targetZoom = 0.9
+    const realTargetZoom = this.getTargetZoom()
+    const imageBounds = this.viewer.world.getItemAt(0).getBounds()
+    const viewportBounds = viewport.getBounds()
+    const imageAspect = imageBounds.width / imageBounds.height
+    const viewportAspect = viewportBounds.width / viewportBounds.height
+    const aspectFactor = imageAspect / viewportAspect
+    const zoomFactor = (aspectFactor >= 1 ? 1 : aspectFactor) * targetZoom
+    const zoom = zoomFactor / imageBounds.width
+    const minZoom = realTargetZoom <= zoom ? realTargetZoom : zoom
+    viewport.defaultZoomLevel = minZoom
+    viewport.minZoomLevel = minZoom
+    viewport.maxZoomLevel = realTargetZoom
   }
 
   updateZoom = (scale = 1) => {
     const { viewport } = this.viewer
+    const max = this.getTargetZoom()
+    const min = viewport.getMinZoom()
+
     let zoom = scale
+
     // Convert to int
-    if (typeof scale === 'string') {
-      zoom = parseInt(scale)
-      zoom = zoom ? zoom / 100 : null
+    if (typeof zoom === 'string') {
+      zoom = parseInt(zoom)
     }
 
     if (zoom) {
-      zoom = this.getTargetZoom(zoom)
+      // Prevent maz zoom
+      if (zoom > 100) {
+        zoom = 100
+      }
+      // Calculate zoom from user input
+      zoom = (zoom / 100) * this.getTargetZoom()
       // Fix max
-      if (zoom > viewport.maxZoomLevel) {
-        zoom = viewport.maxZoomLevel
+      if (zoom > max) {
+        zoom = max
       }
       // Fix min
-      if (zoom < viewport.minZoomLevel) {
-        zoom = viewport.minZoomLevel
+      if (zoom < min) {
+        zoom = min
       }
-      // Zoom
+      // Update
       viewport.zoomTo(zoom, null, true)
     }
   }
 
-  zoomToOriginalSize() {
+  zoomToOriginalSize = () => {
     const targetZoom = this.getTargetZoom()
     this.viewer.viewport.zoomTo(targetZoom, null, true)
   }
@@ -119,8 +128,9 @@ class CanvasRender extends Component {
 
     // Events hanlder
     this.viewer.addHandler('open', () => {
-      this.updateZoomLimits()
       this.renderLayout()
+      this.updateZoomLimits()
+      this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
     })
 
     // Events hanlder
@@ -128,10 +138,19 @@ class CanvasRender extends Component {
       this.updateZoomLimits()
     })
 
-    this.viewer.addHandler('zoom', e => {
+    onFullscreenChange(window, 'add', () => {
+      this.updateZoomLimits()
+    })
+
+    this.viewer.addHandler('zoom', ({ zoom }) => {
       const { viewport } = this.viewer
-      const currentZoom = parseInt((e.zoom / this.getTargetZoom()) * 100)
-      this.context.updateState({ currentZoom })
+      const max = viewport.getMaxZoom()
+      const min = viewport.getMinZoom()
+      const currentZoom = parseInt((zoom / this.getTargetZoom()) * 100)
+      const canZoomIn = zoom < max && currentZoom < 100
+      const canZoomOut = zoom > min
+
+      this.context.updateState({ currentZoom, canZoomIn, canZoomOut })
     })
 
     this.viewer.addHandler('canvas-exit', this.handleExit)
