@@ -1,10 +1,11 @@
 .villain {
+  --bg-color: #0d0e12;
   --toolbar-height: 50px;
 }
 
 .villain {
   position: relative;
-  background-color: #0d0e12;
+  background-color: var(--bg-color);
   color: #fff;
   font-family: Arial, sans-serif;
   overflow: hidden;
@@ -231,7 +232,7 @@
   top: 0;
   left: 0;
   margin: 0;
-  background: #23262f;
+  background: var(--bg-color);
   text-align: center;
   display: flex;
   align-items: center;
