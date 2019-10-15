@@ -1,8 +1,11 @@
 <h1 align=center>
- <img width="40%" src="https://user-images.githubusercontent.com/14793624/59959492-854cd400-9475-11e9-9149-4d21baa5591c.png" />
+ <img align=center width="40%" src="https://user-images.githubusercontent.com/14793624/59959492-854cd400-9475-11e9-9149-4d21baa5591c.png" />
 </h1>
 
 <h2 align=center>
+  <a href="https://david-dm.org/btzr-io/Villain" title="dependencies status">
+    <img alt="npm" src="https://img.shields.io/npm/v/villain-react">
+  </a>
   <a href="https://david-dm.org/btzr-io/Villain" title="dependencies status">
     <img src="https://david-dm.org/btzr-io/Villain/status.svg"/>
   </a>
@@ -23,7 +26,7 @@ An open source web-based comic book reader.
 ## Installation
 
 ```SHELL
-$ yarn add btzr-io/Villain
+$ yarn add villain-react
 ```
 
 ## WebWorker
