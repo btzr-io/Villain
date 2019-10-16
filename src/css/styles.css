@@ -1,4 +1,20 @@
 .villain {
+  --bg-color: #0d0e12;
+  --fg-color: #fff;
+  --slider-bg: rgba(255, 255, 255, 0.4);
+  --input-bg: rgba(0, 0, 0, 0.32);
+  --input-border: rgba(0, 0, 0, 0.24);
+  --input-focus-bg: rgba(225, 225, 225, 0.15);
+  --button-bg: rgba(255, 255, 255, 0.1);
+  --button-active-bg: rgba(255, 255, 255, 0.15);
+  --button-hover-bg: rgba(0, 0, 0, 0.2);
+  --toolbar-bg: rgba(32, 33, 43, 0.92);
+  --toolbar-border: rgba(255, 255, 255, 0.2);
+  --toolbar-height: 50px;
+  --tooltip-bg: rgba(0, 0, 0, 0.84);
+}
+
+.villain.light {
   --bg-color: #f0f1f5;
   --fg-color: #000;
   --slider-bg: rgba(0, 0, 0, 0.4);
