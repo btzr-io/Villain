@@ -1,12 +1,69 @@
 .villain {
   --bg-color: #0d0e12;
+  --color: #fff;
   --toolbar-height: 50px;
+  --icon-fill: #fff;
+  --slider-buffer-background: rgba(255, 255, 255, 0.4);
+
+  --button-background: rgba(255, 255, 255, 0.1);
+  --button-color: #fff;
+  --button-icon: rgba(0, 0, 0, 0.2);
+  --button-active: rgba(255, 255, 255, 0.15);
+
+  --tooltip-color: #fff;
+  --tooltip-background: rgba(0, 0, 0, 0.84);
+  --tooltip-text-border-color: rgba(0, 0, 0, 0.84) transparent transparent transparent;
+  --tooltip-border-bottom: 1px dotted rgba(0, 0, 0, 0.84);
+
+  --toolbar-background: rgba(32, 33, 43, 0.92);
+  --toolbar-divider: rgba(255, 255, 255, 0.2);
+  --toolbar-input-background: rgba(0, 0, 0, 0.32);
+  --toolbar-input-border-color: 2px solid rgba(0, 0, 0, 0.24);
+  --toolbar-input-color: #fff;
+  --toolbar-input-focus-background: rgba(225, 225, 225, 0.15);
+  --toolbar-input-focus-border-color: rgba(255, 255, 255, 0.4);
+
+  --loader-border-top: 1.6em solid rgba(255, 255, 255, 0.2);
+  --loader-border-right: 1.6em solid rgba(255, 255, 255, 0.2);
+  --loader-border-bottom: 1.6em solid rgba(255, 255, 255, 0.2);
+  --loader-border-left: 1.6em solid #fff;
+}
+
+.villain.light {
+  --bg-color: #fff;
+  --color: #0d0e12;
+  --icon-fill: #0d0e12;
+  --slider-buffer-background: rgba(0, 0, 0, 0.4);
+
+  --button-background: rgba(0, 0, 0, 0.1);
+  --button-color: #0d0e12;
+  --button-icon: rgba(255, 255, 255, 0.2);
+  --button-active: rgba(0, 0, 0, 0.15);
+
+  --tooltip-color: #0d0e12;
+  --tooltip-background: rgba(255, 255, 255, 0.84);
+  --tooltip-text-border-color: rgba(255, 255, 255, 0.84) transparent transparent
+    transparent;
+  --tooltip-border-bottom: 1px dotted rgba(255, 255, 255, 0.84);
+
+  --toolbar-background: rgba(225, 225, 225, 0.92);
+  --toolbar-divider: rgba(255, 255, 255, 0.2);
+  --toolbar-input-background: rgba(255, 255, 255, 0.32);
+  --toolbar-input-border-color: 2px solid rgba(255, 255, 255, 0.24);
+  --toolbar-input-color: #0d0e12;
+  --toolbar-input-focus-background: rgba(225, 225, 225, 0.15);
+  --toolbar-input-focus-border-color: rgba(255, 255, 255, 0.4);
+
+  --loader-border-top: 1.6em solid rgba(255, 255, 255, 0.2);
+  --loader-border-right: 1.6em solid rgba(255, 255, 255, 0.2);
+  --loader-border-bottom: 1.6em solid rgba(255, 255, 255, 0.2);
+  --loader-border-left: 1.6em solid #fff;
 }
 
 .villain {
   position: relative;
   background-color: var(--bg-color);
-  color: #fff;
+  color: var(--color);
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
@@ -21,7 +78,7 @@
 }
 
 .villain .villain-icon {
-  fill: #fff;
+  fill: var(--icon-fill);
 }
 
 /* Slider */
@@ -36,7 +93,7 @@
 .villain-slider .buffer {
   height: 100%;
   margin: 0;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: var(--slider-buffer-background);
   position: absolute;
   z-index: 0;
 }
@@ -47,10 +104,10 @@
   -moz-appearance: textfield;
   text-align: right;
   width: 52px;
-  background: rgba(0, 0, 0, 0.32);
-  border: 2px solid rgba(0, 0, 0, 0.24);
+  background: var(--toolbar-input-background);
+  border: var(--toolbar-input-border-color);
   padding: 2px 6px;
-  color: #fff;
+  color: var(--toolbar-input-color);
   margin: 0 6px;
   border-radius: 4px;
   font-size: 14px;
@@ -58,8 +115,8 @@
 }
 
 .villain-toolbar .villain-input:focus {
-  background: rgba(225, 225, 225, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--toolbar-input-focus-background);
+  border-color: var(--toolbar-input-focus-border-color);
 }
 
 .villain-toolbar input[type='number']::-webkit-inner-spin-button,
@@ -87,7 +144,7 @@
 }
 
 .villain-toolbar {
-  background: rgba(32, 33, 43, 0.92);
+  background: var(--toolbar-background);
   padding: 0 4px;
   display: flex;
   align-items: center;
@@ -111,7 +168,7 @@
   height: 1em;
   width: 2px;
   margin: 0 12px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--toolbar-divider);
 }
 
 .villain-toolbar-group {
@@ -128,10 +185,10 @@
 /* button */
 
 .villain button {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--button-background);
   border: 0;
   border-radius: 4px;
-  color: #fff;
+  color: var(--button-color);
   margin: 0 6px;
   padding: 2px 8px;
   cursor: pointer;
@@ -149,12 +206,12 @@
 
 .villain .button-icon:hover:not(:disabled):not(.button--active),
 .villain .button-icon:focus:not(:disabled):not(.button--active) {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--button-icon);
 }
 
 .villain .button--active,
 .villain .button-icon:active:not(:disabled) {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--button-active);
 }
 
 .villain .button-toggler {
@@ -173,15 +230,15 @@
 .villain-toolbar .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted rgba(0, 0, 0, 0.84);
+  border-bottom: var(--tooltip-border-bottom);
   margin-left: 22px;
   margin-bottom: 100px;
 }
 
 .villain-toolbar .tooltip .tooltiptext {
   width: 100px;
-  background-color: rgba(0, 0, 0, 0.84);
-  color: #fff;
+  background-color: var(--tooltip-background);
+  color: var(--tooltip-color);
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
@@ -200,7 +257,7 @@
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.84) transparent transparent transparent;
+  border-color: var(--tooltip-text-border-color);
 }
 
 /* Layout */
@@ -253,10 +310,10 @@
   font-size: 4px;
   position: relative;
   text-indent: -9999em;
-  border-top: 1.6em solid rgba(255, 255, 255, 0.2);
-  border-right: 1.6em solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1.6em solid rgba(255, 255, 255, 0.2);
-  border-left: 1.6em solid #ffffff;
+  border-top: var(--loader-border-top);
+  border-right: var(--loader-border-right);
+  border-bottom: var(--loader-border-bottom);
+  border-left: var(--loader-border-left);
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
