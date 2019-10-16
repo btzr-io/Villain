@@ -40,7 +40,7 @@ class Handle extends Component {
             }}
           >
             <div className="tooltip">
-              <span className="tooltiptext">Page: {value}</span>
+              <span className="tooltiptext">{value}</span>
             </div>
           </div>
         ) : null}

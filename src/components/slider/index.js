@@ -21,27 +21,16 @@ const railStyle = {
   width: '100%',
   height: '100%',
   borderRadius: '4px',
-  backgroundColor: 'rgba(255, 255, 255, 0.2)',
-}
-
-const trackStyle = {
-  position: 'absolute',
-  top: 0,
-  bottom: 0,
-  margin: 0,
-  zIndex: 1,
-  borderRadius: '4px',
-  backgroundColor: mainColor,
-  cursor: 'pointer',
+  backgroundColor: 'var(--slider-bg)',
 }
 
 const Track = ({ source, target, getTrackProps }) => {
   return (
     <div
+      className="slider-track"
       style={{
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
-        ...trackStyle,
       }}
       {...getTrackProps()}
     />

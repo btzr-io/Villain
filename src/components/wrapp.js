@@ -20,6 +20,7 @@ class Wrapp extends Component {
         ref={this.container}
         className={clsx(
           'villain',
+          'light',
           fullscreen && 'villain-fullscreen',
           !autoHideControls && 'villain--static'
         )}

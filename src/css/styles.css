@@ -1,33 +1,41 @@
-.villain {
-  --bg-color: #0d0e12;
+.villain.dark {
+  --bg-color: #0c0d11;
   --fg-color: #fff;
-  --slider-bg: rgba(255, 255, 255, 0.4);
+  --icon-color: var(--fg-color);
+  --slider-bg: rgba(255, 255, 255, 0.2);
+  --slider-track-bg: #fff;
+  --slider-buffer-bg: rgba(255, 255, 255, 0.4);
+  --input-border-focus: rgba(255, 255, 255, 0.4);
   --input-bg: rgba(0, 0, 0, 0.32);
   --input-border: rgba(0, 0, 0, 0.24);
   --input-focus-bg: rgba(225, 225, 225, 0.15);
   --button-bg: rgba(255, 255, 255, 0.1);
   --button-active-bg: rgba(255, 255, 255, 0.15);
-  --button-hover-bg: rgba(0, 0, 0, 0.2);
-  --toolbar-bg: rgba(32, 33, 43, 0.92);
+  --button-hover-bg: var(--button-active-bg);
+  --toolbar-bg: #1f212b;
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
-  --tooltip-bg: rgba(0, 0, 0, 0.84);
+  --tooltip-bg: #575a67;
 }
 
 .villain.light {
-  --bg-color: #f0f1f5;
-  --fg-color: #000;
-  --slider-bg: rgba(0, 0, 0, 0.4);
-  --input-bg: rgba(255, 255, 255, 0.32);
-  --input-border: rgba(255, 255, 255, 0.24);
-  --input-focus-bg: rgba(225, 225, 225, 0.15);
+  --bg-color: #f7f7f7;
+  --fg-color: #757575;
+  --icon-color: var(--fg-color);
+  --slider-bg: rgba(0, 0, 0, 0.1);
+  --slider-buffer-bg: rgba(0, 0, 0, 0.2);
+  --slider-track-bg: rgba(0, 0, 0, 0.2);
+  --input-bg: #fff;
+  --input-border: rgba(180, 180, 180, 0.4);
+  --input-border-focus: rgba(150, 150, 150, 0.4);
+  --input-focus-bg: rgba(200, 200, 200, 0.24);
   --button-bg: rgba(0, 0, 0, 0.1);
   --button-active-bg: rgba(0, 0, 0, 0.15);
-  --button-hover-bg: rgba(255, 255, 255, 0.2);
-  --toolbar-bg: rgba(221, 222, 232, 0.92);
+  --button-hover-bg: var(--button-active-bg);
+  --toolbar-bg: #fff;
   --toolbar-border: rgba(0, 0, 0, 0.2);
   --toolbar-height: 50px;
-  --tooltip-bg: rgba(255, 255, 255, 0.84);
+  --tooltip-bg: #cfcfcf;
 }
 
 .villain {
@@ -36,10 +44,13 @@
   color: var(--fg-color);
   font-family: Arial, sans-serif;
   overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .villain--static .villain-toolbar {
   margin: 0;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0;
 }
 
@@ -48,7 +59,7 @@
 }
 
 .villain .villain-icon {
-  fill: var(--fg-color);
+  fill: var(--icon-color);
 }
 
 /* Slider */
@@ -63,9 +74,21 @@
 .villain-slider .buffer {
   height: 100%;
   margin: 0;
-  background-color: var(--slider-bg);
+  background-color: var(--slider-buffer-bg);
   position: absolute;
   z-index: 0;
+}
+
+.villain-slider .slider-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  z-index: 1;
+  border-radius: 4px;
+  background-color: var(--slider-track-bg);
+  cursor: pointer;
 }
 
 /* input */
@@ -86,7 +109,7 @@
 
 .villain-toolbar .villain-input:focus {
   background: var(--input-focus-bg);
-  border-color: var(--slider-bg);
+  border-color: var(--input-border-focus);
 }
 
 .villain-toolbar input[type='number']::-webkit-inner-spin-button,
@@ -114,13 +137,13 @@
 }
 
 .villain-toolbar {
+  font-size: 1rem;
   background: var(--toolbar-bg);
   padding: 0 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--toolbar-height);
-  font-size: 14px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -128,6 +151,7 @@
   opacity: 1;
   z-index: 1;
   margin: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   transition: 0.3s ease;
   transition-property: opacity, bottom;
@@ -159,8 +183,8 @@
   border: 0;
   border-radius: 4px;
   color: var(--fg-color);
-  margin: 0 6px;
-  padding: 2px 8px;
+  margin: 0 4px;
+  padding: 2px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -169,7 +193,7 @@
 }
 
 .villain .button-icon {
-  padding: 2px;
+  padding: 0.2rem 0.4rem;
   border-radius: 4px;
   background: transparent;
 }
@@ -200,23 +224,26 @@
 .villain-toolbar .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted var(--tooltip-bg);
-  margin-left: 22px;
+  border-bottom: 0;
   margin-bottom: 100px;
+  margin-left: 22px;
 }
 
 .villain-toolbar .tooltip .tooltiptext {
-  width: 100px;
+  width: 3rem;
   background-color: var(--tooltip-bg);
   color: var(--fg-color);
   text-align: center;
+  font-size: 0.9em;
+  font-weight: bold;
   border-radius: 6px;
   padding: 5px 0;
   position: absolute;
   z-index: 1;
   bottom: 150%;
   left: 50%;
-  margin-left: -60px;
+  margin-left: calc(-1.5rem - 10px);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
 .villain-toolbar .tooltip .tooltiptext::after {
