@@ -55,16 +55,24 @@ export const fullscreenElement = () => {
   return document[prefix]
 }
 
-export const requestFullscreen = elem => {
+export const requestFullscreen = target => {
   const index = getPrefix()
   const prefix = prefixes.requestFullscreen[index]
-  elem[prefix] && elem[prefix]()
+  target[prefix] && target[prefix]()
 }
 
 export const exitFullscreen = () => {
   const index = getPrefix()
   const prefix = prefixes.exitFullscreen[index]
   document[prefix] && document[prefix]()
+}
+
+export const toggleFullscreen = target => {
+  if (fullscreenElement()) {
+    exitFullscreen()
+  } else {
+    requestFullscreen(target)
+  }
 }
 
 export const onFullscreenChange = (target, action, callback) => {
