@@ -36,20 +36,23 @@ class Villain extends Component {
     return (
       <ReaderProvider>
         <Wrapp width={width} height={height}>
-          <Uncompress file={file} workerPath={opts.workerPath}>
-            <ReaderContext.Consumer>
-              {({ state }) => (
-                <CanvasRender
-                  id={'osd-canvas-render'}
-                  hover={state.hover}
-                  focus={state.focus}
-                  bookMode={state.bookMode}
-                  currentPage={state.currentPage}
-                  autoHideControls={state.autoHideControls}
-                />
-              )}
-            </ReaderContext.Consumer>
-          </Uncompress>
+          {container => (
+            <Uncompress file={file} workerPath={opts.workerPath}>
+              <ReaderContext.Consumer>
+                {({ state }) => (
+                  <CanvasRender
+                    id={'osd-canvas-render'}
+                    hover={state.hover}
+                    focus={state.focus}
+                    container={container}
+                    bookMode={state.bookMode}
+                    currentPage={state.currentPage}
+                    autoHideControls={state.autoHideControls}
+                  />
+                )}
+              </ReaderContext.Consumer>
+            </Uncompress>
+          )}
         </Wrapp>
       </ReaderProvider>
     )

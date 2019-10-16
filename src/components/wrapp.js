@@ -7,6 +7,7 @@ class Wrapp extends Component {
 
   constructor(props) {
     super(props)
+    this.container = React.createRef()
   }
 
   render() {
@@ -16,6 +17,7 @@ class Wrapp extends Component {
 
     return (
       <div
+        ref={this.container}
         className={clsx(
           'villain',
           fullscreen && 'villain-fullscreen',
@@ -23,7 +25,7 @@ class Wrapp extends Component {
         )}
         style={size}
       >
-        {this.props.children}
+        {this.props.children(this.container ? this.container.current : null)}
       </div>
     )
   }

@@ -11,7 +11,7 @@ const prefixes = {
     'webkitExitFullscreen',
   ],
   fullscreenChange: [
-    'fullscreenChange',
+    'fullscreenchange',
     'MSFullscreenChange',
     'mozfullscreenchange',
     'webkitfullscreenchange',

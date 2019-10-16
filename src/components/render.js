@@ -4,7 +4,11 @@ import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
 import { ReaderContext } from '../context'
-import { onFullscreenChange } from '@/lib/full-screen'
+import {
+  onFullscreenChange,
+  fullscreenElement,
+  toggleFullscreen,
+} from '@/lib/full-screen'
 
 class CanvasRender extends Component {
   static defaultProps = {
@@ -116,6 +120,17 @@ class CanvasRender extends Component {
     }
   }
 
+  handleFullscreenChange = () => {
+    const isFullscreen = fullscreenElement()
+    this.context.updateState({ fullscreen: isFullscreen })
+    this.updateZoomLimits()
+  }
+
+  toggleFullscreen = () => {
+    const { container } = this.props
+    toggleFullscreen(container)
+  }
+
   initOpenSeaDragon() {
     const { id } = this.props
     const { pages } = this.context.state
@@ -138,10 +153,6 @@ class CanvasRender extends Component {
       this.updateZoomLimits()
     })
 
-    onFullscreenChange(window, 'add', () => {
-      this.updateZoomLimits()
-    })
-
     this.viewer.addHandler('zoom', ({ zoom }) => {
       const { viewport } = this.viewer
       const max = viewport.getMaxZoom()
@@ -159,6 +170,8 @@ class CanvasRender extends Component {
     this.viewer.addHandler('open-failed', e => {
       console.error(e)
     })
+
+    onFullscreenChange(document, 'add', this.handleFullscreenChange)
   }
 
   renderPage(index) {
@@ -241,6 +254,9 @@ class CanvasRender extends Component {
   }
 
   componentWillUnmount() {
+    // Remove event listeners
+    onFullscreenChange(document, 'remove', this.handleFullscreenChange)
+    // Destroy OpenSeaDragon viewer
     this.viewer.canvas.removeEventListener('focus', this.handleFocus)
     this.viewer.canvas.removeEventListener('blur', this.handleBlur)
     this.viewer.destroy()
@@ -290,6 +306,7 @@ class CanvasRender extends Component {
       <React.Fragment>
         <Toolbar
           updateZoom={this.updateZoom}
+          toggleFullscreen={this.toggleFullscreen}
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={clsx('villain-canvas')} />
