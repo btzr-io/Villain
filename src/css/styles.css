@@ -147,7 +147,8 @@
   background: transparent;
 }
 
-.villain .button-icon:hover:not(:disabled):not(.button--active) {
+.villain .button-icon:hover:not(:disabled):not(.button--active),
+.villain .button-icon:focus:not(:disabled):not(.button--active) {
   background: rgba(0, 0, 0, 0.2);
 }
 

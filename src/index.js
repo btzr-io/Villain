@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
-import Wrapp from './components/wrapp'
-import Uncompress from './components/uncompress'
-import CanvasRender from './components/render'
-import { ReaderContext, ReaderProvider } from './context'
+import Wrapp from '@/components/wrapp'
+import Uncompress from '@/components/uncompress'
+import CanvasRender from '@/components/render'
+import { ReaderContext, ReaderProvider } from '@/context'
 
 // Css
 import './css/styles.css'
