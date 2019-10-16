@@ -71,3 +71,8 @@ Available options to customize the reader component:
 | workerPath | string | null | path to libarchive.js `worker-bundle`. |
 | allowFullScreen | bool | true |  Show full screen button. |
 | autoHideControls | bool | true | Auto hide and show toolbar on `hover`, `focus` or `blur` events. |
+
+## Credits
+- :hammer_and_wrench: Created and maintained by [@btzr-io](https://github.com/btzr-io) with the help of some awesome [contributors](https://github.com/btzr-io/Villain/graphs/contributors).
+
+- :art: Logo and artworks designed by [@btzr-io](https://github.com/btzr-io), see [license](https://github.com/btzr-io/Villain/blob/master/ARTWORKS_LICENSE.md).
