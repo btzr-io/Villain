@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import clsx from 'clsx'
 import Button from './button'
-import { ReaderContext } from '../../context'
+import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
 
 class ZoomControls extends Component {

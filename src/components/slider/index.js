@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
 import Handle from './handle'
-import { ReaderContext } from '../../../context'
+import { ReaderContext } from '@/context'
 
 const mainColor = '#FFF'
 

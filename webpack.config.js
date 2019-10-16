@@ -35,4 +35,9 @@ module.exports = {
       app.use('/build', express.static(buildDirectory))
     },
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src/'),
+    },
+  },
 }

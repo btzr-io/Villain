@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ReaderContext } from '../context'
+import { ReaderContext } from '@/context'
 import clsx from 'clsx'
 
 class Wrapp extends Component {

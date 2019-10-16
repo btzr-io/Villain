@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import React, { Component } from 'react'
 import OpenSeaDragon from 'openseadragon'
-import OSDConfig from '../osd.config'
-import Toolbar from './toolbar'
+import OSDConfig from '@/osd.config'
+import Toolbar from '@/components/toolbar'
 import { ReaderContext } from '../context'
-import { onFullscreenChange } from '../lib/full-screen'
+import { onFullscreenChange } from '@/lib/full-screen'
 
 class CanvasRender extends Component {
   static defaultProps = {

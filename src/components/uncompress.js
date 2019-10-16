@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
-import { asyncForEach, fetchArchive, isValidImageType } from '../lib/utils'
-import { ReaderContext } from '../context'
+import { asyncForEach, fetchArchive, isValidImageType } from '@/lib/utils'
+import { ReaderContext } from '@/context'
 
 // Components
 import Error from './error'

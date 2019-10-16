@@ -3,8 +3,8 @@ import clsx from 'clsx'
 import Button from './button'
 import ZoomControls from './zoom'
 import NavigationControls from './navigation'
-import Slider from './slider/index.js'
-import { ReaderContext } from '../../context'
+import Slider from '@/components/slider'
+import { ReaderContext } from '@/context'
 
 import {
   mdiPin,
