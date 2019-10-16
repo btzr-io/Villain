@@ -39,7 +39,7 @@ so you will need to provide the path of `webworker`:
 
 ```JSX
 const opts = {
-  workerPath: 'villain/build/worker-bundle.js',
+  workerPath: 'path to ../build/worker-bundle.js',
   ...
 }
 ```
@@ -49,10 +49,10 @@ Import the component and the css styles
 
 ```JSX
 // Component
-import Villain from 'villain'
+import Villain from 'villain-react'
 
 // Css styles
-import 'villain/dist/style.min.css'
+import 'villain-react/dist/style.min.css'
 
 // Path of the comicbook archive
 const url = '/files/test.cbz'
