@@ -1308,6 +1308,7 @@
   class Wrapp extends React.Component {
     constructor(props) {
       super(props);
+      this.container = React__default.createRef();
     }
 
     render() {
@@ -1324,9 +1325,10 @@
         height
       };
       return React__default.createElement("div", {
+        ref: this.container,
         className: clsx('villain', fullscreen && 'villain-fullscreen', !autoHideControls && 'villain--static'),
         style: size
-      }, this.props.children);
+      }, this.props.children(this.container ? this.container.current : null));
     }
 
   }
@@ -26658,7 +26660,8 @@
     render() {
       const {
         allowFullScreen,
-        showControls
+        showControls,
+        toggleFullscreen
       } = this.props;
       const {
         navigateForward,
@@ -26714,7 +26717,7 @@
         type: 'icon',
         title: 'Fullscreen',
         icon: fullScreenIcon,
-        onClick: () => toggleSetting('fullscreen')
+        onClick: toggleFullscreen
       })));
     }
 
@@ -26728,7 +26731,7 @@
   */
   const prefixes = {
     exitFullscreen: ['exitFullscreen', 'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'],
-    fullscreenChange: ['fullscreenChange', 'MSFullscreenChange', 'mozfullscreenchange', 'webkitfullscreenchange'],
+    fullscreenChange: ['fullscreenchange', 'MSFullscreenChange', 'mozfullscreenchange', 'webkitfullscreenchange'],
     fullscreenEnabled: ['fullscreenEnabled', 'msFullscreenEnabled', 'mozFullScreenEnabled', 'webkitFullscreenEnabled'],
     fullscreenElement: ['fullscreenElement', 'msFullscreenElement', 'mozFullScreenElement', 'webkitFullscreenElement'],
     requestFullscreen: ['requestFullscreen', 'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen']
@@ -26745,6 +26748,29 @@
     }); // prefix vendor index
 
     return prefixIndex;
+  };
+
+  const fullscreenElement = () => {
+    const index = getPrefix();
+    const prefix = prefixes.fullscreenElement[index];
+    return document[prefix];
+  };
+  const requestFullscreen = target => {
+    const index = getPrefix();
+    const prefix = prefixes.requestFullscreen[index];
+    target[prefix] && target[prefix]();
+  };
+  const exitFullscreen = () => {
+    const index = getPrefix();
+    const prefix = prefixes.exitFullscreen[index];
+    document[prefix] && document[prefix]();
+  };
+  const toggleFullscreen = target => {
+    if (fullscreenElement()) {
+      exitFullscreen();
+    } else {
+      requestFullscreen(target);
+    }
   };
   const onFullscreenChange = (target, action, callback) => {
     const index = getPrefix();
@@ -26878,6 +26904,21 @@
         }
       });
 
+      _defineProperty(this, "handleFullscreenChange", () => {
+        const isFullscreen = fullscreenElement();
+        this.context.updateState({
+          fullscreen: isFullscreen
+        });
+        this.updateZoomLimits();
+      });
+
+      _defineProperty(this, "toggleFullscreen", () => {
+        const {
+          container
+        } = this.props;
+        toggleFullscreen(container);
+      });
+
       this.viewer = null;
     }
 
@@ -26906,9 +26947,6 @@
       this.viewer.addHandler('resize', () => {
         this.updateZoomLimits();
       });
-      onFullscreenChange(window, 'add', () => {
-        this.updateZoomLimits();
-      });
       this.viewer.addHandler('zoom', ({
         zoom
       }) => {
@@ -26931,6 +26969,7 @@
       this.viewer.addHandler('open-failed', e => {
         console.error(e);
       });
+      onFullscreenChange(document, 'add', this.handleFullscreenChange);
     }
 
     renderPage(index) {
@@ -27025,6 +27064,9 @@
     }
 
     componentWillUnmount() {
+      // Remove event listeners
+      onFullscreenChange(document, 'remove', this.handleFullscreenChange); // Destroy OpenSeaDragon viewer
+
       this.viewer.canvas.removeEventListener('focus', this.handleFocus);
       this.viewer.canvas.removeEventListener('blur', this.handleBlur);
       this.viewer.destroy();
@@ -27090,6 +27132,7 @@
       } = this.context.state;
       return React__default.createElement(React__default.Fragment, null, React__default.createElement(Toolbar, {
         updateZoom: this.updateZoom,
+        toggleFullscreen: this.toggleFullscreen,
         showControls: !autoHideControls || showControls
       }), React__default.createElement("div", {
         id: id,
@@ -27129,7 +27172,7 @@
       return React__default.createElement(ReaderProvider, null, React__default.createElement(Wrapp, {
         width: width,
         height: height
-      }, React__default.createElement(Uncompress, {
+      }, container => React__default.createElement(Uncompress, {
         file: file,
         workerPath: opts.workerPath
       }, React__default.createElement(ReaderContext.Consumer, null, ({
@@ -27138,6 +27181,7 @@
         id: 'osd-canvas-render',
         hover: state.hover,
         focus: state.focus,
+        container: container,
         bookMode: state.bookMode,
         currentPage: state.currentPage,
         autoHideControls: state.autoHideControls

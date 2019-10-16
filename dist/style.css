@@ -47,8 +47,8 @@
   -moz-appearance: textfield;
   text-align: right;
   width: 52px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.32);
+  border: 2px solid rgba(0, 0, 0, 0.24);
   padding: 2px 6px;
   color: #fff;
   margin: 0 6px;
@@ -147,7 +147,8 @@
   background: transparent;
 }
 
-.villain .button-icon:hover:not(:disabled):not(.button--active) {
+.villain .button-icon:hover:not(:disabled):not(.button--active),
+.villain .button-icon:focus:not(:disabled):not(.button--active) {
   background: rgba(0, 0, 0, 0.2);
 }
 
