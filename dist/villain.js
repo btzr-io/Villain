@@ -99,25 +99,29 @@
   // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
   // nor polyfill, then a plain number is used for performance.
   var hasSymbol = typeof Symbol === 'function' && Symbol.for;
-
   var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
   var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
   var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
   var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
   var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
   var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
-  var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
+  var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
+  // (unstable) APIs that have been removed. Can we remove the symbols?
+
   var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
   var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
   var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
   var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
+  var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8;
   var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
   var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
+  var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5;
+  var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6;
+  var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
 
   function isValidElementType(type) {
-    return typeof type === 'string' || typeof type === 'function' ||
-    // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-    type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+    return typeof type === 'string' || typeof type === 'function' || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
+    type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE);
   }
 
   /**
@@ -133,12 +137,11 @@
    * paths. Removing the logging code for production environments will keep the
    * same logic and follow the same code paths.
    */
-
-  var lowPriorityWarning = function () {};
+  var lowPriorityWarningWithoutStack = function () {};
 
   {
     var printWarning = function (format) {
-      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
       }
 
@@ -146,9 +149,11 @@
       var message = 'Warning: ' + format.replace(/%s/g, function () {
         return args[argIndex++];
       });
+
       if (typeof console !== 'undefined') {
         console.warn(message);
       }
+
       try {
         // --- Welcome to debugging React ---
         // This error was thrown as a convenience so that you can use this stack
@@ -157,25 +162,27 @@
       } catch (x) {}
     };
 
-    lowPriorityWarning = function (condition, format) {
+    lowPriorityWarningWithoutStack = function (condition, format) {
       if (format === undefined) {
-        throw new Error('`lowPriorityWarning(condition, format, ...args)` requires a warning ' + 'message argument');
+        throw new Error('`lowPriorityWarningWithoutStack(condition, format, ...args)` requires a warning ' + 'message argument');
       }
+
       if (!condition) {
-        for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        for (var _len2 = arguments.length, args = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
           args[_key2 - 2] = arguments[_key2];
         }
 
-        printWarning.apply(undefined, [format].concat(args));
+        printWarning.apply(void 0, [format].concat(args));
       }
     };
   }
 
-  var lowPriorityWarning$1 = lowPriorityWarning;
+  var lowPriorityWarningWithoutStack$1 = lowPriorityWarningWithoutStack;
 
   function typeOf(object) {
     if (typeof object === 'object' && object !== null) {
       var $$typeof = object.$$typeof;
+
       switch ($$typeof) {
         case REACT_ELEMENT_TYPE:
           var type = object.type;
@@ -188,6 +195,7 @@
             case REACT_STRICT_MODE_TYPE:
             case REACT_SUSPENSE_TYPE:
               return type;
+
             default:
               var $$typeofType = type && type.$$typeof;
 
@@ -196,10 +204,13 @@
                 case REACT_FORWARD_REF_TYPE:
                 case REACT_PROVIDER_TYPE:
                   return $$typeofType;
+
                 default:
                   return $$typeof;
               }
+
           }
+
         case REACT_LAZY_TYPE:
         case REACT_MEMO_TYPE:
         case REACT_PORTAL_TYPE:
@@ -208,9 +219,8 @@
     }
 
     return undefined;
-  }
+  } // AsyncMode is deprecated along with isAsyncMode
 
-  // AsyncMode is deprecated along with isAsyncMode
   var AsyncMode = REACT_ASYNC_MODE_TYPE;
   var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
   var ContextConsumer = REACT_CONTEXT_TYPE;
@@ -224,17 +234,16 @@
   var Profiler = REACT_PROFILER_TYPE;
   var StrictMode = REACT_STRICT_MODE_TYPE;
   var Suspense = REACT_SUSPENSE_TYPE;
+  var hasWarnedAboutDeprecatedIsAsyncMode = false; // AsyncMode should be deprecated
 
-  var hasWarnedAboutDeprecatedIsAsyncMode = false;
-
-  // AsyncMode should be deprecated
   function isAsyncMode(object) {
     {
       if (!hasWarnedAboutDeprecatedIsAsyncMode) {
         hasWarnedAboutDeprecatedIsAsyncMode = true;
-        lowPriorityWarning$1(false, 'The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
+        lowPriorityWarningWithoutStack$1(false, 'The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
       }
     }
+
     return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
   }
   function isConcurrentMode(object) {
@@ -709,7 +718,7 @@
             );
             err.name = 'Invariant Violation';
             throw err;
-          } else if (typeof console !== 'undefined') {
+          } else if ( typeof console !== 'undefined') {
             // Old behavior for people using React.PropTypes
             var cacheKey = componentName + ':' + propName;
             if (
@@ -886,7 +895,7 @@
 
     function createUnionTypeChecker(arrayOfTypeCheckers) {
       if (!Array.isArray(arrayOfTypeCheckers)) {
-        printWarning$1('Invalid argument supplied to oneOfType, expected an instance of array.');
+         printWarning$1('Invalid argument supplied to oneOfType, expected an instance of array.') ;
         return emptyFunctionThatReturnsNull;
       }
 
@@ -1144,11 +1153,14 @@
     isFirstPage: true,
     currentPage: null,
     currentZoom: null,
+    canZoomIn: false,
+    canZoomOut: false,
     // Settings
     theme: 'dark',
     bookMode: false,
     fullscreen: false,
-    showControls: false
+    showControls: false,
+    autoHideControls: false
   };
   class ReaderProvider extends React.Component {
     constructor(...args) {
@@ -1197,6 +1209,12 @@
           this.setState({ ...data
           });
         }
+      });
+
+      _defineProperty(this, "togglePin", () => {
+        this.setState(prevState => ({
+          autoHideControls: !prevState.autoHideControls
+        }));
       });
 
       _defineProperty(this, "navigateToPage", pageIndex => {
@@ -1273,6 +1291,7 @@
           state: this.state,
           trigger: this.trigger,
           getPage: this.getPage,
+          togglePin: this.togglePin,
           createPage: this.createPage,
           updateState: this.updateState,
           toggleSetting: this.toggleSetting,
@@ -1297,14 +1316,15 @@
         height
       } = this.props;
       const {
-        fullscreen
+        fullscreen,
+        autoHideControls
       } = this.context.state;
       const size = {
         width,
         height
       };
       return React__default.createElement("div", {
-        className: clsx('villain', fullscreen && 'villain-fullscreen'),
+        className: clsx('villain', fullscreen && 'villain-fullscreen', !autoHideControls && 'villain--static'),
         style: size
       }, this.props.children);
     }
@@ -1405,6 +1425,33 @@
                   resolve(this);
               }
           });
+      }
+
+      /**
+       * detect if archive has encrypted data
+       * @returns {boolean|null} null if could not be determined
+       */
+      hasEncryptedData(){
+          return this._postMessage({type: 'CHECK_ENCRYPTION'}, 
+              (resolve,reject,msg) => {
+                  if( msg.type === 'ENCRYPTION_STATUS' ){
+                      resolve(msg.status);
+                  }
+              }
+          );
+      }
+
+      /**
+       * set password to be used when reading archive
+       */
+      usePassword(archivePassword){
+          return this._postMessage({type: 'SET_PASSPHRASE', passphrase: archivePassword},
+              (resolve,reject,msg) => {
+                  if( msg.type === 'PASSPHRASE_STATUS' ){
+                      resolve(msg.status);
+                  }
+              }
+          );
       }
 
       /**
@@ -1577,20 +1624,22 @@
   };
 
   var Icon = createCommonjsModule(function (module) {
-  module.exports=function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=2)}([function(e,t){e.exports=propTypes;},function(e,t){e.exports=React__default;},function(e,t,r){r.r(t);var n=r(1),o=r(0),l=function(){return (l=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},i=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},a=function(e){var t=e.size,r=void 0===t?null:t,o=e.color,a=void 0===o?null:o,s=e.horizontal,u=void 0===s?null:s,p=e.vertical,c=void 0===p?null:p,f=e.rotate,y=void 0===f?null:f,d=e.spin,v=void 0===d?null:d,m=e.style,b=void 0===m?{}:m,h=e.children,g=i(e,["size","color","horizontal","vertical","rotate","spin","style","children"]),O=null!==v&&v,z=n.Children.map(h,function(e){var t=e;!0!==O&&(O=!0===(null===v?t.props.spin:v));var o=t.props.size;"number"==typeof r&&"number"==typeof t.props.size&&(o=t.props.size/r);var l={size:o,color:null===a?t.props.color:a,horizontal:null===u?t.props.horizontal:u,vertical:null===c?t.props.vertical:c,rotate:null===y?t.props.rotate:y,spin:null===v?t.props.spin:v,inStack:!0};return n.cloneElement(t,l)});return null!==r&&(b.width="string"==typeof r?r:1.5*r+"rem"),n.createElement("svg",l({viewBox:"0 0 24 24",style:b},g),O&&n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }","@keyframes spin-inverse { to { transform: rotate(-360deg) } }"),z)};a.displayName="Stack",a.propTypes={size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),children:o.oneOfType([o.arrayOf(o.node),o.node]).isRequired,className:o.string,style:o.object},a.defaultProps={size:null,color:null,horizontal:null,vertical:null,rotate:null,spin:null};var s=a;r.d(t,"Icon",function(){return c}),r.d(t,"Stack",function(){return s});var u=function(){return (u=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},p=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},c=function(e){var t=e.path,r=e.size,o=void 0===r?null:r,l=e.color,i=void 0===l?null:l,a=e.horizontal,s=void 0!==a&&a,c=e.vertical,f=void 0!==c&&c,y=e.rotate,d=void 0===y?0:y,v=e.spin,m=void 0!==v&&v,b=e.style,h=void 0===b?{}:b,g=e.inStack,O=void 0!==g&&g,z=p(e,["path","size","color","horizontal","vertical","rotate","spin","style","inStack"]),j={},w=[];null!==o&&(O?w.push("scale("+o+")"):(h.width="string"==typeof o?o:1.5*o+"rem",h.height=h.width)),s&&w.push("scaleX(-1)"),f&&w.push("scaleY(-1)"),0!==d&&w.push("rotate("+d+"deg)"),null!==i&&(j.fill=i);var P=n.createElement("path",u({d:t,style:j},O?z:{})),S=P;w.length>0&&(h.transform=w.join(" "),h.transformOrigin="center",O&&(S=n.createElement("g",{style:h},P,n.createElement("rect",{width:"24",height:"24",fill:"transparent"}))));var x=S;if(m){var E=!0===m||"number"!=typeof m?2:m,k=!O&&(s||f);E<0&&(k=!k),x=n.createElement("g",{style:{animation:"spin"+(k?"-inverse":"")+" linear "+Math.abs(E)+"s infinite",transformOrigin:"center"}},S,!(s||f||0!==d)&&n.createElement("rect",{width:"24",height:"24",fill:"transparent"}));}return O?x:n.createElement("svg",u({viewBox:"0 0 24 24",style:h},z),!O&&m&&(s||f?n.createElement("style",null,"@keyframes spin-inverse { to { transform: rotate(-360deg) } }"):n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }")),x)};c.displayName="Icon",c.propTypes={path:o.string.isRequired,size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),style:o.object,inStack:o.bool,className:o.string},c.defaultProps={size:null,color:null,horizontal:!1,vertical:!1,rotate:0,spin:!1};t.default=c;}]);
+  module.exports=function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n});},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0});},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=2)}([function(e,t){e.exports=propTypes;},function(e,t){e.exports=React__default;},function(e,t,r){r.r(t);var n=r(1),o=r(0),l=function(){return (l=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},i=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},a=0,s=n.forwardRef(function(e,t){var r=e.title,o=void 0===r?null:r,s=e.description,c=void 0===s?null:s,u=e.size,p=void 0===u?null:u,f=e.color,d=void 0===f?null:f,y=e.horizontal,v=void 0===y?null:y,b=e.vertical,m=void 0===b?null:b,h=e.rotate,g=void 0===h?null:h,O=e.spin,w=void 0===O?null:O,z=e.style,j=void 0===z?{}:z,E=e.children,P=i(e,["title","description","size","color","horizontal","vertical","rotate","spin","style","children"]);a++;var S,x=null!==w&&w,_=n.Children.map(E,function(e){var t=e;!0!==x&&(x=!0===(null===w?t.props.spin:w));var r=t.props.size;"number"==typeof p&&"number"==typeof t.props.size&&(r=t.props.size/p);var o={size:r,color:null===d?t.props.color:d,horizontal:null===v?t.props.horizontal:v,vertical:null===m?t.props.vertical:m,rotate:null===g?t.props.rotate:g,spin:null===w?t.props.spin:w,inStack:!0};return n.cloneElement(t,o)});null!==p&&(j.width="string"==typeof p?p:1.5*p+"rem");var k,T="stack_labelledby_"+a,q="stack_describedby_"+a;if(o)S=c?T+" "+q:T;else if(k="presentation",c)throw new Error("title attribute required when description is set");return n.createElement("svg",l({ref:t,viewBox:"0 0 24 24",style:j,role:k,"aria-labelledby":S},P),o&&n.createElement("title",{id:T},o),c&&n.createElement("desc",{id:q},c),x&&n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }","@keyframes spin-inverse { to { transform: rotate(-360deg) } }"),_)});s.displayName="Stack",s.propTypes={size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),children:o.oneOfType([o.arrayOf(o.node),o.node]).isRequired,className:o.string,style:o.object},s.defaultProps={size:null,color:null,horizontal:null,vertical:null,rotate:null,spin:null};var c=s;r.d(t,"Icon",function(){return d}),r.d(t,"Stack",function(){return c});var u=function(){return (u=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var o in t=arguments[r])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)},p=function(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var o=0;for(n=Object.getOwnPropertySymbols(e);o<n.length;o++)t.indexOf(n[o])<0&&(r[n[o]]=e[n[o]]);}return r},f=0,d=n.forwardRef(function(e,t){var r=e.path,o=e.title,l=void 0===o?null:o,i=e.description,a=void 0===i?null:i,s=e.size,c=void 0===s?null:s,d=e.color,y=void 0===d?null:d,v=e.horizontal,b=void 0!==v&&v,m=e.vertical,h=void 0!==m&&m,g=e.rotate,O=void 0===g?0:g,w=e.spin,z=void 0!==w&&w,j=e.style,E=void 0===j?{}:j,P=e.inStack,S=void 0!==P&&P,x=p(e,["path","title","description","size","color","horizontal","vertical","rotate","spin","style","inStack"]);f++;var _={},k=[];null!==c&&(S?k.push("scale("+c+")"):(E.width="string"==typeof c?c:1.5*c+"rem",E.height=E.width)),b&&k.push("scaleX(-1)"),h&&k.push("scaleY(-1)"),0!==O&&k.push("rotate("+O+"deg)"),null!==y&&(_.fill=y);var T=n.createElement("path",u({d:r,style:_},S?x:{})),q=T;k.length>0&&(E.transform=k.join(" "),E.transformOrigin="center",S&&(q=n.createElement("g",{style:E},T,n.createElement("rect",{width:"24",height:"24",fill:"transparent"}))));var M,N=q,R=!0===z||"number"!=typeof z?2:z,B=!S&&(b||h);if(R<0&&(B=!B),z&&(N=n.createElement("g",{style:{animation:"spin"+(B?"-inverse":"")+" linear "+Math.abs(R)+"s infinite",transformOrigin:"center"}},q,!(b||h||0!==O)&&n.createElement("rect",{width:"24",height:"24",fill:"transparent"}))),S)return N;var I,C="icon_labelledby_"+f,X="icon_describedby_"+f;if(l)M=a?C+" "+X:C;else if(I="presentation",a)throw new Error("title attribute required when description is set");return n.createElement("svg",u({ref:t,viewBox:"0 0 24 24",style:E,role:I,"aria-labelledby":M},x),l&&n.createElement("title",{id:C},l),a&&n.createElement("desc",{id:X},a),!S&&z&&(B?n.createElement("style",null,"@keyframes spin-inverse { to { transform: rotate(-360deg) } }"):n.createElement("style",null,"@keyframes spin { to { transform: rotate(360deg) } }")),N)});d.displayName="Icon",d.propTypes={path:o.string.isRequired,size:o.oneOfType([o.number,o.string]),color:o.string,horizontal:o.bool,vertical:o.bool,rotate:o.number,spin:o.oneOfType([o.bool,o.number]),style:o.object,inStack:o.bool,className:o.string},d.defaultProps={size:null,color:null,horizontal:!1,vertical:!1,rotate:0,spin:!1};t.default=d;}]);
 
   });
 
   var Icon$1 = unwrapExports(Icon);
 
-  // Material Design Icons v3.6.95
-  var mdiBookOpen = "M13,12H20V13.5H13M13,9.5H20V11H13M13,14.5H20V16H13M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M21,19H12V6H21";
-  var mdiBookOpenOutline = "M21,4H3C1.9,4 1,4.9 1,6V19C1,20.1 1.9,21 3,21H21C22.1,21 23,20.1 23,19V6C23,4.9 22.1,4 21,4M3,19V6H11V19H3M21,19H13V6H21V19M14,9.5H20V11H14V9.5M14,12H20V13.5H14V12M14,14.5H20V16H14V14.5Z";
+  // Material Design Icons v4.5.95
+  var mdiBookOpen = "M13,12H20V13.5H13M13,9.5H20V11H13M13,14.5H20V16H13M21,4H3A2,2 0 0,0 1,6V19A2,2 0 0,0 3,21H21A2,2 0 0,0 23,19V6A2,2 0 0,0 21,4M21,19H12V6H21";
+  var mdiBookOpenOutline = "M21,4H3A2,2 0 0,0 1,6V19A2,2 0 0,0 3,21H21A2,2 0 0,0 23,19V6A2,2 0 0,0 21,4M3,19V6H11V19H3M21,19H13V6H21V19M14,9.5H20V11H14V9.5M14,12H20V13.5H14V12M14,14.5H20V16H14V14.5Z";
   var mdiChatAlert = "M12,3C17.5,3 22,6.58 22,11C22,15.42 17.5,19 12,19C10.76,19 9.57,18.82 8.47,18.5C5.55,21 2,21 2,21C4.33,18.67 4.7,17.1 4.75,16.5C3.05,15.07 2,13.13 2,11C2,6.58 6.5,3 12,3M11,14V16H13V14H11M11,12H13V6H11V12Z";
   var mdiChevronLeft = "M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z";
   var mdiChevronRight = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z";
   var mdiFullscreen = "M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z";
+  var mdiFullscreenExit = "M14,14H19V16H16V19H14V14M5,14H10V19H8V16H5V14M8,5H10V10H5V8H8V5M19,8V10H14V5H16V8H19Z";
   var mdiMinus = "M19,13H5V11H19V13Z";
+  var mdiPin = "M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z";
   var mdiPlus = "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z";
 
   class Error$1 extends React.Component {
@@ -1779,9 +1828,9 @@
   };
 
   var openseadragon = createCommonjsModule(function (module) {
-  //! openseadragon 2.4.0
-  //! Built on 2018-07-20
-  //! Git commit: v2.4.0-0-446af4d
+  //! openseadragon 2.4.1
+  //! Built on 2019-07-03
+  //! Git commit: v2.4.1-0-244790e
   //! http://openseadragon.github.io
   //! License: http://openseadragon.github.io/license/
 
@@ -1871,7 +1920,7 @@
 
   /**
    * @namespace OpenSeadragon
-   * @version openseadragon 2.4.0
+   * @version openseadragon 2.4.1
    * @classdesc The root namespace for OpenSeadragon.  All utility methods
    * and classes are defined on or below this namespace.
    *
@@ -1985,6 +2034,11 @@
     *     'destination-over', 'destination-atop', 'destination-in',
     *     'destination-out', 'lighter', 'copy' or 'xor'
     *
+    * @property {Boolean} [imageSmoothingEnabled=true]
+    *     Image smoothing for canvas rendering (only if canvas is used). Note: Ignored
+    *     by some (especially older) browsers which do not support this canvas property.
+    *     This property can be changed in {@link Viewer.Drawer.setImageSmoothingEnabled}.
+    *
     * @property {String|CanvasGradient|CanvasPattern|Function} [placeholderFillStyle=null]
     *     Draws a colored rectangle behind the tile if it is not loaded yet.
     *     You can pass a CSS color value like "#FF8800".
@@ -2029,7 +2083,7 @@
     *     The maximum ratio to allow a zoom-in to affect the highest level pixel
     *     ratio. This can be set to Infinity to allow 'infinite' zooming into the
     *     image though it is less effective visually if the HTML5 Canvas is not
-    *     availble on the viewing device.
+    *     available on the viewing device.
     *
     * @property {Number} [smoothTileEdgesMinZoom=1.1]
     *     A zoom percentage ( where 1 is 100% ) of the highest resolution level.
@@ -2052,6 +2106,9 @@
     *     Number of milliseconds between canvas-scroll events. This value helps normalize the rate of canvas-scroll
     *     events between different devices, causing the faster devices to slow down enough to make the zoom control
     *     more manageable.
+    *
+    * @property {Number} [rotationIncrement=90]
+    *     The number of degrees to rotate right or left when the rotate buttons or keyboard shortcuts are activated.
     *
     * @property {Number} [pixelsPerWheelLine=40]
     *     For pixel-resolution scrolling devices, the number of pixels equal to one scroll line.
@@ -2220,7 +2277,7 @@
     *
     * @property {Number} [controlsFadeDelay=2000]
     *     The number of milliseconds to wait once the user has stopped interacting
-    *     with the interface before begining to fade the controls. Assumes
+    *     with the interface before beginning to fade the controls. Assumes
     *     showNavigationControl and autoHideControls are both true.
     *
     * @property {Number} [controlsFadeLength=1500]
@@ -2238,7 +2295,7 @@
     * @property {Number} [minPixelRatio=0.5]
     *     The higher the minPixelRatio, the lower the quality of the image that
     *     is considered sufficient to stop rendering a given zoom level.  For
-    *     example, if you are targeting mobile devices with less bandwith you may
+    *     example, if you are targeting mobile devices with less bandwidth you may
     *     try setting this to 1.5 or higher.
     *
     * @property {Boolean} [mouseNavEnabled=true]
@@ -2533,10 +2590,10 @@
        * @since 1.0.0
        */
       $.version = {
-          versionStr: '2.4.0',
+          versionStr: '2.4.1',
           major: parseInt('2', 10),
           minor: parseInt('4', 10),
-          revision: parseInt('0', 10)
+          revision: parseInt('1', 10)
       };
 
 
@@ -2919,6 +2976,7 @@
               autoResize:             true,
               preserveImageSizeOnResize: false, // requires autoResize=true
               minScrollDeltaTime:     50,
+              rotationIncrement:      90,
 
               //DEFAULT CONTROL SETTINGS
               showSequenceControl:     true,  //SEQUENCE
@@ -2965,6 +3023,7 @@
               opacity:                    1,
               preload:                    false,
               compositeOperation:         null,
+              imageSmoothingEnabled:      true,
               placeholderFillStyle:       null,
 
               //REFERENCE STRIP SETTINGS
@@ -3120,7 +3179,7 @@
           /**
            * Determines the position of the upper-left corner of the element.
            * @function
-           * @param {Element|String} element - the elemenet we want the position for.
+           * @param {Element|String} element - the element we want the position for.
            * @returns {OpenSeadragon.Point} - the position of the upper left corner of the element.
            */
           getElementPosition: function( element ) {
@@ -3863,7 +3922,7 @@
           /**
            * Similar to OpenSeadragon.delegate, but it does not immediately call
            * the method on the object, returning a function which can be called
-           * repeatedly to delegate the method. It also allows additonal arguments
+           * repeatedly to delegate the method. It also allows additional arguments
            * to be passed during construction which will be added during each
            * invocation, and each invocation can add additional arguments as well.
            *
@@ -3897,7 +3956,7 @@
 
 
           /**
-           * Retreives the value of a url parameter from the window.location string.
+           * Retrieves the value of a url parameter from the window.location string.
            * @function
            * @param {String} key
            * @returns {String} The value of the url parameter or null if no param matches.
@@ -4391,7 +4450,7 @@
       //TODO: $.console is often used inside a try/catch block which generally
       //      prevents allowings errors to occur with detection until a debugger
       //      is attached.  Although I've been guilty of the same anti-pattern
-      //      I eventually was convinced that errors should naturally propogate in
+      //      I eventually was convinced that errors should naturally propagate in
       //      all but the most special cases.
       /**
        * A convenient alias for console when available, and a simple null
@@ -4520,7 +4579,7 @@
 
   // Universal Module Definition, supports CommonJS, AMD and simple script tag
   (function (root, factory) {
-      if (module.exports) {
+      if ( module.exports) {
           // expose as commonjs module
           module.exports = factory();
       } else {
@@ -8411,7 +8470,7 @@
       /**
        * Determines if the control is currently visible.
        * @function
-       * @return {Boolean} true if currenly visible, false otherwise.
+       * @return {Boolean} true if currently visible, false otherwise.
        */
       isVisible: function() {
           return this.wrapper.style.display != "none";
@@ -8884,7 +8943,7 @@
           i;
 
 
-      //backward compatibility for positional args while prefering more
+      //backward compatibility for positional args while preferring more
       //idiomatic javascript options object as the only argument
       if( !$.isPlainObject( options ) ){
           options = {
@@ -9281,6 +9340,12 @@
       $.requestAnimationFrame( function(){
           beginControlsAutoHide( _this );
       } );
+
+      // Initial canvas options
+      if ( this.imageSmoothingEnabled !== undefined && !this.imageSmoothingEnabled){
+          this.drawer.setImageSmoothingEnabled(this.imageSmoothingEnabled);
+      }
+
   };
 
   $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, /** @lends OpenSeadragon.Viewer.prototype */{
@@ -9644,7 +9709,7 @@
           var enabled = this.controls.length,
               i;
           for( i = 0; i < this.controls.length; i++ ){
-              enabled = enabled && this.controls[ i ].isVisibile();
+              enabled = enabled && this.controls[ i ].isVisible();
           }
           return enabled;
       },
@@ -9721,7 +9786,7 @@
               nodes,
               i;
 
-          //dont bother modifying the DOM if we are already in full page mode.
+          //don't bother modifying the DOM if we are already in full page mode.
           if ( fullPage == this.isFullPage() ) {
               return this;
           }
@@ -9776,7 +9841,7 @@
               bodyStyle.height = "100%";
               docStyle.height = "100%";
 
-              //when entering full screen on the ipad it wasnt sufficient to leave
+              //when entering full screen on the ipad it wasn't sufficient to leave
               //the body intact as only only the top half of the screen would
               //respond to touch events on the canvas, while the bottom half treated
               //them as touch events on the document body.  Thus we remove and store
@@ -9983,7 +10048,10 @@
                       }
                   }
                   if ( _this.navigator && _this.viewport ) {
-                      _this.navigator.update( _this.viewport );
+                      //09/08/2018 - Fabroh : Fix issue #1504 : Ensure to get the navigator updated on fullscreen out with custom location with a timeout
+                      setTimeout(function(){
+                          _this.navigator.update( _this.viewport );
+                      });
                   }
                   /**
                    * Raised when the viewer has changed to/from full-screen mode (see {@link OpenSeadragon.Viewer#setFullScreen}).
@@ -10712,11 +10780,11 @@
        * is closed which include when changing page.
        * @method
        * @param {Element|String|Object} element - A reference to an element or an id for
-       *      the element which will be overlayed. Or an Object specifying the configuration for the overlay.
+       *      the element which will be overlaid. Or an Object specifying the configuration for the overlay.
        *      If using an object, see {@link OpenSeadragon.Overlay} for a list of
        *      all available options.
        * @param {OpenSeadragon.Point|OpenSeadragon.Rect} location - The point or
-       *      rectangle which will be overlayed. This is a viewport relative location.
+       *      rectangle which will be overlaid. This is a viewport relative location.
        * @param {OpenSeadragon.Placement} placement - The position of the
        *      viewport which the location coordinates will be treated as relative
        *      to.
@@ -10775,9 +10843,9 @@
        * element id moving it to the new location, relative to the new placement.
        * @method
        * @param {Element|String} element - A reference to an element or an id for
-       *      the element which is overlayed.
+       *      the element which is overlaid.
        * @param {OpenSeadragon.Point|OpenSeadragon.Rect} location - The point or
-       *      rectangle which will be overlayed. This is a viewport relative location.
+       *      rectangle which will be overlaid. This is a viewport relative location.
        * @param {OpenSeadragon.Placement} placement - The position of the
        *      viewport which the location coordinates will be treated as relative
        *      to.
@@ -11446,19 +11514,19 @@
                     this.viewport.applyConstraints();
                   }
                   return false;
-              case 114: //r - 90 degrees clockwise rotation
+              case 114: //r - clockwise rotation
                 if(this.viewport.flipped){
-                  this.viewport.setRotation(this.viewport.degrees - 90);
+                  this.viewport.setRotation($.positiveModulo(this.viewport.degrees - this.rotationIncrement, 360));
                 } else{
-                  this.viewport.setRotation(this.viewport.degrees + 90);
+                  this.viewport.setRotation($.positiveModulo(this.viewport.degrees + this.rotationIncrement, 360));
                 }
                 this.viewport.applyConstraints();
                 return false;
-              case 82: //R - 90 degrees counterclockwise  rotation
+              case 82: //R - counterclockwise  rotation
                 if(this.viewport.flipped){
-                  this.viewport.setRotation(this.viewport.degrees + 90);
+                  this.viewport.setRotation($.positiveModulo(this.viewport.degrees + this.rotationIncrement, 360));
                 } else{
-                  this.viewport.setRotation(this.viewport.degrees - 90);
+                  this.viewport.setRotation($.positiveModulo(this.viewport.degrees - this.rotationIncrement, 360));
                 }
                 this.viewport.applyConstraints();
                 return false;
@@ -12296,38 +12364,31 @@
       }
   }
 
-  /**
-   * Note: The current rotation feature is limited to 90 degree turns.
-   */
   function onRotateLeft() {
       if ( this.viewport ) {
           var currRotation = this.viewport.getRotation();
 
           if ( this.viewport.flipped ){
-            currRotation = $.positiveModulo(currRotation + 90, 360);
+            currRotation = $.positiveModulo(currRotation + this.rotationIncrement, 360);
           } else {
-            currRotation = $.positiveModulo(currRotation - 90, 360);
+            currRotation = $.positiveModulo(currRotation - this.rotationIncrement, 360);
           }
           this.viewport.setRotation(currRotation);
       }
   }
 
-  /**
-   * Note: The current rotation feature is limited to 90 degree turns.
-   */
   function onRotateRight() {
       if ( this.viewport ) {
           var currRotation = this.viewport.getRotation();
 
           if ( this.viewport.flipped ){
-            currRotation = $.positiveModulo(currRotation - 90, 360);
+            currRotation = $.positiveModulo(currRotation - this.rotationIncrement, 360);
           } else {
-            currRotation = $.positiveModulo(currRotation + 90, 360);
+            currRotation = $.positiveModulo(currRotation + this.rotationIncrement, 360);
           }
           this.viewport.setRotation(currRotation);
       }
   }
-
   /**
    * Note: When pressed flip control button
    */
@@ -12509,7 +12570,7 @@
           style.border        = borderWidth + 'px solid ' + options.displayRegionColor;
           style.margin        = '0px';
           style.padding       = '0px';
-          //TODO: IE doesnt like this property being set
+          //TODO: IE doesn't like this property being set
           //try{ style.outline  = '2px auto #909'; }catch(e){/*ignore*/}
 
           style.background    = 'transparent';
@@ -12928,7 +12989,7 @@
           originalEvent: event.originalEvent
       });
 
-      //dont scroll the page up and down if the user is scrolling
+      //don't scroll the page up and down if the user is scrolling
       //in the navigator
       return false;
   }
@@ -13161,10 +13222,10 @@
       },
 
       /**
-       * Substract another Point to this point and return a new Point.
+       * Subtract another Point to this point and return a new Point.
        * @function
-       * @param {OpenSeadragon.Point} point The point to substract vector components.
-       * @returns {OpenSeadragon.Point} A new point representing the substraction of the
+       * @param {OpenSeadragon.Point} point The point to subtract vector components.
+       * @returns {OpenSeadragon.Point} A new point representing the subtraction of the
        *  vector components
        */
       minus: function( point ) {
@@ -13436,7 +13497,7 @@
       //by asynchronously fetching their configuration data.
       $.EventSource.call( this );
 
-      //we allow options to override anything we dont treat as
+      //we allow options to override anything we don't treat as
       //required via idiomatic options or which is functionally
       //set depending on the state of the readiness of this tile
       //source
@@ -13495,7 +13556,7 @@
       }
 
       if (this.url) {
-          //in case the getImageInfo method is overriden and/or implies an
+          //in case the getImageInfo method is overridden and/or implies an
           //async mechanism set some safe defaults first
           this.aspectRatio = 1;
           this.dimensions  = new $.Point( 10, 10 );
@@ -13562,7 +13623,7 @@
 
       getTileSize: function( level ) {
           $.console.error(
-              "[TileSource.getTileSize] is deprecated." +
+              "[TileSource.getTileSize] is deprecated. " +
               "Use TileSource.getTileWidth() and TileSource.getTileHeight() instead"
           );
           return this._tileWidth;
@@ -14143,7 +14204,7 @@
        *
        * @function
        * @param {Object|XMLDocument} data - the raw configuration
-       * @param {String} url - the url the data was retreived from if any.
+       * @param {String} url - the url the data was retrieved from if any.
        * @return {Object} options - A dictionary of keyword arguments sufficient
        *      to configure this tile sources constructor.
        */
@@ -14440,6 +14501,8 @@
    * @memberof OpenSeadragon
    * @extends OpenSeadragon.TileSource
    * @see http://iiif.io/api/image/
+   * @param {String} [options.tileFormat='jpg']
+   *      The extension that will be used when requiring tiles.
    */
   $.IIIFTileSource = function( options ){
 
@@ -14452,6 +14515,8 @@
       }
 
       options.tileSizePerScaleFactor = {};
+
+      this.tileFormat = this.tileFormat || 'jpg';
 
       // N.B. 2.0 renamed scale_factors to scaleFactors
       if ( this.tile_width && this.tile_height ) {
@@ -14596,11 +14661,19 @@
               options['@context'] = "http://iiif.io/api/image/1.0/context.json";
               options['@id'] = url.replace('/info.xml', '');
               return options;
-          } else if ( !data['@context'] ) {
-              data['@context'] = 'http://iiif.io/api/image/1.0/context.json';
-              data['@id'] = url.replace('/info.json', '');
-              return data;
           } else {
+              if ( !data['@context'] ) {
+                  data['@context'] = 'http://iiif.io/api/image/1.0/context.json';
+                  data['@id'] = url.replace('/info.json', '');
+              }
+              if(data.preferredFormats) {
+                  for (var f = 0; f < data.preferredFormats.length; f++ ) {
+                      if ( OpenSeadragon.imageFormatSupported(data.preferredFormats[f]) ) {
+                          data.tileFormat = data.preferredFormats[f];
+                          break;
+                      }
+                  }
+              }
               return data;
           }
       },
@@ -14735,32 +14808,46 @@
               iiifTileW,
               iiifTileH,
               iiifSize,
+              iiifSizeW,
               iiifQuality,
-              uri;
+              uri,
+              isv1;
 
           tileWidth = this.getTileWidth(level);
           tileHeight = this.getTileHeight(level);
           iiifTileSizeWidth = Math.ceil( tileWidth / scale );
           iiifTileSizeHeight = Math.ceil( tileHeight / scale );
-
-          if ( this['@context'].indexOf('/1.0/context.json') > -1 ||
+          isv1 = ( this['@context'].indexOf('/1.0/context.json') > -1 ||
                this['@context'].indexOf('/1.1/context.json') > -1 ||
-               this['@context'].indexOf('/1/context.json') > -1 ) {
-              iiifQuality = "native.jpg";
+               this['@context'].indexOf('/1/context.json') > -1 );
+          if (isv1) {
+              iiifQuality = "native." + this.tileFormat;
           } else {
-              iiifQuality = "default.jpg";
+              iiifQuality = "default." + this.tileFormat;
           }
-
           if ( levelWidth < tileWidth && levelHeight < tileHeight ){
-              iiifSize = levelWidth + ",";
+              if ( isv1 || levelWidth !== this.width ) {
+                  iiifSize = levelWidth + ",";
+              } else {
+                  iiifSize = "max";
+              }
               iiifRegion = 'full';
           } else {
               iiifTileX = x * iiifTileSizeWidth;
               iiifTileY = y * iiifTileSizeHeight;
               iiifTileW = Math.min( iiifTileSizeWidth, this.width - iiifTileX );
               iiifTileH = Math.min( iiifTileSizeHeight, this.height - iiifTileY );
-              iiifSize = Math.ceil( iiifTileW * scale ) + ",";
-              iiifRegion = [ iiifTileX, iiifTileY, iiifTileW, iiifTileH ].join( ',' );
+              if ( x === 0 && y === 0 && iiifTileW === this.width && iiifTileH === this.height ) {
+                  iiifRegion = "full";
+              } else {
+                  iiifRegion = [ iiifTileX, iiifTileY, iiifTileW, iiifTileH ].join( ',' );
+              }
+              iiifSizeW = Math.ceil( iiifTileW * scale );
+              if ( (!isv1) && iiifSizeW === this.width ) {
+                  iiifSize = "max";
+              } else {
+                  iiifSize = iiifSizeW + ",";
+              }
           }
           uri = [ this['@id'], iiifRegion, iiifSize, IIIF_ROTATION, iiifQuality ].join( '/' );
 
@@ -14772,17 +14859,21 @@
       /**
        * Determine whether arbitrary tile requests can be made against a service with the given profile
        * @function
-       * @param {object} profile - IIIF profile object
+       * @param {array} profile - IIIF profile array
        * @throws {Error}
        */
-      function canBeTiled (profile ) {
+      function canBeTiled ( profile ) {
           var level0Profiles = [
               "http://library.stanford.edu/iiif/image-api/compliance.html#level0",
               "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level0",
               "http://iiif.io/api/image/2/level0.json"
           ];
-          var isLevel0 = (level0Profiles.indexOf(profile[0]) != -1);
-          return !isLevel0 || (profile.indexOf("sizeByW") != -1);
+          var isLevel0 = (level0Profiles.indexOf(profile[0]) !== -1);
+          var hasSizeByW = false;
+          if ( profile.length > 1 && profile[1].supports ) {
+              hasSizeByW = profile[1].supports.indexOf( "sizeByW" ) !== -1;
+          }
+          return !isLevel0 || hasSizeByW;
       }
 
       /**
@@ -14795,7 +14886,7 @@
           var levels = [];
           for(var i = 0; i < options.sizes.length; i++) {
               levels.push({
-                  url: options['@id'] + '/full/' + options.sizes[i].width + ',/0/default.jpg',
+                  url: options['@id'] + '/full/' + options.sizes[i].width + ',/0/default.' + options.tileFormat,
                   width: options.sizes[i].width,
                   height: options.sizes[i].height
               });
@@ -14981,7 +15072,7 @@
        *
        * @function
        * @param {Object} data - the raw configuration
-       * @param {String} url - the url the data was retreived from if any.
+       * @param {String} url - the url the data was retrieved from if any.
        * @return {Object} options - A dictionary of keyword arguments sufficient
        *      to configure this tile sources constructor.
        */
@@ -15116,7 +15207,7 @@
        *
        * @function
        * @param {Object} data - the raw configuration
-       * @param {String} url - the url the data was retreived from if any.
+       * @param {String} url - the url the data was retrieved from if any.
        * @return {Object} options - A dictionary of keyword arguments sufficient
        *      to configure this tile sources constructor.
        */
@@ -15258,7 +15349,7 @@
            *
            * @function
            * @param {Object} data - the raw configuration
-           * @param {String} url - the url the data was retreived from if any.
+           * @param {String} url - the url the data was retrieved from if any.
            * @return {Object} options - A dictionary of keyword arguments sufficient
            *      to configure this tile sources constructor.
            */
@@ -15408,7 +15499,7 @@
        *
        * @function
        * @param {Object|XMLDocument} configuration - the raw configuration
-       * @param {String} dataUrl - the url the data was retreived from if any.
+       * @param {String} dataUrl - the url the data was retrieved from if any.
        * @return {Object} options - A dictionary of keyword arguments sufficient
        *      to configure this tile sources constructor.
        */
@@ -15477,7 +15568,7 @@
   } );
 
   /**
-   * This method removes any files from the Array which dont conform to our
+   * This method removes any files from the Array which don't conform to our
    * basic requirements for a 'level' in the LegacyTileSource.
    * @private
    * @inner
@@ -15666,7 +15757,7 @@
            *
            * @function
            * @param {Object} options - the options
-           * @param {String} dataUrl - the url the image was retreived from, if any.
+           * @param {String} dataUrl - the url the image was retrieved from, if any.
            * @return {Object} options - A dictionary of keyword arguments sufficient
            *      to configure this tile sources constructor.
            */
@@ -15776,7 +15867,7 @@
 
           // private
           //
-          // Builds the differents levels of the pyramid if possible
+          // Builds the different levels of the pyramid if possible
           // (i.e. if canvas API enabled and no canvas tainting issue).
           _buildLevels: function () {
               var levels = [{
@@ -16465,11 +16556,11 @@
 
       // TODO What if there IS an options.group specified?
       if( !options.group ){
-          this.label   = $.makeNeutralElement( "label" );
+          this.element.style.display = "inline-block";
+          //this.label   = $.makeNeutralElement( "label" );
           //TODO: support labels for ButtonGroups
           //this.label.innerHTML = this.labelText;
-          this.element.style.display = "inline-block";
-          this.element.appendChild( this.label );
+          //this.element.appendChild( this.label );
           for ( i = 0; i < buttons.length; i++ ) {
               this.element.appendChild( buttons[ i ].element );
           }
@@ -16478,7 +16569,7 @@
       $.setElementTouchActionNone( this.element );
 
       /**
-       * Tracks mouse/touch/key events accross the group of buttons.
+       * Tracks mouse/touch/key events across the group of buttons.
        * @member {OpenSeadragon.MouseTracker} tracker
        * @memberof OpenSeadragon.ButtonGroup#
        */
@@ -17144,7 +17235,7 @@
    *  TODO:   The difficult part of this feature is figuring out how to express
    *          this functionality as a combination of the functionality already
    *          provided by Drawer, Viewport, TileSource, and Navigator.  It may
-   *          require better abstraction at those points in order to effeciently
+   *          require better abstraction at those points in order to efficiently
    *          reuse those paradigms.
    */
   /**
@@ -18124,7 +18215,7 @@
           };
 
           this.jobId = window.setTimeout(function(){
-              self.errorMsg = "Image load exceeded timeout";
+              self.errorMsg = "Image load exceeded timeout (" + self.timeout + " ms)";
               self.finish(false);
           }, this.timeout);
 
@@ -18860,7 +18951,7 @@
        * Defines what part of the overlay should be at the specified options.location
        * @param {OpenSeadragon.Overlay.OnDrawCallback} [options.onDraw]
        * @param {Boolean} [options.checkResize=true] Set to false to avoid to
-       * check the size of the overlay everytime it is drawn in the directions
+       * check the size of the overlay every time it is drawn in the directions
        * which are not scaled. It will improve performances but will cause a
        * misalignment if the overlay size changes.
        * @param {Number} [options.width] The width of the overlay in viewport
@@ -19294,7 +19385,7 @@
 
       $.console.assert( options.viewer, "[Drawer] options.viewer is required" );
 
-      //backward compatibility for positional args while prefering more
+      //backward compatibility for positional args while preferring more
       //idiomatic javascript options object as the only argument
       var args  = arguments;
 
@@ -19376,6 +19467,10 @@
       // explicit left-align
       this.container.style.textAlign = "left";
       this.container.appendChild( this.canvas );
+
+      // Image smoothing for canvas rendering (only if canvas is used).
+      // Canvas default is "true", so this will only be changed if user specified "false".
+      this._imageSmoothingEnabled = true;
   };
 
   /** @lends OpenSeadragon.Drawer.prototype */
@@ -19495,10 +19590,12 @@
                   this.canvas.height != viewportSize.y ) {
                   this.canvas.width = viewportSize.x;
                   this.canvas.height = viewportSize.y;
+                  this._updateImageSmoothingEnabled(this.context);
                   if ( this.sketchCanvas !== null ) {
                       var sketchCanvasSize = this._calculateSketchCanvasSize();
                       this.sketchCanvas.width = sketchCanvasSize.x;
                       this.sketchCanvas.height = sketchCanvasSize.y;
+                      this._updateImageSmoothingEnabled(this.sketchContext);
                   }
               }
               this._clear();
@@ -19584,6 +19681,7 @@
                           self.sketchCanvas.height = sketchCanvasSize.y;
                       });
                   }
+                  this._updateImageSmoothingEnabled(this.sketchContext);
               }
               context = this.sketchContext;
           }
@@ -19746,10 +19844,6 @@
 
           if ( this.viewport.degrees !== 0 ) {
               this._offsetForRotation({degrees: this.viewport.degrees});
-          } else{
-            if(this.viewer.viewport.flipped) {
-              this._flip();
-            }
           }
           if (tiledImage.getRotation(true) % 360 !== 0) {
               this._offsetForRotation({
@@ -19757,6 +19851,11 @@
                   point: tiledImage.viewport.pixelFromPointNoRotate(
                       tiledImage._getRotationPoint(true), true)
               });
+          }
+          if (tiledImage.viewport.degrees === 0 && tiledImage.getRotation(true) % 360 === 0){
+            if(tiledImage._drawer.viewer.viewport.getFlip()) {
+                tiledImage._drawer._flip();
+            }
           }
 
           context.strokeRect(
@@ -19823,6 +19922,13 @@
           if (tiledImage.getRotation(true) % 360 !== 0) {
               this._restoreRotationChanges();
           }
+
+          if (tiledImage.viewport.degrees === 0 && tiledImage.getRotation(true) % 360 === 0){
+            if(tiledImage._drawer.viewer.viewport.getFlip()) {
+                tiledImage._drawer._flip();
+            }
+          }
+
           context.restore();
       },
 
@@ -19844,6 +19950,30 @@
 
               context.restore();
           }
+      },
+
+      /**
+       * Turns image smoothing on or off for this viewer. Note: Ignored in some (especially older) browsers that do not support this property.
+       *
+       * @function
+       * @param {Boolean} [imageSmoothingEnabled] - Whether or not the image is
+       * drawn smoothly on the canvas; see imageSmoothingEnabled in
+       * {@link OpenSeadragon.Options} for more explanation.
+       */
+      setImageSmoothingEnabled: function(imageSmoothingEnabled){
+          if ( this.useCanvas ) {
+              this._imageSmoothingEnabled = imageSmoothingEnabled;
+              this._updateImageSmoothingEnabled(this.context);
+              this.viewer.forceRedraw();
+          }
+      },
+
+      // private
+      _updateImageSmoothingEnabled: function(context){
+          context.mozImageSmoothingEnabled = this._imageSmoothingEnabled;
+          context.webkitImageSmoothingEnabled = this._imageSmoothingEnabled;
+          context.msImageSmoothingEnabled = this._imageSmoothingEnabled;
+          context.imageSmoothingEnabled = this._imageSmoothingEnabled;
       },
 
       /**
@@ -19903,8 +20033,9 @@
           var pixelDensityRatio = $.pixelDensityRatio;
           var viewportSize = this.viewport.getContainerSize();
           return {
-              x: viewportSize.x * pixelDensityRatio,
-              y: viewportSize.y * pixelDensityRatio
+              // canvas width and height are integers
+              x: Math.round(viewportSize.x * pixelDensityRatio),
+              y: Math.round(viewportSize.y * pixelDensityRatio)
           };
       },
 
@@ -19987,7 +20118,7 @@
    */
   $.Viewport = function( options ) {
 
-      //backward compatibility for positional args while prefering more
+      //backward compatibility for positional args while preferring more
       //idiomatic javascript options object as the only argument
       var args = arguments;
       if (args.length && args[0] instanceof $.Point) {
@@ -21457,7 +21588,7 @@
       },
 
       /**
-       * Gets flip state stored on viewport.
+       * Get flip state stored on viewport.
        * @function
        * @return {Boolean} Flip state.
        */
@@ -23177,7 +23308,7 @@
 
       tiledImage.lastDrawn.push( tile );
 
-      if ( opacity == 1 ) {
+      if ( opacity === 1 ) {
           setCoverage( tiledImage.coverage, level, x, y, true );
           tiledImage._hasOpaqueTile = true;
       } else if ( deltaTime < blendTimeMillis ) {
@@ -23381,6 +23512,12 @@
                   tiledImage.getClippedBounds(true))
                   .getIntegerBoundingBox()
                   .times($.pixelDensityRatio);
+
+              if(tiledImage._drawer.viewer.viewport.getFlip()) {
+                if (tiledImage.viewport.degrees !== 0 || tiledImage.getRotation(true) % 360 !== 0){
+                  bounds.x = tiledImage._drawer.viewer.container.clientWidth - (bounds.x + bounds.width);
+                }
+              }
           }
           tiledImage._drawer._clear(true, bounds);
       }
@@ -23393,10 +23530,6 @@
                   degrees: tiledImage.viewport.degrees,
                   useSketch: useSketch
               });
-          } else {
-              if(tiledImage._drawer.viewer.viewport.flipped) {
-                  tiledImage._drawer._flip({});
-              }
           }
           if (tiledImage.getRotation(true) % 360 !== 0) {
               tiledImage._drawer._offsetForRotation({
@@ -23405,6 +23538,12 @@
                       tiledImage._getRotationPoint(true), true),
                   useSketch: useSketch
               });
+          }
+
+          if (tiledImage.viewport.degrees === 0 && tiledImage.getRotation(true) % 360 === 0){
+            if(tiledImage._drawer.viewer.viewport.getFlip()) {
+                tiledImage._drawer._flip();
+            }
           }
       }
 
@@ -23480,10 +23619,6 @@
           }
           if (tiledImage.viewport.degrees !== 0) {
               tiledImage._drawer._restoreRotationChanges(useSketch);
-          } else{
-            if(tiledImage._drawer.viewer.viewport.flipped) {
-              tiledImage._drawer._flip({});
-            }
           }
       }
 
@@ -23520,6 +23655,15 @@
               }
           }
       }
+
+      if (!sketchScale) {
+        if (tiledImage.viewport.degrees === 0 && tiledImage.getRotation(true) % 360 === 0){
+          if(tiledImage._drawer.viewer.viewport.getFlip()) {
+              tiledImage._drawer._flip();
+          }
+        }
+      }
+
       drawDebugInfo( tiledImage, lastDrawn );
   }
 
@@ -24273,6 +24417,7 @@
     initialPage: 0,
     visibilityRatio: 1,
     imageLoaderLimit: 500,
+    maxZoomPixelRatio: 1,
     // Zoom - Pan
     constrainDuringPan: true,
     preserveImageSizeOnResize: false,
@@ -24284,12 +24429,12 @@
     showNavigationControl: false,
     showHomeControl: false,
     showSequenceControl: false,
-    showFullPageControl: false // --- Experimental ---
+    showFullPageControl: false,
+    // --- Experimental ---
     //Flick bug -> placeholderFillStyle: '#FFF',
     // Animations
-    // springStiffness: 12,
-    // animationTime: 0.9,
-
+    springStiffness: 12,
+    animationTime: 0.9
   };
 
   class Button extends React.Component {
@@ -24305,13 +24450,13 @@
         label,
         title,
         disabled,
-        toggle
+        active
       } = this.props;
       return React__default.createElement("button", {
         title: title,
         onClick: onClick,
         disabled: disabled,
-        className: clsx('button', type && `button-${type}`, toggle && 'button-toggle')
+        className: clsx('button', type && `button-${type}`, active && 'button--active')
       }, icon && React__default.createElement(Icon$1, {
         path: icon,
         size: '26px',
@@ -24340,7 +24485,7 @@
         const {
           currentZoom
         } = this.props;
-        const scale = (currentZoom + 10) / 100;
+        const scale = currentZoom + 10;
         this.props.onUpdate(scale);
       });
 
@@ -24348,7 +24493,7 @@
         const {
           currentZoom
         } = this.props;
-        const scale = (currentZoom - 10) / 100;
+        const scale = currentZoom - 10;
         this.props.onUpdate(scale);
       });
 
@@ -24396,10 +24541,10 @@
 
     render() {
       const {
-        currentZoom
-      } = this.props;
-      const canZoomIn = currentZoom < 100;
-      const canZoomOut = currentZoom > 25;
+        currentZoom,
+        canZoomIn,
+        canZoomOut
+      } = this.context.state;
       return React__default.createElement(React__default.Fragment, null, React__default.createElement(Button, {
         type: 'icon',
         title: 'Zoom in',
@@ -24556,6 +24701,10 @@
   }
 
   function _iterableToArrayLimit(arr, i) {
+    if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+      return;
+    }
+
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -24759,25 +24908,6 @@
 
   var warning_1 = warning;
 
-  function _objectSpread(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-      var ownKeys = Object.keys(source);
-
-      if (typeof Object.getOwnPropertySymbols === 'function') {
-        ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }));
-      }
-
-      ownKeys.forEach(function (key) {
-        _defineProperty$1(target, key, source[key]);
-      });
-    }
-
-    return target;
-  }
-
   var callAll = function callAll() {
     for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
       fns[_key] = arguments[_key];
@@ -24793,6 +24923,10 @@
       });
     };
   };
+
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
   var Rail =
   /*#__PURE__*/
@@ -24846,7 +24980,7 @@
     return Rail;
   }(React.Component);
 
-  Rail.propTypes = {
+  Rail.propTypes =  {
     /** @ignore */
     getEventData: propTypes.func,
 
@@ -24863,7 +24997,7 @@
      * A function to render the rail. Note: `getEventData` can be called with an event and get the value and percent at that location (used for tooltips etc). `activeHandleID` will be a string or null.  Function signature: `({ getEventData, activeHandleID, getRailProps }): element`
      */
     children: propTypes.func.isRequired
-  };
+  } ;
 
   var Ticks =
   /*#__PURE__*/
@@ -24905,7 +25039,7 @@
     return Ticks;
   }(React.Component);
 
-  Ticks.propTypes = {
+  Ticks.propTypes =  {
     /** @ignore */
     scale: propTypes.object,
 
@@ -24941,10 +25075,14 @@
      * `({ getEventData, activeHandleID, ticks  }): element`
      */
     children: propTypes.func.isRequired
-  };
+  } ;
   Ticks.defaultProps = {
     count: 10
   };
+
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(source, true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
   var Tracks =
   /*#__PURE__*/
@@ -24969,7 +25107,7 @@
         var _this$props = _this.props,
             emitMouse = _this$props.emitMouse,
             emitTouch = _this$props.emitTouch;
-        return _objectSpread({}, props, {
+        return _objectSpread$1({}, props, {
           onMouseDown: callAll(props.onMouseDown, emitMouse),
           onTouchStart: callAll(props.onTouchStart, emitTouch)
         });
@@ -25033,7 +25171,7 @@
     return Tracks;
   }(React.Component);
 
-  Tracks.propTypes = {
+  Tracks.propTypes =  {
     /**
      * Boolean value to control whether the left most track is included in the tracks array.
      */
@@ -25066,11 +25204,15 @@
      * A function to render the tracks. The function receives an object with an array of tracks. Note: `getEventData` can be called with an event and get the value and percent at that location (used for tooltips etc). `activeHandleID` will be a string or null.  Function signature:  `({ getEventData, activeHandleID, tracks, getTrackProps }): element`
      */
     children: propTypes.func.isRequired
-  };
+  } ;
   Tracks.defaultProps = {
     left: true,
     right: true
   };
+
+  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(source, true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
   var Handles =
   /*#__PURE__*/
@@ -25100,7 +25242,7 @@
             emitKeyboard = _this$props.emitKeyboard,
             emitMouse = _this$props.emitMouse,
             emitTouch = _this$props.emitTouch;
-        return _objectSpread({}, props, {
+        return _objectSpread$2({}, props, {
           onKeyDown: callAll(props.onKeyDown, function (e) {
             return emitKeyboard(e, id);
           }),
@@ -25136,7 +25278,7 @@
     return Handles;
   }(React.Component);
 
-  Handles.propTypes = {
+  Handles.propTypes =  {
     /** @ignore */
     activeHandleID: propTypes.string,
 
@@ -25158,7 +25300,7 @@
      * `({ handles, getHandleProps }): element`
      */
     children: propTypes.func.isRequired
-  };
+  } ;
 
   function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) {
@@ -25612,7 +25754,7 @@
         step: null,
         values: null,
         domain: null,
-        handles: null,
+        handles: [],
         reversed: null,
         activeHandleID: null,
         valueToPerc: null,
@@ -25870,6 +26012,8 @@
     }, {
       key: "handleRailAndTrackClicks",
       value: function handleRailAndTrackClicks(e, isTouch) {
+        var _this2 = this;
+
         var _this$state = this.state,
             curr = _this$state.handles,
             pixelToStep = _this$state.pixelToStep,
@@ -25907,7 +26051,13 @@
 
         var nextHandles = getUpdatedHandles(curr, updateKey, updateValue, reversed); // submit the candidate values
 
-        this.submitUpdate(nextHandles, true);
+        this.setState({
+          activeHandleID: updateKey
+        }, function () {
+          _this2.submitUpdate(nextHandles, true);
+
+          isTouch ? _this2.addTouchEvents() : _this2.addMouseEvents();
+        });
       }
     }, {
       key: "addMouseEvents",
@@ -25980,7 +26130,7 @@
     }, {
       key: "render",
       value: function render() {
-        var _this2 = this;
+        var _this3 = this;
 
         var _this$state2 = this.state,
             handles = _this$state2.handles,
@@ -26008,10 +26158,10 @@
               scale: valueToPerc,
               handles: mappedHandles,
               activeHandleID: activeHandleID,
-              getEventData: _this2.getEventData,
-              emitKeyboard: disabled ? noop : _this2.onKeyDown,
-              emitMouse: disabled ? noop : _this2.onMouseDown,
-              emitTouch: disabled ? noop : _this2.onTouchStart
+              getEventData: _this3.getEventData,
+              emitKeyboard: disabled ? noop : _this3.onKeyDown,
+              emitMouse: disabled ? noop : _this3.onMouseDown,
+              emitTouch: disabled ? noop : _this3.onTouchStart
             });
           }
 
@@ -26115,7 +26265,7 @@
     return Slider;
   }(React.PureComponent);
 
-  Slider.propTypes = {
+  Slider.propTypes =  {
     /**
      * String component used for slider root. Defaults to 'div'.
      */
@@ -26212,7 +26362,7 @@
      * Component children to render.
      */
     children: propTypes.any
-  };
+  } ;
   Slider.defaultProps = {
     mode: 1,
     step: 0.1,
@@ -26423,7 +26573,7 @@
       } = this.props;
 
       if (value !== prevProps.value && !this.state.seeking) {
-        this.setValue(value);
+        this.setValue(value + 1);
       }
     }
 
@@ -26513,20 +26663,24 @@
       const {
         navigateForward,
         navigateBackward,
-        toggleSetting
+        toggleSetting,
+        togglePin
       } = this.context;
       const {
         pages,
         bookMode,
+        fullscreen,
         currentPage,
         currentZoom,
-        totalPages
+        totalPages,
+        autoHideControls
       } = this.context.state;
       const layoutProps = {
         icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
         // label: bookMode ? 'Book mode' : 'Single page',
         title: bookMode ? 'Book mode' : 'Single page'
       };
+      const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen;
       const progress = pages.length / totalPages * 100;
       return React__default.createElement("div", {
         className: clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')
@@ -26547,13 +26701,19 @@
         currentZoom: currentZoom
       }), React__default.createElement("div", {
         className: "divider"
+      }), React__default.createElement(Button, {
+        type: 'icon',
+        title: 'Pin',
+        icon: mdiPin,
+        active: !autoHideControls,
+        onClick: () => togglePin()
       }), React__default.createElement(Button, _extends({
         type: 'icon',
         onClick: () => toggleSetting('bookMode')
-      }, layoutProps)), allowFullScreen && React__default.createElement(Button, {
+      }, layoutProps)), React__default.createElement(Button, {
         type: 'icon',
         title: 'Fullscreen',
-        icon: mdiFullscreen,
+        icon: fullScreenIcon,
         onClick: () => toggleSetting('fullscreen')
       })));
     }
@@ -26561,6 +26721,36 @@
   }
 
   _defineProperty(Toolbar, "contextType", ReaderContext);
+
+  /*
+    Polyfill functions for the HTML5 fullscreen api:
+    https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
+  */
+  const prefixes = {
+    exitFullscreen: ['exitFullscreen', 'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'],
+    fullscreenChange: ['fullscreenChange', 'MSFullscreenChange', 'mozfullscreenchange', 'webkitfullscreenchange'],
+    fullscreenEnabled: ['fullscreenEnabled', 'msFullscreenEnabled', 'mozFullScreenEnabled', 'webkitFullscreenEnabled'],
+    fullscreenElement: ['fullscreenElement', 'msFullscreenElement', 'mozFullScreenElement', 'webkitFullscreenElement'],
+    requestFullscreen: ['requestFullscreen', 'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen']
+  };
+
+  const getPrefix = () => {
+    let prefixIndex = 0; // validate prefix
+
+    prefixes.fullscreenEnabled.some((prefix, index) => {
+      if (document[prefix] || document[prefix] === false) {
+        prefixIndex = index;
+        return true;
+      }
+    }); // prefix vendor index
+
+    return prefixIndex;
+  };
+  const onFullscreenChange = (target, action, callback) => {
+    const index = getPrefix();
+    const prefix = prefixes.fullscreenChange[index];
+    target[`${action}EventListener`](prefix, callback, false);
+  };
 
   class CanvasRender extends React.Component {
     constructor(props) {
@@ -26581,54 +26771,63 @@
         }
       });
 
-      _defineProperty(this, "getMinZoom", () => {
-        const {
-          viewport,
-          world
-        } = this.viewer;
-        const tiledImage = world.getItemAt(0);
-        const imageBounds = tiledImage.getBounds();
-        const imageAspect = imageBounds.width / imageBounds.height;
-        const aspectFactor = imageAspect / viewport.getAspectRatio();
-        const zoom = (aspectFactor >= 1 ? 1 : aspectFactor) / imageBounds.width;
-        return zoom;
-      });
-
       _defineProperty(this, "updateZoomLimits", () => {
         const {
-          viewport,
-          world
+          viewport
         } = this.viewer;
-        viewport.maxZoomLevel = this.getTargetZoom();
-        viewport.minZoomLevel = this.getMinZoom();
+        const targetZoom = 0.9;
+        const realTargetZoom = this.getTargetZoom();
+        const imageBounds = this.viewer.world.getItemAt(0).getBounds();
+        const viewportBounds = viewport.getBounds();
+        const imageAspect = imageBounds.width / imageBounds.height;
+        const viewportAspect = viewportBounds.width / viewportBounds.height;
+        const aspectFactor = imageAspect / viewportAspect;
+        const zoomFactor = (aspectFactor >= 1 ? 1 : aspectFactor) * targetZoom;
+        const zoom = zoomFactor / imageBounds.width;
+        const minZoom = realTargetZoom <= zoom ? realTargetZoom : zoom;
+        viewport.defaultZoomLevel = minZoom;
+        viewport.minZoomLevel = minZoom;
+        viewport.maxZoomLevel = realTargetZoom;
       });
 
       _defineProperty(this, "updateZoom", (scale = 1) => {
         const {
           viewport
         } = this.viewer;
+        const max = this.getTargetZoom();
+        const min = viewport.getMinZoom();
         let zoom = scale; // Convert to int
 
-        if (typeof scale === 'string') {
-          zoom = parseInt(scale);
-          zoom = zoom ? zoom / 100 : null;
+        if (typeof zoom === 'string') {
+          zoom = parseInt(zoom);
         }
 
         if (zoom) {
-          zoom = this.getTargetZoom(zoom); // Fix max
+          // Prevent maz zoom
+          if (zoom > 100) {
+            zoom = 100;
+          } // Calculate zoom from user input
 
-          if (zoom > viewport.maxZoomLevel) {
-            zoom = viewport.maxZoomLevel;
+
+          zoom = zoom / 100 * this.getTargetZoom(); // Fix max
+
+          if (zoom > max) {
+            zoom = max;
           } // Fix min
 
 
-          if (zoom < viewport.minZoomLevel) {
-            zoom = viewport.minZoomLevel;
-          } // Zoom
+          if (zoom < min) {
+            zoom = min;
+          } // Update
 
 
           viewport.zoomTo(zoom, null, true);
         }
+      });
+
+      _defineProperty(this, "zoomToOriginalSize", () => {
+        const targetZoom = this.getTargetZoom();
+        this.viewer.viewport.zoomTo(targetZoom, null, true);
       });
 
       _defineProperty(this, "handleFocus", () => {
@@ -26682,11 +26881,6 @@
       this.viewer = null;
     }
 
-    zoomToOriginalSize() {
-      const targetZoom = this.getTargetZoom();
-      this.viewer.viewport.zoomTo(targetZoom, null, true);
-    }
-
     initOpenSeaDragon() {
       const {
         id
@@ -26704,20 +26898,32 @@
       this.viewer.canvas.addEventListener('focus', this.handleFocus); // Events hanlder
 
       this.viewer.addHandler('open', () => {
-        this.updateZoomLimits();
         this.renderLayout();
+        this.updateZoomLimits();
+        this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true);
       }); // Events hanlder
 
       this.viewer.addHandler('resize', () => {
         this.updateZoomLimits();
       });
-      this.viewer.addHandler('zoom', e => {
+      onFullscreenChange(window, 'add', () => {
+        this.updateZoomLimits();
+      });
+      this.viewer.addHandler('zoom', ({
+        zoom
+      }) => {
         const {
           viewport
         } = this.viewer;
-        const currentZoom = parseInt(e.zoom / this.getTargetZoom() * 100);
+        const max = viewport.getMaxZoom();
+        const min = viewport.getMinZoom();
+        const currentZoom = parseInt(zoom / this.getTargetZoom() * 100);
+        const canZoomIn = zoom < max && currentZoom < 100;
+        const canZoomOut = zoom > min;
         this.context.updateState({
-          currentZoom
+          currentZoom,
+          canZoomIn,
+          canZoomOut
         });
       });
       this.viewer.addHandler('canvas-exit', this.handleExit);
@@ -26834,7 +27040,6 @@
         focus,
         currentPage,
         bookMode,
-        allowFullScreen,
         autoHideControls
       } = this.props; // Page changed
 
@@ -26867,14 +27072,10 @@
           this.context.updateState({
             showControls: focus
           });
-        }
-
-        if (hover !== prevProps.hover) {
-          if (!focus) {
-            this.context.updateState({
-              showControls: hover
-            });
-          }
+        } else if (hover !== prevProps.hover) {
+          this.context.updateState({
+            showControls: hover
+          });
         }
       }
     }
@@ -26882,7 +27083,6 @@
     render() {
       const {
         id,
-        allowFullScreen,
         autoHideControls
       } = this.props;
       const {
@@ -26890,11 +27090,10 @@
       } = this.context.state;
       return React__default.createElement(React__default.Fragment, null, React__default.createElement(Toolbar, {
         updateZoom: this.updateZoom,
-        allowFullScreen: allowFullScreen,
         showControls: !autoHideControls || showControls
       }), React__default.createElement("div", {
         id: id,
-        className: 'villain-canvas'
+        className: clsx('villain-canvas')
       }));
     }
 
@@ -26909,9 +27108,7 @@
   const defaultOpts = {
     theme: 'dark',
     overlay: true,
-    workerPath: null,
-    allowFullScreen: true,
-    autoHideControls: true
+    workerPath: null
   };
 
   class Villain extends React.Component {
@@ -26943,8 +27140,7 @@
         focus: state.focus,
         bookMode: state.bookMode,
         currentPage: state.currentPage,
-        allowFullScreen: opts.allowFullScreen,
-        autoHideControls: opts.autoHideControls
+        autoHideControls: state.autoHideControls
       })))));
     }
 
