@@ -11,7 +11,7 @@ const villainOpts = {
 }
 
 const testFile = '/build/test_files/archive.cbz'
-const testFile2 = '/build/test_files/test.cbz'
+const testFile2 = '/build/testFiles/Example-archive.zip'
 
 ReactDOM.render(
   <div>
