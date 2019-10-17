@@ -9,9 +9,6 @@
   <a href="https://david-dm.org/btzr-io/Villain" title="dependencies status">
     <img src="https://david-dm.org/btzr-io/Villain/status.svg"/>
   </a>
-  <a href="https://github.com/btzr-io/Villain/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/btzr-io/Villain.svg" alt="license"  />
-  </a>
   <a href="https://github.com/btzr-io/Villain/graphs/contributors">
     <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btzr-io/Villain.svg" alt="contributors">
   </a>
