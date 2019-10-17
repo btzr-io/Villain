@@ -12,7 +12,7 @@ class Wrapp extends Component {
 
   render() {
     const { width, height } = this.props
-    const { fullscreen, autoHideControls } = this.context.state
+    const { theme, fullscreen, autoHideControls } = this.context.state
     const size = { width, height }
 
     return (
@@ -20,7 +20,7 @@ class Wrapp extends Component {
         ref={this.container}
         className={clsx(
           'villain',
-          'light',
+          theme,
           fullscreen && 'villain-fullscreen',
           !autoHideControls && 'villain--static'
         )}

@@ -65,6 +65,12 @@ export class ReaderProvider extends Component {
     }))
   }
 
+  toggleTheme = () => {
+    this.setState(prevState => ({
+      theme: prevState.theme === 'light' ? 'dark' : 'light',
+    }))
+  }
+
   toggleControls(show = true) {
     this.setState({ showControls: show })
   }
@@ -124,6 +130,7 @@ export class ReaderProvider extends Component {
           togglePin: this.togglePin,
           createPage: this.createPage,
           updateState: this.updateState,
+          toggleTheme: this.toggleTheme,
           toggleSetting: this.toggleSetting,
           navigateToPage: this.navigateToPage,
           navigateForward: this.navigateForward,

@@ -10,8 +10,10 @@ import {
   mdiPin,
   mdiBookOpen,
   mdiFullscreen,
+  mdiWeatherNight,
   mdiFullscreenExit,
   mdiBookOpenOutline,
+  mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
 class Toolbar extends Component {
@@ -23,8 +25,15 @@ class Toolbar extends Component {
 
   render() {
     const { allowFullScreen, showControls, toggleFullscreen } = this.props
-    const { navigateForward, navigateBackward, toggleSetting, togglePin } = this.context
     const {
+      navigateForward,
+      navigateBackward,
+      toggleSetting,
+      toggleTheme,
+      togglePin,
+    } = this.context
+    const {
+      theme,
       pages,
       bookMode,
       fullscreen,
@@ -40,9 +49,9 @@ class Toolbar extends Component {
       title: bookMode ? 'Book mode' : 'Single page',
     }
 
-    const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
     const progress = (pages.length / totalPages) * 100
-
+    const themeIcon = theme === 'light' ? mdiWeatherNight : mdiWhiteBalanceSunny
+    const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
     return (
       <div className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}>
         <NavigationControls currentPage={currentPage} totalPages={totalPages} />
@@ -64,13 +73,14 @@ class Toolbar extends Component {
             title={'Pin'}
             icon={mdiPin}
             active={!autoHideControls}
-            onClick={() => togglePin()}
+            onClick={togglePin}
           />
           <Button
             type={'icon'}
             onClick={() => toggleSetting('bookMode')}
             {...layoutProps}
           />
+          <Button type={'icon'} title={'Theme'} icon={themeIcon} onClick={toggleTheme} />
           <Button
             type={'icon'}
             title={'Fullscreen'}
