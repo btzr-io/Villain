@@ -1,5 +1,13 @@
 # Changelog
+
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+
+## [1.0.0] - [UNRELASED]
+
+### Changed
+
+- Theme toggler [(#14)](https://github.com/btzr-io/Villain/issues/14)
+- Light theme [(#15)](https://github.com/btzr-io/Villain/issues/15)
 
 ## [0.0.9] - [2019-10-15]
 
@@ -10,4 +18,5 @@ All notable changes to this project will be documented in this file. The format 
 - Change fullscreen icon on enter and exit events [(#17)](https://github.com/btzr-io/Villain/issues/17)
 
 ### Changed
-- Update libarchive.js [28](https://github.com/btzr-io/Villain/issues/28)
+
+- Update libarchive.js [(#28)](https://github.com/btzr-io/Villain/issues/28)
