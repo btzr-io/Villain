@@ -24,14 +24,20 @@ class Toolbar extends Component {
   }
 
   render() {
+    // Component Props
     const { allowFullScreen, showControls, toggleFullscreen } = this.props
+
+    // Actions
     const {
+      state,
       navigateForward,
       navigateBackward,
       toggleSetting,
       toggleTheme,
       togglePin,
     } = this.context
+
+    // State
     const {
       theme,
       pages,
@@ -41,7 +47,7 @@ class Toolbar extends Component {
       currentZoom,
       totalPages,
       autoHideControls,
-    } = this.context.state
+    } = state
 
     const layoutProps = {
       icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
@@ -49,9 +55,15 @@ class Toolbar extends Component {
       title: bookMode ? 'Book mode' : 'Single page',
     }
 
-    const progress = (pages.length / totalPages) * 100
-    const themeIcon = theme === 'light' ? mdiWeatherNight : mdiWhiteBalanceSunny
     const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
+
+    const themeProps = {
+      icon: theme === 'Light' ? mdiWeatherNight : mdiWhiteBalanceSunny,
+      title: `${theme} theme`,
+    }
+
+    const progress = (pages.length / totalPages) * 100
+
     return (
       <div className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}>
         <NavigationControls currentPage={currentPage} totalPages={totalPages} />
@@ -80,7 +92,7 @@ class Toolbar extends Component {
             onClick={() => toggleSetting('bookMode')}
             {...layoutProps}
           />
-          <Button type={'icon'} title={'Theme'} icon={themeIcon} onClick={toggleTheme} />
+          <Button type={'icon'} onClick={toggleTheme} {...themeProps} />
           <Button
             type={'icon'}
             title={'Fullscreen'}

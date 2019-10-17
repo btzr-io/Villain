@@ -16,7 +16,7 @@ const defaultState = {
   canZoomOut: false,
 
   // Settings
-  theme: 'dark',
+  theme: 'Dark',
   bookMode: false,
   fullscreen: false,
   showControls: false,
@@ -67,7 +67,7 @@ export class ReaderProvider extends Component {
 
   toggleTheme = () => {
     this.setState(prevState => ({
-      theme: prevState.theme === 'light' ? 'dark' : 'light',
+      theme: prevState.theme === 'Light' ? 'Dark' : 'Light',
     }))
   }
 

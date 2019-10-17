@@ -10,7 +10,7 @@ import { ReaderContext, ReaderProvider } from '@/context'
 import './css/styles.css'
 
 const defaultOpts = {
-  theme: 'dark',
+  theme: 'Dark',
   overlay: true,
   workerPath: null,
 }
@@ -20,8 +20,8 @@ class Villain extends Component {
 
   static defaultProps = {
     file: null,
-    width: '640px',
-    height: '320px',
+    width: '740px',
+    height: '380px',
     options: { ...defaultOpts },
   }
 

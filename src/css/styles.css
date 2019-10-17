@@ -1,4 +1,4 @@
-.villain.dark {
+.villain.Dark {
   --bg-color: #0c0d11;
   --fg-color: #fff;
   --icon-color: var(--fg-color);
@@ -18,7 +18,7 @@
   --tooltip-bg: #575a67;
 }
 
-.villain.light {
+.villain.Light {
   --bg-color: #f7f7f7;
   --fg-color: #757575;
   --icon-color: var(--fg-color);
@@ -69,6 +69,7 @@
   margin: 0 8px;
   flex-grow: 1;
   width: 100%;
+  min-width: 50px;
 }
 
 .villain-slider .buffer {
