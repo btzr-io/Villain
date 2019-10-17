@@ -62,7 +62,7 @@ class Handle extends Component {
             onMouseLeave: this.onMouseLeave,
           })}
         />
-        <div
+        <button
           role="slider"
           aria-valuemin={min}
           aria-valuemax={max}
@@ -80,6 +80,7 @@ class Handle extends Component {
             boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
             backgroundColor: disabled ? trasnsparent : '#fff',
           }}
+          {...getHandleProps(id)}
         />
       </Fragment>
     )
