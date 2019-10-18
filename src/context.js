@@ -14,6 +14,7 @@ const defaultState = {
   currentZoom: null,
   canZoomIn: false,
   canZoomOut: false,
+  renderError: false,
 
   // Settings
   theme: 'Dark',

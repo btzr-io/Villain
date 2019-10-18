@@ -48,6 +48,7 @@ class Villain extends Component {
                     bookMode={state.bookMode}
                     currentPage={state.currentPage}
                     autoHideControls={state.autoHideControls}
+                    renderError={state.renderError}
                   />
                 )}
               </ReaderContext.Consumer>

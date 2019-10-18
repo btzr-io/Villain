@@ -25,7 +25,7 @@ class Toolbar extends Component {
 
   render() {
     // Component Props
-    const { allowFullScreen, showControls, toggleFullscreen } = this.props
+    const { allowFullScreen, showControls, toggleFullscreen, renderError } = this.props
 
     // Actions
     const {
@@ -77,8 +77,8 @@ class Toolbar extends Component {
           />
         </div>
 
-        <div className={'villain-toolbar-group'}>
-          <ZoomControls onUpdate={this.props.updateZoom} currentZoom={currentZoom} />
+        <div className={'villain-toolbar-group'} disabled={renderError}>
+          <ZoomControls onUpdate={this.props.updateZoom} currentZoom={currentZoom} disabled={renderError} />
           <div className="divider" />
           <Button
             type={'icon'}
@@ -86,18 +86,21 @@ class Toolbar extends Component {
             icon={mdiPin}
             active={!autoHideControls}
             onClick={togglePin}
+            disabled={renderError}
           />
           <Button
             type={'icon'}
             onClick={() => toggleSetting('bookMode')}
+            disabled={renderError}
             {...layoutProps}
           />
-          <Button type={'icon'} onClick={toggleTheme} {...themeProps} />
+          <Button type={'icon'} onClick={toggleTheme} disabled={renderError} {...themeProps} />
           <Button
             type={'icon'}
             title={'Fullscreen'}
             icon={fullScreenIcon}
             onClick={toggleFullscreen}
+            disabled={renderError}
           />
         </div>
       </div>
