@@ -155,7 +155,6 @@ class CanvasRender extends Component {
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
       this.context.updateState({renderError: false});
-      console.info(this.context.state.renderError);
     })
 
     // Events hanlder

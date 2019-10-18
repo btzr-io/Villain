@@ -52,10 +52,10 @@ class Uncompress extends Component {
   }
 
   openArchive = async file => {
-    const { workerPath } = this.props
+    const { workerPath: workerUrl } = this.props
 
     // Setup worker
-    Archive.init({ workerPath })
+    Archive.init({ workerUrl })
 
     // Open archive
     const archive = await Archive.open(file)
