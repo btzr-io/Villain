@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file. The format 
 ## [1.0.0] - [UNRELASED]
 
 ### Added
+
 - Light theme [(#15)](https://github.com/btzr-io/Villain/issues/15)
 - Theme toggler [(#14)](https://github.com/btzr-io/Villain/issues/14)
 - Keyboard navigation for slider component [(#39)](https://github.com/btzr-io/Villain/issues/39)
+- Renamed workerPath option to workerUrl [(#55)](https://github.com/btzr-io/Villain/issues/55)
 
 ### Fixed
 

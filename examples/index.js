@@ -6,7 +6,7 @@ import Villain from '../src/index.js'
 import '../src/css/styles.css'
 
 const villainOpts = {
-  workerPath: '/build/worker-bundle.js',
+  workerUrl: '/build/worker-bundle.js',
   allowFullScreen: false,
 }
 

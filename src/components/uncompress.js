@@ -13,7 +13,7 @@ class Uncompress extends Component {
 
   static defaultProps = {
     file: null,
-    workerPath: null,
+    workerUrl: null,
   }
 
   constructor(props) {
@@ -52,7 +52,7 @@ class Uncompress extends Component {
   }
 
   openArchive = async file => {
-    const { workerPath: workerUrl } = this.props
+    const { workerUrl } = this.props
 
     // Setup worker
     Archive.init({ workerUrl })
@@ -125,7 +125,7 @@ class Uncompress extends Component {
 
 Uncompress.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
-  workerPath: PropTypes.string,
+  workerUrl: PropTypes.string,
 }
 
 export default Uncompress
