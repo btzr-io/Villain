@@ -83,6 +83,8 @@ class SliderUI extends Component {
     const domain = [1, max]
     const { values } = this.state
 
+    if (max == 1) return null
+
     return (
       <div className={'villain-slider'} style={{ height: sliderStyle.height }}>
         <Slider

@@ -13,6 +13,7 @@ const defaultOpts = {
   theme: 'Dark',
   overlay: true,
   workerUrl: null,
+  preview: null,
 }
 
 class Villain extends Component {
@@ -35,9 +36,9 @@ class Villain extends Component {
 
     return (
       <ReaderProvider>
-        <Wrapp width={width} height={height}>
+        <Wrapp width={width} height={height} preview={opts.preview}>
           {container => (
-            <Uncompress file={file} workerUrl={opts.workerUrl}>
+            <Uncompress file={file} workerUrl={opts.workerUrl} preview={opts.preview}>
               <ReaderContext.Consumer>
                 {({ state }) => (
                   <CanvasRender
@@ -67,6 +68,7 @@ Villain.propTypes = {
   options: PropTypes.shape({
     theme: PropTypes.string,
     workerUrl: PropTypes.string,
+    preview: PropTypes.number,
   }),
 }
 
