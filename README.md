@@ -68,7 +68,7 @@ Available options to customize the reader component:
 | workerUrl        | string | null    | path to libarchive.js `worker-bundle`.                           |
 | allowFullScreen  | bool   | true    | Show full screen button.                                         |
 | autoHideControls | bool   | true    | Auto hide and show toolbar on `hover`, `focus` or `blur` events. |
-| preview          | number | null    | Load only provided number of pages and show a preview label.     |
+| preview          | number | null    | Load and render only the provided number of images.              |
 
 ## Development
 

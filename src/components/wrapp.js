@@ -27,7 +27,6 @@ class Wrapp extends Component {
         style={size}
       >
         {this.props.children(this.container ? this.container.current : null)}
-        {preview && <div className={'villain-preview'}>Preview</div>}
       </div>
     )
   }

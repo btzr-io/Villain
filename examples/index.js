@@ -7,7 +7,8 @@ import '../src/css/styles.css'
 
 const villainOpts = {
   workerUrl: '/build/worker-bundle.js',
-  allowFullScreen: false,
+  allowFullScreen: true,
+  preview: 4,
 }
 
 const testFile = '/build/testFile/Example-archive.zip'

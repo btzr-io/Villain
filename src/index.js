@@ -12,8 +12,8 @@ import './css/styles.css'
 const defaultOpts = {
   theme: 'Dark',
   overlay: true,
-  workerUrl: null,
   preview: null,
+  workerUrl: null,
 }
 
 class Villain extends Component {
