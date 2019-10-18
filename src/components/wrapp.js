@@ -22,7 +22,7 @@ class Wrapp extends Component {
           'villain',
           theme,
           fullscreen && 'villain-fullscreen',
-          !autoHideControls && 'villain--static',
+          !autoHideControls && 'villain--static'
         )}
         style={size}
       >

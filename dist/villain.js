@@ -1724,7 +1724,7 @@
 
       _defineProperty(this, "openArchive", async file => {
         const {
-          workerPath: workerUrl
+          workerUrl
         } = this.props; // Setup worker
 
         Archive.init({
@@ -1821,12 +1821,12 @@
 
   _defineProperty(Uncompress, "defaultProps", {
     file: null,
-    workerPath: null
+    workerUrl: null
   });
 
   Uncompress.propTypes = {
     file: propTypes.oneOfType([propTypes.string, propTypes.instanceOf(Blob)]),
-    workerPath: propTypes.string
+    workerUrl: propTypes.string
   };
 
   var openseadragon = createCommonjsModule(function (module) {
@@ -27151,7 +27151,7 @@
   const defaultOpts = {
     theme: 'dark',
     overlay: true,
-    workerPath: null
+    workerUrl: null
   };
 
   class Villain extends React.Component {
@@ -27174,7 +27174,7 @@
         height: height
       }, container => React__default.createElement(Uncompress, {
         file: file,
-        workerPath: opts.workerPath
+        workerUrl: opts.workerUrl
       }, React__default.createElement(ReaderContext.Consumer, null, ({
         state
       }) => React__default.createElement(CanvasRender, {
@@ -27206,7 +27206,7 @@
     height: propTypes.string,
     options: propTypes.shape({
       theme: propTypes.string,
-      workerPath: propTypes.string
+      workerUrl: propTypes.string
     })
   };
 
