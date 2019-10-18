@@ -10,13 +10,12 @@ const villainOpts = {
   allowFullScreen: false,
 }
 
-const testFile = '/build/test_files/archive.cbz'
-const testFile2 = '/build/testFiles/Example-archive.zip'
+const testFile = '/build/testFile/Example-archive.zip'
 
 ReactDOM.render(
   <div>
     <h1> Test example! </h1>
-    <Villain file={testFile2} options={villainOpts} />
+    <Villain file={testFile} options={villainOpts} />
   </div>,
   document.getElementById('app')
 )
