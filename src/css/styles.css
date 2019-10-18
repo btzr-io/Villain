@@ -63,6 +63,18 @@
   fill: var(--icon-color);
 }
 
+.villain-preview::after {
+  content: 'Preview';
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--toolbar-bg);
+  color: var(--fg-color);
+  padding: 6px;
+  margin: 8px;
+  border-radius: 8px;
+}
+
 /* Slider */
 
 .villain .villain-slider {

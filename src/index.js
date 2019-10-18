@@ -13,6 +13,7 @@ const defaultOpts = {
   theme: 'Dark',
   overlay: true,
   workerPath: null,
+  preview: false
 }
 
 class Villain extends Component {
@@ -67,6 +68,7 @@ Villain.propTypes = {
   options: PropTypes.shape({
     theme: PropTypes.string,
     workerPath: PropTypes.string,
+    preview: PropTypes.bool,
   }),
 }
 

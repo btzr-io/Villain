@@ -79,12 +79,14 @@ class Uncompress extends Component {
   }
 
   extract = async blob => {
+    const { preview } = this.context.state
     try {
       // Compressed files 1437
       const list = await this.openArchive(blob)
 
       if (list && list.length > 0) {
-        await asyncForEach(list, async (item, index) => {
+        const items = preview ? list.splice(0,3) : list
+        await asyncForEach(items, async (item, index) => {
           const file = await item.file.extract()
           this.handleExtractedFile(file, index)
         })

@@ -22,6 +22,7 @@ const defaultState = {
   fullscreen: false,
   showControls: false,
   autoHideControls: false,
+  preview: false
 }
 
 export class ReaderProvider extends Component {
