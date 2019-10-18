@@ -26,13 +26,18 @@ An open source web-based comic book reader.
 $ yarn add villain-react
 ```
 
+
 ## Development
 
-- Run `yarn` in the console
-- An example archive has been provided to play around with in `/build/testFiles`.
-  - To replace it with another file, in `/examples/index.js` modify the path of `testFile2` to equal `'/build/testFile/newFilename.extension'`.
-  - A good resource for archives can be found here: https://archive.org/details/comics. Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
-- Running `yarn start` will open up `localhost:8080` on your default browser
+Run `yarn` command to install the dependencies.
+
+To start the development run`yarn start`, this will open up `localhost:8080` on your default browser:
+- This uses webpack-dev-server and includes hot-reloading.
+
+An example archive has been provided to play around inside [`./build/testFile`](https://github.com/btzr-io/Villain/tree/master/build/testFile)
+- A good resource for archives can be found here: https://archive.org/details/comics.
+- Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
+
 
 ## WebWorker
 
