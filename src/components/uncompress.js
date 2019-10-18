@@ -31,9 +31,9 @@ class Uncompress extends Component {
 
   handleExtractedFile = (file, index) => {
     const { size, name } = file
-    const defultPageOpts = { type: 'image' }
+    const defaultPageOpts = { type: 'image' }
     const url = URL.createObjectURL(file)
-    const page = { index, url, name, size, ...defultPageOpts }
+    const page = { index, url, name, size, ...defaultPageOpts }
     this.context.createPage(page)
   }
 
@@ -52,15 +52,15 @@ class Uncompress extends Component {
   }
 
   openArchive = async file => {
-    const { workerPath: workerUrl } = this.props
+    const { workerPath } = this.props
 
     // Setup worker
-    Archive.init({ workerUrl })
+    Archive.init({ workerPath })
 
     // Open archive
     const archive = await Archive.open(file)
-    const comporessedFiles = await archive.getFilesArray()
-    const images = comporessedFiles.filter(item => isValidImageType(item.file.name))
+    const compressedFiles = await archive.getFilesArray()
+    const images = compressedFiles.filter(item => isValidImageType(item.file.name))
 
     if (images.length > 1 && false) {
       // Fix sort order
