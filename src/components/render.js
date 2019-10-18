@@ -308,7 +308,7 @@ class CanvasRender extends Component {
   }
 
   render() {
-    const { id, autoHideControls, renderError } = this.props
+    const { id, autoHideControls, renderError, allowFullScreen } = this.props
     const { showControls } = this.context.state
 
     return (
@@ -317,6 +317,7 @@ class CanvasRender extends Component {
           updateZoom={this.updateZoom}
           toggleFullscreen={this.toggleFullscreen}
           renderError={renderError}
+          allowFullScreen={allowFullScreen}
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={clsx('villain-canvas')} />

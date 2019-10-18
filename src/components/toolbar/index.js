@@ -95,13 +95,15 @@ class Toolbar extends Component {
             {...layoutProps}
           />
           <Button type={'icon'} onClick={toggleTheme} disabled={renderError} {...themeProps} />
-          <Button
-            type={'icon'}
-            title={'Fullscreen'}
-            icon={fullScreenIcon}
-            onClick={toggleFullscreen}
-            disabled={renderError}
-          />
+          {allowFullScreen && (
+            <Button
+              type={'icon'}
+              title={'Fullscreen'}
+              icon={fullScreenIcon}
+              onClick={toggleFullscreen}
+              disabled={renderError}
+            />
+          )}
         </div>
       </div>
     )
