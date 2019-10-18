@@ -14,6 +14,7 @@ class Uncompress extends Component {
   static defaultProps = {
     file: null,
     workerPath: null,
+    preview: null
   }
 
   constructor(props) {
@@ -52,7 +53,7 @@ class Uncompress extends Component {
   }
 
   openArchive = async file => {
-    const { workerPath: workerUrl } = this.props
+    const { workerPath: workerUrl, preview } = this.props
 
     // Setup worker
     Archive.init({ workerUrl })
@@ -72,19 +73,22 @@ class Uncompress extends Component {
     }
     // Load archive data
     const { type, size } = file
-    const archiveData = { type, size, totalPages: images.length }
+    const totalPages = preview && preview < images.length ? preview : images.length
+    const archiveData = { type, size, totalPages }
     this.context.trigger('loaded', archiveData)
 
     return images.length > 0 ? images : null
   }
 
   extract = async blob => {
+    const { preview } = this.props
     try {
       // Compressed files 1437
       const list = await this.openArchive(blob)
 
       if (list && list.length > 0) {
-        await asyncForEach(list, async (item, index) => {
+        const items = preview ? list.splice(0, preview) : list
+        await asyncForEach(items, async (item, index) => {
           const file = await item.file.extract()
           this.handleExtractedFile(file, index)
         })
@@ -126,6 +130,7 @@ class Uncompress extends Component {
 Uncompress.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
   workerPath: PropTypes.string,
+  preview: PropTypes.number
 }
 
 export default Uncompress
