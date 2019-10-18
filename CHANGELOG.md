@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Fixed
 
 - Slider component skipped key tab [(#40)](https://github.com/btzr-io/Villain/issues/40)
+- Improve image type validation [(#50)](https://github.com/btzr-io/Villain/issues/50)
 
 ## [0.0.9] - [2019-10-15]
 
