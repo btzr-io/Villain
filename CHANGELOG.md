@@ -4,10 +4,14 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [1.0.0] - [UNRELASED]
 
-### Changed
-
-- Theme toggler [(#14)](https://github.com/btzr-io/Villain/issues/14)
+### Added
 - Light theme [(#15)](https://github.com/btzr-io/Villain/issues/15)
+- Theme toggler [(#14)](https://github.com/btzr-io/Villain/issues/14)
+- Keyboard navigation for slider component [(#39)](https://github.com/btzr-io/Villain/issues/39)
+
+### Fixed
+
+- Slider component skipped key tab [(#40)](https://github.com/btzr-io/Villain/issues/40)
 
 ## [0.0.9] - [2019-10-15]
 
