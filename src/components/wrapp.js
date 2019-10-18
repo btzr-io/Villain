@@ -11,8 +11,8 @@ class Wrapp extends Component {
   }
 
   render() {
-    const { width, height } = this.props
-    const { theme, fullscreen, autoHideControls, preview } = this.context.state
+    const { width, height, preview } = this.props
+    const { theme, fullscreen, autoHideControls } = this.context.state
     const size = { width, height }
 
     return (
@@ -23,11 +23,11 @@ class Wrapp extends Component {
           theme,
           fullscreen && 'villain-fullscreen',
           !autoHideControls && 'villain--static',
-          preview && 'villain-preview'
         )}
         style={size}
       >
         {this.props.children(this.container ? this.container.current : null)}
+        {preview && <div className={'villain-preview'}>Preview</div>}
       </div>
     )
   }

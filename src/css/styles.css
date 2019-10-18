@@ -63,8 +63,7 @@
   fill: var(--icon-color);
 }
 
-.villain-preview::after {
-  content: 'Preview';
+.villain-preview {
   position: absolute;
   top: 0;
   right: 0;
