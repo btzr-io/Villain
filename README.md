@@ -26,6 +26,14 @@ An open source web-based comic book reader.
 $ yarn add villain-react
 ```
 
+## Development
+
+- Run `yarn` in the console
+- An example archive has been provided to play around with in `/build/testFiles`.
+  - To replace it with another file, in `/examples/index.js` modify the path of `testFile2` to equal `'/build/testFile/newFilename.extension'`.
+  - A good resource for archives can be found here: https://archive.org/details/comics. Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
+- Running `yarn start` will open up `localhost:8080` on your default browser
+
 ## WebWorker
 
 This component uses the [libarchivejs](https://github.com/nika-begiashvili/libarchivejs) for the extraction process,
@@ -33,13 +41,13 @@ so you will need to provide the path of `webworker`:
 
 > The webworker bundle lives in libarchive.js/dist folder so you need to make sure that it is available in your public folder since it will not get bundled if you're using bundler (it's all bundled up already)
 
-
 ```JSX
 const opts = {
   workerPath: 'path to ../build/worker-bundle.js',
   ...
 }
 ```
+
 ## Usage
 
 Import the component and the css styles
@@ -63,13 +71,14 @@ const url = '/files/test.cbz'
 
 Available options to customize the reader component:
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| workerPath | string | null | path to libarchive.js `worker-bundle`. |
-| allowFullScreen | bool | true |  Show full screen button. |
-| autoHideControls | bool | true | Auto hide and show toolbar on `hover`, `focus` or `blur` events. |
+| Name             | Type   | Default | Description                                                      |
+| ---------------- | ------ | ------- | ---------------------------------------------------------------- |
+| workerPath       | string | null    | path to libarchive.js `worker-bundle`.                           |
+| allowFullScreen  | bool   | true    | Show full screen button.                                         |
+| autoHideControls | bool   | true    | Auto hide and show toolbar on `hover`, `focus` or `blur` events. |
 
 ## Credits
+
 - :hammer_and_wrench: Created and maintained by [@btzr-io](https://github.com/btzr-io) with the help of some awesome [contributors](https://github.com/btzr-io/Villain/graphs/contributors).
 
 - :art: Logo and artworks designed by [@btzr-io](https://github.com/btzr-io), see [license](https://github.com/btzr-io/Villain/blob/master/ARTWORKS_LICENSE.md).
