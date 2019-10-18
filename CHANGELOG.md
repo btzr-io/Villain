@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [1.0.0] - [UNRELASED]
 
+### Fixed
+- Accesibility on slider component - [(#44)](https://github.com/btzr-io/Villain/issues/44) [(#39)](https://github.com/btzr-io/Villain/issues/39)
+
 ### Changed
 
 - Theme toggler [(#14)](https://github.com/btzr-io/Villain/issues/14)
