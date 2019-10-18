@@ -49,7 +49,7 @@ class Villain extends Component {
                     bookMode={state.bookMode}
                     currentPage={state.currentPage}
                     allowFullScreen={opts.allowFullScreen}
-                    autoHideControls={state.autoHideControls}
+                    autoHideControls={opts.autoHideControls}
                     renderError={state.renderError}
                   />
                 )}
