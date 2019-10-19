@@ -46,6 +46,7 @@ class Villain extends Component {
                     focus={state.focus}
                     container={container}
                     bookMode={state.bookMode}
+                    mangaMode={opts.mangaMode}
                     currentPage={state.currentPage}
                     autoHideControls={state.autoHideControls}
                   />

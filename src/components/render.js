@@ -248,9 +248,10 @@ class CanvasRender extends Component {
   }
 
   componentDidMount() {
-    const { initialPage } = this.props
+    const { initialPage, mangaMode } = this.props
     this.initOpenSeaDragon()
     this.renderPage(initialPage)
+    this.context.updateState({ mangaMode })
   }
 
   componentWillUnmount() {
