@@ -80,13 +80,13 @@ class CanvasRender extends Component {
         zoom = min
       }
       // Update
-      viewport.zoomTo(zoom, null, true)
+      viewport.zoomTo(zoom)
     }
   }
 
   zoomToOriginalSize = () => {
     const targetZoom = this.getTargetZoom()
-    this.viewer.viewport.zoomTo(targetZoom, null, true)
+    this.viewer.viewport.zoomTo(targetZoom)
   }
 
   handleFocus = () => {
@@ -121,9 +121,9 @@ class CanvasRender extends Component {
     }
   }
 
-  handleError = (error) => {
-    this.viewer.close();
-    this.context.updateState({renderError: true });
+  handleError = error => {
+    this.viewer.close()
+    this.context.updateState({ renderError: true })
     // Debug error
     console.error(error)
   }
@@ -154,7 +154,7 @@ class CanvasRender extends Component {
       this.renderLayout()
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
-      this.context.updateState({renderError: false});
+      this.context.updateState({ renderError: false })
     })
 
     // Events hanlder
@@ -321,7 +321,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={clsx('villain-canvas')} />
-        { renderError && <RenderError message={"Invalid image!"}/> }
+        {renderError && <RenderError message={'Invalid image!'} />}
       </React.Fragment>
     )
   }
