@@ -16,6 +16,8 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
+import messages from '../../messages.json'
+
 class Toolbar extends Component {
   static contextType = ReaderContext
 
@@ -118,9 +120,11 @@ class Toolbar extends Component {
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
+            tooltip={messages['pin.toolbar']}
           />
           <Button
             type={'icon'}
+            tooltip={bookMode ? messages['view.singlepage'] : messages['view.bookmode']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
@@ -136,6 +140,10 @@ class Toolbar extends Component {
               type={'icon'}
               title={'Fullscreen'}
               icon={fullScreenIcon}
+              tooltip={
+                fullscreen ? messages['fullscreen.off'] : messages['fullscreen.on']
+              }
+              tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />
