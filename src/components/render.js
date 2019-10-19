@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React, { Component } from 'react'
+import _ from 'lodash'
 import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
@@ -23,7 +24,7 @@ class CanvasRender extends Component {
     this.viewer = null
   }
 
-  getTargetZoom = (scale = 1) => {
+  getTargetZoom = _.memoize((scale = 1) => {
     const { viewport, world } = this.viewer
     const count = world.getItemCount()
     // MAX: Original size (1:1)
@@ -33,7 +34,7 @@ class CanvasRender extends Component {
     } else if (count && count === 1) {
       return viewport.imageToViewportZoom(scale)
     }
-  }
+  })
 
   updateZoomLimits = () => {
     const { viewport } = this.viewer
@@ -121,9 +122,9 @@ class CanvasRender extends Component {
     }
   }
 
-  handleError = (error) => {
-    this.viewer.close();
-    this.context.updateState({renderError: true });
+  handleError = error => {
+    this.viewer.close()
+    this.context.updateState({ renderError: true })
     // Debug error
     console.error(error)
   }
@@ -154,7 +155,7 @@ class CanvasRender extends Component {
       this.renderLayout()
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
-      this.context.updateState({renderError: false});
+      this.context.updateState({ renderError: false })
     })
 
     // Events hanlder
@@ -321,7 +322,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={clsx('villain-canvas')} />
-        { renderError && <RenderError message={"Invalid image!"}/> }
+        {renderError && <RenderError message={'Invalid image!'} />}
       </React.Fragment>
     )
   }
