@@ -79,15 +79,13 @@ class SliderUI extends Component {
   }
 
   render() {
-    const { max, bufferProgress, flip } = this.props
+    const { max, bufferProgress } = this.props
     const domain = [1, max]
     const { values } = this.state
+    const reversed = this.context.state.mangaMode
 
     return (
-      <div
-        className={flip ? 'villain-slider-flip' : 'villain-slider'}
-        style={{ height: sliderStyle.height }}
-      >
+      <div className="villain-slider" style={{ height: sliderStyle.height }}>
         <Slider
           rootStyle={sliderStyle}
           domain={domain}
@@ -96,6 +94,7 @@ class SliderUI extends Component {
           values={values}
           onUpdate={this.onUpdate}
           onChange={this.onChange}
+          reversed={reversed}
         >
           <Rail>
             {({ getRailProps }) => <div style={railStyle} {...getRailProps()} />}
@@ -117,7 +116,7 @@ class SliderUI extends Component {
             )}
           </Handles>
 
-          <Tracks right={false}>
+          <Tracks right={reversed ? true : false} left={reversed ? false : true}>
             {({ tracks, getTrackProps }) => (
               <div className="slider-tracks">
                 {tracks.map(({ id, source, target }) => (

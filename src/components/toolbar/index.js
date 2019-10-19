@@ -42,7 +42,6 @@ class Toolbar extends Component {
       theme,
       pages,
       bookMode,
-      mangaMode,
       fullscreen,
       currentPage,
       currentZoom,
@@ -71,7 +70,6 @@ class Toolbar extends Component {
 
         <div className={'villain-toolbar-group villain-toolbar-group-expand'}>
           <Slider
-            flip={mangaMode}
             max={totalPages}
             value={currentPage}
             bufferProgress={progress}
