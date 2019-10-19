@@ -97,14 +97,14 @@ class Toolbar extends Component {
           />
           <Button
             type={'icon'}
-            tooltip={messages['view.toggle']}
+            tooltip={bookMode ? messages['view.singlepage'] : messages['view.bookmode']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
           />
           <Button
             type={'icon'}
-            tooltip={messages['theme.toggle']}
+            tooltip={theme === 'Light' ? messages['theme.dark'] : messages['theme.light']}
             onClick={toggleTheme}
             disabled={renderError}
             {...themeProps}
@@ -114,7 +114,9 @@ class Toolbar extends Component {
               type={'icon'}
               title={'Fullscreen'}
               icon={fullScreenIcon}
-              tooltip={messages['fullscreen.toggle']}
+              tooltip={
+                fullscreen ? messages['fullscreen.off'] : messages['fullscreen.on']
+              }
               tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
