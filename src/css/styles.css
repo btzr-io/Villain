@@ -72,22 +72,6 @@
   min-width: 50px;
 }
 
-.villain .villain-slider-flip {
-  position: relative;
-  margin: 0 1px;
-  flex-grow: 1;
-  width: 100%;
-  min-width: 50px;
-  /* -webkit-transform-origin: 0 100%; */
-  -webkit-transform: rotateZ(180deg);
-  /* -moz-transform-origin: 0 100%; */
-  -moz-transform: rotateZ(180deg);
-  /* -ms-transform-origin: 0 100%; */
-  -ms-transform: rotateZ(180deg);
-  /* transform-origin: 0 100%; */
-  transform: rotateZ(180deg);
-}
-
 .villain-slider .buffer {
   height: 100%;
   margin: 0;
