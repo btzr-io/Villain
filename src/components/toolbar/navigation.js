@@ -37,13 +37,10 @@ class Navigation extends Component {
     }
   }
 
-  renderNavButton = (
-    navigateBackward,
-    navigateForward,
-    isLastPage,
-    isFirstPage,
-    mangaMode
-  ) => {
+  renderNavButton = () => {
+    const { navigateForward, navigateBackward } = this.context
+    const { isFirstPage, isLastPage, mangaMode } = this.context.state
+
     if (mangaMode) {
       return (
         <div className={'villain-toolbar-group'}>
@@ -111,17 +108,10 @@ class Navigation extends Component {
   }
 
   render() {
-    const { navigateForward, navigateBackward, toggleSetting } = this.context
-    const { totalPages, isFirstPage, isLastPage, mangaMode } = this.context.state
+    const { totalPages } = this.context.state
     return (
       <div className={'villain-toolbar-group'}>
-        {this.renderNavButton(
-          navigateBackward,
-          navigateForward,
-          isLastPage,
-          isFirstPage,
-          mangaMode
-        )}
+        {this.renderNavButton()}
         <input
           min={1}
           step={1}
