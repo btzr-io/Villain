@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
+import messages from '../../messages.json'
 
 class Navigation extends Component {
   static contextType = ReaderContext
@@ -70,6 +71,8 @@ class Navigation extends Component {
       <div className={'villain-toolbar-group'}>
         <Button
           type={'icon'}
+          tooltip={messages['pagination.prev']}
+          tooltipClass={'left-edge'}
           title={'Previous Page'}
           onClick={navigateBackward}
           disabled={isFirstPage}
@@ -77,6 +80,7 @@ class Navigation extends Component {
         />
         <Button
           type={'icon'}
+          tooltip={messages['pagination.next']}
           title={'Next Page'}
           onClick={navigateForward}
           disabled={isLastPage}

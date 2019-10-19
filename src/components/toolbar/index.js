@@ -16,6 +16,8 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
+import messages from '../../messages.json'
+
 class Toolbar extends Component {
   static contextType = ReaderContext
 
@@ -78,7 +80,11 @@ class Toolbar extends Component {
         </div>
 
         <div className={'villain-toolbar-group'} disabled={renderError}>
-          <ZoomControls onUpdate={this.props.updateZoom} currentZoom={currentZoom} disabled={renderError} />
+          <ZoomControls
+            onUpdate={this.props.updateZoom}
+            currentZoom={currentZoom}
+            disabled={renderError}
+          />
           <div className="divider" />
           <Button
             type={'icon'}
@@ -87,19 +93,29 @@ class Toolbar extends Component {
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
+            tooltip={messages['pin.toolbar']}
           />
           <Button
             type={'icon'}
+            tooltip={messages['view.toggle']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
           />
-          <Button type={'icon'} onClick={toggleTheme} disabled={renderError} {...themeProps} />
+          <Button
+            type={'icon'}
+            tooltip={messages['theme.toggle']}
+            onClick={toggleTheme}
+            disabled={renderError}
+            {...themeProps}
+          />
           {allowFullScreen && (
             <Button
               type={'icon'}
               title={'Fullscreen'}
               icon={fullScreenIcon}
+              tooltip={messages['fullscreen.toggle']}
+              tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />

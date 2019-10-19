@@ -128,6 +128,36 @@
   font-weight: bold;
 }
 
+/* global tooltip */
+
+.tooltip-con {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  margin: 0 auto;
+  text-align: center;
+  min-width: 100px;
+  padding: 5px;
+  background-color: var(--tooltip-bg);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 99;
+  display: block;
+  transform: translateY(calc(-100% - 15px));
+}
+
+.tooltip-con.right-edge {
+  left: -120%;
+}
+.tooltip-con.left-edge {
+  left: 0%;
+}
+
+.tooltip-text {
+  color: var(--fg-color);
+  font-size: 0.8em;
+}
+
 /* toolbar */
 
 .villain-toolbar.villain-toolbar-hide:not(:hover) {
@@ -227,7 +257,7 @@
   cursor: default;
 }
 
-/* tooltip */
+/* slider tooltip */
 
 .villain-toolbar .tooltip {
   position: relative;

@@ -4,6 +4,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import replace from 'rollup-plugin-replace'
 import alias from 'rollup-plugin-alias'
+import json from 'rollup-plugin-json'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -37,6 +38,7 @@ export default {
       resolve: ['/index.js', '/index.jsx', 'js', 'jsx'], //optional, by default this will just look for .js files or folders
       entries: [{ find: '@', replacement: path.resolve(__dirname, 'src/') }],
     }),
+    json(),
     resolve(),
     commonjs(),
   ],

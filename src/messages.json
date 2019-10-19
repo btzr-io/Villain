@@ -1,0 +1,10 @@
+{
+  "pagination.prev": "Go to previous page",
+  "pagination.next": "Go to next page",
+  "pin.toolbar": "Pin the controls toolbar",
+  "fullscreen.toggle": "Go/Exit fullscreen",
+  "view.toggle": "Toggle between single/double page view",
+  "theme.toggle": "Toggle between light/dark theme",
+  "zoom.in": "Zoom in",
+  "zoom.out": "Zoom out"
+}
