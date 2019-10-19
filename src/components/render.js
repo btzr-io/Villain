@@ -10,6 +10,7 @@ import {
   fullscreenElement,
   toggleFullscreen,
 } from '@/lib/full-screen'
+import { debounce } from '@/lib/utils'
 
 class CanvasRender extends Component {
   static defaultProps = {
@@ -121,9 +122,9 @@ class CanvasRender extends Component {
     }
   }
 
-  handleError = (error) => {
-    this.viewer.close();
-    this.context.updateState({renderError: true });
+  handleError = error => {
+    this.viewer.close()
+    this.context.updateState({ renderError: true })
     // Debug error
     console.error(error)
   }
@@ -154,13 +155,14 @@ class CanvasRender extends Component {
       this.renderLayout()
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
-      this.context.updateState({renderError: false});
+      this.context.updateState({ renderError: false })
     })
 
+    // debounce resize function
+    const handleResize = debounce(this.updateZoomLimits, 50)
+
     // Events hanlder
-    this.viewer.addHandler('resize', () => {
-      this.updateZoomLimits()
-    })
+    this.viewer.addHandler('resize', handleResize)
 
     this.viewer.addHandler('zoom', ({ zoom }) => {
       const { viewport } = this.viewer
@@ -321,7 +323,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={clsx('villain-canvas')} />
-        { renderError && <RenderError message={"Invalid image!"}/> }
+        {renderError && <RenderError message={'Invalid image!'} />}
       </React.Fragment>
     )
   }
