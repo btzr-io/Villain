@@ -42,6 +42,7 @@ class Toolbar extends Component {
       theme,
       pages,
       bookMode,
+      mangaMode,
       fullscreen,
       currentPage,
       currentZoom,
@@ -53,6 +54,12 @@ class Toolbar extends Component {
       icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
       // label: bookMode ? 'Book mode' : 'Single page',
       title: bookMode ? 'Book mode' : 'Single page',
+    }
+
+    const mangaLayoutProps = {
+      icon: mangaMode ? mdiBookOpenOutline : mdiBookOpen,
+      // label: bookMode ? 'Book mode' : 'Single page',
+      title: mangaMode ? 'Manga mode' : 'Normal mode',
     }
 
     const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
@@ -70,6 +77,7 @@ class Toolbar extends Component {
 
         <div className={'villain-toolbar-group villain-toolbar-group-expand'}>
           <Slider
+            flip={mangaMode}
             max={totalPages}
             value={currentPage}
             bufferProgress={progress}
@@ -86,6 +94,11 @@ class Toolbar extends Component {
             icon={mdiPin}
             active={!autoHideControls}
             onClick={togglePin}
+          />
+          <Button
+            type={'icon'}
+            onClick={() => toggleSetting('mangaMode')}
+            {...mangaLayoutProps}
           />
           <Button
             type={'icon'}
