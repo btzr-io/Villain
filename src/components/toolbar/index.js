@@ -56,12 +56,6 @@ class Toolbar extends Component {
       title: bookMode ? 'Book mode' : 'Single page',
     }
 
-    const mangaLayoutProps = {
-      icon: mangaMode ? mdiBookOpenOutline : mdiBookOpen,
-      // label: bookMode ? 'Book mode' : 'Single page',
-      title: mangaMode ? 'Manga mode' : 'Normal mode',
-    }
-
     const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
 
     const themeProps = {
@@ -94,11 +88,6 @@ class Toolbar extends Component {
             icon={mdiPin}
             active={!autoHideControls}
             onClick={togglePin}
-          />
-          <Button
-            type={'icon'}
-            onClick={() => toggleSetting('mangaMode')}
-            {...mangaLayoutProps}
           />
           <Button
             type={'icon'}
