@@ -1,0 +1,14 @@
+ 
+{
+  "pagination.prev": "Página anterior",
+  "pagination.next": "Próxima página",
+  "pin.toolbar": "Fixar ferramentas",
+  "fullscreen.on": "Ativar tela cheia",
+  "fullscreen.off": "Desativar tela cheia",
+  "view.bookmode": "Visão de página dupla",
+  "view.singlepage": "Visão de página única",
+  "theme.light": "Ativar tema claro",
+  "theme.dark": "Ativar tema escuro",
+  "zoom.in": "Aumentar zoom",
+  "zoom.out": "Diminuir zoom"
+}
