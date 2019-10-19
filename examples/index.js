@@ -8,6 +8,7 @@ import '../src/css/styles.css'
 const villainOpts = {
   workerUrl: '/build/worker-bundle.js',
   allowFullScreen: true,
+  autoHideControls: false,
   preview: 4,
 }
 

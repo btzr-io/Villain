@@ -25,7 +25,9 @@ const defaultState = {
 }
 
 export class ReaderProvider extends Component {
-  state = { ...defaultState }
+
+  //Define deafault state and  merge external values
+  state = { ...defaultState, ...this.props.defaultState }
 
   updateState = data => {
     this.setState(data)
@@ -126,6 +128,7 @@ export class ReaderProvider extends Component {
       <ReaderContext.Provider
         value={{
           state: this.state,
+          // Actions
           trigger: this.trigger,
           getPage: this.getPage,
           togglePin: this.togglePin,

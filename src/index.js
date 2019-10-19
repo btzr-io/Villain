@@ -11,9 +11,10 @@ import './css/styles.css'
 
 const defaultOpts = {
   theme: 'Dark',
-  overlay: true,
   preview: null,
   workerUrl: null,
+  allowFullScreen: true,
+  autoHideControls: false,
 }
 
 class Villain extends Component {
@@ -32,10 +33,16 @@ class Villain extends Component {
 
   render() {
     const { file, width, height, options } = this.props
+
+    // Merge default options
     const opts = { ...defaultOpts, ...options }
 
+    // Set default value in context state
+    // Nore: unsure about this, probably not a good idea, please fix it!
+    const { autoHideControls, allowFullScreen } = opts
+
     return (
-      <ReaderProvider>
+      <ReaderProvider defaultState={{ autoHideControls }}>
         <Wrapp width={width} height={height} preview={opts.preview}>
           {container => (
             <Uncompress file={file} workerUrl={opts.workerUrl} preview={opts.preview}>
@@ -48,7 +55,7 @@ class Villain extends Component {
                     container={container}
                     bookMode={state.bookMode}
                     currentPage={state.currentPage}
-                    allowFullScreen={opts.allowFullScreen}
+                    allowFullScreen={allowFullScreen}
                     autoHideControls={state.autoHideControls}
                     renderError={state.renderError}
                   />
