@@ -313,6 +313,7 @@ class CanvasRender extends Component {
 
     return (
       <React.Fragment>
+        { renderError && <RenderError message={"Invalid image!"}/> }
         <Toolbar
           updateZoom={this.updateZoom}
           toggleFullscreen={this.toggleFullscreen}
@@ -321,7 +322,6 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={clsx('villain-canvas')} />
-        { renderError && <RenderError message={"Invalid image!"}/> }
       </React.Fragment>
     )
   }
