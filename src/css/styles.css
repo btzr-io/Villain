@@ -130,9 +130,22 @@
 
 /* global tooltip */
 
+@keyframes fadeIn {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
 .tooltip-con {
+  animation: .3s fadeIn;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  width: max-content;
   position: absolute;
-  top: 0;
+  bottom: 10px;
   left: -60%;
   margin: 0 auto;
   text-align: center;
@@ -143,7 +156,9 @@
   border-radius: 4px;
   z-index: 99;
   display: block;
+  transition: all .3s;
   transform: translateY(calc(-100% - 15px));
+
 }
 
 .tooltip-con.right-edge {
