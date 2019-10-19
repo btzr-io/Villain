@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
+import messages from '../../messages.json'
 
 class ZoomControls extends Component {
   static contextType = ReaderContext
@@ -58,13 +59,14 @@ class ZoomControls extends Component {
   }
 
   render() {
-    const {disabled} = this.props
+    const { disabled } = this.props
     const { currentZoom, canZoomIn, canZoomOut } = this.context.state
 
     return (
       <React.Fragment>
         <Button
           type={'icon'}
+          tooltip={messages['zoom.in']}
           title={'Zoom in'}
           icon={mdiPlus}
           disabled={!canZoomIn || disabled}
@@ -73,6 +75,7 @@ class ZoomControls extends Component {
         <Button
           type={'icon'}
           icon={mdiMinus}
+          tooltip={messages['zoom.out']}
           title={'Zoom out'}
           disabled={!canZoomOut || disabled}
           onClick={this.triggerDecrement}
