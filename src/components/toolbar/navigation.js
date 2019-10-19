@@ -37,6 +37,53 @@ class Navigation extends Component {
     }
   }
 
+  renderNavButton = (
+    navigateBackward,
+    navigateForward,
+    isLastPage,
+    isFirstPage,
+    mangaMode
+  ) => {
+    if (mangaMode) {
+      return (
+        <div className={'villain-toolbar-group'}>
+          <Button
+            type={'icon'}
+            title={'Next Page'}
+            onClick={navigateForward}
+            disabled={isLastPage}
+            icon={mdiChevronLeft}
+          />
+          <Button
+            type={'icon'}
+            title={'Previous Page'}
+            onClick={navigateBackward}
+            disabled={isFirstPage}
+            icon={mdiChevronRight}
+          />
+        </div>
+      )
+    }
+    return (
+      <div className={'villain-toolbar-group'}>
+        <Button
+          type={'icon'}
+          title={'Previous Page'}
+          onClick={navigateBackward}
+          disabled={isFirstPage}
+          icon={mdiChevronLeft}
+        />
+        <Button
+          type={'icon'}
+          title={'Next Page'}
+          onClick={navigateForward}
+          disabled={isLastPage}
+          icon={mdiChevronRight}
+        />
+      </div>
+    )
+  }
+
   handlePageNumber = event => {
     const { value } = event.target
     const { currentPage } = this.context.state
@@ -65,23 +112,16 @@ class Navigation extends Component {
 
   render() {
     const { navigateForward, navigateBackward, toggleSetting } = this.context
-    const { totalPages, isFirstPage, isLastPage } = this.context.state
+    const { totalPages, isFirstPage, isLastPage, mangaMode } = this.context.state
     return (
       <div className={'villain-toolbar-group'}>
-        <Button
-          type={'icon'}
-          title={'Previous Page'}
-          onClick={navigateBackward}
-          disabled={isFirstPage}
-          icon={mdiChevronLeft}
-        />
-        <Button
-          type={'icon'}
-          title={'Next Page'}
-          onClick={navigateForward}
-          disabled={isLastPage}
-          icon={mdiChevronRight}
-        />
+        {this.renderNavButton(
+          navigateBackward,
+          navigateForward,
+          isLastPage,
+          isFirstPage,
+          mangaMode
+        )}
         <input
           min={1}
           step={1}
