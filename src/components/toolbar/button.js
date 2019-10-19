@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
-import Tooltip from '../tooltip'
+import Tooltip from '@/components/tooltip'
 
 class Button extends Component {
   constructor(props) {
