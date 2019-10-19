@@ -162,7 +162,7 @@ class CanvasRender extends Component {
       this.updateZoomLimits()
     })
 
-    this.viewer.addHandler('zoom', ({ zoom }) => {
+    const handleZoom = ({ zoom }) => {
       const { viewport } = this.viewer
       const max = viewport.getMaxZoom()
       const min = viewport.getMinZoom()
@@ -171,7 +171,11 @@ class CanvasRender extends Component {
       const canZoomOut = zoom > min
 
       this.context.updateState({ currentZoom, canZoomIn, canZoomOut })
-    })
+    }
+
+    const debounceZoom = debounce(handleZoom, 50)
+
+    this.viewer.addHandler('zoom', debounceZoom)
 
     this.viewer.addHandler('canvas-exit', this.handleExit)
 
