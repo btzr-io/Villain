@@ -23,6 +23,33 @@ class Toolbar extends Component {
     super(props)
   }
 
+  handleShortcuts = event => {
+    const { toggleSetting, navigateToPage } = this.context
+    const { isFirstPage, isLastPage, currentPage } = this.context.state
+
+    switch (event.keyCode) {
+      case 70: //Key: f
+        toggleSetting('fullscreen')
+        break
+
+      case 39: //Key: Right Arrow
+        if (!isLastPage) navigateToPage(currentPage + 1)
+        break
+
+      case 37: //Key: Left Arrow
+        if (!isFirstPage) navigateToPage(currentPage - 1)
+        break
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleShortcuts)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleShortcuts)
+  }
+
   render() {
     // Component Props
     const { allowFullScreen, showControls, toggleFullscreen, renderError } = this.props
@@ -78,7 +105,11 @@ class Toolbar extends Component {
         </div>
 
         <div className={'villain-toolbar-group'} disabled={renderError}>
-          <ZoomControls onUpdate={this.props.updateZoom} currentZoom={currentZoom} disabled={renderError} />
+          <ZoomControls
+            onUpdate={this.props.updateZoom}
+            currentZoom={currentZoom}
+            disabled={renderError}
+          />
           <div className="divider" />
           <Button
             type={'icon'}
@@ -94,7 +125,12 @@ class Toolbar extends Component {
             disabled={renderError}
             {...layoutProps}
           />
-          <Button type={'icon'} onClick={toggleTheme} disabled={renderError} {...themeProps} />
+          <Button
+            type={'icon'}
+            onClick={toggleTheme}
+            disabled={renderError}
+            {...themeProps}
+          />
           {allowFullScreen && (
             <Button
               type={'icon'}
