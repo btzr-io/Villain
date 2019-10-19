@@ -79,12 +79,15 @@ class SliderUI extends Component {
   }
 
   render() {
-    const { max, bufferProgress } = this.props
+    const { max, bufferProgress, flip } = this.props
     const domain = [1, max]
     const { values } = this.state
 
     return (
-      <div className={'villain-slider'} style={{ height: sliderStyle.height }}>
+      <div
+        className={flip ? 'villain-slider-flip' : 'villain-slider'}
+        style={{ height: sliderStyle.height }}
+      >
         <Slider
           rootStyle={sliderStyle}
           domain={domain}
