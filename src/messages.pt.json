@@ -1,0 +1,14 @@
+ 
+{
+  "pagination.prev": "Ir para página anterior",
+  "pagination.next": "Ir para próxima página",
+  "pin.toolbar": "Fixar barra de ferramenta de controles",
+  "fullscreen.on": "Ativar tela cheia",
+  "fullscreen.off": "Desativar tela cheia",
+  "view.bookmode": "Visualizar em modo livro (visão de página dupla)",
+  "view.singlepage": "Visualizar como página única)",
+  "theme.light": "Alternar para tema claro",
+  "theme.dark": "Alternar para tema escuro",
+  "zoom.in": "Aumentar zoom",
+  "zoom.out": "Diminuir zoom"
+}
