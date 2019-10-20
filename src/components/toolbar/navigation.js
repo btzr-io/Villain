@@ -72,14 +72,14 @@ class Navigation extends Component {
       <div className={'villain-toolbar-group'}>
         <Button
           type={'icon'}
-          title={mangaMode ? 'Next Page' : 'Previous Page'}
+          tooltip={mangaMode ? 'Next Page' : 'Previous Page'}
           onClick={mangaMode ? navigateForward : navigateBackward}
           disabled={mangaMode ? isLastPage : isFirstPage}
           icon={mdiChevronLeft}
         />
         <Button
           type={'icon'}
-          title={mangaMode ? 'Previous Page' : 'Next'}
+          tooltip={mangaMode ? 'Previous Page' : 'Next'}
           onClick={mangaMode ? navigateBackward : navigateForward}
           disabled={mangaMode ? isFirstPage : isLastPage}
           icon={mdiChevronRight}
