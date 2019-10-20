@@ -37,50 +37,6 @@ class Navigation extends Component {
     }
   }
 
-  renderNavButton = () => {
-    const { navigateForward, navigateBackward } = this.context
-    const { isFirstPage, isLastPage, mangaMode } = this.context.state
-
-    if (mangaMode) {
-      return (
-        <div className={'villain-toolbar-group'}>
-          <Button
-            type={'icon'}
-            title={'Next Page'}
-            onClick={navigateForward}
-            disabled={isLastPage}
-            icon={mdiChevronLeft}
-          />
-          <Button
-            type={'icon'}
-            title={'Previous Page'}
-            onClick={navigateBackward}
-            disabled={isFirstPage}
-            icon={mdiChevronRight}
-          />
-        </div>
-      )
-    }
-    return (
-      <div className={'villain-toolbar-group'}>
-        <Button
-          type={'icon'}
-          title={'Previous Page'}
-          onClick={navigateBackward}
-          disabled={isFirstPage}
-          icon={mdiChevronLeft}
-        />
-        <Button
-          type={'icon'}
-          title={'Next Page'}
-          onClick={navigateForward}
-          disabled={isLastPage}
-          icon={mdiChevronRight}
-        />
-      </div>
-    )
-  }
-
   handlePageNumber = event => {
     const { value } = event.target
     const { currentPage } = this.context.state
@@ -108,10 +64,26 @@ class Navigation extends Component {
   }
 
   render() {
-    const { totalPages } = this.context.state
+    const { totalPages, isFirstPage, isLastPage, mangaMode } = this.context.state
+    const { navigateForward, navigateBackward } = this.context
+
     return (
       <div className={'villain-toolbar-group'}>
-        {this.renderNavButton()}
+        <Button
+          type={'icon'}
+          title={mangaMode ? 'Next Page' : 'Previous Page'}
+          onClick={mangaMode ? navigateForward : navigateBackward}
+          disabled={isLastPage}
+          icon={mdiChevronLeft}
+        />
+        <Button
+          type={'icon'}
+          title={mangaMode ? 'Previous Page' : 'Next'}
+          onClick={mangaMode ? navigateBackward : navigateForward}
+          disabled={isFirstPage}
+          icon={mdiChevronRight}
+        />
+
         <input
           min={1}
           step={1}

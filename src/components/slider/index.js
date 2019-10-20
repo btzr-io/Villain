@@ -116,7 +116,7 @@ class SliderUI extends Component {
             )}
           </Handles>
 
-          <Tracks right={reversed ? true : false} left={reversed ? false : true}>
+          <Tracks right={reversed} left={!reversed}>
             {({ tracks, getTrackProps }) => (
               <div className="slider-tracks">
                 {tracks.map(({ id, source, target }) => (
