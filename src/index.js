@@ -39,10 +39,10 @@ class Villain extends Component {
 
     // Set default value in context state
     // Nore: unsure about this, probably not a good idea, please fix it!
-    const { autoHideControls, allowFullScreen } = opts
+    const { autoHideControls, allowFullScreen, mangaMode } = opts
 
     return (
-      <ReaderProvider defaultState={{ autoHideControls }}>
+      <ReaderProvider defaultState={{ autoHideControls, mangaMode }}>
         <Wrapp width={width} height={height} preview={opts.preview}>
           {container => (
             <Uncompress file={file} workerUrl={opts.workerUrl} preview={opts.preview}>
@@ -54,6 +54,7 @@ class Villain extends Component {
                     focus={state.focus}
                     container={container}
                     bookMode={state.bookMode}
+                    mangaMode={state.mangaMode}
                     currentPage={state.currentPage}
                     allowFullScreen={allowFullScreen}
                     autoHideControls={state.autoHideControls}

@@ -16,6 +16,7 @@
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;
+  --tooltip-fg: var(--color-fg);
 }
 
 .villain.Light {
@@ -35,7 +36,8 @@
   --toolbar-bg: #fff;
   --toolbar-border: rgba(0, 0, 0, 0.2);
   --toolbar-height: 50px;
-  --tooltip-bg: #cfcfcf;
+  --tooltip-bg: rgba(24, 24, 24, 0.64);
+  --tooltip-fg: #fff;
 }
 
 .villain {
@@ -126,6 +128,51 @@
   font-size: 14px;
   padding: 0 2px;
   font-weight: bold;
+}
+
+/* global tooltip */
+
+@keyframes fadeIn {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
+.tooltip-con {
+  animation: 0.4s fadeIn;
+  animation-fill-mode: forwards;
+  /* visibility: hidden; */
+  width: max-content;
+  position: absolute;
+  bottom: 10px;
+  left: -60%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 4px 8px;
+  background-color: var(--tooltip-bg);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 99;
+  display: block;
+  transition: all 0.4s;
+  transform: translateY(
+    calc(-100% - 16px)
+  ); /* Position the tooltip vertically to match other elements (11px) */
+}
+
+.tooltip-con.right-edge {
+  left: -120%;
+}
+.tooltip-con.left-edge {
+  left: 0%;
+}
+
+.tooltip-text {
+  color: var(--tooltip-fg);
+  font-size: 0.8em;
 }
 
 /* toolbar */
@@ -227,7 +274,7 @@
   cursor: default;
 }
 
-/* tooltip */
+/* slider tooltip */
 
 .villain-toolbar .tooltip {
   position: relative;
@@ -238,9 +285,9 @@
 }
 
 .villain-toolbar .tooltip .tooltiptext {
-  width: 3rem;
+  min-width: 3rem;
   background-color: var(--tooltip-bg);
-  color: var(--fg-color);
+  color: var(--tooltip-fg);
   text-align: center;
   font-size: 0.9em;
   font-weight: bold;
@@ -250,7 +297,7 @@
   z-index: 1;
   bottom: 150%;
   left: 50%;
-  margin-left: calc(-1.5rem - 10px);
+  margin-left: -2rem;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 

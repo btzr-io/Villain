@@ -6,6 +6,8 @@ import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
 
+import messages from '@/locales/messages.json'
+
 import {
   mdiPin,
   mdiBookOpen,
@@ -42,6 +44,7 @@ class Toolbar extends Component {
       theme,
       pages,
       bookMode,
+      mangaMode,
       fullscreen,
       currentPage,
       currentZoom,
@@ -74,11 +77,16 @@ class Toolbar extends Component {
             value={currentPage}
             bufferProgress={progress}
             onChange={this.context.navigateToPage}
+            reversed={mangaMode}
           />
         </div>
 
         <div className={'villain-toolbar-group'} disabled={renderError}>
-          <ZoomControls onUpdate={this.props.updateZoom} currentZoom={currentZoom} disabled={renderError} />
+          <ZoomControls
+            onUpdate={this.props.updateZoom}
+            currentZoom={currentZoom}
+            disabled={renderError}
+          />
           <div className="divider" />
           <Button
             type={'icon'}
@@ -87,19 +95,31 @@ class Toolbar extends Component {
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
+            tooltip={messages['pin.toolbar']}
           />
           <Button
             type={'icon'}
+            tooltip={bookMode ? messages['view.singlepage'] : messages['view.bookmode']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
           />
-          <Button type={'icon'} onClick={toggleTheme} disabled={renderError} {...themeProps} />
+          <Button
+            type={'icon'}
+            tooltip={theme === 'Light' ? messages['theme.dark'] : messages['theme.light']}
+            onClick={toggleTheme}
+            disabled={renderError}
+            {...themeProps}
+          />
           {allowFullScreen && (
             <Button
               type={'icon'}
               title={'Fullscreen'}
               icon={fullScreenIcon}
+              tooltip={
+                fullscreen ? messages['fullscreen.off'] : messages['fullscreen.on']
+              }
+              tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />

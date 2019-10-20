@@ -18,6 +18,7 @@ const defaultState = {
 
   // Settings
   theme: 'Dark',
+  mangaMode: false,
   bookMode: false,
   fullscreen: false,
   showControls: false,
@@ -25,7 +26,6 @@ const defaultState = {
 }
 
 export class ReaderProvider extends Component {
-
   //Define deafault state and  merge external values
   state = { ...defaultState, ...this.props.defaultState }
 
@@ -106,7 +106,7 @@ export class ReaderProvider extends Component {
   }
 
   getPage = index => {
-    const { pages, bookMode, totalPages } = this.state
+    const { pages, bookMode, mangaMode, totalPages } = this.state
     const page = pages[index]
     const nextIndex = index + 1
     const nextPageExists = nextIndex >= 0 || nextIndex < totalPages
@@ -114,8 +114,11 @@ export class ReaderProvider extends Component {
       nextPageExists && !(index === 0 || index === totalPages - 1)
 
     // Return two pages
-    if (this.state.bookMode && shouldRenderBookMode) {
+    if (bookMode && shouldRenderBookMode) {
       const nextPage = pages[nextIndex]
+      if (mangaMode) {
+        return [nextPage, page]
+      }
       return [page, nextPage]
     }
 

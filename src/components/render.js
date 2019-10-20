@@ -5,6 +5,8 @@ import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
 import RenderError from '@/components/renderError'
 import { ReaderContext } from '../context'
+import { getKeyByValue } from '@/lib/utils'
+
 import {
   onFullscreenChange,
   fullscreenElement,
@@ -21,6 +23,7 @@ class CanvasRender extends Component {
   constructor(props) {
     super(props)
     this.viewer = null
+    this.browser = null
   }
 
   getTargetZoom = (scale = 1) => {
@@ -121,9 +124,9 @@ class CanvasRender extends Component {
     }
   }
 
-  handleError = (error) => {
-    this.viewer.close();
-    this.context.updateState({renderError: true });
+  handleError = error => {
+    this.viewer.close()
+    this.context.updateState({ renderError: true })
     // Debug error
     console.error(error)
   }
@@ -143,6 +146,9 @@ class CanvasRender extends Component {
     const { id } = this.props
     const { pages } = this.context.state
 
+    // Detect browser vendor
+    this.browser = getKeyByValue(OpenSeaDragon.BROWSERS, OpenSeaDragon.Browser.vendor)
+
     // Create viewer
     this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
 
@@ -154,7 +160,7 @@ class CanvasRender extends Component {
       this.renderLayout()
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
-      this.context.updateState({renderError: false});
+      this.context.updateState({ renderError: false })
     })
 
     // Events hanlder
@@ -273,7 +279,14 @@ class CanvasRender extends Component {
 
   componentDidUpdate(prevProps) {
     const { totalPages } = this.context.state
-    const { hover, focus, currentPage, bookMode, autoHideControls } = this.props
+    const {
+      hover,
+      focus,
+      currentPage,
+      bookMode,
+      autoHideControls,
+      mangaMode,
+    } = this.props
 
     // Page changed
     if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
@@ -304,6 +317,10 @@ class CanvasRender extends Component {
       } else if (hover !== prevProps.hover) {
         this.context.updateState({ showControls: hover })
       }
+    }
+
+    if (mangaMode !== prevProps.mangaMode) {
+      this.context.updateState({ mangaMode })
     }
   }
 

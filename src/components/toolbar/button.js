@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
+import Tooltip from '@/components/tooltip'
 
 class Button extends Component {
   constructor(props) {
@@ -8,8 +9,18 @@ class Button extends Component {
   }
 
   render() {
-    const { type, onClick, icon, label, title, disabled, active } = this.props
-    return (
+    const {
+      type,
+      onClick,
+      icon,
+      label,
+      title,
+      disabled,
+      active,
+      tooltip,
+      tooltipClass,
+    } = this.props
+    const button = (
       <button
         title={title}
         onClick={onClick}
@@ -22,6 +33,13 @@ class Button extends Component {
           <span className={'villain-label'}>{this.props.children}</span>
         )}
       </button>
+    )
+    return tooltip ? (
+      <Tooltip text={tooltip} overrideClass={tooltipClass}>
+        {button}
+      </Tooltip>
+    ) : (
+      button
     )
   }
 }

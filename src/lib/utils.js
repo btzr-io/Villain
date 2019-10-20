@@ -42,3 +42,7 @@ export const asyncForEach = async (array, callback) => {
     await callback(array[index], index, array)
   }
 }
+
+export const getKeyByValue = (object, value) => {
+  return Object.keys(object).find(key => object[key] === value)
+}

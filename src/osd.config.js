@@ -17,11 +17,18 @@ const config = {
   showSequenceControl: false,
   showFullPageControl: false,
 
+  // Interaction
+  gestureSettingsMouse: {
+    clickToZoom: false,
+    flickEnabled: true,
+    dblClickToZoom: true,
+  },
+
   // --- Experimental ---
   //Flick bug -> placeholderFillStyle: '#FFF',
   // Animations
-  springStiffness: 12,
-  animationTime: 0.9,
+  // springStiffness: 12,
+  // animationTime: 0.9,
 }
 
 export default config
