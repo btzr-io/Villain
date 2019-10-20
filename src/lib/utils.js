@@ -1,5 +1,7 @@
 // Regex to detect image type
-const regexImage = new RegExp('^.+.(jpeg|jpg|png|bpm|webp|gif)$')
+const regexImage = new RegExp(
+  '^[a-zA-Z0-9_@()-][a-zA-Z0-9_.@()-]+.(jpeg|jpg|png|bpm|webp|gif)$'
+)
 
 // Handle response status
 const status = response => {
@@ -39,4 +41,9 @@ export const asyncForEach = async (array, callback) => {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array)
   }
+}
+
+
+export const  getKeyByValue = (object, value) => {
+    return Object.keys(object).find(key => object[key] === value);
 }

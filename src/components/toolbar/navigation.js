@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
+import messages from '@/locales/messages.json'
 
 class Navigation extends Component {
   static contextType = ReaderContext
@@ -111,7 +112,9 @@ class Navigation extends Component {
     const { totalPages } = this.context.state
     return (
       <div className={'villain-toolbar-group'}>
+
         {this.renderNavButton()}
+
         <input
           min={1}
           step={1}

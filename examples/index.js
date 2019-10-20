@@ -6,8 +6,10 @@ import Villain from '../src/index.js'
 import '../src/css/styles.css'
 
 const villainOpts = {
-  workerPath: '/build/worker-bundle.js',
-  allowFullScreen: false,
+  workerUrl: '/build/worker-bundle.js',
+  allowFullScreen: true,
+  autoHideControls: false,
+  preview: 4,
 }
 
 const testFile = '/build/testFile/Example-archive.zip'

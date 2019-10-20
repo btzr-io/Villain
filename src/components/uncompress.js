@@ -13,7 +13,8 @@ class Uncompress extends Component {
 
   static defaultProps = {
     file: null,
-    workerPath: null,
+    workerUrl: null,
+    preview: null,
   }
 
   constructor(props) {
@@ -31,9 +32,9 @@ class Uncompress extends Component {
 
   handleExtractedFile = (file, index) => {
     const { size, name } = file
-    const defultPageOpts = { type: 'image' }
+    const defaultPageOpts = { type: 'image' }
     const url = URL.createObjectURL(file)
-    const page = { index, url, name, size, ...defultPageOpts }
+    const page = { index, url, name, size, ...defaultPageOpts }
     this.context.createPage(page)
   }
 
@@ -52,15 +53,15 @@ class Uncompress extends Component {
   }
 
   openArchive = async file => {
-    const { workerPath: workerUrl } = this.props
+    const { workerUrl, preview } = this.props
 
     // Setup worker
     Archive.init({ workerUrl })
 
     // Open archive
     const archive = await Archive.open(file)
-    const comporessedFiles = await archive.getFilesArray()
-    const images = comporessedFiles.filter(item => isValidImageType(item.file.name))
+    const compressedFiles = await archive.getFilesArray()
+    const images = compressedFiles.filter(item => isValidImageType(item.file.name))
 
     if (images.length > 1 && false) {
       // Fix sort order
@@ -72,19 +73,22 @@ class Uncompress extends Component {
     }
     // Load archive data
     const { type, size } = file
-    const archiveData = { type, size, totalPages: images.length }
+    const totalPages = preview && preview < images.length ? preview : images.length
+    const archiveData = { type, size, totalPages }
     this.context.trigger('loaded', archiveData)
 
     return images.length > 0 ? images : null
   }
 
   extract = async blob => {
+    const { preview } = this.props
     try {
       // Compressed files 1437
       const list = await this.openArchive(blob)
 
       if (list && list.length > 0) {
-        await asyncForEach(list, async (item, index) => {
+        const items = preview ? list.splice(0, preview) : list
+        await asyncForEach(items, async (item, index) => {
           const file = await item.file.extract()
           this.handleExtractedFile(file, index)
         })
@@ -125,7 +129,8 @@ class Uncompress extends Component {
 
 Uncompress.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
-  workerPath: PropTypes.string,
+  workerUrl: PropTypes.string,
+  preview: PropTypes.number,
 }
 
 export default Uncompress

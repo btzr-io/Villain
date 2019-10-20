@@ -11,8 +11,10 @@ import './css/styles.css'
 
 const defaultOpts = {
   theme: 'Dark',
-  overlay: true,
-  workerPath: null,
+  preview: null,
+  workerUrl: null,
+  allowFullScreen: true,
+  autoHideControls: false,
 }
 
 class Villain extends Component {
@@ -31,13 +33,19 @@ class Villain extends Component {
 
   render() {
     const { file, width, height, options } = this.props
+
+    // Merge default options
     const opts = { ...defaultOpts, ...options }
 
+    // Set default value in context state
+    // Nore: unsure about this, probably not a good idea, please fix it!
+    const { autoHideControls, allowFullScreen } = opts
+
     return (
-      <ReaderProvider>
-        <Wrapp width={width} height={height}>
+      <ReaderProvider defaultState={{ autoHideControls }}>
+        <Wrapp width={width} height={height} preview={opts.preview}>
           {container => (
-            <Uncompress file={file} workerPath={opts.workerPath}>
+            <Uncompress file={file} workerUrl={opts.workerUrl} preview={opts.preview}>
               <ReaderContext.Consumer>
                 {({ state }) => (
                   <CanvasRender
@@ -48,7 +56,9 @@ class Villain extends Component {
                     bookMode={state.bookMode}
                     mangaMode={opts.mangaMode}
                     currentPage={state.currentPage}
+                    allowFullScreen={allowFullScreen}
                     autoHideControls={state.autoHideControls}
+                    renderError={state.renderError}
                   />
                 )}
               </ReaderContext.Consumer>
@@ -66,7 +76,8 @@ Villain.propTypes = {
   height: PropTypes.string,
   options: PropTypes.shape({
     theme: PropTypes.string,
-    workerPath: PropTypes.string,
+    workerUrl: PropTypes.string,
+    preview: PropTypes.number,
   }),
 }
 

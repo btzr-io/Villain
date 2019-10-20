@@ -84,6 +84,8 @@ class SliderUI extends Component {
     const { values } = this.state
     const reversed = this.context.state.mangaMode
 
+    if (max == 1) return null
+
     return (
       <div className="villain-slider" style={{ height: sliderStyle.height }}>
         <Slider

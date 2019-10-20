@@ -16,6 +16,7 @@
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;
+  --tooltip-fg: var(--color-fg);
 }
 
 .villain.Light {
@@ -35,7 +36,8 @@
   --toolbar-bg: #fff;
   --toolbar-border: rgba(0, 0, 0, 0.2);
   --toolbar-height: 50px;
-  --tooltip-bg: #cfcfcf;
+  --tooltip-bg: rgba(24, 24, 24, 0.64);
+  --tooltip-fg: #FFF;
 }
 
 .villain {
@@ -54,7 +56,8 @@
   border-radius: 0;
 }
 
-.villain--static .villain-canvas {
+.villain--static .villain-canvas,
+.villain--static .villain-canvas--overlay {
   bottom: var(--toolbar-height);
 }
 
@@ -127,6 +130,51 @@
   font-weight: bold;
 }
 
+/* global tooltip */
+
+@keyframes fadeIn {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
+.tooltip-con {
+  animation: .4s fadeIn;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  width: max-content;
+  position: absolute;
+  bottom: 10px;
+  left: -60%;
+  margin: 0 auto;
+  text-align: center;
+  min-width: 100px;
+  padding: 5px;
+  background-color: var(--tooltip-bg);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 99;
+  display: block;
+  transition: all .4s;
+  transform: translateY(calc(-100% - 15px));
+
+}
+
+.tooltip-con.right-edge {
+  left: -120%;
+}
+.tooltip-con.left-edge {
+  left: 0%;
+}
+
+.tooltip-text {
+  color: var(--tooltip-fg);
+  font-size: 0.8em;
+}
+
 /* toolbar */
 
 .villain-toolbar.villain-toolbar-hide:not(:hover) {
@@ -173,6 +221,12 @@
   margin: 0 4px;
 }
 
+.villain-toolbar-group[disabled] {
+  opacity: 0.4;
+  user-select: none;
+  pointer-events: none;
+}
+
 .villain-toolbar-group-expand {
   flex-grow: 1;
 }
@@ -204,7 +258,7 @@
   background: var(--button-hover-bg);
 }
 
-.villain .button--active,
+.villain .button--active:not(:disabled),
 .villain .button-icon:active:not(:disabled) {
   background: var(--button-active-bg);
 }
@@ -216,11 +270,11 @@
 }
 
 .villain button[disabled] {
-  opacity: 0.4;
+  opacity: 0.64;
   cursor: default;
 }
 
-/* tooltip */
+/* slider tooltip */
 
 .villain-toolbar .tooltip {
   position: relative;
@@ -233,7 +287,7 @@
 .villain-toolbar .tooltip .tooltiptext {
   width: 3rem;
   background-color: var(--tooltip-bg);
-  color: var(--fg-color);
+  color: var(--tooltip-fg);
   text-align: center;
   font-size: 0.9em;
   font-weight: bold;
@@ -270,7 +324,8 @@
   z-index: 99;
 }
 
-.villain-canvas {
+.villain-canvas,
+.villain-canvas--overlay {
   width: 100%;
   position: absolute;
   top: 0;
@@ -279,6 +334,14 @@
   bottom: 0;
   margin: 0;
   z-index: 0;
+}
+
+.villain-canvas--overlay {
+  background: var(--bg-color);
+}
+
+.openseadragon-message {
+  display: none !important;
 }
 
 .villain-overlay {
