@@ -8,6 +8,7 @@ import '../src/css/styles.css'
 const villainOpts = {
   workerPath: '/build/worker-bundle.js',
   allowFullScreen: false,
+  mangaMode: false,
 }
 
 const testFile = '/build/testFile/Example-archive.zip'
