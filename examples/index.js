@@ -7,10 +7,10 @@ import '../src/css/styles.css'
 
 const villainOpts = {
   workerUrl: '/build/worker-bundle.js',
+  preview: 4,
   allowFullScreen: true,
   autoHideControls: false,
-  preview: 4,
-  mangaMode: false,
+  mangaMode: true,
 }
 
 const testFile = '/build/testFile/Example-archive.zip'

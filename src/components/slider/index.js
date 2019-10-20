@@ -135,7 +135,7 @@ class SliderUI extends Component {
 
         <div
           className={'buffer'}
-          style={{ width: `${bufferProgress}%`, borderRadius: '4px' }}
+          style={{ width: `${bufferProgress}%`, borderRadius: '4px', right: reversed ? 0 :  'initial' }}
         />
       </div>
     )
