@@ -74,14 +74,14 @@ class Navigation extends Component {
           type={'icon'}
           title={mangaMode ? 'Next Page' : 'Previous Page'}
           onClick={mangaMode ? navigateForward : navigateBackward}
-          disabled={isLastPage}
+          disabled={mangaMode ? isLastPage : isFirstPage}
           icon={mdiChevronLeft}
         />
         <Button
           type={'icon'}
           title={mangaMode ? 'Previous Page' : 'Next'}
           onClick={mangaMode ? navigateBackward : navigateForward}
-          disabled={isFirstPage}
+          disabled={mangaMode ? isFirstPage : isLastPage}
           icon={mdiChevronRight}
         />
 
