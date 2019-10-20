@@ -1,0 +1,13 @@
+{
+  "pagination.prev": "Previous page",
+  "pagination.next": "Next page",
+  "pin.toolbar": "Pin controls",
+  "fullscreen.on": "Enter fullscreen",
+  "fullscreen.off": "Exit fullscreen",
+  "view.bookmode": "Book view",
+  "view.singlepage": "Page view",
+  "theme.light": "Light theme",
+  "theme.dark": "Dark theme",
+  "zoom.in": "Zoom in",
+  "zoom.out": "Zoom out"
+}

@@ -14,6 +14,7 @@ const defaultState = {
   currentZoom: null,
   canZoomIn: false,
   canZoomOut: false,
+  renderError: false,
 
   // Settings
   theme: 'Dark',
@@ -25,6 +26,7 @@ const defaultState = {
 }
 
 export class ReaderProvider extends Component {
+  //Define deafault state and  merge external values
   state = { ...defaultState, ...this.props.defaultState }
 
   updateState = data => {
@@ -129,6 +131,7 @@ export class ReaderProvider extends Component {
       <ReaderContext.Provider
         value={{
           state: this.state,
+          // Actions
           trigger: this.trigger,
           getPage: this.getPage,
           togglePin: this.togglePin,

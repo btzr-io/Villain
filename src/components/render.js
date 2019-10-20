@@ -3,7 +3,10 @@ import React, { Component } from 'react'
 import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
+import RenderError from '@/components/renderError'
 import { ReaderContext } from '../context'
+import { getKeyByValue } from '@/lib/utils'
+
 import {
   onFullscreenChange,
   fullscreenElement,
@@ -20,6 +23,7 @@ class CanvasRender extends Component {
   constructor(props) {
     super(props)
     this.viewer = null
+    this.browser = null
   }
 
   getTargetZoom = (scale = 1) => {
@@ -120,6 +124,13 @@ class CanvasRender extends Component {
     }
   }
 
+  handleError = error => {
+    this.viewer.close()
+    this.context.updateState({ renderError: true })
+    // Debug error
+    console.error(error)
+  }
+
   handleFullscreenChange = () => {
     const isFullscreen = fullscreenElement()
     this.context.updateState({ fullscreen: isFullscreen })
@@ -135,6 +146,9 @@ class CanvasRender extends Component {
     const { id } = this.props
     const { pages } = this.context.state
 
+    // Detect browser vendor
+    this.browser = getKeyByValue(OpenSeaDragon.BROWSERS, OpenSeaDragon.Browser.vendor)
+
     // Create viewer
     this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
 
@@ -146,6 +160,7 @@ class CanvasRender extends Component {
       this.renderLayout()
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
+      this.context.updateState({ renderError: false })
     })
 
     // Events hanlder
@@ -165,11 +180,10 @@ class CanvasRender extends Component {
     })
 
     this.viewer.addHandler('canvas-exit', this.handleExit)
+
     this.viewer.addHandler('canvas-enter', this.handleEnter)
 
-    this.viewer.addHandler('open-failed', e => {
-      console.error(e)
-    })
+    this.viewer.addHandler('open-failed', this.handleError)
 
     onFullscreenChange(document, 'add', this.handleFullscreenChange)
   }
@@ -311,16 +325,20 @@ class CanvasRender extends Component {
   }
 
   render() {
-    const { id, autoHideControls } = this.props
+    const { id, autoHideControls, renderError, allowFullScreen } = this.props
     const { showControls } = this.context.state
+
     return (
       <React.Fragment>
         <Toolbar
           updateZoom={this.updateZoom}
           toggleFullscreen={this.toggleFullscreen}
+          renderError={renderError}
+          allowFullScreen={allowFullScreen}
           showControls={!autoHideControls || showControls}
         />
-        <div id={id} className={clsx('villain-canvas')} />
+        <div id={id} className={'villain-canvas'} />
+        {renderError && <RenderError message={'Invalid image!'} />}
       </React.Fragment>
     )
   }

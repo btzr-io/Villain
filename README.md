@@ -35,7 +35,7 @@ so you will need to provide the path of `webworker`:
 
 ```JSX
 const opts = {
-  workerPath: 'path to ../build/worker-bundle.js',
+  workerUrl: 'path to ../build/worker-bundle.js',
   ...
 }
 ```
@@ -63,21 +63,23 @@ const url = '/files/test.cbz'
 
 Available options to customize the reader component:
 
-| Name             | Type   | Default | Description                                                      |
-| ---------------- | ------ | ------- | ---------------------------------------------------------------- |
-| workerPath       | string | null    | path to libarchive.js `worker-bundle`.                           |
-| allowFullScreen  | bool   | true    | Show full screen button.                                         |
-| autoHideControls | bool   | true    | Auto hide and show toolbar on `hover`, `focus` or `blur` events. |
-
+| Name             | Type   | Default | Description                                         |
+| ---------------- | ------ | ------- | --------------------------------------------------- |
+| workerUrl        | string | null    | path to libarchive.js `worker-bundle`.              |
+| allowFullScreen  | bool   | true    | Show full screen button.                            |
+| autoHideControls | bool   | false   | Set inital auto hide state of toolbar.              |
+| preview          | number | null    | Load and render only the provided number of images. |
 
 ## Development
 
 Run `yarn` command to install the dependencies.
 
-To start the development run`yarn start`, this will open up `localhost:8080` on your default browser:
+To start the development run `yarn start`, this will open up `localhost:8080` on your default browser:
+
 - This uses webpack-dev-server and includes hot-reloading.
 
 An example archive has been provided to play around inside [`./build/testFile`](https://github.com/btzr-io/Villain/tree/master/build/testFile)
+
 - A good resource for archives can be found here: https://archive.org/details/comics.
 - Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
 
