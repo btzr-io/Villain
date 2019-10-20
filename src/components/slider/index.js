@@ -79,10 +79,9 @@ class SliderUI extends Component {
   }
 
   render() {
-    const { max, bufferProgress } = this.props
+    const { max, bufferProgress, reversed } = this.props
     const domain = [1, max]
     const { values } = this.state
-    const reversed = this.context.state.mangaMode
 
     if (max == 1) return null
 
