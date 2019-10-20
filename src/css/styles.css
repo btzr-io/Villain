@@ -37,7 +37,7 @@
   --toolbar-border: rgba(0, 0, 0, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: rgba(24, 24, 24, 0.64);
-  --tooltip-fg: #FFF;
+  --tooltip-fg: #fff;
 }
 
 .villain {
@@ -142,7 +142,7 @@
 }
 
 .tooltip-con {
-  animation: .4s fadeIn;
+  animation: 0.4s fadeIn;
   animation-fill-mode: forwards;
   visibility: hidden;
   width: max-content;
@@ -158,9 +158,8 @@
   border-radius: 4px;
   z-index: 99;
   display: block;
-  transition: all .4s;
+  transition: all 0.4s;
   transform: translateY(calc(-100% - 15px));
-
 }
 
 .tooltip-con.right-edge {

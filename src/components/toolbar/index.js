@@ -18,7 +18,6 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-
 class Toolbar extends Component {
   static contextType = ReaderContext
 
@@ -45,6 +44,7 @@ class Toolbar extends Component {
       theme,
       pages,
       bookMode,
+      mangaMode,
       fullscreen,
       currentPage,
       currentZoom,
@@ -77,6 +77,7 @@ class Toolbar extends Component {
             value={currentPage}
             bufferProgress={progress}
             onChange={this.context.navigateToPage}
+            reversed={mangaMode}
           />
         </div>
 

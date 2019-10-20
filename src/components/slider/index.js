@@ -79,14 +79,14 @@ class SliderUI extends Component {
   }
 
   render() {
-    const { max, bufferProgress } = this.props
+    const { max, bufferProgress, reversed } = this.props
     const domain = [1, max]
     const { values } = this.state
 
     if (max == 1) return null
 
     return (
-      <div className={'villain-slider'} style={{ height: sliderStyle.height }}>
+      <div className="villain-slider" style={{ height: sliderStyle.height }}>
         <Slider
           rootStyle={sliderStyle}
           domain={domain}
@@ -95,6 +95,7 @@ class SliderUI extends Component {
           values={values}
           onUpdate={this.onUpdate}
           onChange={this.onChange}
+          reversed={reversed}
         >
           <Rail>
             {({ getRailProps }) => <div style={railStyle} {...getRailProps()} />}
@@ -116,7 +117,7 @@ class SliderUI extends Component {
             )}
           </Handles>
 
-          <Tracks right={false}>
+          <Tracks right={reversed} left={!reversed}>
             {({ tracks, getTrackProps }) => (
               <div className="slider-tracks">
                 {tracks.map(({ id, source, target }) => (

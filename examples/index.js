@@ -10,6 +10,7 @@ const villainOpts = {
   allowFullScreen: true,
   autoHideControls: false,
   preview: 4,
+  mangaMode: false,
 }
 
 const testFile = '/build/testFile/Example-archive.zip'

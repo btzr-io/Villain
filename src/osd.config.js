@@ -21,7 +21,7 @@ const config = {
   gestureSettingsMouse: {
     clickToZoom: false,
     flickEnabled: true,
-    dblClickToZoom: true
+    dblClickToZoom: true,
   },
 
   // --- Experimental ---
