@@ -6,6 +6,8 @@ import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
 
+import messages from '@/locales/messages.json'
+
 import {
   mdiPin,
   mdiBookOpen,
@@ -16,7 +18,6 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-import messages from '../../messages.json'
 
 class Toolbar extends Component {
   static contextType = ReaderContext

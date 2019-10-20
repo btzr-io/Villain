@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
-import messages from '../../messages.json'
+import messages from '@/locales/messages.json'
 
 class ZoomControls extends Component {
   static contextType = ReaderContext

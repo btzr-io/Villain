@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
-import messages from '../../messages.json'
+import messages from '@/locales/messages.json'
 
 class Navigation extends Component {
   static contextType = ReaderContext
