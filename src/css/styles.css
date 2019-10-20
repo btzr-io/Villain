@@ -159,7 +159,7 @@
   display: block;
   transition: all 0.4s;
   transform: translateY(
-    calc(-100% - 15px)
+    calc(-100% - 11px)
   ); /* Position the tooltip vertically to match other elements (11px) */
 }
 
