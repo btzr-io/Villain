@@ -16,6 +16,7 @@
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;
+  --tooltip-fg: var(--color-fg);
 }
 
 .villain.Light {
@@ -35,7 +36,8 @@
   --toolbar-bg: #fff;
   --toolbar-border: rgba(0, 0, 0, 0.2);
   --toolbar-height: 50px;
-  --tooltip-bg: #cfcfcf;
+  --tooltip-bg: rgba(24, 24, 24, 0.64);
+  --tooltip-fg: #FFF;
 }
 
 .villain {
@@ -140,7 +142,7 @@
 }
 
 .tooltip-con {
-  animation: .3s fadeIn;
+  animation: .4s fadeIn;
   animation-fill-mode: forwards;
   visibility: hidden;
   width: max-content;
@@ -156,7 +158,7 @@
   border-radius: 4px;
   z-index: 99;
   display: block;
-  transition: all .3s;
+  transition: all .4s;
   transform: translateY(calc(-100% - 15px));
 
 }
@@ -169,7 +171,7 @@
 }
 
 .tooltip-text {
-  color: var(--fg-color);
+  color: var(--tooltip-fg);
   font-size: 0.8em;
 }
 
@@ -285,7 +287,7 @@
 .villain-toolbar .tooltip .tooltiptext {
   width: 3rem;
   background-color: var(--tooltip-bg);
-  color: var(--fg-color);
+  color: var(--tooltip-fg);
   text-align: center;
   font-size: 0.9em;
   font-weight: bold;
