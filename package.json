@@ -4,7 +4,7 @@
   "description": "An open source and touch friendly web based comic book reader as a react component",
   "main": "./dist/villain.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development --open --hot",
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development --open --hot  --port 3000",
     "build": "rollup -c rollup.config.js",
     "watch": "rollup -c rollup.config.js -w",
     "format": "pretty-quick",

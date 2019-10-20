@@ -24,19 +24,16 @@ class CanvasRender extends Component {
     super(props)
     this.viewer = null
     this.browser = null
+    
   }
+  getTargetZoom = (scale = 1) => { 
 
-  getTargetZoom = (scale = 1) => {
     const { viewport, world } = this.viewer
     const count = world.getItemCount()
     // MAX: Original size (1:1)
-    if (count > 1) {
-      const tile = world.getItemAt(0)
-      return tile.imageToViewportZoom(scale)
-    } else if (count && count === 1) {
-      return viewport.imageToViewportZoom(scale)
-    }
-  }
+    return count > 1 ?  world.getItemAt(0).imageToViewportZoom(scale) : viewport.imageToViewportZoom(scale)
+
+}
 
   updateZoomLimits = () => {
     const { viewport } = this.viewer
