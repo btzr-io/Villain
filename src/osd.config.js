@@ -17,6 +17,13 @@ const config = {
   showSequenceControl: false,
   showFullPageControl: false,
 
+  // Interaction
+  gestureSettingsMouse: {
+    clickToZoom: false,
+    flickEnabled: true,
+    dblClickToZoom: true
+  },
+
   // --- Experimental ---
   //Flick bug -> placeholderFillStyle: '#FFF',
   // Animations
