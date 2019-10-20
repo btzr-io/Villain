@@ -33,8 +33,10 @@ class Villain extends Component {
     const { file, width, height, options } = this.props
     const opts = { ...defaultOpts, ...options }
 
+    const { autoHideControls, allowFullScreen, mangaMode } = opts
+
     return (
-      <ReaderProvider>
+      <ReaderProvider defaultState={{ autoHideControls, mangaMode }}>
         <Wrapp width={width} height={height}>
           {container => (
             <Uncompress file={file} workerPath={opts.workerPath}>
@@ -46,7 +48,7 @@ class Villain extends Component {
                     focus={state.focus}
                     container={container}
                     bookMode={state.bookMode}
-                    mangaMode={opts.mangaMode}
+                    mangaMode={state.mangaMode}
                     currentPage={state.currentPage}
                     autoHideControls={state.autoHideControls}
                   />

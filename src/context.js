@@ -25,7 +25,7 @@ const defaultState = {
 }
 
 export class ReaderProvider extends Component {
-  state = { ...defaultState }
+  state = { ...defaultState, ...this.props.defaultState }
 
   updateState = data => {
     this.setState(data)

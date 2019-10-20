@@ -248,10 +248,9 @@ class CanvasRender extends Component {
   }
 
   componentDidMount() {
-    const { initialPage, mangaMode } = this.props
+    const { initialPage } = this.props
     this.initOpenSeaDragon()
     this.renderPage(initialPage)
-    this.context.updateState({ mangaMode })
   }
 
   componentWillUnmount() {
@@ -266,7 +265,14 @@ class CanvasRender extends Component {
 
   componentDidUpdate(prevProps) {
     const { totalPages } = this.context.state
-    const { hover, focus, currentPage, bookMode, autoHideControls } = this.props
+    const {
+      hover,
+      focus,
+      currentPage,
+      bookMode,
+      autoHideControls,
+      mangaMode,
+    } = this.props
 
     // Page changed
     if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
@@ -297,6 +303,10 @@ class CanvasRender extends Component {
       } else if (hover !== prevProps.hover) {
         this.context.updateState({ showControls: hover })
       }
+    }
+
+    if (mangaMode !== prevProps.mangaMode) {
+      this.context.updateState({ mangaMode })
     }
   }
 
