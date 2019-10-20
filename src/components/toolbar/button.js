@@ -22,6 +22,8 @@ class Button extends Component {
     } = this.props
     const button = (
       <button
+        role="button"
+        aria-label={this.props.ariaLabel || title}
         title={title}
         onClick={onClick}
         disabled={disabled}
