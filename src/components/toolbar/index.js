@@ -25,7 +25,21 @@ class Toolbar extends Component {
     super(props)
   }
 
+  isFocused = () => {
+    var elem = document.activeElement
+    do {
+      if (elem.matches('div.villain')) {
+        return true
+      }
+    } while ((elem = elem.parentElement) !== null)
+    return false
+  }
+
   handleShortcuts = event => {
+    if (!this.isFocused()) {
+      return
+    }
+
     const { toggleSetting, navigateToPage } = this.context
     const { isFirstPage, isLastPage, currentPage } = this.context.state
 
