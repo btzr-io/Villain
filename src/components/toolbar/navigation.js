@@ -65,27 +65,26 @@ class Navigation extends Component {
   }
 
   render() {
-    const { navigateForward, navigateBackward, toggleSetting } = this.context
-    const { totalPages, isFirstPage, isLastPage } = this.context.state
+    const { totalPages, isFirstPage, isLastPage, mangaMode } = this.context.state
+    const { navigateForward, navigateBackward } = this.context
+
     return (
       <div className={'villain-toolbar-group'}>
         <Button
           type={'icon'}
-          tooltip={messages['pagination.prev']}
-          tooltipClass={'left-edge'}
-          title={'Previous Page'}
-          onClick={navigateBackward}
-          disabled={isFirstPage}
+          title={mangaMode ? 'Next Page' : 'Previous Page'}
+          onClick={mangaMode ? navigateForward : navigateBackward}
+          disabled={mangaMode ? isLastPage : isFirstPage}
           icon={mdiChevronLeft}
         />
         <Button
           type={'icon'}
-          tooltip={messages['pagination.next']}
-          title={'Next Page'}
-          onClick={navigateForward}
-          disabled={isLastPage}
+          title={mangaMode ? 'Previous Page' : 'Next'}
+          onClick={mangaMode ? navigateBackward : navigateForward}
+          disabled={mangaMode ? isFirstPage : isLastPage}
           icon={mdiChevronRight}
         />
+
         <input
           min={1}
           step={1}
