@@ -5733,7 +5733,7 @@ opencollective-postinstall@^2.0.2:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
   integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
 
-openseadragon@^2.4.0:
+openseadragon@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.4.1.tgz#91fda5245558f5e4f939c2173bdf582359154b21"
   integrity sha512-7fWUnCkGvWcnoRxqeXcg4bSLPApWbI0hHumEZF8K2pziMfPNjvvHL5XB4oQeT2XfrGKfaasVrPe2XqhAr5kogA==

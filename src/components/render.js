@@ -5,6 +5,8 @@ import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
 import RenderError from '@/components/renderError'
 import { ReaderContext } from '../context'
+import { getKeyByValue } from '@/lib/utils'
+
 import {
   onFullscreenChange,
   fullscreenElement,
@@ -21,6 +23,7 @@ class CanvasRender extends Component {
   constructor(props) {
     super(props)
     this.viewer = null
+    this.browser = null
   }
 
   getTargetZoom = (scale = 1) => {
@@ -142,6 +145,12 @@ class CanvasRender extends Component {
   initOpenSeaDragon() {
     const { id } = this.props
     const { pages } = this.context.state
+
+    // Detect browser vendor
+    this.browser = getKeyByValue(
+      OpenSeaDragon.BROWSERS,
+      OpenSeaDragon.Browser.vendor
+    )
 
     // Create viewer
     this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
@@ -320,7 +329,7 @@ class CanvasRender extends Component {
           allowFullScreen={allowFullScreen}
           showControls={!autoHideControls || showControls}
         />
-        <div id={id} className={clsx('villain-canvas')} />
+        <div id={id} className={'villain-canvas'} />
         { renderError && <RenderError message={"Invalid image!"}/> }
       </React.Fragment>
     )
