@@ -144,7 +144,7 @@
 .tooltip-con {
   animation: 0.4s fadeIn;
   animation-fill-mode: forwards;
-  visibility: hidden;
+  /* visibility: hidden; */
   width: max-content;
   position: absolute;
   bottom: 10px;
