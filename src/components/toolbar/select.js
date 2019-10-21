@@ -16,18 +16,24 @@ class WrapSelect extends Component {
   render() {
     const { options, icon } = this.props
     return (
-      <>
-        <label style={{ marginTop: '5px', marginRight: '5px' }}>
-          <Icon path={icon} size={'22px'} className={'villain-icon'} />
-        </label>
-        <select onClick={this.handleClick}>
+      <label>
+        <Icon
+          path={icon}
+          size={'22px'}
+          className={'villain-icon'}
+          style={{ marginTop: '7px', marginRight: '6px' }}
+        />
+        <select
+          onClick={this.handleClick}
+          style={{ position: 'relative', bottom: '6px' }}
+        >
           {options.map(item => (
             <option value={item} key={item}>
               {item}
             </option>
           ))}
         </select>
-      </>
+      </label>
     )
   }
 }

@@ -2,11 +2,11 @@
 import LocalizedStrings from 'react-localization'
 
 const Localization = new LocalizedStrings({
-  en: require('@/locales/messages.json'),
-  de: require('@/locales/messages.de.json'),
-  pt: require('@/locales/messages.pt.json'),
-  ru: require('@/locales/messages.ru.json'),
-  fr: require('@/locales/messages.fr.json'),
+  EN: require('@/locales/messages.json'),
+  DE: require('@/locales/messages.de.json'),
+  PT: require('@/locales/messages.pt.json'),
+  RU: require('@/locales/messages.ru.json'),
+  FR: require('@/locales/messages.fr.json'),
 })
 
 export default Localization
