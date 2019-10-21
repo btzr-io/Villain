@@ -38,11 +38,11 @@ class Tooltip extends Component {
   }
 
   render() {
-    const { text, overrideClass, children } = this.props
+    const { text, overrideClass, children, style } = this.props
     const className = `tooltip-con ${overrideClass || ''}`
 
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', ...style }}>
         <div
           className={className}
           style={{ display: this.state.hover ? 'block' : 'none' }}
