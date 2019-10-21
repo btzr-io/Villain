@@ -88,6 +88,7 @@ class Toolbar extends Component {
       theme,
       pages,
       bookMode,
+      mangaMode,
       fullscreen,
       currentPage,
       currentZoom,
@@ -120,6 +121,7 @@ class Toolbar extends Component {
             value={currentPage}
             bufferProgress={progress}
             onChange={this.context.navigateToPage}
+            reversed={mangaMode}
           />
         </div>
 
@@ -148,6 +150,7 @@ class Toolbar extends Component {
           />
           <Button
             type={'icon'}
+            tooltip={theme === 'Light' ? messages['theme.dark'] : messages['theme.light']}
             onClick={toggleTheme}
             disabled={renderError}
             {...themeProps}

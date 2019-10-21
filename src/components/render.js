@@ -220,8 +220,6 @@ class CanvasRender extends Component {
 
     this.viewer.addHandler('open-failed', this.handleError)
 
-    // this.viewer.addHandler('canvas-key', this.handleShortcuts)
-
     onFullscreenChange(document, 'add', this.handleFullscreenChange)
   }
 
