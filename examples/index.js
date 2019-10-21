@@ -12,6 +12,7 @@ const villainOpts = {
   allowFullScreen: true,
   autoHideControls: false,
   mangaMode: false,
+  allowGlobalShortcuts: false,
 }
 
 const testFile = '/build/testFile/Example-archive.zip'

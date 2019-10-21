@@ -25,6 +25,50 @@ class Toolbar extends Component {
     super(props)
   }
 
+  isFocused = () => {
+    const elem = document.activeElement
+
+    const contains = document.querySelector('div.villain').contains(elem)
+    const elemType = elem.tagName.toLowerCase()
+
+    if (contains && elemType !== 'input' && elemType !== 'textarea') {
+      return true
+    }
+    return false
+  }
+
+  handleShortcuts = event => {
+    const { allowGlobalShortcuts } = this.context.state
+    if (!this.isFocused() && !allowGlobalShortcuts) {
+      return
+    }
+
+    const { toggleSetting, navigateToPage } = this.context
+    const { isFirstPage, isLastPage, currentPage } = this.context.state
+
+    switch (event.key) {
+      case 'f':
+        toggleSetting('fullscreen')
+        break
+
+      case 'ArrowRight':
+        if (!isLastPage) navigateToPage(currentPage + 1)
+        break
+
+      case 'ArrowLeft':
+        if (!isFirstPage) navigateToPage(currentPage - 1)
+        break
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleShortcuts)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleShortcuts)
+  }
+
   render() {
     // Component Props
     const { allowFullScreen, showControls, toggleFullscreen, renderError } = this.props
