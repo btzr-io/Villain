@@ -51,7 +51,7 @@ class Handle extends Component {
           })}
         >
           {(mouseOver || isActive) && !disabled &&
-            <div className="tooltip-con" style={{left: 0}}>
+            <div className="tooltip-con" style={{left: '20%'}}>
               <span className="tooltip-text">{value}</span>
             </div>
           }
