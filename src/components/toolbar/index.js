@@ -26,7 +26,7 @@ class Toolbar extends Component {
   }
 
   isFocused = () => {
-    var elem = document.activeElement
+    const elem = document.activeElement
 
     const contains = document.querySelector('div.villain').contains(elem)
     const elemType = elem.tagName.toLowerCase()
