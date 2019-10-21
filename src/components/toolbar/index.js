@@ -18,7 +18,6 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-
 class Toolbar extends Component {
   static contextType = ReaderContext
 
@@ -28,11 +27,13 @@ class Toolbar extends Component {
 
   isFocused = () => {
     var elem = document.activeElement
-    do {
-      if (elem.matches('div.villain')) {
-        return true
-      }
-    } while ((elem = elem.parentElement) !== null)
+
+    const contains = document.querySelector('div.villain').contains(elem)
+    const elemType = elem.tagName.toLowerCase()
+
+    if (contains && elemType !== 'input' && elemType !== 'textarea') {
+      return true
+    }
     return false
   }
 
@@ -44,16 +45,16 @@ class Toolbar extends Component {
     const { toggleSetting, navigateToPage } = this.context
     const { isFirstPage, isLastPage, currentPage } = this.context.state
 
-    switch (event.keyCode) {
-      case 70: //Key: f
+    switch (event.key) {
+      case 'f':
         toggleSetting('fullscreen')
         break
 
-      case 39: //Key: Right Arrow
+      case 'ArrowRight':
         if (!isLastPage) navigateToPage(currentPage + 1)
         break
 
-      case 37: //Key: Left Arrow
+      case 'ArrowLeft':
         if (!isFirstPage) navigateToPage(currentPage - 1)
         break
     }
