@@ -1,6 +1,6 @@
 .villain.Dark {
   --bg-color: #0c0d11;
-  --fg-color: #fff;
+  --fg-color: #FFF;
   --icon-color: var(--fg-color);
   --slider-bg: rgba(255, 255, 255, 0.1);
   --slider-track-bg: #fff;
@@ -16,7 +16,7 @@
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;
-  --tooltip-fg: var(--color-fg);
+  --tooltip-fg: var(--fg-color);
 }
 
 .villain.Light {
@@ -25,7 +25,7 @@
   --icon-color: var(--fg-color);
   --slider-bg: rgba(0, 0, 0, 0.1);
   --slider-buffer-bg: rgba(0, 0, 0, 0.2);
-  --slider-track-bg: rgba(0, 0, 0, 0.2);
+  --slider-track-bg: var(--fg-color);
   --input-bg: #fff;
   --input-border: rgba(180, 180, 180, 0.4);
   --input-border-focus: rgba(150, 150, 150, 0.4);

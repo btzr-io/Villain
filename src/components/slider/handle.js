@@ -29,14 +29,13 @@ class Handle extends Component {
           aria-valuenow={value}
           style={{
             WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-            zIndex: 300,
             border: 0,
             borderRadius: '50%',
             boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
-            backgroundColor: disabled ? 'transparent' : '#fff',
+            backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
             width: 14,
             height: 14,
-            margin: '9px 0'
+            margin: '9px 0',
           }}
           {...getHandleProps(id)}
         />
