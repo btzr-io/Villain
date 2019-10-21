@@ -73,6 +73,7 @@ class Navigation extends Component {
         <Button
           type={'icon'}
           tooltip={mangaMode ? 'Next Page' : 'Previous Page'}
+          tooltipClass="left-edge"
           onClick={mangaMode ? navigateForward : navigateBackward}
           disabled={mangaMode ? isLastPage : isFirstPage}
           icon={mdiChevronLeft}

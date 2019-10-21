@@ -163,6 +163,9 @@
   ); /* Position the tooltip vertically to match other elements (11px) */
 }
 
+.tooltip-con.top-edge {
+  bottom: -240%;
+}
 .tooltip-con.right-edge {
   left: -120%;
 }
