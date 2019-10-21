@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Localization from '../src/localize'
+import Localization from '@/src/localize'
 
 // Remplace path with build
 import Villain from '../src/index.js'
