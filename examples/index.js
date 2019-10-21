@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Localization from '@/src/localize'
+import Localization from '@/localize'
 
 // Remplace path with build
-import Villain from '../src/index.js'
-import '../src/css/styles.css'
+import Villain from '@/index.js'
+import '@/css/styles.css'
 
 const villainOpts = {
   workerUrl: '/build/worker-bundle.js',
