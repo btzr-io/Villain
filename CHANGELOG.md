@@ -11,11 +11,13 @@ All notable changes to this project will be documented in this file. The format 
 - Keyboard navigation for slider component [(#39)](https://github.com/btzr-io/Villain/issues/39)
 - Preview mode [(#27)](https://github.com/btzr-io/Villain/issues/27)
 - Manga mode [(#10)](https://github.com/btzr-io/Villain/issues/10)
+- Keyboard shortcuts [(#20)](https://github.com/btzr-io/Villain/issues/20)
 
 ### Fixed
 
 - Slider component skipped key tab [(#40)](https://github.com/btzr-io/Villain/issues/40)
 - Improve image type validation [(#50)](https://github.com/btzr-io/Villain/issues/50)
+- Unified tooltip [(#93)](https://github.com/btzr-io/Villain/issues/93)
 
 ### Changed
 

@@ -188,7 +188,7 @@ class CanvasRender extends Component {
     this.viewer.canvas.addEventListener('blur', this.handleBlur)
     this.viewer.canvas.addEventListener('focus', this.handleFocus)
 
-    // Events hanlder
+    // Events handler
     this.viewer.addHandler('open', () => {
       this.renderLayout()
       this.updateZoomLimits()
@@ -196,7 +196,7 @@ class CanvasRender extends Component {
       this.context.updateState({ renderError: false })
     })
 
-    // Events hanlder
+    // Events handler
     this.viewer.addHandler('resize', () => {
       this.updateZoomLimits()
     })

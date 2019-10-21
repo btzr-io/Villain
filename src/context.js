@@ -24,7 +24,8 @@ const defaultState = {
   fullscreen: false,
   showControls: false,
   autoHideControls: false,
-  changeLang: Localization.getLanguage(),
+  changeLang: Localization.getInterfaceLanguage(),
+  allowGlobalShortcuts: false,
 }
 
 export class ReaderProvider extends Component {
