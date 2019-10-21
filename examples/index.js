@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Localization from '../src/localize'
 
 // Remplace path with build
 import Villain from '../src/index.js'
@@ -17,7 +18,7 @@ const testFile = '/build/testFile/Example-archive.zip'
 
 ReactDOM.render(
   <div>
-    <h1> Test example! </h1>
+    <h1> {Localization['example.header']} </h1>
     <Villain file={testFile} options={villainOpts} />
   </div>,
   document.getElementById('app')

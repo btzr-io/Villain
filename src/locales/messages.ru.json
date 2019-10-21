@@ -1,0 +1,15 @@
+{
+  "pagination.prev": "Предыдущая",
+  "pagination.next": "Следующая",
+  "pagination.page": "Страница",
+  "pin.toolbar": "Закрепить панель инструментов",
+  "fullscreen.on": "На весь экран",
+  "fullscreen.off": "Выйти из полноэкранного режима",
+  "view.bookmode": "Книжный вид",
+  "view.singlepage": "Страничный вид",
+  "theme.light": "Светлая тема",
+  "theme.dark": "Темная тема",
+  "zoom.in": "Увеличить",
+  "zoom.out": "Уменьшить",
+  "example.header": "Тестовый пример!"
+}

@@ -4982,6 +4982,11 @@ loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
+localized-strings@^0.2.0:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/localized-strings/-/localized-strings-0.2.3.tgz#6caed1bc0476668331ed4e96729676ae8f7a0295"
+  integrity sha512-uWO3E2jDynMBsJIglBMhALO3f1DnfOFzCSoCt+fPLGx94PXU1KfbgBx04J4xfjPwozRowAHk8bfaw8bgeKTTCQ==
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -6798,6 +6803,13 @@ react-is@^16.10.2, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6, react-i
   version "16.10.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.2.tgz#984120fd4d16800e9a738208ab1fba422d23b5ab"
   integrity sha512-INBT1QEgtcCCgvccr5/86CfD71fw9EPmDxgiJX4I2Ddr6ZsV6iFXsuby+qWJPtmNuMY0zByTsG4468P7nHuNWA==
+
+react-localization@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/react-localization/-/react-localization-1.0.15.tgz#624bd0b514100488a84204e20b398750313d1708"
+  integrity sha512-s+yK3EqPUhN8kAfUIoA5m0a0iGOvxB3DrvngYnSZNLRQRX+yS7LYfTuKT66KVa3Cr6EP4iGRtw4XRqpsi1ZLjw==
+  dependencies:
+    localized-strings "^0.2.0"
 
 react-test-renderer@^16.0.0-0:
   version "16.10.2"
