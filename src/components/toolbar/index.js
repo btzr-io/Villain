@@ -87,7 +87,6 @@ class Toolbar extends Component {
       theme,
       pages,
       bookMode,
-      mangaMode,
       fullscreen,
       currentPage,
       currentZoom,
@@ -120,7 +119,6 @@ class Toolbar extends Component {
             value={currentPage}
             bufferProgress={progress}
             onChange={this.context.navigateToPage}
-            reversed={mangaMode}
           />
         </div>
 
