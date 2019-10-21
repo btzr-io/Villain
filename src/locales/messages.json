@@ -1,15 +1,15 @@
 {
-  "pagination.prev": "Previous page",
-  "pagination.next": "Next page",
-  "pagination.page": "Page",
-  "pin.toolbar": "Pin controls",
-  "fullscreen.on": "Enter fullscreen",
-  "fullscreen.off": "Exit fullscreen",
-  "view.bookmode": "Book view",
-  "view.singlepage": "Page view",
-  "theme.light": "Light theme",
-  "theme.dark": "Dark theme",
-  "zoom.in": "Zoom in",
-  "zoom.out": "Zoom out",
-  "example.header": "Example test!"
+  "Previous page": "Previous page",
+  "Next page": "Next page",
+  "Page": "Page",
+  "Pin controls": "Pin controls",
+  "Enter fullscreen": "Enter fullscreen",
+  "Exit fullscreen": "Exit fullscreen",
+  "Book view": "Book view",
+  "Page view": "Page view",
+  "Light theme": "Light theme",
+  "Dark theme": "Dark theme",
+  "Zoom in": "Zoom in",
+  "Zoom out": "Zoom out",
+  "Example test": "Example test!"
 }

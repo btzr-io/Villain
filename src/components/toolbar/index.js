@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import clsx from 'clsx'
 import Button from './button'
+import WrapSelect from './select'
 import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
+import Localization from '@/localize'
 
 import messages from '@/locales/messages.json'
 
@@ -16,6 +18,7 @@ import {
   mdiFullscreenExit,
   mdiBookOpenOutline,
   mdiWhiteBalanceSunny,
+  mdiWeb,
 } from '@mdi/js'
 
 class Toolbar extends Component {
@@ -155,18 +158,20 @@ class Toolbar extends Component {
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
-            tooltip={messages['pin.toolbar']}
+            tooltip={Localization['Pin controls']}
           />
           <Button
             type={'icon'}
-            tooltip={bookMode ? messages['view.singlepage'] : messages['view.bookmode']}
+            tooltip={bookMode ? Localization['Page view'] : Localization['Book view']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
           />
           <Button
             type={'icon'}
-            tooltip={theme === 'Light' ? messages['theme.dark'] : messages['theme.light']}
+            tooltip={
+              theme === 'Light' ? Localization['Dark theme'] : Localization['Light theme']
+            }
             onClick={toggleTheme}
             disabled={renderError}
             {...themeProps}
@@ -177,13 +182,16 @@ class Toolbar extends Component {
               title={'Fullscreen'}
               icon={fullScreenIcon}
               tooltip={
-                fullscreen ? messages['fullscreen.off'] : messages['fullscreen.on']
+                fullscreen
+                  ? Localization['Exit fullscreen']
+                  : Localization['Enter fullscreen']
               }
               tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />
           )}
+          <WrapSelect options={Localization.getAvailableLanguages()} icon={mdiWeb} />
         </div>
       </div>
     )
