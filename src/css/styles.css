@@ -135,8 +135,8 @@
 .tooltip-con {
   width: max-content;
   position: absolute;
-  bottom: 10px;
-  left: -60%;
+  bottom: 20px;
+  left: 50%;
   margin: 0 auto;
   text-align: center;
   padding: 4px 8px;
@@ -145,19 +145,17 @@
   z-index: 99;
   display: block;
   transition: all 0.4s;
-  transform: translateY(
-    calc(-100% - 16px)
-  ); /* Position the tooltip vertically to match other elements (11px) */
+  transform: translate(-50%, -100%);
 }
 
 .tooltip-con.top-edge {
-  bottom: -240%;
+  bottom: -220%;
 }
 .tooltip-con.right-edge {
-  left: -120%;
+  left: 0;
 }
 .tooltip-con.left-edge {
-  left: 0%;
+  left: 100%;
 }
 
 .tooltip-text {
