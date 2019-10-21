@@ -124,9 +124,9 @@ class CanvasRender extends Component {
     }
   }
 
-  handleError = (error) => {
-    this.viewer.close();
-    this.context.updateState({renderError: true });
+  handleError = error => {
+    this.viewer.close()
+    this.context.updateState({ renderError: true })
     // Debug error
     console.error(error)
   }
@@ -147,10 +147,7 @@ class CanvasRender extends Component {
     const { pages } = this.context.state
 
     // Detect browser vendor
-    this.browser = getKeyByValue(
-      OpenSeaDragon.BROWSERS,
-      OpenSeaDragon.Browser.vendor
-    )
+    this.browser = getKeyByValue(OpenSeaDragon.BROWSERS, OpenSeaDragon.Browser.vendor)
 
     // Create viewer
     this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
@@ -158,15 +155,15 @@ class CanvasRender extends Component {
     this.viewer.canvas.addEventListener('blur', this.handleBlur)
     this.viewer.canvas.addEventListener('focus', this.handleFocus)
 
-    // Events hanlder
+    // Events handler
     this.viewer.addHandler('open', () => {
       this.renderLayout()
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
-      this.context.updateState({renderError: false});
+      this.context.updateState({ renderError: false })
     })
 
-    // Events hanlder
+    // Events handler
     this.viewer.addHandler('resize', () => {
       this.updateZoomLimits()
     })
@@ -187,6 +184,8 @@ class CanvasRender extends Component {
     this.viewer.addHandler('canvas-enter', this.handleEnter)
 
     this.viewer.addHandler('open-failed', this.handleError)
+
+    // this.viewer.addHandler('canvas-key', this.handleShortcuts)
 
     onFullscreenChange(document, 'add', this.handleFullscreenChange)
   }
@@ -330,7 +329,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        { renderError && <RenderError message={"Invalid image!"}/> }
+        {renderError && <RenderError message={'Invalid image!'} />}
       </React.Fragment>
     )
   }
