@@ -38,7 +38,9 @@ class Toolbar extends Component {
   }
 
   handleShortcuts = event => {
+    const { toggleFullscreen } = this.props
     const { allowGlobalShortcuts } = this.context.state
+
     if (!this.isFocused() && !allowGlobalShortcuts) {
       return
     }
@@ -48,7 +50,7 @@ class Toolbar extends Component {
 
     switch (event.key) {
       case 'f':
-        toggleSetting('fullscreen')
+        toggleFullscreen('fullscreen')
         break
 
       case 'ArrowRight':
