@@ -31,14 +31,19 @@ class Toolbar extends Component {
     const contains = document.querySelector('div.villain').contains(elem)
     const elemType = elem.tagName.toLowerCase()
 
-    if (contains && elemType !== 'input' && elemType !== 'textarea' && elemType !== 'button') {
+    if (
+      contains &&
+      elemType !== 'input' &&
+      elemType !== 'textarea' &&
+      elemType !== 'button'
+    ) {
       return true
     }
     return false
   }
 
   // Note:? We should provide an api to add, define, overwrite key shortcuts
-  handleShortcuts = event => {
+  handleShortcuts = ({ key }) => {
     const { toggleFullscreen } = this.props
     const { allowGlobalShortcuts } = this.context.state
 
@@ -50,8 +55,7 @@ class Toolbar extends Component {
     const { toggleSetting, navigateToPage } = this.context
     const { isFirstPage, isLastPage, currentPage } = this.context.state
 
-    switch (event.key) {
-
+    switch (key) {
       // Toggle fullscreen of viewer.
       // Note: Current conflict with openseadragon key shortcuts.
       // Todo: This will flip the images. please fix it!!
@@ -59,6 +63,7 @@ class Toolbar extends Component {
         toggleFullscreen('fullscreen')
         break
 
+      /*  Note: This shortcuts break the viewewr.
       // Navigation to next page
       case 'ArrowRight':
         if (!isLastPage) navigateToPage(currentPage + 1)
@@ -68,6 +73,7 @@ class Toolbar extends Component {
       case 'ArrowLeft':
         if (!isFirstPage) navigateToPage(currentPage - 1)
         break
+      */
     }
   }
 

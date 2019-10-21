@@ -8,10 +8,10 @@ import '@/css/styles.css'
 
 const villainOpts = {
   workerUrl: '/build/worker-bundle.js',
-  preview: 4,
+  // Configurations
+  mangaMode: false,
   allowFullScreen: true,
   autoHideControls: false,
-  mangaMode: false,
   allowGlobalShortcuts: false,
 }
 
