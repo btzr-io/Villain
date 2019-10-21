@@ -51,10 +51,10 @@ class ZoomControls extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { currentZoom } = this.props
-    if (currentZoom !== prevProps.currentZoom) {
-      this.setState({ value: `${currentZoom}%` })
+  static getDerivedStateFromProps(props) {
+    const { currentZoom } = props
+    return {
+      value: `${currentZoom}%`,
     }
   }
 
