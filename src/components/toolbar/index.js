@@ -38,7 +38,8 @@ class Toolbar extends Component {
   }
 
   handleShortcuts = event => {
-    if (!this.isFocused()) {
+    const { allowGlobalShortcuts } = this.context.state
+    if (!this.isFocused() && !allowGlobalShortcuts) {
       return
     }
 
