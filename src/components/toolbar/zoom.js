@@ -66,7 +66,7 @@ class ZoomControls extends Component {
       <React.Fragment>
         <Button
           type={'icon'}
-          tooltip={messages['zoom.in']}
+          tooltip={messages['Zoom in']}
           title={'Zoom in'}
           icon={mdiPlus}
           disabled={!canZoomIn || disabled}
@@ -75,7 +75,7 @@ class ZoomControls extends Component {
         <Button
           type={'icon'}
           icon={mdiMinus}
-          tooltip={messages['zoom.out']}
+          tooltip={messages['Zoom out']}
           title={'Zoom out'}
           disabled={!canZoomOut || disabled}
           onClick={this.triggerDecrement}

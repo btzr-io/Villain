@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import clsx from 'clsx'
 import Button from './button'
-import Select from './select'
+import WrapSelect from './select'
 import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
@@ -18,6 +18,7 @@ import {
   mdiFullscreenExit,
   mdiBookOpenOutline,
   mdiWhiteBalanceSunny,
+  mdiWeb,
 } from '@mdi/js'
 
 class Toolbar extends Component {
@@ -97,13 +98,11 @@ class Toolbar extends Component {
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
-            tooltip={Localization['pin.toolbar']}
+            tooltip={Localization['Pin controls']}
           />
           <Button
             type={'icon'}
-            tooltip={
-              bookMode ? Localization['view.singlepage'] : Localization['view.bookmode']
-            }
+            tooltip={bookMode ? Localization['Page view'] : Localization['Book view']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
@@ -111,7 +110,7 @@ class Toolbar extends Component {
           <Button
             type={'icon'}
             tooltip={
-              theme === 'Light' ? Localization['theme.dark'] : Localization['theme.light']
+              theme === 'Light' ? Localization['Dark theme'] : Localization['Light theme']
             }
             onClick={toggleTheme}
             disabled={renderError}
@@ -124,15 +123,15 @@ class Toolbar extends Component {
               icon={fullScreenIcon}
               tooltip={
                 fullscreen
-                  ? Localization['fullscreen.off']
-                  : Localization['fullscreen.on']
+                  ? Localization['Exit fullscreen']
+                  : Localization['Enter fullscreen']
               }
               tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />
           )}
-          <Select options={Object.keys(Localization._props)} />
+          <WrapSelect options={Localization.getAvailableLanguages()} icon={mdiWeb} />
         </div>
       </div>
     )

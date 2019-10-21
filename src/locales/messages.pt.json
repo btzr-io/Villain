@@ -1,15 +1,15 @@
 {
-  "pagination.prev": "Página anterior",
-  "pagination.next": "Próxima página",
-  "pagination.page": "Página",
-  "pin.toolbar": "Fixar ferramentas",
-  "fullscreen.on": "Ativar tela cheia",
-  "fullscreen.off": "Desativar tela cheia",
-  "view.bookmode": "Visão de página dupla",
-  "view.singlepage": "Visão de página única",
-  "theme.light": "Ativar tema claro",
-  "theme.dark": "Ativar tema escuro",
-  "zoom.in": "Aumentar zoom",
-  "zoom.out": "Diminuir zoom",
-  "example.header": "Teste de exemplo!"
+  "Previous page": "Página anterior",
+  "Next page": "Próxima página",
+  "Page": "Página",
+  "Pin controls": "Fixar ferramentas",
+  "Enter fullscreen": "Ativar tela cheia",
+  "Exit fullscreen": "Desativar tela cheia",
+  "Book view": "Visão de página dupla",
+  "Page view": "Visão de página única",
+  "Light theme": "Ativar tema claro",
+  "Dark theme": "Ativar tema escuro",
+  "Zoom in": "Aumentar zoom",
+  "Zoom out": "Diminuir zoom",
+  "Example test": "Teste de exemplo!"
 }

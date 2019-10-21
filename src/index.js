@@ -22,7 +22,7 @@ class Villain extends Component {
 
   static defaultProps = {
     file: null,
-    width: '740px',
+    width: '780px',
     height: '380px',
     options: { ...defaultOpts },
   }

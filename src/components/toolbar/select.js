@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { ReaderContext } from '@/context'
+import Icon from '@mdi/react'
 
-class Select extends Component {
+class WrapSelect extends Component {
   static contextType = ReaderContext
 
   constructor(props) {
@@ -13,17 +14,22 @@ class Select extends Component {
   }
 
   render() {
-    const { options } = this.props
+    const { options, icon } = this.props
     return (
-      <select onClick={this.handleClick}>
-        {options.map(item => (
-          <option value={item} key={item}>
-            {item}
-          </option>
-        ))}
-      </select>
+      <>
+        <label style={{ marginTop: '5px', marginRight: '5px' }}>
+          <Icon path={icon} size={'22px'} className={'villain-icon'} />
+        </label>
+        <select onClick={this.handleClick}>
+          {options.map(item => (
+            <option value={item} key={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </>
     )
   }
 }
 
-export default Select
+export default WrapSelect

@@ -1,15 +1,15 @@
 {
-  "pagination.prev": "Page précédente",
-  "pagination.next": "Page suivante",
-  "pagination.page": "Page",
-  "pin.toolbar": "Commandes Pin",
-  "fullscreen.on": "Entrer en plein écran",
-  "fullscreen.off": "Quitter le plein écran",
-  "view.bookmode": "Vue du livre",
-  "view.singlepage": "Page vue",
-  "theme.light": "Thème lumière",
-  "theme.dark": "Thème sombre",
-  "zoom.in": "Zoom avant",
-  "zoom.out": "Zoom arrière",
-  "example.header": "Exemple de test!"
+  "Previous page": "Page précédente",
+  "Next page": "Page suivante",
+  "Page": "Page",
+  "Pin controls": "Commandes Pin",
+  "Enter fullscreen": "Entrer en plein écran",
+  "Exit fullscreen": "Quitter le plein écran",
+  "Book view": "Vue du livre",
+  "Page view": "Page vue",
+  "Light theme": "Thème lumière",
+  "Dark theme": "Thème sombre",
+  "Zoom in": "Zoom avant",
+  "Zoom out": "Zoom arrière",
+  "Example test": "Exemple de test!"
 }

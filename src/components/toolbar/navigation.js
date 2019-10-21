@@ -72,9 +72,7 @@ class Navigation extends Component {
       <div className={'villain-toolbar-group'}>
         <Button
           type={'icon'}
-          tooltip={
-            mangaMode ? Localization['pagination.next'] : Localization['pagination.prev']
-          }
+          tooltip={mangaMode ? Localization['Next page'] : Localization['Previous page']}
           tooltipClass="left-edge"
           onClick={mangaMode ? navigateForward : navigateBackward}
           disabled={mangaMode ? isLastPage : isFirstPage}
@@ -82,9 +80,7 @@ class Navigation extends Component {
         />
         <Button
           type={'icon'}
-          tooltip={
-            mangaMode ? Localization['pagination.next'] : Localization['pagination.next']
-          }
+          tooltip={mangaMode ? Localization['Next page'] : Localization['Next page']}
           onClick={mangaMode ? navigateBackward : navigateForward}
           disabled={mangaMode ? isFirstPage : isLastPage}
           icon={mdiChevronRight}
