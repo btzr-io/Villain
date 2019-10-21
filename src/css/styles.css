@@ -2,7 +2,7 @@
   --bg-color: #0c0d11;
   --fg-color: #fff;
   --icon-color: var(--fg-color);
-  --slider-bg: rgba(255, 255, 255, 0.2);
+  --slider-bg: rgba(255, 255, 255, 0.1);
   --slider-track-bg: #fff;
   --slider-buffer-bg: rgba(255, 255, 255, 0.4);
   --input-border-focus: rgba(255, 255, 255, 0.4);
@@ -132,19 +132,7 @@
 
 /* global tooltip */
 
-@keyframes fadeIn {
-  99% {
-    visibility: hidden;
-  }
-  100% {
-    visibility: visible;
-  }
-}
-
 .tooltip-con {
-  animation: 0.4s fadeIn;
-  animation-fill-mode: forwards;
-  /* visibility: hidden; */
   width: max-content;
   position: absolute;
   bottom: 10px;
@@ -153,7 +141,6 @@
   text-align: center;
   padding: 4px 8px;
   background-color: var(--tooltip-bg);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   z-index: 99;
   display: block;
@@ -301,7 +288,6 @@
   bottom: 150%;
   left: 50%;
   margin-left: -2rem;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
 .villain-toolbar .tooltip .tooltiptext::after {

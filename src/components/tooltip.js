@@ -3,16 +3,38 @@ import React, { Component } from 'react'
 class Tooltip extends Component {
   constructor(props) {
     super(props)
+    this.clearDelay = null
   }
 
   state = { hover: false }
 
   onMouseEnter = () => {
-    this.setState({ hover: true })
+      // Clear timeout
+      window.clearTimeout(this.clearDelay)
+      // Delay to display tooltip
+      this.clearDelay = setTimeout(() => {
+        this.setState({ hover: true })
+      },  600);
   }
 
   onMouseLeave = () => {
+    // Clear timeout
+    window.clearTimeout(this.clearDelay)
     this.setState({ hover: false })
+  }
+
+  handleKeyDown = () => {
+    // Clear timeout
+    window.clearTimeout(this.clearDelay)
+    this.setState({ hover: false })
+  }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown)
   }
 
   render() {
