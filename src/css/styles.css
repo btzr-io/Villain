@@ -2,7 +2,7 @@
   --bg-color: #0c0d11;
   --fg-color: #fff;
   --icon-color: var(--fg-color);
-  --slider-bg: rgba(255, 255, 255, 0.2);
+  --slider-bg: rgba(255, 255, 255, 0.1);
   --slider-track-bg: #fff;
   --slider-buffer-bg: rgba(255, 255, 255, 0.4);
   --input-border-focus: rgba(255, 255, 255, 0.4);
@@ -37,7 +37,7 @@
   --toolbar-border: rgba(0, 0, 0, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: rgba(24, 24, 24, 0.64);
-  --tooltip-fg: #FFF;
+  --tooltip-fg: #fff;
 }
 
 .villain {
@@ -132,37 +132,27 @@
 
 /* global tooltip */
 
-@keyframes fadeIn {
-  99% {
-    visibility: hidden;
-  }
-  100% {
-    visibility: visible;
-  }
-}
-
 .tooltip-con {
-  animation: .4s fadeIn;
-  animation-fill-mode: forwards;
-  visibility: hidden;
   width: max-content;
   position: absolute;
   bottom: 10px;
   left: -60%;
   margin: 0 auto;
   text-align: center;
-  min-width: 100px;
-  padding: 5px;
+  padding: 4px 8px;
   background-color: var(--tooltip-bg);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   z-index: 99;
   display: block;
-  transition: all .4s;
-  transform: translateY(calc(-100% - 15px));
-
+  transition: all 0.4s;
+  transform: translateY(
+    calc(-100% - 16px)
+  ); /* Position the tooltip vertically to match other elements (11px) */
 }
 
+.tooltip-con.top-edge {
+  bottom: -240%;
+}
 .tooltip-con.right-edge {
   left: -120%;
 }
@@ -285,7 +275,7 @@
 }
 
 .villain-toolbar .tooltip .tooltiptext {
-  width: 3rem;
+  min-width: 3rem;
   background-color: var(--tooltip-bg);
   color: var(--tooltip-fg);
   text-align: center;
@@ -297,8 +287,7 @@
   z-index: 1;
   bottom: 150%;
   left: 50%;
-  margin-left: calc(-1.5rem - 10px);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  margin-left: -2rem;
 }
 
 .villain-toolbar .tooltip .tooltiptext::after {

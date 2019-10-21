@@ -1,0 +1,13 @@
+{
+  "pagination.prev": "Vorherige Seite",
+  "pagination.next": "Nächste Seite",
+  "pin.toolbar": "Steuerung anheften",
+  "fullscreen.on": "Vollbildmodus öffnen",
+  "fullscreen.off": "Vollbildmodus beenden",
+  "view.bookmode": "Buchansicht",
+  "view.singlepage": "Seitenansicht",
+  "theme.light": "Tagmodus",
+  "theme.dark": "Nachtmodus",
+  "zoom.in": "Vergrößern",
+  "zoom.out": "Verkleinern"
+}

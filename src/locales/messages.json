@@ -1,6 +1,7 @@
 {
   "pagination.prev": "Previous page",
   "pagination.next": "Next page",
+  "pagination.page": "Page",
   "pin.toolbar": "Pin controls",
   "fullscreen.on": "Enter fullscreen",
   "fullscreen.off": "Exit fullscreen",
@@ -9,5 +10,6 @@
   "theme.light": "Light theme",
   "theme.dark": "Dark theme",
   "zoom.in": "Zoom in",
-  "zoom.out": "Zoom out"
+  "zoom.out": "Zoom out",
+  "example.header": "Example test!"
 }
