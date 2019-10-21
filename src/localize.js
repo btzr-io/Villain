@@ -6,6 +6,7 @@ const Localization = new LocalizedStrings({
   de: require('@/locales/messages.de.json'),
   pt: require('@/locales/messages.pt.json'),
   ru: require('@/locales/messages.ru.json'),
+  fr: require('@/locales/messages.fr.json'),
 })
 
 export default Localization

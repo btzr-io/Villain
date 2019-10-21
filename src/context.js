@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Localization from '@/localize'
 export const ReaderContext = React.createContext()
 
 const defaultState = {
@@ -23,6 +24,7 @@ const defaultState = {
   fullscreen: false,
   showControls: false,
   autoHideControls: false,
+  changeLang: Localization.getLanguage(),
 }
 
 export class ReaderProvider extends Component {
@@ -66,6 +68,11 @@ export class ReaderProvider extends Component {
     this.setState(prevState => ({
       autoHideControls: !prevState.autoHideControls,
     }))
+  }
+
+  toggleLang = lang => {
+    Localization.setLanguage(lang)
+    this.setState({ changeLang: lang })
   }
 
   toggleTheme = () => {
@@ -138,6 +145,7 @@ export class ReaderProvider extends Component {
           createPage: this.createPage,
           updateState: this.updateState,
           toggleTheme: this.toggleTheme,
+          toggleLang: this.toggleLang,
           toggleSetting: this.toggleSetting,
           navigateToPage: this.navigateToPage,
           navigateForward: this.navigateForward,

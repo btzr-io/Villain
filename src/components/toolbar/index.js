@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import clsx from 'clsx'
 import Button from './button'
+import Select from './select'
 import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
+import Localization from '@/localize'
 
 import messages from '@/locales/messages.json'
 
@@ -95,18 +97,22 @@ class Toolbar extends Component {
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
-            tooltip={messages['pin.toolbar']}
+            tooltip={Localization['pin.toolbar']}
           />
           <Button
             type={'icon'}
-            tooltip={bookMode ? messages['view.singlepage'] : messages['view.bookmode']}
+            tooltip={
+              bookMode ? Localization['view.singlepage'] : Localization['view.bookmode']
+            }
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
           />
           <Button
             type={'icon'}
-            tooltip={theme === 'Light' ? messages['theme.dark'] : messages['theme.light']}
+            tooltip={
+              theme === 'Light' ? Localization['theme.dark'] : Localization['theme.light']
+            }
             onClick={toggleTheme}
             disabled={renderError}
             {...themeProps}
@@ -117,13 +123,16 @@ class Toolbar extends Component {
               title={'Fullscreen'}
               icon={fullScreenIcon}
               tooltip={
-                fullscreen ? messages['fullscreen.off'] : messages['fullscreen.on']
+                fullscreen
+                  ? Localization['fullscreen.off']
+                  : Localization['fullscreen.on']
               }
               tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />
           )}
+          <Select options={Object.keys(Localization._props)} />
         </div>
       </div>
     )

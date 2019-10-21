@@ -1,6 +1,7 @@
 {
   "pagination.prev": "Vorherige Seite",
   "pagination.next": "Nächste Seite",
+  "pagination.page": "Seite",
   "pin.toolbar": "Steuerung anheften",
   "fullscreen.on": "Vollbildmodus öffnen",
   "fullscreen.off": "Vollbildmodus beenden",
@@ -9,5 +10,6 @@
   "theme.light": "Tagmodus",
   "theme.dark": "Nachtmodus",
   "zoom.in": "Vergrößern",
-  "zoom.out": "Verkleinern"
+  "zoom.out": "Verkleinern",
+  "example.header": "Beispiel Test!"
 }

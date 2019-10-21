@@ -1,6 +1,7 @@
 {
   "pagination.prev": "Página anterior",
   "pagination.next": "Próxima página",
+  "pagination.page": "Página",
   "pin.toolbar": "Fixar ferramentas",
   "fullscreen.on": "Ativar tela cheia",
   "fullscreen.off": "Desativar tela cheia",
@@ -9,5 +10,6 @@
   "theme.light": "Ativar tema claro",
   "theme.dark": "Ativar tema escuro",
   "zoom.in": "Aumentar zoom",
-  "zoom.out": "Diminuir zoom"
+  "zoom.out": "Diminuir zoom",
+  "example.header": "Teste de exemplo!"
 }
