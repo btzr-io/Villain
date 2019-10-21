@@ -37,10 +37,12 @@ class Toolbar extends Component {
     return false
   }
 
+  // Note:? We should provide an api to add, define, overwrite key shortcuts
   handleShortcuts = event => {
     const { toggleFullscreen } = this.props
     const { allowGlobalShortcuts } = this.context.state
 
+    // Check if it should restrict listening for key shortcuts on player focus
     if (!this.isFocused() && !allowGlobalShortcuts) {
       return
     }
@@ -49,14 +51,20 @@ class Toolbar extends Component {
     const { isFirstPage, isLastPage, currentPage } = this.context.state
 
     switch (event.key) {
+      
+      // Toggle fullscreen of viewer.
+      // Note: Current conflict with openseadragon key shortcuts.
+      // Todo: This will flip the images. please fix it!!
       case 'f':
         toggleFullscreen('fullscreen')
         break
 
+      // Navigation to next page
       case 'ArrowRight':
         if (!isLastPage) navigateToPage(currentPage + 1)
         break
 
+      // Navigation to previous page
       case 'ArrowLeft':
         if (!isFirstPage) navigateToPage(currentPage - 1)
         break
