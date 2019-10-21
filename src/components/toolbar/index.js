@@ -18,12 +18,71 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-
 class Toolbar extends Component {
   static contextType = ReaderContext
 
   constructor(props) {
     super(props)
+  }
+
+  isFocused = () => {
+    const elem = document.activeElement
+
+    const contains = document.querySelector('div.villain').contains(elem)
+    const elemType = elem.tagName.toLowerCase()
+
+    if (
+      contains &&
+      elemType !== 'input' &&
+      elemType !== 'textarea' &&
+      elemType !== 'button'
+    ) {
+      return true
+    }
+    return false
+  }
+
+  // Note:? We should provide an api to add, define, overwrite key shortcuts
+  handleShortcuts = ({ key }) => {
+    const { toggleFullscreen } = this.props
+    const { allowGlobalShortcuts } = this.context.state
+
+    // Check if it should restrict listening for key shortcuts on player focus
+    if (!this.isFocused() && !allowGlobalShortcuts) {
+      return
+    }
+
+    const { toggleSetting, navigateToPage } = this.context
+    const { isFirstPage, isLastPage, currentPage } = this.context.state
+
+    switch (key) {
+      // Toggle fullscreen of viewer.
+      // Note: Current conflict with openseadragon key shortcuts.
+      // Todo: This will flip the images. please fix it!!
+      case 'f':
+        toggleFullscreen('fullscreen')
+        break
+
+      /*  Note: This shortcuts break the viewewr.
+      // Navigation to next page
+      case 'ArrowRight':
+        if (!isLastPage) navigateToPage(currentPage + 1)
+        break
+
+      // Navigation to previous page
+      case 'ArrowLeft':
+        if (!isFirstPage) navigateToPage(currentPage - 1)
+        break
+      */
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleShortcuts)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleShortcuts)
   }
 
   render() {
@@ -45,6 +104,7 @@ class Toolbar extends Component {
       theme,
       pages,
       bookMode,
+      mangaMode,
       fullscreen,
       currentPage,
       currentZoom,
@@ -77,6 +137,7 @@ class Toolbar extends Component {
             value={currentPage}
             bufferProgress={progress}
             onChange={this.context.navigateToPage}
+            reversed={mangaMode}
           />
         </div>
 

@@ -36,7 +36,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-compound-slider": "^2.3.0",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-localization": "^1.0.15"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",

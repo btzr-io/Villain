@@ -24,6 +24,8 @@ class CanvasRender extends Component {
     super(props)
     this.viewer = null
     this.browser = null
+    this.isScrolling = false
+    this.clearScrollingDelay = null
   }
 
   getTargetZoom = (scale = 1) => {
@@ -124,9 +126,9 @@ class CanvasRender extends Component {
     }
   }
 
-  handleError = (error) => {
-    this.viewer.close();
-    this.context.updateState({renderError: true });
+  handleError = error => {
+    this.viewer.close()
+    this.context.updateState({ renderError: true })
     // Debug error
     console.error(error)
   }
@@ -135,6 +137,37 @@ class CanvasRender extends Component {
     const isFullscreen = fullscreenElement()
     this.context.updateState({ fullscreen: isFullscreen })
     this.updateZoomLimits()
+  }
+
+  handleZoom = ({ zoom }) => {
+    const { viewport } = this.viewer
+    const max = viewport.getMaxZoom()
+    const min = viewport.getMinZoom()
+    const currentZoom = parseInt((zoom / this.getTargetZoom()) * 100)
+    const canZoomIn = zoom < max && currentZoom < 100
+    const canZoomOut = zoom > min
+    this.context.updateState({ currentZoom, canZoomIn, canZoomOut })
+  }
+
+  handleZoomOptimized = event => {
+    // Unable to update zoom on scroll inside this event handler:
+    // - Bad peformance from multiple context update state calls
+    // - Small delay for text updating noticeable.
+    if (!this.isScrolling) {
+      this.handleZoom(event)
+    }
+  }
+
+  handleScrollOptimized = () => {
+    // Reset scrolling flag
+    this.isScrolling = true
+    // Clear our timeout throughout the scroll
+    window.clearTimeout(this.clearScrollingDelay)
+    // Set a timeout to run after scrolling ends
+    this.clearScrollingDelay = setTimeout(() => {
+      this.isScrolling = false
+      this.handleZoomOptimized({ zoom: this.viewer.viewport.getZoom() })
+    }, 750)
   }
 
   toggleFullscreen = () => {
@@ -147,10 +180,7 @@ class CanvasRender extends Component {
     const { pages } = this.context.state
 
     // Detect browser vendor
-    this.browser = getKeyByValue(
-      OpenSeaDragon.BROWSERS,
-      OpenSeaDragon.Browser.vendor
-    )
+    this.browser = getKeyByValue(OpenSeaDragon.BROWSERS, OpenSeaDragon.Browser.vendor)
 
     // Create viewer
     this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
@@ -158,29 +188,31 @@ class CanvasRender extends Component {
     this.viewer.canvas.addEventListener('blur', this.handleBlur)
     this.viewer.canvas.addEventListener('focus', this.handleFocus)
 
-    // Events hanlder
+    // Events handler
     this.viewer.addHandler('open', () => {
       this.renderLayout()
       this.updateZoomLimits()
       this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
-      this.context.updateState({renderError: false});
+      this.context.updateState({ renderError: false })
     })
 
-    // Events hanlder
+    // Events handler
     this.viewer.addHandler('resize', () => {
       this.updateZoomLimits()
     })
 
-    this.viewer.addHandler('zoom', ({ zoom }) => {
-      const { viewport } = this.viewer
-      const max = viewport.getMaxZoom()
-      const min = viewport.getMinZoom()
-      const currentZoom = parseInt((zoom / this.getTargetZoom()) * 100)
-      const canZoomIn = zoom < max && currentZoom < 100
-      const canZoomOut = zoom > min
-
-      this.context.updateState({ currentZoom, canZoomIn, canZoomOut })
-    })
+    // Fallback to improve peformance on firefox browser.
+    // We should look into what other browsers should use this:
+    if (this.browser === 'FIREFOX') {
+      // Fix issue with animations and peformance, see:
+      // https://github.com/btzr-io/Villain/issues/66
+      this.viewer.addHandler('zoom', this.handleZoomOptimized)
+      this.viewer.addHandler('canvas-scroll', this.handleScrollOptimized)
+    } else {
+      // This can run smooth on chromium based browsers (chrome, brave, electon)
+      // But still needs more optimizations!
+      this.viewer.addHandler('zoom', this.handleZoom)
+    }
 
     this.viewer.addHandler('canvas-exit', this.handleExit)
 
@@ -282,7 +314,14 @@ class CanvasRender extends Component {
 
   componentDidUpdate(prevProps) {
     const { totalPages } = this.context.state
-    const { hover, focus, currentPage, bookMode, autoHideControls } = this.props
+    const {
+      hover,
+      focus,
+      currentPage,
+      bookMode,
+      autoHideControls,
+      mangaMode,
+    } = this.props
 
     // Page changed
     if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
@@ -314,6 +353,10 @@ class CanvasRender extends Component {
         this.context.updateState({ showControls: hover })
       }
     }
+
+    if (mangaMode !== prevProps.mangaMode) {
+      this.context.updateState({ mangaMode })
+    }
   }
 
   render() {
@@ -330,7 +373,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        { renderError && <RenderError message={"Invalid image!"}/> }
+        {renderError && <RenderError message={'Invalid image!'} />}
       </React.Fragment>
     )
   }

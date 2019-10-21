@@ -1,25 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-
-const handleStyle = {
-  position: 'absolute',
-  marginLeft: '-11px',
-  marginTop: '-35px',
-}
+import Tooltip from '@/components/tooltip'
 
 class Handle extends Component {
-  state = {
-    mouseOver: false,
-  }
-
-  onMouseEnter = () => {
-    this.setState({ mouseOver: true })
-  }
-
-  onMouseLeave = () => {
-    this.setState({ mouseOver: false })
-  }
-
   render() {
     const {
       domain: [min, max],
@@ -28,61 +11,35 @@ class Handle extends Component {
       disabled,
       getHandleProps,
     } = this.props
-    const { mouseOver } = this.state
 
     return (
-      <Fragment>
-        {(mouseOver || isActive) && !disabled ? (
-          <div
-            style={{
-              left: `${percent}%`,
-              ...handleStyle,
-            }}
-          >
-            <div className="tooltip">
-              <span className="tooltiptext">{value}</span>
-            </div>
-          </div>
-        ) : null}
-        <div
-          style={{
-            left: `${percent}%`,
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
-            WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-            zIndex: 400,
-            width: 26,
-            height: 42,
-            cursor: 'pointer',
-            // border: '1px solid grey',
-            backgroundColor: 'none',
-          }}
-          {...getHandleProps(id, {
-            onMouseEnter: this.onMouseEnter,
-            onMouseLeave: this.onMouseLeave,
-          })}
-        />
+      <Tooltip
+        text={value}
+        style={{
+          height: 32,
+          left: `${percent}%`,
+          position: 'absolute',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
         <button
           role="slider"
           aria-valuemin={min}
           aria-valuemax={max}
           aria-valuenow={value}
           style={{
-            left: `${percent}%`,
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
             WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-            zIndex: 300,
-            width: 14,
-            height: 14,
             border: 0,
             borderRadius: '50%',
             boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
-            backgroundColor: disabled ? trasnsparent : '#fff',
+            backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
+            width: 14,
+            height: 14,
+            margin: '9px 0',
           }}
           {...getHandleProps(id)}
         />
-      </Fragment>
+      </Tooltip>
     )
   }
 }
