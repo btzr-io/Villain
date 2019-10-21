@@ -31,7 +31,7 @@ class Toolbar extends Component {
     const contains = document.querySelector('div.villain').contains(elem)
     const elemType = elem.tagName.toLowerCase()
 
-    if (contains && elemType !== 'input' && elemType !== 'textarea') {
+    if (contains && elemType !== 'input' && elemType !== 'textarea' && elemType !== 'button') {
       return true
     }
     return false
@@ -51,7 +51,7 @@ class Toolbar extends Component {
     const { isFirstPage, isLastPage, currentPage } = this.context.state
 
     switch (event.key) {
-      
+
       // Toggle fullscreen of viewer.
       // Note: Current conflict with openseadragon key shortcuts.
       // Todo: This will flip the images. please fix it!!
