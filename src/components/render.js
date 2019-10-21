@@ -330,7 +330,7 @@ class CanvasRender extends Component {
 
     return (
       <React.Fragment>
-        <div id={id} className={clsx('villain-canvas')} />
+        <div id={id} className={'villain-canvas'} />
         { renderError && <RenderError message={"Invalid image!"}/> }
         <Toolbar
           updateZoom={this.updateZoom}
