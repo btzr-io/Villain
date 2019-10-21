@@ -32,18 +32,6 @@ class Handle extends Component {
 
     return (
       <Fragment>
-        {(mouseOver || isActive) && !disabled ? (
-          <div
-            style={{
-              left: `${percent}%`,
-              ...handleStyle,
-            }}
-          >
-            <div className="tooltip">
-              <span className="tooltiptext">{value}</span>
-            </div>
-          </div>
-        ) : null}
         <div
           style={{
             left: `${percent}%`,
@@ -61,7 +49,13 @@ class Handle extends Component {
             onMouseEnter: this.onMouseEnter,
             onMouseLeave: this.onMouseLeave,
           })}
-        />
+        >
+          {(mouseOver || isActive) && !disabled &&
+            <div className="tooltip-con" style={{left: 0}}>
+              <span className="tooltip-text">{value}</span>
+            </div>
+          }
+        </div>
         <button
           role="slider"
           aria-valuemin={min}

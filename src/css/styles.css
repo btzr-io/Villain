@@ -16,7 +16,7 @@
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;
-  --tooltip-fg: var(--color-fg);
+  --tooltip-fg: var(--fg-color);
 }
 
 .villain.Light {
@@ -262,43 +262,6 @@
 .villain button[disabled] {
   opacity: 0.64;
   cursor: default;
-}
-
-/* slider tooltip */
-
-.villain-toolbar .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 0;
-  margin-bottom: 100px;
-  margin-left: 22px;
-}
-
-.villain-toolbar .tooltip .tooltiptext {
-  min-width: 3rem;
-  background-color: var(--tooltip-bg);
-  color: var(--tooltip-fg);
-  text-align: center;
-  font-size: 0.9em;
-  font-weight: bold;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -2rem;
-}
-
-.villain-toolbar .tooltip .tooltiptext::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: var(--tooltip-bg) transparent transparent transparent;
 }
 
 /* Layout */
