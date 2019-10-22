@@ -9,12 +9,12 @@ class Tooltip extends Component {
   state = { hover: false }
 
   onMouseEnter = () => {
-      // Clear timeout
-      window.clearTimeout(this.clearDelay)
-      // Delay to display tooltip
-      this.clearDelay = setTimeout(() => {
-        this.setState({ hover: true })
-      },  600);
+    // Clear timeout
+    window.clearTimeout(this.clearDelay)
+    // Delay to display tooltip
+    this.clearDelay = setTimeout(() => {
+      this.setState({ hover: true })
+    }, 600)
   }
 
   onMouseLeave = () => {
@@ -35,6 +35,15 @@ class Tooltip extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.text !== this.props.text) {
+      this.setState({ hover: true })
+      this.clearDelay = setTimeout(() => {
+        this.setState({ hover: false })
+      }, 1800)
+    }
   }
 
   render() {

@@ -1,13 +1,15 @@
 {
-  "pagination.prev": "Vorherige Seite",
-  "pagination.next": "Nächste Seite",
-  "pin.toolbar": "Steuerung anheften",
-  "fullscreen.on": "Vollbildmodus öffnen",
-  "fullscreen.off": "Vollbildmodus beenden",
-  "view.bookmode": "Buchansicht",
-  "view.singlepage": "Seitenansicht",
-  "theme.light": "Tagmodus",
-  "theme.dark": "Nachtmodus",
-  "zoom.in": "Vergrößern",
-  "zoom.out": "Verkleinern"
+  "Previous page": "Vorherige Seite",
+  "Next page": "Nächste Seite",
+  "Page": "Seite",
+  "Pin controls": "Steuerung anheften",
+  "Enter fullscreen": "Vollbildmodus öffnen",
+  "Exit fullscreen": "Vollbildmodus beenden",
+  "Book view": "Buchansicht",
+  "Page view": "Seitenansicht",
+  "Light theme": "Tagmodus",
+  "Dark theme": "Nachtmodus",
+  "Zoom in": "Vergrößern",
+  "Zoom out": "Verkleinern",
+  "Example test": "Beispiel Test!"
 }

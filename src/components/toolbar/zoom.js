@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
-import messages from '@/locales/messages.json'
+import Localize from '@/localize'
 
 class ZoomControls extends Component {
   static contextType = ReaderContext
@@ -11,7 +11,8 @@ class ZoomControls extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: '0%',
+      zoom: 0,
+      formatedZoom: '0%',
     }
   }
 
@@ -51,23 +52,28 @@ class ZoomControls extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { currentZoom } = this.props
-    if (currentZoom !== prevProps.currentZoom) {
-      this.setState({ value: `${currentZoom}%` })
+  static getDerivedStateFromProps(props, state) {
+    const { currentZoom } = props
+    // Update zoom
+    if (currentZoom && currentZoom !== state.zoom) {
+      return {
+        zoom: currentZoom,
+        formatedZoom: `${currentZoom}%`,
+      }
     }
+    // Nothing to update
+    return null
   }
 
   render() {
     const { disabled } = this.props
-    const { currentZoom, canZoomIn, canZoomOut } = this.context.state
+    const { canZoomIn, canZoomOut } = this.context.state
 
     return (
       <React.Fragment>
         <Button
           type={'icon'}
-          tooltip={messages['zoom.in']}
-          title={'Zoom in'}
+          tooltip={Localize['Zoom in']}
           icon={mdiPlus}
           disabled={!canZoomIn || disabled}
           onClick={this.triggerIncrement}
@@ -75,8 +81,7 @@ class ZoomControls extends Component {
         <Button
           type={'icon'}
           icon={mdiMinus}
-          tooltip={messages['zoom.out']}
-          title={'Zoom out'}
+          tooltip={Localize['Zoom out']}
           disabled={!canZoomOut || disabled}
           onClick={this.triggerDecrement}
         />
@@ -86,7 +91,7 @@ class ZoomControls extends Component {
           aria-label="Zoom to percentage value"
           role="textbox"
           contenteditable="true"
-          value={this.state.value}
+          value={this.state.formatedZoom}
           onBlur={this.hanldeBlur}
           onChange={this.handleChange}
           onKeyPress={this.handleKeyPress}

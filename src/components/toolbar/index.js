@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import clsx from 'clsx'
 import Button from './button'
+import WrapSelect from './select'
 import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
-
-import messages from '@/locales/messages.json'
+import Localize from '@/localize'
 
 import {
   mdiPin,
@@ -16,6 +16,7 @@ import {
   mdiFullscreenExit,
   mdiBookOpenOutline,
   mdiWhiteBalanceSunny,
+  mdiWeb,
 } from '@mdi/js'
 
 class Toolbar extends Component {
@@ -23,11 +24,13 @@ class Toolbar extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      lang: 'en-US',
+    }
   }
 
   isFocused = () => {
     const elem = document.activeElement
-
     const contains = document.querySelector('div.villain').contains(elem)
     const elemType = elem.tagName.toLowerCase()
 
@@ -58,12 +61,12 @@ class Toolbar extends Component {
     switch (key) {
       // Toggle fullscreen of viewer.
       // Note: Current conflict with openseadragon key shortcuts.
-      // Todo: This will flip the images. please fix it!!
+      // Note: PreventDefault is used to remove flp shortcut.
       case 'f':
-        toggleFullscreen('fullscreen')
+        event.preventDefault()
+        toggleFullscreen()
         break
 
-      /*  Note: This shortcuts break the viewewr.
       // Navigation to next page
       case 'ArrowRight':
         if (!isLastPage) navigateToPage(currentPage + 1)
@@ -73,7 +76,6 @@ class Toolbar extends Component {
       case 'ArrowLeft':
         if (!isFirstPage) navigateToPage(currentPage - 1)
         break
-      */
     }
   }
 
@@ -81,13 +83,33 @@ class Toolbar extends Component {
     document.addEventListener('keydown', this.handleShortcuts)
   }
 
+  // This don't work as expected:
+  // See: https://github.com/btzr-io/Villain/issues/107
+  /*
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.lang !== this.state.lang) {
+      Localize.setLanguage(this.state.lang)
+    }
+  }
+  */
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleShortcuts)
   }
 
+  handleLanguageChange = ({ target }) => {
+    this.setState({ lang: target.value })
+  }
+
   render() {
     // Component Props
-    const { allowFullScreen, showControls, toggleFullscreen, renderError } = this.props
+    const {
+      allowFullScreen,
+      showControls,
+      toggleFullscreen,
+      renderError,
+      localize,
+    } = this.props
 
     // Actions
     const {
@@ -113,19 +135,19 @@ class Toolbar extends Component {
     } = state
 
     const layoutProps = {
-      icon: bookMode ? mdiBookOpenOutline : mdiBookOpen,
-      // label: bookMode ? 'Book mode' : 'Single page',
-      title: bookMode ? 'Book mode' : 'Single page',
+      icon: bookMode ? mdiBookOpen : mdiBookOpenOutline,
     }
 
     const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
 
     const themeProps = {
       icon: theme === 'Light' ? mdiWeatherNight : mdiWhiteBalanceSunny,
-      title: `${theme} theme`,
     }
 
     const progress = (pages.length / totalPages) * 100
+
+    // Note: Unsure about this, it probalby affect peformance
+    Localize.setLanguage(this.state.lang)
 
     return (
       <div className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}>
@@ -150,23 +172,22 @@ class Toolbar extends Component {
           <div className="divider" />
           <Button
             type={'icon'}
-            title={'Pin'}
             icon={mdiPin}
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
-            tooltip={messages['pin.toolbar']}
+            tooltip={Localize['Pin controls']}
           />
           <Button
             type={'icon'}
-            tooltip={bookMode ? messages['view.singlepage'] : messages['view.bookmode']}
+            tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
           />
           <Button
             type={'icon'}
-            tooltip={theme === 'Light' ? messages['theme.dark'] : messages['theme.light']}
+            tooltip={theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']}
             onClick={toggleTheme}
             disabled={renderError}
             {...themeProps}
@@ -174,16 +195,21 @@ class Toolbar extends Component {
           {allowFullScreen && (
             <Button
               type={'icon'}
-              title={'Fullscreen'}
               icon={fullScreenIcon}
               tooltip={
-                fullscreen ? messages['fullscreen.off'] : messages['fullscreen.on']
+                fullscreen ? Localize['Exit fullscreen'] : Localize['Enter fullscreen']
               }
               tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />
           )}
+          <WrapSelect
+            value={this.state.lang}
+            options={Localize.getAvailableLanguages()}
+            onChange={this.handleLanguageChange}
+            icon={mdiWeb}
+          />
         </div>
       </div>
     )
