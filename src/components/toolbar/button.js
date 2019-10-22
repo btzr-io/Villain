@@ -19,11 +19,12 @@ class Button extends Component {
       active,
       tooltip,
       tooltipClass,
+      ariaLabel,
     } = this.props
     const button = (
       <button
         role="button"
-        aria-label={this.props.ariaLabel || title}
+        aria-label={ariaLabel || title}
         title={title}
         onClick={onClick}
         disabled={disabled}
