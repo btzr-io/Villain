@@ -30,7 +30,7 @@ class Handle extends Component {
             borderRadius: '50%',
             boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
             backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
-            zIndex: 2,
+            zIndex: 1,
           }}
           {...getHandleProps(id)}
         />

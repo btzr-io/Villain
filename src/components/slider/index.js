@@ -29,7 +29,7 @@ const Track = ({ source, target, getTrackProps }) => {
     <div
       className="slider-track"
       style={{
-        zIndex: -1,
+        zIndex: 0,
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
       }}
