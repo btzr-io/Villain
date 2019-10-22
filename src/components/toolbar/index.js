@@ -10,6 +10,7 @@ import Localize from '@/localize'
 
 import {
   mdiPin,
+  mdiCompare,
   mdiBookOpen,
   mdiFullscreen,
   mdiWeatherNight,
@@ -97,13 +98,19 @@ class Toolbar extends Component {
     document.removeEventListener('keydown', this.handleShortcuts)
   }
 
-  handleLanguageChange = ({target}) => {
+  handleLanguageChange = ({ target }) => {
     this.setState({ lang: target.value })
   }
 
   render() {
     // Component Props
-    const { allowFullScreen, showControls, toggleFullscreen, renderError, localize } = this.props
+    const {
+      allowFullScreen,
+      showControls,
+      toggleFullscreen,
+      renderError,
+      localize,
+    } = this.props
 
     // Actions
     const {
@@ -113,6 +120,7 @@ class Toolbar extends Component {
       toggleSetting,
       toggleTheme,
       togglePin,
+      toggleMangaMode,
     } = this.context
 
     // State
@@ -141,7 +149,7 @@ class Toolbar extends Component {
     const progress = (pages.length / totalPages) * 100
 
     // Note: Unsure about this, it probalby affect peformance
-    Localize.setLanguage(this.state.lang);
+    Localize.setLanguage(this.state.lang)
 
     return (
       <div className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}>
@@ -166,6 +174,14 @@ class Toolbar extends Component {
           <div className="divider" />
           <Button
             type={'icon'}
+            icon={mdiCompare}
+            active={!mangaMode}
+            onClick={toggleMangaMode}
+            disabled={renderError}
+            tooltip={Localize['Manga mode']}
+          />
+          <Button
+            type={'icon'}
             icon={mdiPin}
             active={!autoHideControls}
             onClick={togglePin}
@@ -181,9 +197,7 @@ class Toolbar extends Component {
           />
           <Button
             type={'icon'}
-            tooltip={
-              theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']
-            }
+            tooltip={theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']}
             onClick={toggleTheme}
             disabled={renderError}
             {...themeProps}
@@ -193,16 +207,19 @@ class Toolbar extends Component {
               type={'icon'}
               icon={fullScreenIcon}
               tooltip={
-                fullscreen
-                  ? Localize['Exit fullscreen']
-                  : Localize['Enter fullscreen']
+                fullscreen ? Localize['Exit fullscreen'] : Localize['Enter fullscreen']
               }
               tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />
           )}
-          <WrapSelect value={this.state.lang} options={Localize.getAvailableLanguages()} onChange={this.handleLanguageChange} icon={mdiWeb} />
+          <WrapSelect
+            value={this.state.lang}
+            options={Localize.getAvailableLanguages()}
+            onChange={this.handleLanguageChange}
+            icon={mdiWeb}
+          />
         </div>
       </div>
     )

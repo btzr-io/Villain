@@ -63,6 +63,12 @@ export class ReaderProvider extends Component {
     }
   }
 
+  toggleMangaMode = () => {
+    this.setState(prevState => ({
+      mangaMode: !prevState.mangaMode,
+    }))
+  }
+
   togglePin = () => {
     this.setState(prevState => ({
       autoHideControls: !prevState.autoHideControls,
@@ -136,6 +142,7 @@ export class ReaderProvider extends Component {
           trigger: this.trigger,
           getPage: this.getPage,
           togglePin: this.togglePin,
+          toggleMangaMode: this.toggleMangaMode,
           createPage: this.createPage,
           updateState: this.updateState,
           toggleTheme: this.toggleTheme,
