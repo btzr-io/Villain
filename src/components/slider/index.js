@@ -29,6 +29,7 @@ const Track = ({ source, target, getTrackProps }) => {
     <div
       className="slider-track"
       style={{
+        zIndex: -1,
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
       }}
@@ -135,7 +136,11 @@ class SliderUI extends Component {
 
         <div
           className={'buffer'}
-          style={{ width: `${bufferProgress}%`, borderRadius: '4px', right: reversed ? 0 :  'initial' }}
+          style={{
+            width: `${bufferProgress}%`,
+            borderRadius: '4px',
+            right: reversed ? 0 : 'initial',
+          }}
         />
       </div>
     )
