@@ -8,10 +8,7 @@ class Demo extends Component {
 
   state = {
     file: '/build/testFile/Example-archive.zip',
-    width: '750px',
-    height: '500px',
     options: {
-      workerUrl: '/build/worker-bundle.js',
       preview: 0,
       theme: {type: 'select', value: 'Light', options: ['Dark', 'Light']},
       mangaMode: false,
@@ -45,7 +42,7 @@ class Demo extends Component {
       let type = 'text'
       if (isBoolean(value)) type = 'boolean'
       if (isObject(options[key]) && value.type) type = value.type
-      return <Field 
+      return <Field
         key={key}
         name={key}
         type={type}
@@ -57,16 +54,14 @@ class Demo extends Component {
   }
 
   optionsToProps() {
-    return {
-      ...this.state,
-      options: Object.entries(this.state.options).reduce((options, [key, value]) => {
+    return Object.entries(this.state.options).reduce((options, [key, value]) => {
         options[key] = isObject(value) ? value.value : value
         return options
       }, {})
-    }
   }
 
   render() {
+    const options = {  workerUrl: '/build/worker-bundle.js', ...this.optionsToProps()}
     return (
       <div className="villain-demo">
         <aside>
@@ -77,13 +72,11 @@ class Demo extends Component {
           <div className="form">
             <h3>Options</h3>
             <Field name="file" type="file" onChange={this.handleChange}/>
-            <Field name="width" value={this.state.width} onChange={this.handleChange}/>
-            <Field name="height" value={this.state.height} onChange={this.handleChange}/>
             {this.optionsToFields()}
           </div>
         </aside>
         <div className="instance">
-          <Villain {...this.optionsToProps()} />
+          <Villain file={this.state.file} options={options} />
         </div>
       </div>
     )
@@ -92,7 +85,7 @@ class Demo extends Component {
 
 function Field({name, type = 'text', value, options = [], onChange}) {
   let input = <input {...{name, type, value, onChange}} />
-  if (type === 'checkbox') input = <input {...{name, onChange}} type="checkbox" checked={value} />
+  if (type === 'boolean') input = <input {...{name, onChange}} type="checkbox" checked={value} />
   else if (type === 'select') input = (
     <select {...{name, value, onChange}}>
       {options.map(option => <option key={option}>{option}</option>)}
@@ -107,7 +100,9 @@ function Field({name, type = 'text', value, options = [], onChange}) {
 }
 
 const isObject = (value) => value && typeof value === 'object' && value.constructor === Object
+
 const isBoolean = (value) => typeof value === 'boolean'
+
 const parseEvent = (target) => {
   const name = target.name
   let value = target.value

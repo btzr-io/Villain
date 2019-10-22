@@ -13,7 +13,6 @@ class Handle extends Component {
     } = this.props
 
     return (
-
         <button
           role="slider"
           aria-valuemin={min}
