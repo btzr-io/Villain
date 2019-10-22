@@ -1,0 +1,85 @@
+html, body {
+    height: 100%;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+body, h1, h2, h3 {
+    margin: 0;
+}
+
+body, #app, .villain-demo {
+    display:  flex;
+    flex: 1;
+}
+
+.villain-demo aside {
+    display: flex;
+    flex-direction: column;
+    max-width: 240px;
+    background: #f6f8fa;
+}
+
+.villain-demo header {
+    display: flex;
+    flex-shrink: 0;
+    height: 28px;
+    padding: 4px 6px 8px 6px;
+    background: #ff5c65;
+    box-shadow: 0 -1px 1px #ff5c65;
+    color: #ffef7f;
+    font-size: 24px;
+    align-items: baseline;
+}
+
+.villain-demo .form {
+    flex: 1;
+    box-shadow: 0 0 1px #d1d5da;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.villain-demo header img {
+    height: 100%;
+    margin-right: 8px;
+}
+
+.villain-demo header span {
+    flex: 1;
+    font-size: 14px;
+    text-align: right;
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+.villain-demo .field {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    padding: 8px 4px;
+}
+
+.villain-demo .field.checkbox {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.villain-demo .field.checkbox span {
+    margin-left: 6px;
+}
+
+.villain-demo .field input {
+    color: #333;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 14px;
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+
+.villain-demo .field input[type=checkbox] {
+    transform: scale(1.25);
+}
+
+.villain-demo .instance { 
+    align-self: center;
+    margin: 0 auto;
+}
