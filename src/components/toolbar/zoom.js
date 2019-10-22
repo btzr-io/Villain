@@ -83,6 +83,7 @@ class ZoomControls extends Component {
         <input
           type="text"
           title="Zoom"
+          aria-label="Zoom to percentage value"
           value={this.state.value}
           onBlur={this.hanldeBlur}
           onChange={this.handleChange}
