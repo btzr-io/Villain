@@ -141,10 +141,10 @@ class CanvasRender extends Component {
 
   handleZoom = ({ zoom }) => {
     const { viewport } = this.viewer
-    const max = viewport.getMaxZoom()
     const min = viewport.getMinZoom()
-    const currentZoom = parseInt((zoom / this.getTargetZoom()) * 100)
-    const canZoomIn = zoom < max && currentZoom < 100
+    const targetZoom = viewport.getMaxZoom()
+    const currentZoom = parseInt((zoom / targetZoom) * 100)
+    const canZoomIn = zoom < targetZoom && currentZoom < 100
     const canZoomOut = zoom > min
     this.context.updateState({ currentZoom, canZoomIn, canZoomOut })
   }
