@@ -11,7 +11,8 @@ class ZoomControls extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: '0%',
+      zoom: 0,
+      formatedZoom: '0%',
     }
   }
 
@@ -51,16 +52,22 @@ class ZoomControls extends Component {
     }
   }
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props, state) {
     const { currentZoom } = props
-    return {
-      value: `${currentZoom}%`,
+    // Update zoom
+    if( currentZoom && currentZoom !== state.zoom) {
+      return {
+        zoom: currentZoom,
+        formatedZoom: `${currentZoom}%`
+      }
     }
+    // Nothing to update
+    return null
   }
 
   render() {
     const { disabled } = this.props
-    const { currentZoom, canZoomIn, canZoomOut } = this.context.state
+    const { canZoomIn, canZoomOut } = this.context.state
 
     return (
       <React.Fragment>
@@ -83,7 +90,7 @@ class ZoomControls extends Component {
         <input
           type="text"
           title="Zoom"
-          value={this.state.value}
+          value={this.state.formatedZoom}
           onBlur={this.hanldeBlur}
           onChange={this.handleChange}
           onKeyPress={this.handleKeyPress}
