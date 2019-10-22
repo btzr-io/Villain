@@ -64,6 +64,7 @@ class Toolbar extends Component {
       // Note: Current conflict with openseadragon key shortcuts.
       // Todo: This will flip the images. please fix it!!
       case 'f':
+        event.preventDefault()
         toggleFullscreen('fullscreen')
         break
 
