@@ -76,11 +76,12 @@
 }
 
 .villain-slider .buffer {
-  height: 100%;
+  z-index: 0;
   margin: 0;
+  height: 100%;
   background-color: var(--slider-buffer-bg);
   position: absolute;
-  z-index: 0;
+  transition: width 0.3s ease;
 }
 
 .villain-slider .slider-track {
