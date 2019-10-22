@@ -3,33 +3,29 @@ import React, { Component } from 'react'
 class Tooltip extends Component {
   constructor(props) {
     super(props)
-    this.timeoutDisp = null
-    this.timeoutHide = null
+    this.clearDelay = null
   }
 
   state = { hover: false }
 
   onMouseEnter = () => {
     // Clear timeout
-    window.clearTimeout(this.timeoutDisp)
+    window.clearTimeout(this.clearDelay)
     // Delay to display tooltip
-    this.timeoutDisp = setTimeout(() => {
+    this.clearDelay = setTimeout(() => {
       this.setState({ hover: true })
     }, 600)
   }
 
   onMouseLeave = () => {
     // Clear timeout
-    window.clearTimeout(this.timeoutDisp)
-    // Not hide tooltip when it will hide by timeout
-    if (!this.timeoutHide) {
-      this.setState({ hover: false })
-    }
+    window.clearTimeout(this.clearDelay)
+    this.setState({ hover: false })
   }
 
   handleKeyDown = () => {
     // Clear timeout
-    window.clearTimeout(this.timeoutDisp)
+    window.clearTimeout(this.clearDelay)
     this.setState({ hover: false })
   }
 
@@ -43,12 +39,9 @@ class Tooltip extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.text !== this.props.text) {
-      // Clear timeout
-      window.clearTimeout(this.timeoutHide)
       this.setState({ hover: true })
-      this.timeoutHide = setTimeout(() => {
+      this.clearDelay = setTimeout(() => {
         this.setState({ hover: false })
-        this.timeoutHide = null
       }, 1800)
     }
   }
