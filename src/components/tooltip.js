@@ -8,19 +8,25 @@ class Tooltip extends Component {
 
   state = { hover: false }
 
-  onMouseEnter = () => {
-      // Clear timeout
-      window.clearTimeout(this.clearDelay)
+  onMouseEnter = e => {
+    // Clear timeout
+    window.clearTimeout(this.clearDelay)
+    // Mouse button is not pressed
+    if (e.buttons === 0) {
       // Delay to display tooltip
       this.clearDelay = setTimeout(() => {
         this.setState({ hover: true })
-      },  600);
+      }, 600)
+    }
   }
 
-  onMouseLeave = () => {
+  onMouseLeave = e => {
     // Clear timeout
     window.clearTimeout(this.clearDelay)
-    this.setState({ hover: false })
+    // Mouse button is not pressed
+    if (e.buttons === 0) {
+      this.setState({ hover: false })
+    }
   }
 
   handleKeyDown = () => {
@@ -29,12 +35,20 @@ class Tooltip extends Component {
     this.setState({ hover: false })
   }
 
+  handleMouseUp = () => {
+    // Clear timeout
+    window.clearTimeout(this.clearDelay)
+    this.setState({ hover: false })
+  }
+
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown)
+    window.addEventListener('mouseup', this.handleMouseUp)
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown)
+    window.removeEventListener('mouseup', this.handleMouseUp)
   }
 
   render() {
