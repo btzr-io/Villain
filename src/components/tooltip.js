@@ -36,16 +36,7 @@ class Tooltip extends Component {
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown)
   }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.text !== this.props.text) {
-      this.setState({ hover: true })
-      this.clearDelay = setTimeout(() => {
-        this.setState({ hover: false })
-      }, 1800)
-    }
-  }
-
+  
   render() {
     const { text, overrideClass, children, style } = this.props
     const className = `tooltip-con ${overrideClass || ''}`

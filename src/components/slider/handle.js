@@ -13,33 +13,27 @@ class Handle extends Component {
     } = this.props
 
     return (
-      <Tooltip
-        text={value}
-        style={{
-          height: 32,
-          left: `${percent}%`,
-          position: 'absolute',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
+
         <button
           role="slider"
           aria-valuemin={min}
           aria-valuemax={max}
           aria-valuenow={value}
           style={{
+            height: 14,
+            width: 14,
+            left: `${percent}%`,
+            position: 'absolute',
+            transform: 'translate(-50%, -50%)',
             WebkitTapHighlightColor: 'rgba(0,0,0,0)',
             border: 0,
             borderRadius: '50%',
             boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
             backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
-            width: 14,
-            height: 14,
-            margin: '9px 0',
+            zIndex: 2,
           }}
           {...getHandleProps(id)}
         />
-      </Tooltip>
     )
   }
 }
