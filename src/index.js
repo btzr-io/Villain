@@ -5,7 +5,6 @@ import Wrapp from '@/components/wrapp'
 import Uncompress from '@/components/uncompress'
 import CanvasRender from '@/components/render'
 import { ReaderContext, ReaderProvider } from '@/context'
-import localize from '@/localize'
 
 // Css
 import './css/styles.css'
@@ -54,7 +53,6 @@ class Villain extends Component {
                 {({ state }) => (
                   <CanvasRender
                     id={'osd-canvas-render'}
-                    localize={localize}
                     hover={state.hover}
                     focus={state.focus}
                     container={container}
