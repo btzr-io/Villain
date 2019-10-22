@@ -88,6 +88,10 @@ class Toolbar extends Component {
     document.removeEventListener('keydown', this.handleShortcuts)
   }
 
+  handleLanguageChange = ({target}) => {
+    Localization.setLanguage(target.value)
+  }
+
   render() {
     // Component Props
     const { allowFullScreen, showControls, toggleFullscreen, renderError } = this.props
@@ -191,7 +195,7 @@ class Toolbar extends Component {
               disabled={renderError}
             />
           )}
-          <WrapSelect options={Localization.getAvailableLanguages()} icon={mdiWeb} />
+          <WrapSelect options={Localization.getAvailableLanguages()} onChange={this.handleLanguageChange} icon={mdiWeb} />
         </div>
       </div>
     )

@@ -21,7 +21,7 @@ const testFile = '/build/testFile/Example-archive.zip'
 ReactDOM.render(
   <div>
     <h1> {Localization['Example test']} </h1>
-    <Villain file={testFile} options={villainOpts} />
+    <Villain file={testFile} options={villainOpts} width={'800px'} />
   </div>,
   document.getElementById('app')
 )
