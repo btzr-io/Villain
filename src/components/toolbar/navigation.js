@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
-import messages from '@/locales/messages.json'
+import Localize from '@/localize'
 
 class Navigation extends Component {
   static contextType = ReaderContext
@@ -72,7 +72,7 @@ class Navigation extends Component {
       <div className={'villain-toolbar-group'}>
         <Button
           type={'icon'}
-          tooltip={mangaMode ? messages['pagination.next'] : messages['pagination.prev']}
+          tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
           tooltipClass="left-edge"
           onClick={mangaMode ? navigateForward : navigateBackward}
           disabled={mangaMode ? isLastPage : isFirstPage}
@@ -80,7 +80,7 @@ class Navigation extends Component {
         />
         <Button
           type={'icon'}
-          tooltip={mangaMode ? messages['pagination.next'] : messages['pagination.next']}
+          tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
           onClick={mangaMode ? navigateBackward : navigateForward}
           disabled={mangaMode ? isFirstPage : isLastPage}
           icon={mdiChevronRight}
