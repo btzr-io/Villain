@@ -66,7 +66,6 @@ class Toolbar extends Component {
         toggleFullscreen('fullscreen')
         break
 
-      /*  Note: This shortcuts break the viewewr.
       // Navigation to next page
       case 'ArrowRight':
         if (!isLastPage) navigateToPage(currentPage + 1)
@@ -76,7 +75,6 @@ class Toolbar extends Component {
       case 'ArrowLeft':
         if (!isFirstPage) navigateToPage(currentPage - 1)
         break
-      */
     }
   }
 
