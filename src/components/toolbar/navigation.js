@@ -92,6 +92,8 @@ class Navigation extends Component {
           max={totalPages}
           type="number"
           aria-label="Go to page number"
+          role="textbox"
+          contenteditable="true"
           title="Page"
           pattern={'d+'}
           className={'villain-input'}
