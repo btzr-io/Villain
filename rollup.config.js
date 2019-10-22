@@ -36,7 +36,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
     alias({
-      resolve: ['/index.js', '/index.jsx', 'js', 'jsx'], //optional, by default this will just look for .js files or folders
+      resolve: ['/index.js', '/index.jsx', '.js', '.jsx', '.json'], //optional, by default this will just look for .js files or folders
     }),
     json(),
     resolve(),
