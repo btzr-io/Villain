@@ -1,7 +1,7 @@
 // ES6 module syntax
 import LocalizedStrings from 'react-localization'
 
-const Localization = new LocalizedStrings({
+const localize = new LocalizedStrings({
   EN: require('@/locales/messages.json'),
   DE: require('@/locales/messages.de.json'),
   PT: require('@/locales/messages.pt.json'),
@@ -9,4 +9,4 @@ const Localization = new LocalizedStrings({
   FR: require('@/locales/messages.fr.json'),
 })
 
-export default Localization
+export default localize

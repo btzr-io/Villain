@@ -11,7 +11,7 @@ class WrapSelect extends Component {
   }
 
   render() {
-    const { options, icon, onChange } = this.props
+    const { options, icon, value, onChange } = this.props
     return (
       <label>
         <Icon
@@ -21,6 +21,7 @@ class WrapSelect extends Component {
           style={{ marginTop: '7px', marginRight: '6px' }}
         />
         <select
+           value={value}
           onChange={onChange}
           style={{ position: 'relative', bottom: '6px' }}
         >

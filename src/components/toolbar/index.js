@@ -6,7 +6,6 @@ import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
-import Localization from '@/localize'
 
 import messages from '@/locales/messages.json'
 
@@ -26,11 +25,13 @@ class Toolbar extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      lang: 'en-US',
+    }
   }
 
   isFocused = () => {
     const elem = document.activeElement
-
     const contains = document.querySelector('div.villain').contains(elem)
     const elemType = elem.tagName.toLowerCase()
 
@@ -82,17 +83,24 @@ class Toolbar extends Component {
     document.addEventListener('keydown', this.handleShortcuts)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.lang !== this.state.lang) {
+      this.props.localize.setLanguage(this.state.lang)
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleShortcuts)
   }
 
   handleLanguageChange = ({target}) => {
-    Localization.setLanguage(target.value)
+    this.setState({ lang: target.value })
   }
 
   render() {
     // Component Props
-    const { allowFullScreen, showControls, toggleFullscreen, renderError } = this.props
+    const { lang } = this.state
+    const { allowFullScreen, showControls, toggleFullscreen, renderError, localize } = this.props
 
     // Actions
     const {
@@ -160,11 +168,11 @@ class Toolbar extends Component {
             active={!autoHideControls}
             onClick={togglePin}
             disabled={renderError}
-            tooltip={Localization['Pin controls']}
+            tooltip={localize['Pin controls']}
           />
           <Button
             type={'icon'}
-            tooltip={bookMode ? Localization['Page view'] : Localization['Book view']}
+            tooltip={bookMode ? localize['Page view'] : localize['Book view']}
             onClick={() => toggleSetting('bookMode')}
             disabled={renderError}
             {...layoutProps}
@@ -172,7 +180,7 @@ class Toolbar extends Component {
           <Button
             type={'icon'}
             tooltip={
-              theme === 'Light' ? Localization['Dark theme'] : Localization['Light theme']
+              theme === 'Light' ? localize['Dark theme'] : localize['Light theme']
             }
             onClick={toggleTheme}
             disabled={renderError}
@@ -185,15 +193,15 @@ class Toolbar extends Component {
               icon={fullScreenIcon}
               tooltip={
                 fullscreen
-                  ? Localization['Exit fullscreen']
-                  : Localization['Enter fullscreen']
+                  ? localize['Exit fullscreen']
+                  : localize['Enter fullscreen']
               }
               tooltipClass={'right-edge'}
               onClick={toggleFullscreen}
               disabled={renderError}
             />
           )}
-          <WrapSelect options={Localization.getAvailableLanguages()} onChange={this.handleLanguageChange} icon={mdiWeb} />
+          <WrapSelect value={lang} options={localize.getAvailableLanguages()} onChange={this.handleLanguageChange} icon={mdiWeb} />
         </div>
       </div>
     )

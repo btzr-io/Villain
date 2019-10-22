@@ -360,12 +360,13 @@ class CanvasRender extends Component {
   }
 
   render() {
-    const { id, autoHideControls, renderError, allowFullScreen } = this.props
+    const { id, autoHideControls, renderError, allowFullScreen, localize } = this.props
     const { showControls } = this.context.state
 
     return (
       <React.Fragment>
         <Toolbar
+         localize={localize}
           updateZoom={this.updateZoom}
           toggleFullscreen={this.toggleFullscreen}
           renderError={renderError}
