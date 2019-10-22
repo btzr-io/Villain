@@ -366,7 +366,7 @@ class CanvasRender extends Component {
     return (
       <React.Fragment>
         <Toolbar
-         localize={localize}
+          localize={localize}
           updateZoom={this.updateZoom}
           toggleFullscreen={this.toggleFullscreen}
           renderError={renderError}

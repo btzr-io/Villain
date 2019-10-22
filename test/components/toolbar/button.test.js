@@ -69,4 +69,28 @@ describe('Toolbar <Button/>', () => {
     expect(icon.prop('size')).toEqual('26px')
     expect(icon.prop('className')).toEqual('villain-icon')
   })
+
+  it('should have aria-label if ariaLabel prop is provided', () => {
+    const props = {
+      ariaLabel: 'ariaLabel',
+    }
+    const wrapper = render(props)
+    const button = wrapper.find('button')
+    expect(button.prop('aria-label')).toEqual(props.ariaLabel)
+  })
+
+  it('should have aria-label if title prop is provided', () => {
+    const props = {
+      title: 'title',
+    }
+    const wrapper = render(props)
+    const button = wrapper.find('button')
+    expect(button.prop('aria-label')).toEqual(props.title)
+  })
+
+  it('should have role equal to button', () => {
+    const wrapper = render()
+    const button = wrapper.find('button')
+    expect(button.prop('role')).toEqual('button')
+  })
 })

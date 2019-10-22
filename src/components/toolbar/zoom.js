@@ -5,7 +5,6 @@ import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
 import Localize from '@/localize'
 
-
 class ZoomControls extends Component {
   static contextType = ReaderContext
 
@@ -56,10 +55,10 @@ class ZoomControls extends Component {
   static getDerivedStateFromProps(props, state) {
     const { currentZoom } = props
     // Update zoom
-    if( currentZoom && currentZoom !== state.zoom) {
+    if (currentZoom && currentZoom !== state.zoom) {
       return {
         zoom: currentZoom,
-        formatedZoom: `${currentZoom}%`
+        formatedZoom: `${currentZoom}%`,
       }
     }
     // Nothing to update
@@ -89,6 +88,9 @@ class ZoomControls extends Component {
         <input
           type="text"
           title="Zoom"
+          aria-label="Zoom to percentage value"
+          role="textbox"
+          contenteditable="true"
           value={this.state.formatedZoom}
           onBlur={this.hanldeBlur}
           onChange={this.handleChange}
