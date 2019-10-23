@@ -34,8 +34,8 @@ export class ReaderProvider extends Component {
   //Define deafault state and  merge external values
   state = { ...defaultState, ...defaultSettings, ...this.props.defaultState }
 
-  updateState = data => {
-    this.setState(data)
+  updateState = (data, callback) => {
+    this.setState(data, callback)
   }
 
   clear = () => {

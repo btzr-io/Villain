@@ -67,9 +67,9 @@ class SliderUI extends Component {
   }
 
   onChange = values => {
-    this.props.onChange(values[0] - 1)
     // Stop seeking
     this.setState({ seeking: false })
+    this.props.onChange(values[0] - 1)
   }
 
   componentDidUpdate(prevProps) {
