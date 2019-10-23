@@ -93,7 +93,7 @@ class Navigation extends Component {
           type="number"
           aria-label="Go to page number"
           role="textbox"
-          contenteditable="true"
+          contentEditable="true"
           title="Page"
           pattern={'d+'}
           className={'villain-input'}

@@ -11,5 +11,7 @@
   "Dark theme": "Nachtmodus",
   "Zoom in": "Vergrößern",
   "Zoom out": "Verkleinern",
-  "Example test": "Beispiel Test!"
+  "Example test": "Beispiel Test!",
+  "Cant open archive": "Archiv kann nicht geöffnet werden!",
+  "Invalid image": "Ungültiges Bild!"
 }

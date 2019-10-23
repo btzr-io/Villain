@@ -1,5 +1,7 @@
 html, body {
     height: 100%;
+    width: 100%;
+    margin: 0;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
@@ -12,74 +14,93 @@ body, #app, .villain-demo {
     flex: 1;
 }
 
+
+.villain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 80% !important;
+  width: 80%!important;
+  min-width: 400px;
+  min-height: 400px;
+}
+
+.villain-demo label {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.villain-demo label span{
+  color: #3c3c3c;
+}
+
 .villain-demo aside {
     display: flex;
     flex-direction: column;
-    max-width: 240px;
-    background: #f6f8fa;
+    max-width: 320px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .villain-demo header {
     display: flex;
-    flex-shrink: 0;
-    height: 28px;
+    height: 36px;
     padding: 4px 6px 8px 6px;
     background: #ff5c65;
     box-shadow: 0 -1px 1px #ff5c65;
     color: #ffef7f;
-    font-size: 24px;
-    align-items: baseline;
+    font-size: 0.9em;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .villain-demo .form {
     flex: 1;
     box-shadow: 0 0 1px #d1d5da;
-    padding: 10px;
+    padding: 16px;
     overflow-y: auto;
 }
 
 .villain-demo header img {
     height: 100%;
-    margin-right: 8px;
 }
 
 .villain-demo header span {
-    flex: 1;
-    font-size: 14px;
-    text-align: right;
+    font-weight: bold;
+    text-align: center;
     font-family: "Lucida Console", Monaco, monospace;
+    background: transparent;
+    border: 2px solid  #ffef7f;
+    padding: 2px 8px;
+    display: inline-block;
+    margin: 4px;
+    border-radius: 4px;
 }
 
-.villain-demo .field {
-    display: flex;
-    flex-direction: column;
-    font-size: 16px;
-    padding: 8px 4px;
-}
-
-.villain-demo .field.checkbox {
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-}
-
-.villain-demo .field.checkbox span {
-    margin-left: 6px;
-}
 
 .villain-demo .field input, .villain-demo .field select{
-    color: #333;
-    border: 1px solid #ccc;
+    color: #3c3c3c;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     background: #fff;
-    font-size: 14px;
-    padding: 6px 8px;
-    border-radius: 4px;
+    padding: 2px 6px;
+    max-width: 50%;
 }
 
 .villain-demo .field input[type=checkbox] {
     transform: scale(1.25);
 }
 
-.villain-demo .instance { 
+.villain-demo .instance {
     align-self: center;
     margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }

@@ -24,7 +24,7 @@ class Button extends Component {
     const button = (
       <button
         role="button"
-        aria-label={ariaLabel || title}
+        aria-label={ariaLabel || title || tooltip}
         title={title}
         onClick={onClick}
         disabled={disabled}

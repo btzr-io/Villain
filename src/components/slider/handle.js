@@ -26,6 +26,7 @@ class Handle extends Component {
     const { mouseOver } = this.state
 
     return (
+
       <Fragment>
         {(mouseOver || isActive) && !disabled ? (
           <div

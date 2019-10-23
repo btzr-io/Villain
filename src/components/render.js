@@ -4,6 +4,7 @@ import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
 import RenderError from '@/components/renderError'
+import Localize from '@/localize'
 import { ReaderContext } from '../context'
 import { getKeyByValue } from '@/lib/utils'
 
@@ -171,8 +172,8 @@ class CanvasRender extends Component {
   }
 
   toggleFullscreen = () => {
-    const { container } = this.props
-    toggleFullscreen(container)
+    const { container, allowFullScreen } = this.props
+    if (allowFullScreen) toggleFullscreen(container)
   }
 
   initOpenSeaDragon() {
@@ -360,13 +361,12 @@ class CanvasRender extends Component {
   }
 
   render() {
-    const { id, autoHideControls, renderError, allowFullScreen, localize } = this.props
+    const { id, autoHideControls, renderError, allowFullScreen } = this.props
     const { showControls } = this.context.state
 
     return (
       <React.Fragment>
         <Toolbar
-          localize={localize}
           updateZoom={this.updateZoom}
           toggleFullscreen={this.toggleFullscreen}
           renderError={renderError}
@@ -374,7 +374,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        {renderError && <RenderError message={'Invalid image!'} />}
+        {renderError && <RenderError message={Localize['Invalid image']} />}
       </React.Fragment>
     )
   }
