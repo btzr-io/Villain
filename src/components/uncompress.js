@@ -20,7 +20,11 @@ class Uncompress extends Component {
 
   constructor(props) {
     super(props)
-    this.archive = null
+    this.state = {
+      size: null,
+      name: null,
+      type: null,
+    }
   }
 
   loadArchiveFromUrl(url) {
@@ -40,6 +44,7 @@ class Uncompress extends Component {
   }
 
   handleError = err => {
+    console.error(err)
     this.context.trigger('error', err.message || err)
   }
 
@@ -55,9 +60,6 @@ class Uncompress extends Component {
 
   openArchive = async file => {
     const { workerUrl, preview } = this.props
-
-    // Setup worker
-    Archive.init({ workerUrl })
 
     // Open archive
     const archive = await Archive.open(file)
@@ -78,6 +80,9 @@ class Uncompress extends Component {
     const archiveData = { type, size, totalPages }
     this.context.trigger('loaded', archiveData)
 
+    // If returns null it means that the archive is empty
+    // or don't contains any valid images.
+    // Note: Improve error message.
     return images.length > 0 ? images : null
   }
 
@@ -98,12 +103,15 @@ class Uncompress extends Component {
       }
     } catch (err) {
       // Handle Errors
+      console.error(err)
       this.handleError(err)
     }
   }
 
   componentDidMount() {
-    const { file } = this.props
+    const { file, workerUrl } = this.props
+    // Init libarchivejs: Setup worker
+    Archive.init({ workerUrl })
     // Load archive from valid source
     if (typeof file === 'string') {
       this.loadArchiveFromUrl(file)
@@ -112,9 +120,41 @@ class Uncompress extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { file } = this.props
+
+    // Loading archive from url
+    if (typeof file === 'string' && prevProps.file !== file) {
+      // Remove previous archive data
+      this.context.clear()
+      // Load archive from valid source
+      this.loadArchiveFromUrl(file)
+    }
+
+    // Loading archive from blob or file
+     if(file  instanceof Blob) {
+       if (
+         prevState.name!== this.state.name ||
+         prevState.size !== this.state.size ||
+         prevState.type !== this.state.type 
+       ) {
+         this.context.clear()
+         this.loadArchiveFromBlob(file)
+       }
+     }
+  }
+
   componentWillUnmount() {
     // Free memory
     this.handleDestroy()
+  }
+
+  static getDerivedStateFromProps(props, { fileName }) {
+    if (props.file) {
+      const { name, size, type } = props.file
+      return { name, size, type }
+   }
+    return { name: null, size: null }
   }
 
   render() {

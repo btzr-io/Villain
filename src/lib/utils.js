@@ -2,7 +2,7 @@ import Localize from '@/localize'
 
 // Regex to detect image type
 const regexImage = new RegExp(
-  '^[a-zA-Z0-9_@()-][a-zA-Z0-9_.@()-]+.(jpeg|jpg|png|bpm|webp|gif)$'
+  /^[a-zA-Z0-9_@()-][a-zA-Z0-9_.@()-\s]+.(jpeg|jpg|png|bpm|webp)$/
 )
 
 // Handle response status

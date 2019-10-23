@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 export const ReaderContext = React.createContext()
 
 const defaultState = {
+  size: 0,
+  type: null,
   pages: [],
   ready: false,
   focus: false,
@@ -15,7 +17,9 @@ const defaultState = {
   canZoomIn: false,
   canZoomOut: false,
   renderError: false,
+}
 
+const defaultSettings = {
   // Settings
   theme: 'Dark',
   mangaMode: false,
@@ -28,10 +32,14 @@ const defaultState = {
 
 export class ReaderProvider extends Component {
   //Define deafault state and  merge external values
-  state = { ...defaultState, ...this.props.defaultState }
+  state = { ...defaultState, ...defaultSettings, ...this.props.defaultState }
 
   updateState = data => {
     this.setState(data)
+  }
+
+  clear = () => {
+    this.setState({ ...defaultState })
   }
 
   toggleSetting = setting => {
@@ -133,6 +141,7 @@ export class ReaderProvider extends Component {
         value={{
           state: this.state,
           // Actions
+          clear: this.clear,
           trigger: this.trigger,
           getPage: this.getPage,
           togglePin: this.togglePin,
