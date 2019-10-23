@@ -67,7 +67,7 @@ class Demo extends Component {
         <aside>
          <header>
             <img src="./logo.png" alt="logo" />
-            <span>{version}</span>
+            <span>{`v ${version}`}</span>
           </header>
           <div className="form">
             <h3>Options</h3>

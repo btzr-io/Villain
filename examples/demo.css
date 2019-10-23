@@ -34,8 +34,12 @@ body, #app, .villain-demo {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 1.4rem 0;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
 
+.villain-demo label span{
+  color: #3c3c3c;
 }
 
 .villain-demo aside {
@@ -47,14 +51,14 @@ body, #app, .villain-demo {
 
 .villain-demo header {
     display: flex;
-    flex-shrink: 0;
-    height: 28px;
+    height: 36px;
     padding: 4px 6px 8px 6px;
     background: #ff5c65;
     box-shadow: 0 -1px 1px #ff5c65;
     color: #ffef7f;
-    font-size: 24px;
-    align-items: baseline;
+    font-size: 0.9em;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .villain-demo .form {
@@ -66,29 +70,26 @@ body, #app, .villain-demo {
 
 .villain-demo header img {
     height: 100%;
-    margin-right: 8px;
 }
 
 .villain-demo header span {
-    flex: 1;
-    font-size: 14px;
-    text-align: right;
+    font-weight: bold;
+    text-align: center;
     font-family: "Lucida Console", Monaco, monospace;
+    background: transparent;
+    border: 2px solid  #ffef7f;
+    padding: 2px 8px;
+    display: inline-block;
+    margin: 4px;
+    border-radius: 4px;
 }
-
-.villain-demo .field {
-
-}
-
 
 
 .villain-demo .field input, .villain-demo .field select{
-    color: #333;
-    border: 1px solid #ccc;
+    color: #3c3c3c;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     background: #fff;
-    font-size: 14px;
-    padding: 6px 8px;
-    border-radius: 4px;
+    padding: 2px 6px;
     max-width: 50%;
 }
 
