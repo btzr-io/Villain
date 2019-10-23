@@ -318,6 +318,7 @@ class CanvasRender extends Component {
     const {
       hover,
       focus,
+      theme,
       currentPage,
       bookMode,
       autoHideControls,
@@ -344,6 +345,13 @@ class CanvasRender extends Component {
     if (autoHideControls !== this.props.autoHideControls) {
       if (!autoHideControls) {
         this.context.updateState({ showControls: true })
+      }
+    }
+
+    // Handle theme changed
+    if (theme !== prevProps.theme) {
+      if (theme) {
+        this.context.updateState({ theme })
       }
     }
 

@@ -40,11 +40,17 @@ class Villain extends Component {
 
     // Set default value in context state
     // Nore: unsure about this, probably not a good idea, please fix it!
-    const { autoHideControls, allowFullScreen, mangaMode, allowGlobalShortcuts } = opts
+    const {
+      autoHideControls,
+      allowFullScreen,
+      mangaMode,
+      theme,
+      allowGlobalShortcuts,
+    } = opts
 
     return (
       <ReaderProvider
-        defaultState={{ autoHideControls, mangaMode, allowGlobalShortcuts }}
+        defaultState={{ theme, autoHideControls, mangaMode, allowGlobalShortcuts }}
       >
         <Wrapp width={width} height={height} preview={opts.preview}>
           {container => (
@@ -55,6 +61,7 @@ class Villain extends Component {
                     id={'osd-canvas-render'}
                     hover={state.hover}
                     focus={state.focus}
+                    theme={theme}
                     container={container}
                     bookMode={state.bookMode}
                     mangaMode={mangaMode}
