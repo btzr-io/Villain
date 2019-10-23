@@ -57,7 +57,7 @@ class Villain extends Component {
                     focus={state.focus}
                     container={container}
                     bookMode={state.bookMode}
-                    mangaMode={state.mangaMode}
+                    mangaMode={mangaMode}
                     allowGlobalShortcuts={state.allowGlobalShortcuts}
                     currentPage={state.currentPage}
                     allowFullScreen={allowFullScreen}
