@@ -355,8 +355,9 @@ class CanvasRender extends Component {
       }
     }
 
+    // re-render page when mangaMode is changed
     if (mangaMode !== prevProps.mangaMode) {
-      this.context.updateState({ mangaMode })
+      this.context.updateState({ mangaMode }, () => this.renderPage(currentPage))
     }
   }
 
