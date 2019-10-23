@@ -53,8 +53,8 @@ class TooltipRail extends Component {
             style={{
               left: `${percent}%`,
               position: 'absolute',
-              marginLeft: '-75%',
-              marginTop: '80%',
+              marginLeft: '-35px',
+              marginTop: '39px',
             }}
           >
             <div className="tooltip">

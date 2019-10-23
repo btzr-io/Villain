@@ -26,15 +26,14 @@ class Handle extends Component {
     const { mouseOver } = this.state
 
     return (
-
       <Fragment>
         {(mouseOver || isActive) && !disabled ? (
           <div
             style={{
               left: `${percent}%`,
               position: 'absolute',
-              marginLeft: '-75%',
-              marginTop: '-25%',
+              marginLeft: '-35px',
+              marginTop: '-13px',
             }}
           >
             <div className="tooltip">
