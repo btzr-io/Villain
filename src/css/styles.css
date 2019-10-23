@@ -131,6 +131,21 @@
   font-weight: bold;
 }
 
+.villain-toolbar .wrapselect-container {
+  display: flex;
+  align-items: center;
+}
+
+.villain-toolbar select {
+  background: var(--input-bg);
+  border: 2px solid var(--input-border);
+  color: var(--fg-color);
+  margin: 0 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 /* global tooltip */
 
 .tooltip-con {
