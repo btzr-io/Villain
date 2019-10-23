@@ -171,8 +171,8 @@ class CanvasRender extends Component {
   }
 
   toggleFullscreen = () => {
-    const { container } = this.props
-    toggleFullscreen(container)
+    const { container, allowFullScreen } = this.props
+    if (allowFullScreen) toggleFullscreen(container)
   }
 
   initOpenSeaDragon() {
