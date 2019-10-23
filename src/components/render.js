@@ -4,6 +4,7 @@ import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
 import RenderError from '@/components/renderError'
+import Localize from '@/localize'
 import { ReaderContext } from '../context'
 import { getKeyByValue } from '@/lib/utils'
 
@@ -374,7 +375,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        {renderError && <RenderError message={'Invalid image!'} />}
+        {renderError && <RenderError message={Localize['Invalid image']} />}
       </React.Fragment>
     )
   }

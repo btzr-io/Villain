@@ -1,3 +1,5 @@
+import Localize from '@/localize'
+
 // Regex to detect image type
 const regexImage = new RegExp(
   '^[a-zA-Z0-9_@()-][a-zA-Z0-9_.@()-]+.(jpeg|jpg|png|bpm|webp|gif)$'
@@ -32,7 +34,7 @@ export const fetchArchive = (url, callback, errorCallback) => {
     })
     .then(callback)
     .catch(error => {
-      errorCallback && errorCallback("Can't load archive!")
+      errorCallback && errorCallback(Localize['Cant open archive'])
       console.error('Request failed', error)
     })
 }

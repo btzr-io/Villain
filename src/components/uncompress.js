@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
 import { asyncForEach, fetchArchive, isValidImageType } from '@/lib/utils'
 import { ReaderContext } from '@/context'
+import Localize from '@/localize'
 
 // Components
 import Error from './error'
@@ -93,7 +94,7 @@ class Uncompress extends Component {
           this.handleExtractedFile(file, index)
         })
       } else {
-        this.context.trigger('error', "Can't open archive!")
+        this.context.trigger('error', Localize['Cant open archive'])
       }
     } catch (err) {
       // Handle Errors
