@@ -342,10 +342,8 @@ class CanvasRender extends Component {
     }
 
     // Handle toolbar visibility
-    if (autoHideControls !== this.props.autoHideControls) {
-      if (!autoHideControls) {
-        this.context.updateState({ showControls: true })
-      }
+    if (autoHideControls !== prevProps.autoHideControls) {
+        this.context.updateState({ showControls: !autoHideControls, autoHideControls })
     }
 
     // Handle theme changed
@@ -355,7 +353,7 @@ class CanvasRender extends Component {
       }
     }
 
-    if (autoHideControls) {
+    if (this.context.state.autoHideControls) {
       if (focus !== prevProps.focus) {
         this.context.updateState({ showControls: focus })
       } else if (hover !== prevProps.hover) {

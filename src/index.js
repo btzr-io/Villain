@@ -68,7 +68,7 @@ class Villain extends Component {
                     allowGlobalShortcuts={state.allowGlobalShortcuts}
                     currentPage={state.currentPage}
                     allowFullScreen={allowFullScreen}
-                    autoHideControls={state.autoHideControls}
+                    autoHideControls={autoHideControls}
                     renderError={state.renderError}
                   />
                 )}
