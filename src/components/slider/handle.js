@@ -1,8 +1,20 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Tooltip from '@/components/tooltip'
+import './tooltip.css'
 
 class Handle extends Component {
+  state = {
+    mouseOver: false,
+  }
+
+  onMouseEnter = () => {
+    this.setState({ mouseOver: true })
+  }
+
+  onMouseLeave = () => {
+    this.setState({ mouseOver: false })
+  }
+
   render() {
     const {
       domain: [min, max],
@@ -11,9 +23,24 @@ class Handle extends Component {
       disabled,
       getHandleProps,
     } = this.props
+    const { mouseOver } = this.state
 
     return (
-
+      <Fragment>
+        {(mouseOver || isActive) && !disabled ? (
+          <div
+            style={{
+              left: `${percent}%`,
+              position: 'absolute',
+              marginLeft: '-75%',
+              marginTop: '-25%',
+            }}
+          >
+            <div className="tooltip">
+              <span className="tooltiptext">Value: {value}</span>
+            </div>
+          </div>
+        ) : null}
         <button
           role="slider"
           aria-valuemin={min}
@@ -32,8 +59,12 @@ class Handle extends Component {
             backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
             zIndex: 1,
           }}
-          {...getHandleProps(id)}
+          {...getHandleProps(id, {
+            onMouseEnter: this.onMouseEnter,
+            onMouseLeave: this.onMouseLeave,
+          })}
         />
+      </Fragment>
     )
   }
 }

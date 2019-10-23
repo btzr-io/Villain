@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
 import Handle from './handle'
+import TooltipRail from './tooltipRail'
 import { ReaderContext } from '@/context'
 
 const mainColor = '#FFF'
@@ -14,14 +15,6 @@ const sliderStyle = {
   borderRadius: '4px',
   justifyContent: 'center',
   zIndex: 99,
-}
-
-const railStyle = {
-  margin: 0,
-  width: '100%',
-  height: '100%',
-  borderRadius: '4px',
-  backgroundColor: 'var(--slider-bg)',
 }
 
 const Track = ({ source, target, getTrackProps }) => {
@@ -99,7 +92,13 @@ class SliderUI extends Component {
           reversed={reversed}
         >
           <Rail>
-            {({ getRailProps }) => <div style={railStyle} {...getRailProps()} />}
+            {({ activeHandleID, getEventData, getRailProps }) => (
+              <TooltipRail
+                activeHandleID={activeHandleID}
+                getEventData={getEventData}
+                getRailProps={getRailProps}
+              />
+            )}
           </Rail>
 
           <Handles>
