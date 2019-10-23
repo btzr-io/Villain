@@ -75,7 +75,7 @@ class TooltipRail extends Component {
 }
 
 TooltipRail.propTypes = {
-  activeHandleID: PropTypes.string.isRequired,
+  activeHandleID: PropTypes.string,
   getEventData: PropTypes.func.isRequired,
   getRailProps: PropTypes.func.isRequired,
 }
