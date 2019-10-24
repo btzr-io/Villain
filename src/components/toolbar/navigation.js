@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 import Localize from '@/localize'
 
-class Navigation extends Component {
+class Navigation extends PureComponent {
   static contextType = ReaderContext
 
   constructor(props) {
