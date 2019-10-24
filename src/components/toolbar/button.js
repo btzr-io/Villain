@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
 import Tooltip from '@/components/tooltip'
 
-class Button extends Component {
+class Button extends PureComponent {
   constructor(props) {
     super(props)
   }
