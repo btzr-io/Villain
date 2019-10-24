@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
 import { asyncForEach, fetchArchive, isValidImageType } from '@/lib/utils'
@@ -9,7 +9,7 @@ import Localize from '@/localize'
 import Error from './error'
 import Loader from './loader'
 
-class Uncompress extends Component {
+class Uncompress extends PureComponent {
   static contextType = ReaderContext
 
   static defaultProps = {
@@ -132,16 +132,16 @@ class Uncompress extends Component {
     }
 
     // Loading archive from blob or file
-     if(file  instanceof Blob) {
-       if (
-         prevState.name!== this.state.name ||
-         prevState.size !== this.state.size ||
-         prevState.type !== this.state.type 
-       ) {
-         this.context.clear()
-         this.loadArchiveFromBlob(file)
-       }
-     }
+    if (file instanceof Blob) {
+      if (
+        prevState.name !== this.state.name ||
+        prevState.size !== this.state.size ||
+        prevState.type !== this.state.type
+      ) {
+        this.context.clear()
+        this.loadArchiveFromBlob(file)
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -153,7 +153,7 @@ class Uncompress extends Component {
     if (props.file) {
       const { name, size, type } = props.file
       return { name, size, type }
-   }
+    }
     return { name: null, size: null }
   }
 
