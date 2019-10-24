@@ -1,0 +1,36 @@
+@import url('theme.css');
+@import url('button.css');
+@import url('layout.css');
+@import url('toolbar.css');
+@import url('input.css');
+@import url('animation.css');
+@import url('slider.css');
+@import url('global-tooltip.css');
+@import url('slider-tooltip.css');
+
+.villain {
+  position: relative;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.villain--static .villain-toolbar {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+}
+
+.villain--static .villain-canvas,
+.villain--static .villain-canvas--overlay {
+  bottom: var(--toolbar-height);
+}
+
+.villain .villain-icon {
+  fill: var(--icon-color);
+}
+
+

@@ -7,7 +7,7 @@ import CanvasRender from '@/components/render'
 import { ReaderContext, ReaderProvider } from '@/context'
 
 // Css
-import './css/styles.css'
+import './css/base.css'
 
 const defaultOpts = {
   theme: 'Dark',
