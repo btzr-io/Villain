@@ -17,6 +17,7 @@ const defaultState = {
   canZoomIn: false,
   canZoomOut: false,
   renderError: false,
+  showInfoModal: false,
 }
 
 const defaultSettings = {
@@ -80,6 +81,12 @@ export class ReaderProvider extends Component {
   toggleTheme = () => {
     this.setState(prevState => ({
       theme: prevState.theme === 'Light' ? 'Dark' : 'Light',
+    }))
+  }
+
+  toggleInfoModal = () => {
+    this.setState(prevState => ({
+      showInfoModal: !prevState.showInfoModal,
     }))
   }
 
@@ -152,6 +159,7 @@ export class ReaderProvider extends Component {
           navigateToPage: this.navigateToPage,
           navigateForward: this.navigateForward,
           navigateBackward: this.navigateBackward,
+          toggleInfoModal: this.toggleInfoModal,
         }}
       >
         {this.props.children}

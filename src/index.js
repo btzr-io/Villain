@@ -56,7 +56,7 @@ class Villain extends Component {
           {container => (
             <Uncompress file={file} workerUrl={opts.workerUrl} preview={opts.preview}>
               <ReaderContext.Consumer>
-                {({ state }) => (
+                {({ state, toggleInfoModal }) => (
                   <CanvasRender
                     id={'osd-canvas-render'}
                     hover={state.hover}
@@ -70,6 +70,7 @@ class Villain extends Component {
                     allowFullScreen={allowFullScreen}
                     autoHideControls={autoHideControls}
                     renderError={state.renderError}
+                    toggleInfoModal={toggleInfoModal}
                   />
                 )}
               </ReaderContext.Consumer>

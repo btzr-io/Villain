@@ -17,6 +17,7 @@ import {
   mdiBookOpenOutline,
   mdiWhiteBalanceSunny,
   mdiWeb,
+  mdiInformationOutline,
 } from '@mdi/js'
 
 class Toolbar extends Component {
@@ -122,6 +123,7 @@ class Toolbar extends Component {
       toggleSetting,
       toggleTheme,
       togglePin,
+      toggleInfoModal,
     } = this.context
 
     // State
@@ -207,6 +209,14 @@ class Toolbar extends Component {
               disabled={renderError}
             />
           )}
+          <Button
+            type={'icon'}
+            icon={mdiInformationOutline}
+            tooltip={Localize['About']}
+            tooltipClass="right-edge"
+            disabled={renderError}
+            onClick={toggleInfoModal}
+          />
           <WrapSelect
             value={this.state.lang}
             options={Localize.getAvailableLanguages()}

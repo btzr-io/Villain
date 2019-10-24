@@ -7,6 +7,7 @@ import RenderError from '@/components/renderError'
 import Localize from '@/localize'
 import { ReaderContext } from '../context'
 import { getKeyByValue } from '@/lib/utils'
+import { InfoModal } from '@/components/modal/modal'
 
 import {
   onFullscreenChange,
@@ -346,7 +347,7 @@ class CanvasRender extends Component {
 
     // Handle toolbar visibility
     if (autoHideControls !== prevProps.autoHideControls) {
-        this.context.updateState({ showControls: !autoHideControls, autoHideControls })
+      this.context.updateState({ showControls: !autoHideControls, autoHideControls })
     }
 
     // Handle theme changed
@@ -371,11 +372,18 @@ class CanvasRender extends Component {
   }
 
   render() {
-    const { id, autoHideControls, renderError, allowFullScreen } = this.props
-    const { showControls } = this.context.state
+    const {
+      id,
+      autoHideControls,
+      renderError,
+      allowFullScreen,
+      toggleInfoModal,
+    } = this.props
+    const { showControls, showInfoModal } = this.context.state
 
     return (
       <React.Fragment>
+        {showInfoModal && <InfoModal toggleInfoModal={toggleInfoModal} />}
         <Toolbar
           updateZoom={this.updateZoom}
           toggleFullscreen={this.toggleFullscreen}
@@ -384,7 +392,9 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        {renderError && <RenderError message={Localize['Invalid image']} icon={mdiImageBrokenVariant} />}
+        {renderError && (
+          <RenderError message={Localize['Invalid image']} icon={mdiImageBrokenVariant} />
+        )}
       </React.Fragment>
     )
   }
