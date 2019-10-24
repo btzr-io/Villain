@@ -22,4 +22,4 @@ const WrapSelect = ({ options, icon, value, onChange }) =>
     </select>
   </label>
 
-export default WrapSelect
+export default React.memo(WrapSelect)
