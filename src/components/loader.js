@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-class Loader extends Component {
+class Loader extends PureComponent {
   constructor(props) {
     super(props)
   }
