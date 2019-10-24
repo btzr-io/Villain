@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 export const ReaderContext = React.createContext()
 
 const defaultState = {
@@ -30,7 +30,7 @@ const defaultSettings = {
   allowGlobalShortcuts: false,
 }
 
-export class ReaderProvider extends Component {
+export class ReaderProvider extends PureComponent {
   //Define deafault state and  merge external values
   state = { ...defaultState, ...defaultSettings, ...this.props.defaultState }
 
