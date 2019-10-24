@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { ReaderContext } from '@/context'
 import Icon from '@mdi/react'
 
-class WrapSelect extends Component {
+class WrapSelect extends PureComponent {
   static contextType = ReaderContext
 
   constructor(props) {
