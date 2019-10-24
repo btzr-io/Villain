@@ -24,4 +24,4 @@ const Wrapp = ({ children, width, height, preview }) => {
   )
 }
 
-export default Wrapp
+export default React.memo(Wrapp)
