@@ -109,3 +109,45 @@ body, #app, .villain-demo {
     height: 100%;
     position: relative;
 }
+
+
+.villain-demo .field .custom-checkbox-input {
+  opacity: 1;
+  position: relative;
+}
+
+.villain-demo .field .custom-checkbox-input::before {
+  content: '';
+  position: absolute;
+  background: #ccc;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.villain-demo .field .custom-checkbox-input:checked::before {
+  background: #ff5c65;
+}
+
+
+.villain-demo .field .custom-checkbox-input::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 20%;
+  top: -10%;
+  width: 5px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border: solid #ffef7f;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  cursor: pointer;
+}
+
+.villain-demo .field .custom-checkbox-input:checked::after {
+  display: block;
+}
