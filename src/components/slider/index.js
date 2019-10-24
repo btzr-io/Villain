@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
 import Handle from './handle'
 import { ReaderContext } from '@/context'
@@ -40,7 +40,7 @@ const Track = ({ source, target, getTrackProps }) => {
 
 const defaultValues = [1]
 
-class SliderUI extends Component {
+class SliderUI extends PureComponent {
   static contextType = ReaderContext
   static defaultProps = {
     max: 1,
