@@ -347,6 +347,10 @@
   flex-direction: column;
 }
 
+.villain-overlay--message {
+  margin: 1em;
+}
+
 .villain-loader-indicator,
 .villain-loader-indicator:after {
   border-radius: 50%;

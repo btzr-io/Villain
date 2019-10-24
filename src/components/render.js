@@ -14,6 +14,9 @@ import {
   toggleFullscreen,
 } from '@/lib/full-screen'
 
+// Icons
+import { mdiImageBrokenVariant } from '@mdi/js'
+
 class CanvasRender extends Component {
   static defaultProps = {
     initialPage: 0,
@@ -381,7 +384,7 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        {renderError && <RenderError message={Localize['Invalid image']} />}
+        {renderError && <RenderError message={Localize['Invalid image']} icon={mdiImageBrokenVariant} />}
       </React.Fragment>
     )
   }

@@ -6,8 +6,11 @@ import { ReaderContext } from '@/context'
 import Localize from '@/localize'
 
 // Components
-import Error from './error'
-import Loader from './loader'
+import RenderError from '@/components/renderError'
+import Loader from '@/components/loader'
+
+// Icons
+import {  mdiFileAlert } from '@mdi/js'
 
 class Uncompress extends Component {
   static contextType = ReaderContext
@@ -136,7 +139,7 @@ class Uncompress extends Component {
        if (
          prevState.name!== this.state.name ||
          prevState.size !== this.state.size ||
-         prevState.type !== this.state.type 
+         prevState.type !== this.state.type
        ) {
          this.context.clear()
          this.loadArchiveFromBlob(file)
@@ -161,7 +164,7 @@ class Uncompress extends Component {
     const { ready, error } = this.context.state
     return (
       <React.Fragment>
-        {(error && <Error message={error.message || error} />) ||
+        {(error && <RenderError message={error.message || error} icon={mdiFileAlert}/>) ||
           (!ready ? <Loader /> : this.props.children)}
       </React.Fragment>
     )
