@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { ReaderContext } from '@/context'
 import clsx from 'clsx'
 
-class Wrapp extends Component {
+class Wrapp extends PureComponent {
   static contextType = ReaderContext
 
   constructor(props) {
