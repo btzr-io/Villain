@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import clsx from 'clsx'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
 import Localize from '@/localize'
 
-class ZoomControls extends Component {
+class ZoomControls extends PureComponent {
   static contextType = ReaderContext
 
   constructor(props) {
