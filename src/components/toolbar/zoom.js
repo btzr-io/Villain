@@ -101,7 +101,7 @@ class ZoomControls extends Component {
             disabled={disabled}
           />
         </div>
-        <span>%</span>
+        <div className={'villain-label'}>%</div>
       </React.Fragment>
     )
   }
