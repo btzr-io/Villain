@@ -6,7 +6,7 @@ const Handle = ({
   domain: [min, max],
   handle: { id, value, percent },
   isActive,
-  disabled,
+  disabled = false,
   getHandleProps
 }) =>
   <button
@@ -42,8 +42,4 @@ Handle.propTypes = {
   disabled: PropTypes.bool,
 }
 
-Handle.defaultProps = {
-  disabled: false,
-}
-
-export default Handle
+export default React.memo(Handle)
