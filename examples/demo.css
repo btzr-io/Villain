@@ -34,8 +34,7 @@ body, #app, .villain-demo {
   align-content: center;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 0.8rem 0;
+  padding: 0.8rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -57,7 +56,7 @@ body, #app, .villain-demo {
 .villain-demo header {
     display: flex;
     height: 36px;
-    padding: 4px 6px 8px 6px;
+    padding: 8px;
     background: #ff5c65;
     box-shadow: 0 -1px 1px #ff5c65;
     color: #ffef7f;
