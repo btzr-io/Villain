@@ -74,6 +74,7 @@ export class ReaderProvider extends Component {
   togglePin = () => {
     this.setState(prevState => ({
       autoHideControls: !prevState.autoHideControls,
+      showControls: prevState.autoHideControls,
     }))
   }
 
