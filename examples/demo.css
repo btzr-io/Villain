@@ -99,7 +99,8 @@ body, #app, .villain-demo {
 }
 
 .villain-demo .field input[type=checkbox] {
-    transform: scale(1.25);
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 .villain-demo .instance {
@@ -119,13 +120,16 @@ body, #app, .villain-demo {
 .villain-demo .field .custom-checkbox-input::before {
   content: '';
   position: absolute;
-  background: #ccc;
+  background: #FFF;
   left: 50%;
   top: 50%;
   width: 18px;
   height: 18px;
+  display: block;
   transform: translate(-50%, -50%);
   cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 0.24);
+  border-radius: 0.3rem;
 }
 
 .villain-demo .field .custom-checkbox-input:checked::before {
@@ -137,12 +141,12 @@ body, #app, .villain-demo {
   content: '';
   position: absolute;
   display: none;
-  left: 20%;
-  top: -10%;
-  width: 5px;
-  height: 10px;
+  left: 15%;
+  bottom: -50%;
+  width: 4px;
+  height: 8px;
   transform: translate(-50%, -50%);
-  border: solid #ffef7f;
+  border: solid #FFF;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
   cursor: pointer;
