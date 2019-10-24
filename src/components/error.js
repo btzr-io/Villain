@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Icon from '@mdi/react'
 import { mdiChatAlert } from '@mdi/js'
-class Error extends Component {
+class Error extends PureComponent {
   constructor(props) {
     super(props)
   }

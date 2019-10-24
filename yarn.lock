@@ -5738,7 +5738,7 @@ opencollective-postinstall@^2.0.2:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
   integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
 
-openseadragon@^2.4.1:
+openseadragon@^2.4.0, openseadragon@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.4.1.tgz#91fda5245558f5e4f939c2173bdf582359154b21"
   integrity sha512-7fWUnCkGvWcnoRxqeXcg4bSLPApWbI0hHumEZF8K2pziMfPNjvvHL5XB4oQeT2XfrGKfaasVrPe2XqhAr5kogA==
@@ -8356,6 +8356,19 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+villain-react@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/villain-react/-/villain-react-0.0.9.tgz#f967152537c869e4bd44deba5be4adf107cc88fd"
+  integrity sha512-yKwSrawbgfm90WNbvlcL4ekks1LAmBz3d6ERYc/j5Q1IqD5jAoHpOjxDlEZwekjxU7ifcTyIIqN8A/C2c2HYRQ==
+  dependencies:
+    clsx "^1.0.4"
+    libarchive.js "^1.3.0"
+    openseadragon "^2.4.0"
+    prop-types "^15.7.2"
+    react "^16.8.6"
+    react-compound-slider "^2.3.0"
+    react-dom "^16.8.6"
 
 vm-browserify@^1.0.1:
   version "1.1.0"
