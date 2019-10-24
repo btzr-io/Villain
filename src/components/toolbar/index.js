@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import clsx from 'clsx'
 import Button from './button'
 import WrapSelect from './select'
@@ -19,7 +19,7 @@ import {
   mdiWeb,
 } from '@mdi/js'
 
-class Toolbar extends Component {
+class Toolbar extends PureComponent {
   static contextType = ReaderContext
 
   constructor(props) {
