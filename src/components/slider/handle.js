@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '@/components/tooltip'
 
-class Handle extends Component {
+class Handle extends PureComponent {
   render() {
     const {
       domain: [min, max],
@@ -13,26 +13,26 @@ class Handle extends Component {
     } = this.props
 
     return (
-        <button
-          role="slider"
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={value}
-          style={{
-            height: 14,
-            width: 14,
-            left: `${percent}%`,
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
-            WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-            border: 0,
-            borderRadius: '50%',
-            boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
-            backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
-            zIndex: 1,
-          }}
-          {...getHandleProps(id)}
-        />
+      <button
+        role="slider"
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+        style={{
+          height: 14,
+          width: 14,
+          left: `${percent}%`,
+          position: 'absolute',
+          transform: 'translate(-50%, -50%)',
+          WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+          border: 0,
+          borderRadius: '50%',
+          boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
+          backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
+          zIndex: 1,
+        }}
+        {...getHandleProps(id)}
+      />
     )
   }
 }
