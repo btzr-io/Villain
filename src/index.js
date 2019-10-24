@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import Wrapp from '@/components/wrapp'
@@ -18,7 +18,7 @@ const defaultOpts = {
   allowGlobalShortcuts: false,
 }
 
-class Villain extends Component {
+class Villain extends PureComponent {
   static contextType = ReaderContext
 
   static defaultProps = {
