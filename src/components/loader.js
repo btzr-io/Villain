@@ -5,4 +5,4 @@ const Loader = ({ id }) =>
     <div className="villain-loader-indicator" />
   </div>
 
-export default Loader
+export default React.memo(Loader)
