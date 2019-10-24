@@ -1,41 +1,34 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from '@/components/tooltip'
 
-class Handle extends Component {
-  render() {
-    const {
-      domain: [min, max],
-      handle: { id, value, percent },
-      isActive,
-      disabled,
-      getHandleProps,
-    } = this.props
-
-    return (
-        <button
-          role="slider"
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={value}
-          style={{
-            height: 14,
-            width: 14,
-            left: `${percent}%`,
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
-            WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-            border: 0,
-            borderRadius: '50%',
-            boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
-            backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
-            zIndex: 1,
-          }}
-          {...getHandleProps(id)}
-        />
-    )
-  }
-}
+const Handle = ({
+  domain: [min, max],
+  handle: { id, value, percent },
+  isActive,
+  disabled,
+  getHandleProps
+}) =>
+  <button
+    role="slider"
+    aria-valuemin={min}
+    aria-valuemax={max}
+    aria-valuenow={value}
+    style={{
+      height: 14,
+      width: 14,
+      left: `${percent}%`,
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)',
+      WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+      border: 0,
+      borderRadius: '50%',
+      boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
+      backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
+      zIndex: 1,
+    }}
+    {...getHandleProps(id)}
+  />
 
 Handle.propTypes = {
   domain: PropTypes.array.isRequired,
