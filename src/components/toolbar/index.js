@@ -55,8 +55,11 @@ class Toolbar extends Component {
       return
     }
 
-    const { toggleSetting, navigateToPage } = this.context
-    const { isFirstPage, isLastPage, currentPage } = this.context.state
+    const { toggleSetting, navigateForward, navigateBackward } = this.context
+    const { mangaMode } = this.context.state
+
+    const navigateRight = mangaMode ? navigateBackward : navigateForward
+    const navigateLeft = mangaMode ? navigateForward : navigateBackward
 
     switch (key) {
       // Toggle fullscreen of viewer.
@@ -67,14 +70,14 @@ class Toolbar extends Component {
         toggleFullscreen()
         break
 
-      // Navigation to next page
+      // Navigation to next page (previous when in mangaMode)
       case 'ArrowRight':
-        if (!isLastPage) navigateToPage(currentPage + 1)
+        navigateRight()
         break
 
-      // Navigation to previous page
+      // Navigation to previous page (next when in mangaMode)
       case 'ArrowLeft':
-        if (!isFirstPage) navigateToPage(currentPage - 1)
+        navigateLeft()
         break
     }
   }
