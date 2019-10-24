@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-class Tooltip extends Component {
+class Tooltip extends PureComponent {
   constructor(props) {
     super(props)
     this.clearDelay = null
@@ -36,7 +36,7 @@ class Tooltip extends Component {
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown)
   }
-  
+
   render() {
     const { text, overrideClass, children, style } = this.props
     const className = `tooltip-con ${overrideClass || ''}`
