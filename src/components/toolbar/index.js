@@ -208,10 +208,12 @@ class Toolbar extends Component {
             />
           )}
           <WrapSelect
+            inputId="langSelector"
             value={this.state.lang}
             options={Localize.getAvailableLanguages()}
             onChange={this.handleLanguageChange}
             icon={mdiWeb}
+            label="Language toggle"
           />
         </div>
       </div>

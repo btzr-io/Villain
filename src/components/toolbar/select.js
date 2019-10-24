@@ -10,19 +10,21 @@ class WrapSelect extends Component {
   }
 
   render() {
-    const { options, icon, value, onChange } = this.props
+    const { options, icon, value, onChange, inputId, className, label } = this.props
     return (
-      <label>
-        <Icon
-          path={icon}
-          size={'22px'}
-          className={'villain-icon'}
-          style={{ marginTop: '7px', marginRight: '6px' }}
-        />
+      <div className={`wrapselect-container ${className ? className : ''}`}>
+        <label htmlFor={inputId}>
+          <Icon
+            path={icon}
+            size={'22px'}
+            className={'villain-icon'}
+          />
+        </label>
         <select
+          id={inputId}
           value={value}
           onChange={onChange}
-          style={{ position: 'relative', bottom: '6px' }}
+          aria-label={label}
         >
           {options.map(item => (
             <option value={item} key={item}>
@@ -30,7 +32,7 @@ class WrapSelect extends Component {
             </option>
           ))}
         </select>
-      </label>
+      </div>
     )
   }
 }
