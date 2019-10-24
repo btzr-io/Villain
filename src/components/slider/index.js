@@ -122,4 +122,4 @@ const SliderUI = ({
   )
 }
 
-export default SliderUI
+export default React.memo(SliderUI)
