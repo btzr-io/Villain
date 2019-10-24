@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '@/osd.config'
 import Toolbar from '@/components/toolbar'
@@ -14,7 +14,7 @@ import {
   toggleFullscreen,
 } from '@/lib/full-screen'
 
-class CanvasRender extends Component {
+class CanvasRender extends PureComponent {
   static defaultProps = {
     initialPage: 0,
   }
@@ -343,7 +343,7 @@ class CanvasRender extends Component {
 
     // Handle toolbar visibility
     if (autoHideControls !== prevProps.autoHideControls) {
-        this.context.updateState({ showControls: !autoHideControls, autoHideControls })
+      this.context.updateState({ showControls: !autoHideControls, autoHideControls })
     }
 
     // Handle theme changed
