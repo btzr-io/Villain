@@ -85,19 +85,23 @@ class ZoomControls extends Component {
           disabled={!canZoomOut || disabled}
           onClick={this.triggerDecrement}
         />
-        <input
-          type="text"
-          title="Zoom"
-          aria-label="Zoom to percentage value"
-          role="textbox"
-          contentEditable="true"
-          value={this.state.formatedZoom}
-          onBlur={this.hanldeBlur}
-          onChange={this.handleChange}
-          onKeyPress={this.handleKeyPress}
-          className={'villain-input'}
-          disabled={disabled}
-        />
+        {/* This wrapper is used to force an update for the initial value and when the zoom buttons trigger a change */}
+        <div key={this.props.currentZoom}>
+          <input
+            type="number"
+            title="Zoom"
+            aria-label="Zoom to percentage value"
+            role="textbox"
+            contentEditable="true"
+            defaultValue={this.props.currentZoom}
+            onBlur={this.hanldeBlur}
+            onChange={this.handleChange}
+            onKeyPress={this.handleKeyPress}
+            className={'villain-input'}
+            disabled={disabled}
+          />
+        </div>
+        <div className={'villain-label'}>%</div>
       </React.Fragment>
     )
   }
