@@ -90,7 +90,7 @@ body, #app, .villain-demo {
 }
 
 
-.villain-demo .field input, .villain-demo .field select{
+.villain-demo .field input{
     color: #3c3c3c;
     border: 1px solid rgba(0, 0, 0, 0.2);
     background: #fff;
@@ -101,6 +101,35 @@ body, #app, .villain-demo {
 .villain-demo .field input[type=checkbox] {
   -moz-appearance: none;
   -webkit-appearance: none;
+}
+
+.villain-demo .field select {
+  padding: .5em 3em .5em .5em;
+  /* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
+  border: 1px solid #c7c7c7;
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #676767;
+  outline: none;
+  display: inline-block;
+  transition: all .3s ease-in-out;
+}
+
+.villain-demo .field select::-ms-expand {
+  display: none;
+}
+.villain-demo .field select:focus {
+  border-color: #569aff;
+  box-shadow: inset 0 0 4px #569aff;
+}
+.villain-demo .field select:hover {
+  border-color: #888888;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .villain-demo .field select {
+    padding-right: 3em;
+  }
 }
 
 .villain-demo .instance {
