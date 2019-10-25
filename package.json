@@ -34,9 +34,7 @@
     "libarchive.js": "^1.3.0",
     "openseadragon": "^2.4.1",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
     "react-compound-slider": "^2.3.0",
-    "react-dom": "^16.8.6",
     "react-localization": "^1.0.15",
     "reakit": "^1.0.0-beta.9"
   },
@@ -73,5 +71,9 @@
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",
     "worker-loader": "^2.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   }
 }
