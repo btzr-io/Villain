@@ -1,110 +1,94 @@
-import React, { Component } from 'react'
-import clsx from 'clsx'
+import React, { useState, useEffect, useContext } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
 import Localize from '@/localize'
 
-class ZoomControls extends Component {
-  static contextType = ReaderContext
+const ZoomControls = ({ disabled, onUpdate }) => {
+  const [state, setState] = useState({
+    zoom: 0,
+    formatedZoom: '0%',
+    value: 0,
+  })
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      zoom: 0,
-      formatedZoom: '0%',
-    }
+  const { canZoomIn, canZoomOut, currentZoom } = useContext(ReaderContext).state
+
+  useEffect(() => {
+    setState({
+      zoom: currentZoom,
+      formatedZoom: `${currentZoom}%`,
+    })
+  }, [currentZoom])
+
+  const triggerUpdate = () => {
+    onUpdate(state.value)
   }
 
-  triggerUpdate = () => {
-    const { value } = this.state
-    this.props.onUpdate(value)
-  }
-
-  triggerIncrement = () => {
-    const { currentZoom } = this.props
+  const triggerIncrement = () => {
     const scale = currentZoom + 10
-    this.props.onUpdate(scale)
+    onUpdate(scale)
   }
 
-  triggerDecrement = () => {
-    const { currentZoom } = this.props
+  const triggerDecrement = () => {
     const scale = currentZoom - 10
-    this.props.onUpdate(scale)
+    onUpdate(scale)
   }
 
-  handleChange = event => {
+  const handleChange = event => {
     const { value } = event.target
-    const { currentZoom } = this.context.state
 
     if (value.length < 5) {
-      this.setState({ value })
+      setState({ ...state, value })
     }
   }
 
-  handleBlur = () => {
-    this.triggerUpdate()
+  const handleBlur = () => {
+    triggerUpdate()
   }
 
-  handleKeyPress = e => {
+  const handleKeyPress = e => {
     if (e.key === 'Enter') {
-      this.triggerUpdate()
+      triggerUpdate()
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { currentZoom } = props
-    // Update zoom
-    if (currentZoom && currentZoom !== state.zoom) {
-      return {
-        zoom: currentZoom,
-        formatedZoom: `${currentZoom}%`,
-      }
-    }
-    // Nothing to update
-    return null
-  }
+  return (
+    <React.Fragment>
+      <Button
+        type={'icon'}
+        tooltip={Localize['Zoom in']}
+        icon={mdiPlus}
+        disabled={!canZoomIn || disabled}
+        onClick={triggerIncrement}
+      />
+      <Button
+        type={'icon'}
+        icon={mdiMinus}
+        tooltip={Localize['Zoom out']}
+        disabled={!canZoomOut || disabled}
+        onClick={triggerDecrement}
+      />
 
-  render() {
-    const { disabled } = this.props
-    const { canZoomIn, canZoomOut } = this.context.state
+      {/* This wrapper is used to force an update for the initial value and when the zoom buttons trigger a change */}
+      <div key={currentZoom}>
+        <input
+          type="number"
+          title="Zoom"
+          aria-label="Zoom to percentage value"
+          role="textbox"
+          contentEditable="true"
+          defaultValue={currentZoom}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
+          className={'villain-input'}
+          disabled={disabled}
+        />
+      </div>
 
-    return (
-      <React.Fragment>
-        <Button
-          type={'icon'}
-          tooltip={Localize['Zoom in']}
-          icon={mdiPlus}
-          disabled={!canZoomIn || disabled}
-          onClick={this.triggerIncrement}
-        />
-        <Button
-          type={'icon'}
-          icon={mdiMinus}
-          tooltip={Localize['Zoom out']}
-          disabled={!canZoomOut || disabled}
-          onClick={this.triggerDecrement}
-        />
-        {/* This wrapper is used to force an update for the initial value and when the zoom buttons trigger a change */}
-        <div key={this.props.currentZoom}>
-          <input
-            type="number"
-            title="Zoom"
-            aria-label="Zoom to percentage value"
-            role="textbox"
-            contentEditable="true"
-            defaultValue={this.props.currentZoom}
-            onBlur={this.hanldeBlur}
-            onChange={this.handleChange}
-            onKeyPress={this.handleKeyPress}
-            className={'villain-input'}
-            disabled={disabled}
-          />
-        </div>
-        <div className={'villain-label'}>%</div>
-      </React.Fragment>
-    )
-  }
+      <div className={'villain-label'}>%</div>
+    </React.Fragment>
+  )
 }
 
 export default ZoomControls
