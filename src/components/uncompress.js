@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
 import { asyncForEach, fetchArchive, isValidImageType } from '@/lib/utils'
@@ -10,49 +10,64 @@ import RenderError from '@/components/renderError'
 import Loader from '@/components/loader'
 
 // Icons
-import {  mdiFileAlert } from '@mdi/js'
+import { mdiFileAlert } from '@mdi/js'
+import { setState } from 'expect/build/jestMatchersObject'
 
-class Uncompress extends Component {
-  static contextType = ReaderContext
+const Uncompress = ({ file = null, workerUrl = null, preview = null, children }) => {
+  const context = useContext(ReaderContext)
 
-  static defaultProps = {
-    file: null,
-    workerUrl: null,
-    preview: null,
-  }
+  const state = useState({
+    size: null,
+    name: null,
+    type: null,
+  })
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      size: null,
-      name: null,
-      type: null,
+  const { ready, error } = context.state
+
+  useEffect(() => {
+    // Init libarchivejs: Setup worker
+    Archive.init({ workerUrl })
+
+    return () => {
+      handleDestroy()
     }
+  }, [])
+
+  useEffect(() => {
+    if (!file) {
+      setState({ name: null, size: null, type: null })
+      return
+    }
+
+    const { name, size, type } = file
+    setState({ name, size, type })
+
+    // Loading archive from url
+    if (typeof file === 'string') {
+      // Remove previous archive data
+      context.clear()
+      // Load archive from valid source
+      loadArchiveFromUrl(file)
+    }
+
+    // Loading archive from blob or file
+    if (file instanceof Blob) {
+      context.clear()
+      loadArchiveFromBlob(file)
+    }
+  }, [file])
+
+  const loadArchiveFromUrl = url => {
+    fetchArchive(url, extract, handleError)
   }
 
-  loadArchiveFromUrl(url) {
-    fetchArchive(url, this.extract, this.handleError)
+  const loadArchiveFromBlob = blob => {
+    extract(blob)
   }
 
-  loadArchiveFromBlob(blob) {
-    this.extract(blob)
-  }
+  const handleDestroy = () => {
+    const { pages } = context.state
 
-  handleExtractedFile = (file, index) => {
-    const { size, name } = file
-    const defaultPageOpts = { type: 'image' }
-    const url = URL.createObjectURL(file)
-    const page = { index, url, name, size, ...defaultPageOpts }
-    this.context.createPage(page)
-  }
-
-  handleError = err => {
-    console.error(err)
-    this.context.trigger('error', err.message || err)
-  }
-
-  handleDestroy = () => {
-    const { pages } = this.context.state
     // Release memory
     if (pages && pages.length > 0) {
       pages.forEach(page => {
@@ -61,9 +76,43 @@ class Uncompress extends Component {
     }
   }
 
-  openArchive = async file => {
-    const { workerUrl, preview } = this.props
+  const handleError = err => {
+    console.error(err)
+    context.trigger('error', err.message || err)
+  }
 
+  const extract = async blob => {
+    try {
+      // Compressed files 1437
+      const list = await openArchive(blob)
+
+      if (list && list.length > 0) {
+        const items = preview ? list.splice(0, preview) : list
+
+        await asyncForEach(items, async (item, index) => {
+          const file = await item.file.extract()
+          handleExtractedFile(file, index)
+        })
+      } else {
+        context.trigger('error', Localize['Cant open archive'])
+      }
+    } catch (err) {
+      // Handle Errors
+      console.error(err)
+      handleError(err)
+    }
+  }
+
+  const handleExtractedFile = (file, index) => {
+    const { size, name } = file
+    const defaultPageOpts = { type: 'image' }
+    const url = URL.createObjectURL(file)
+    const page = { index, url, name, size, ...defaultPageOpts }
+
+    context.createPage(page)
+  }
+
+  const openArchive = async file => {
     // Open archive
     const archive = await Archive.open(file)
     const compressedFiles = await archive.getFilesArray()
@@ -81,7 +130,7 @@ class Uncompress extends Component {
     const { type, size } = file
     const totalPages = preview && preview < images.length ? preview : images.length
     const archiveData = { type, size, totalPages }
-    this.context.trigger('loaded', archiveData)
+    context.trigger('loaded', archiveData)
 
     // If returns null it means that the archive is empty
     // or don't contains any valid images.
@@ -89,86 +138,12 @@ class Uncompress extends Component {
     return images.length > 0 ? images : null
   }
 
-  extract = async blob => {
-    const { preview } = this.props
-    try {
-      // Compressed files 1437
-      const list = await this.openArchive(blob)
-
-      if (list && list.length > 0) {
-        const items = preview ? list.splice(0, preview) : list
-        await asyncForEach(items, async (item, index) => {
-          const file = await item.file.extract()
-          this.handleExtractedFile(file, index)
-        })
-      } else {
-        this.context.trigger('error', Localize['Cant open archive'])
-      }
-    } catch (err) {
-      // Handle Errors
-      console.error(err)
-      this.handleError(err)
-    }
-  }
-
-  componentDidMount() {
-    const { file, workerUrl } = this.props
-    // Init libarchivejs: Setup worker
-    Archive.init({ workerUrl })
-    // Load archive from valid source
-    if (typeof file === 'string') {
-      this.loadArchiveFromUrl(file)
-    } else {
-      this.loadArchiveFromBlob(file)
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { file } = this.props
-
-    // Loading archive from url
-    if (typeof file === 'string' && prevProps.file !== file) {
-      // Remove previous archive data
-      this.context.clear()
-      // Load archive from valid source
-      this.loadArchiveFromUrl(file)
-    }
-
-    // Loading archive from blob or file
-     if(file  instanceof Blob) {
-       if (
-         prevState.name!== this.state.name ||
-         prevState.size !== this.state.size ||
-         prevState.type !== this.state.type
-       ) {
-         this.context.clear()
-         this.loadArchiveFromBlob(file)
-       }
-     }
-  }
-
-  componentWillUnmount() {
-    // Free memory
-    this.handleDestroy()
-  }
-
-  static getDerivedStateFromProps(props, { fileName }) {
-    if (props.file) {
-      const { name, size, type } = props.file
-      return { name, size, type }
-   }
-    return { name: null, size: null }
-  }
-
-  render() {
-    const { ready, error } = this.context.state
-    return (
-      <React.Fragment>
-        {(error && <RenderError message={error.message || error} icon={mdiFileAlert}/>) ||
-          (!ready ? <Loader /> : this.props.children)}
-      </React.Fragment>
-    )
-  }
+  return (
+    <React.Fragment>
+      {(error && <RenderError message={error.message || error} icon={mdiFileAlert} />) ||
+        (!ready ? <Loader /> : children)}
+    </React.Fragment>
+  )
 }
 
 Uncompress.propTypes = {
