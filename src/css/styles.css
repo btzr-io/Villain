@@ -6,8 +6,8 @@
   --slider-track-bg: #fff;
   --slider-buffer-bg: rgba(255, 255, 255, 0.4);
   --input-border-focus: rgba(255, 255, 255, 0.4);
-  --input-bg: rgba(0, 0, 0, 0.32);
-  --input-border: rgba(0, 0, 0, 0.24);
+  --input-bg: rgba(0, 0, 0, 0.1);
+  --input-border: rgba(0, 0, 0, 0.2);
   --input-focus-bg: rgba(225, 225, 225, 0.15);
   --button-bg: rgba(255, 255, 255, 0.1);
   --button-active-bg: rgba(255, 255, 255, 0.15);
@@ -47,6 +47,7 @@
   font-family: Arial, sans-serif;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
 .villain--static .villain-toolbar {
@@ -100,15 +101,16 @@
 .villain-toolbar .villain-input {
   -moz-appearance: textfield;
   text-align: right;
-  width: 52px;
+  width: 36px;
   background: var(--input-bg);
   border: 2px solid var(--input-border);
-  padding: 2px 6px;
+  padding: 4px 12px;
   color: var(--fg-color);
   margin: 0 6px;
   border-radius: 4px;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: 600;
 }
 
 .villain-toolbar .villain-input:focus {
@@ -125,7 +127,7 @@
 .villain-label {
   margin: 0 6px;
   opacity: 0.8;
-  font-size: 14px;
+  font-size: 16px;
   padding: 0 2px;
   font-weight: bold;
 }
@@ -359,6 +361,59 @@
   border-radius: 50%;
   width: 10em;
   height: 10em;
+}
+
+.navigation-input {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-self: center;
+  flex-grow: 0;
+  font-size: 16px;
+  min-width: 64px;
+  background: var(--input-bg);
+  border: 2px solid var(--input-border);
+  padding: 4px;
+  color: var(--fg-color);
+  margin: 0 6px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.navigation-input .villain-input {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-size: inherit !important;
+  padding-right: 0;
+  border-radius: 0;
+  display: inline-block;
+  min-width: 0;
+  text-align: right;
+  flex: 1 1 0;
+}
+
+.navigation-input .villain-label {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  display: inline-block;
+  min-width: 0;
+  width: 25%;
+  text-align: left;
+  flex: 1 1 0;
+}
+
+.navigation-input[data-focus='true'] {
+  background: var(--input-focus-bg);
+  border-color: var(--input-border-focus);
+}
+
+.navigation-input .villain-label--center {
+  text-align: center;
+  flex: 0.5;
 }
 
 .villain-loader-indicator {

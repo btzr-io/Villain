@@ -207,6 +207,8 @@ class Toolbar extends Component {
               disabled={renderError}
             />
           )}
+          {/*
+            Move this component to menu!
           <WrapSelect
             inputId="langSelector"
             value={this.state.lang}
@@ -215,6 +217,7 @@ class Toolbar extends Component {
             icon={mdiWeb}
             label="Language toggle"
           />
+         */}
         </div>
       </div>
     )
