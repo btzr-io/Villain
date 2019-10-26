@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import '@/css/tooltip.css'
+import Tooltip from './tooltip'
 
 class Handle extends Component {
   state = {
@@ -23,48 +23,44 @@ class Handle extends Component {
       disabled,
       getHandleProps,
     } = this.props
+
     const { mouseOver } = this.state
 
     return (
-      <Fragment>
+      <button
+        role="slider"
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+        style={{
+          height: 14,
+          width: 14,
+          left: `${percent}%`,
+          position: 'absolute',
+          transform: 'translate(-50%, -50%)',
+          WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+          border: 0,
+          borderRadius: '50%',
+          boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
+          backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
+          zIndex: 1,
+        }}
+        {...getHandleProps(id, {
+          onMouseEnter: this.onMouseEnter,
+          onMouseLeave: this.onMouseLeave,
+        })}
+      >
         {(mouseOver || isActive) && !disabled ? (
           <div
             style={{
-              left: `${percent}%`,
               position: 'absolute',
-              marginLeft: '-35px',
-              marginTop: '-13px',
+              transform: 'translate(0px, -14px)',
             }}
           >
-            <div className="tooltip">
-              <span className="tooltiptext">Value: {value}</span>
-            </div>
+            <Tooltip value={value} />
           </div>
         ) : null}
-        <button
-          role="slider"
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={value}
-          style={{
-            height: 14,
-            width: 14,
-            left: `${percent}%`,
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
-            WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-            border: 0,
-            borderRadius: '50%',
-            boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
-            backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
-            zIndex: 1,
-          }}
-          {...getHandleProps(id, {
-            onMouseEnter: this.onMouseEnter,
-            onMouseLeave: this.onMouseLeave,
-          })}
-        />
-      </Fragment>
+      </button>
     )
   }
 }

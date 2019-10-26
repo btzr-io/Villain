@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import '@/css/tooltip.css'
+import Tooltip from './tooltip'
 
 const railStyle = {
   position: 'absolute',
@@ -13,7 +13,7 @@ const railStyle = {
   backgroundColor: 'var(--slider-bg)',
 }
 
-class TooltipRail extends Component {
+class SliderRail extends Component {
   state = {
     value: null,
     percent: null,
@@ -47,36 +47,32 @@ class TooltipRail extends Component {
     const { activeHandleID, getRailProps } = this.props
 
     return (
-      <Fragment>
+      <div
+        style={railStyle}
+        {...getRailProps({
+          onMouseEnter: this.onMouseEnter,
+          onMouseLeave: this.onMouseLeave,
+        })}
+      >
         {!activeHandleID && value ? (
           <div
             style={{
               left: `${percent}%`,
               position: 'absolute',
-              marginLeft: '-35px',
-              marginTop: '39px',
+              transform: 'translate(4px, -11px)',
             }}
           >
-            <div className="tooltip">
-              <span className="tooltiptext">Value: {value}</span>
-            </div>
+            <Tooltip value={value} />
           </div>
         ) : null}
-        <div
-          style={railStyle}
-          {...getRailProps({
-            onMouseEnter: this.onMouseEnter,
-            onMouseLeave: this.onMouseLeave,
-          })}
-        />
-      </Fragment>
+      </div>
     )
   }
 }
 
-TooltipRail.propTypes = {
+SliderRail.propTypes = {
   activeHandleID: PropTypes.string,
   getEventData: PropTypes.func.isRequired,
   getRailProps: PropTypes.func.isRequired,
 }
-export default TooltipRail
+export default SliderRail

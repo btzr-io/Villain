@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
 import Handle from './handle'
-import TooltipRail from './tooltipRail'
+import SliderRail from './sliderRail'
 import { ReaderContext } from '@/context'
 
 const mainColor = '#FFF'
@@ -93,7 +93,7 @@ class SliderUI extends Component {
         >
           <Rail>
             {({ activeHandleID, getEventData, getRailProps }) => (
-              <TooltipRail
+              <SliderRail
                 activeHandleID={activeHandleID}
                 getEventData={getEventData}
                 getRailProps={getRailProps}
