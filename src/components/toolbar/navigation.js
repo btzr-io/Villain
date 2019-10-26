@@ -7,7 +7,10 @@ import Localize from '@/localize'
 const useFocus = () => {
   const htmlElRef = useRef(null)
   const setFocus = () => {
-    htmlElRef.current && htmlElRef.current.focus()
+    if (htmlElRef.current) {
+      htmlElRef.current.focus()
+      htmlElRef.current.select()
+    }
   }
   return [htmlElRef, setFocus]
 }
@@ -92,7 +95,7 @@ const Navigation = () => {
         icon={mdiChevronRight}
       />
 
-      <div className={'navigation-input'} data-focus={focusState} onClick={handleClick}>
+      <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
         <input
           min={1}
           step={1}
