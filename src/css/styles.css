@@ -1,6 +1,6 @@
 .villain.Dark {
   --bg-color: #0c0d11;
-  --fg-color: #FFF;
+  --fg-color: #fff;
   --icon-color: var(--fg-color);
   --slider-bg: rgba(255, 255, 255, 0.1);
   --slider-track-bg: #fff;
@@ -56,8 +56,7 @@
   border-radius: 0;
 }
 
-.villain--static .villain-canvas,
-.villain--static .villain-canvas--overlay {
+.villain--static .villain-canvas {
   bottom: var(--toolbar-height);
 }
 
@@ -267,12 +266,6 @@
   background: var(--button-active-bg);
 }
 
-.villain .button-toggler {
-  padding: 4px;
-  background: transparent;
-  width: 140px;
-}
-
 .villain button[disabled] {
   opacity: 0.64;
   cursor: default;
@@ -288,7 +281,7 @@
   margin-left: 22px;
 }
 
-.villain-toolbar .tooltip .tooltiptext {
+.villain-toolbar .tooltip .tooltip-text {
   min-width: 3rem;
   background-color: var(--tooltip-bg);
   color: var(--tooltip-fg);
@@ -304,7 +297,7 @@
   margin-left: -2rem;
 }
 
-.villain-toolbar .tooltip .tooltiptext::after {
+.villain-toolbar .tooltip .tooltip-text::after {
   content: '';
   position: absolute;
   top: 100%;
@@ -327,8 +320,7 @@
   z-index: 99;
 }
 
-.villain-canvas,
-.villain-canvas--overlay {
+.villain-canvas {
   width: 100%;
   position: absolute;
   top: 0;
@@ -337,10 +329,6 @@
   bottom: 0;
   margin: 0;
   z-index: 0;
-}
-
-.villain-canvas--overlay {
-  background: var(--bg-color);
 }
 
 .openseadragon-message {
