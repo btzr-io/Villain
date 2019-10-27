@@ -1,13 +1,3 @@
-@import url('theme.css');
-@import url('button.css');
-@import url('layout.css');
-@import url('toolbar.css');
-@import url('input.css');
-@import url('animation.css');
-@import url('slider.css');
-@import url('global-tooltip.css');
-@import url('slider-tooltip.css');
-
 .villain {
   position: relative;
   background-color: var(--bg-color);

@@ -7,7 +7,16 @@ import CanvasRender from '@/components/render'
 import { ReaderContext, ReaderProvider } from '@/context'
 
 // Css
-import './css/base.css'
+import './css/theme.css';
+import './css/button.css';
+import './css/layout.css';
+import './css/toolbar.css';
+import './css/input.css';
+import './css/animation.css';
+import './css/slider.css';
+import './css/global-tooltip.css';
+import './css/slider-tooltip.css';
+import './css/main.css';
 
 const defaultOpts = {
   theme: 'Dark',
