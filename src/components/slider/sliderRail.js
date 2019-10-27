@@ -11,6 +11,7 @@ const railStyle = {
   zIndex: 300,
   borderRadius: '4px',
   backgroundColor: 'var(--slider-bg)',
+  zIndex: -1,
 }
 
 class SliderRail extends Component {
