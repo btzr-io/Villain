@@ -59,3 +59,6 @@ typings/
 
 # Test files
 build/test_files
+
+# IDE files
+.idea/
