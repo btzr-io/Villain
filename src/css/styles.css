@@ -56,8 +56,7 @@
   border-radius: 0;
 }
 
-.villain--static .villain-canvas,
-.villain--static .villain-canvas--overlay {
+.villain--static .villain-canvas {
   bottom: var(--toolbar-height);
 }
 
@@ -128,6 +127,21 @@
   opacity: 0.8;
   font-size: 14px;
   padding: 0 2px;
+  font-weight: bold;
+}
+
+.villain-toolbar .wrapselect-container {
+  display: flex;
+  align-items: center;
+}
+
+.villain-toolbar select {
+  background: var(--input-bg);
+  border: 2px solid var(--input-border);
+  color: var(--fg-color);
+  margin: 0 6px;
+  border-radius: 4px;
+  font-size: 14px;
   font-weight: bold;
 }
 
@@ -252,12 +266,6 @@
   background: var(--button-active-bg);
 }
 
-.villain .button-toggler {
-  padding: 4px;
-  background: transparent;
-  width: 140px;
-}
-
 .villain button[disabled] {
   opacity: 0.64;
   cursor: default;
@@ -286,7 +294,7 @@
   transform: translate(-50%, -100%);
 }
 
-.villain-toolbar .tooltip .tooltiptext::after {
+.villain-toolbar .tooltip .tooltip-text::after {
   content: '';
   position: absolute;
   top: 100%;
@@ -309,8 +317,7 @@
   z-index: 99;
 }
 
-.villain-canvas,
-.villain-canvas--overlay {
+.villain-canvas {
   width: 100%;
   position: absolute;
   top: 0;
@@ -319,10 +326,6 @@
   bottom: 0;
   margin: 0;
   z-index: 0;
-}
-
-.villain-canvas--overlay {
-  background: var(--bg-color);
 }
 
 .openseadragon-message {
@@ -342,6 +345,10 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.villain-overlay--message {
+  margin: 1em;
 }
 
 .villain-loader-indicator,

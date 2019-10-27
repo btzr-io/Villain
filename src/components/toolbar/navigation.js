@@ -1,111 +1,98 @@
-import React, { Component } from 'react'
+import React, { Component, useState, useContext, useEffect } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 import Localize from '@/localize'
 
-class Navigation extends Component {
-  static contextType = ReaderContext
+const Navigation = () => {
+  const context = useContext(ReaderContext)
+  const { totalPages, isFirstPage, isLastPage, mangaMode, currentPage } = context.state
+  const { navigateForward, navigateBackward, navigateToPage } = context
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: this.props.currentPage || 1,
-    }
+  const [state, setState] = useState({ value: currentPage || 1 })
+
+  useEffect(() => {
+    resetInput()
+  }, [currentPage])
+
+  const resetInput = () => {
+    setState({ value: currentPage + 1 })
   }
 
-  resetInput = () => {
-    const { currentPage } = this.context.state
-    this.setState({ value: currentPage + 1 })
-  }
-
-  triggerNavigation = () => {
-    const { value } = this.state
-    const { totalPages } = this.context.state
+  const triggerNavigation = () => {
+    const { value } = state
 
     if (value) {
       const num = parseInt(value, 10)
       if (num <= totalPages && num > 0) {
         // Valid index
-        this.context.navigateToPage(num - 1)
+        navigateToPage(num - 1)
       } else {
         // Reset input
-        this.resetInput()
+        resetInput()
       }
     } else {
       // Reset input
-      this.resetInput()
+      resetInput()
     }
   }
 
-  handlePageNumber = event => {
+  const handlePageNumber = event => {
     const { value } = event.target
-    const { currentPage } = this.context.state
     const format = value.replace(/\..*|^0+/gm, '')
+
     if (format.length < 5) {
-      this.setState({ value: value ? format : currentPage + 1 })
+      setState({ value: value ? format : currentPage + 1 })
     }
   }
 
-  handleBlur = () => {
-    this.triggerNavigation()
+  const handleBlur = () => {
+    triggerNavigation()
   }
 
-  handleKeyPress = e => {
+  const handleKeyPress = e => {
     if (e.key === 'Enter') {
-      this.triggerNavigation()
+      triggerNavigation()
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { currentPage } = this.props
-    if (currentPage !== prevProps.currentPage) {
-      this.resetInput()
-    }
-  }
+  return (
+    <div className={'villain-toolbar-group'}>
+      <Button
+        type={'icon'}
+        tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
+        tooltipClass="left-edge"
+        onClick={mangaMode ? navigateForward : navigateBackward}
+        disabled={mangaMode ? isLastPage : isFirstPage}
+        icon={mdiChevronLeft}
+      />
+      <Button
+        type={'icon'}
+        tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
+        onClick={mangaMode ? navigateBackward : navigateForward}
+        disabled={mangaMode ? isFirstPage : isLastPage}
+        icon={mdiChevronRight}
+      />
 
-  render() {
-    const { totalPages, isFirstPage, isLastPage, mangaMode } = this.context.state
-    const { navigateForward, navigateBackward } = this.context
-
-    return (
-      <div className={'villain-toolbar-group'}>
-        <Button
-          type={'icon'}
-          tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
-          tooltipClass="left-edge"
-          onClick={mangaMode ? navigateForward : navigateBackward}
-          disabled={mangaMode ? isLastPage : isFirstPage}
-          icon={mdiChevronLeft}
-        />
-        <Button
-          type={'icon'}
-          tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
-          onClick={mangaMode ? navigateBackward : navigateForward}
-          disabled={mangaMode ? isFirstPage : isLastPage}
-          icon={mdiChevronRight}
-        />
-
-        <input
-          min={1}
-          step={1}
-          max={totalPages}
-          type="number"
-          aria-label="Go to page number"
-          role="textbox"
-          contentEditable="true"
-          title="Page"
-          pattern={'d+'}
-          className={'villain-input'}
-          onBlur={this.handleBlur}
-          onChange={this.handlePageNumber}
-          onKeyPress={this.handleKeyPress}
-          value={this.state.value}
-        />
-        <div className={'villain-label'}>{` of ${totalPages}`}</div>
-      </div>
-    )
-  }
+      <input
+        min={1}
+        step={1}
+        max={totalPages}
+        type="number"
+        aria-label="Go to page number"
+        role="textbox"
+        contentEditable="true"
+        title="Page"
+        pattern={'d+'}
+        className={'villain-input'}
+        onBlur={handleBlur}
+        onChange={handlePageNumber}
+        onKeyPress={handleKeyPress}
+        value={state.value}
+      />
+      <div className={'villain-label'}>{` of ${totalPages}`}</div>
+    </div>
+  )
 }
 
 export default Navigation

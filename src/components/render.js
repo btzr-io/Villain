@@ -14,6 +14,9 @@ import {
   toggleFullscreen,
 } from '@/lib/full-screen'
 
+// Icons
+import { mdiImageBrokenVariant } from '@mdi/js'
+
 class CanvasRender extends Component {
   static defaultProps = {
     initialPage: 0,
@@ -318,6 +321,7 @@ class CanvasRender extends Component {
     const {
       hover,
       focus,
+      theme,
       currentPage,
       bookMode,
       autoHideControls,
@@ -341,13 +345,18 @@ class CanvasRender extends Component {
     }
 
     // Handle toolbar visibility
-    if (autoHideControls !== this.props.autoHideControls) {
-      if (!autoHideControls) {
-        this.context.updateState({ showControls: true })
+    if (autoHideControls !== prevProps.autoHideControls) {
+      this.context.updateState({ showControls: !autoHideControls, autoHideControls })
+    }
+
+    // Handle theme changed
+    if (theme !== prevProps.theme) {
+      if (theme) {
+        this.context.updateState({ theme })
       }
     }
 
-    if (autoHideControls) {
+    if (this.context.state.autoHideControls) {
       if (focus !== prevProps.focus) {
         this.context.updateState({ showControls: focus })
       } else if (hover !== prevProps.hover) {
@@ -355,8 +364,9 @@ class CanvasRender extends Component {
       }
     }
 
+    // re-render page when mangaMode is changed
     if (mangaMode !== prevProps.mangaMode) {
-      this.context.updateState({ mangaMode })
+      this.context.updateState({ mangaMode }, () => this.renderPage(currentPage))
     }
   }
 
@@ -374,7 +384,9 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        {renderError && <RenderError message={Localize['Invalid image']} />}
+        {renderError && (
+          <RenderError message={Localize['Invalid image']} icon={mdiImageBrokenVariant} />
+        )}
       </React.Fragment>
     )
   }

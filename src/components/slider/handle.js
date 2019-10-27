@@ -77,8 +77,4 @@ Handle.propTypes = {
   disabled: PropTypes.bool,
 }
 
-Handle.defaultProps = {
-  disabled: false,
-}
-
-export default Handle
+export default React.memo(Handle)

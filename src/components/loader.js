@@ -1,18 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class Loader extends Component {
-  constructor(props) {
-    super(props)
-  }
+const Loader = ({ id }) => (
+  <div className="villain-overlay" id={id}>
+    <div className="villain-loader-indicator" />
+  </div>
+)
 
-  render() {
-    const { id } = this.props
-    return (
-      <div className={'villain-overlay'}>
-        <div className={'villain-loader-indicator'} />
-      </div>
-    )
-  }
-}
-
-export default Loader
+export default React.memo(Loader)

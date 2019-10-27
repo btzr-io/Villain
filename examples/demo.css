@@ -1,19 +1,24 @@
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
 }
 
-body, h1, h2, h3 {
-    margin: 0;
+body,
+h1,
+h2,
+h3 {
+  margin: 0;
 }
 
-body, #app, .villain-demo {
-    display:  flex;
-    flex: 1;
+body,
+#app,
+.villain-demo {
+  display: flex;
+  flex: 1;
 }
-
 
 .villain {
   position: absolute;
@@ -23,9 +28,10 @@ body, #app, .villain-demo {
   bottom: 0;
   margin: auto;
   height: 80% !important;
-  width: 80%!important;
+  width: 80% !important;
   min-width: 400px;
   min-height: 400px;
+  box-shadow: 0 1px 16px rgba(0, 0, 0, 0.12);
 }
 
 .villain-demo label {
@@ -33,74 +39,150 @@ body, #app, .villain-demo {
   align-content: center;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 0.8rem 0;
+  padding: 0.8rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.villain-demo label span{
+.villain-demo label span {
   color: #3c3c3c;
 }
 
 .villain-demo aside {
-    display: flex;
-    flex-direction: column;
-    max-width: 320px;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 24px;
+  border-radius: 8px;
+  overflow: auto;
+  box-shadow: 0 1px 16px rgba(0, 0, 0, 0.12);
 }
 
 .villain-demo header {
-    display: flex;
-    height: 36px;
-    padding: 4px 6px 8px 6px;
-    background: #ff5c65;
-    box-shadow: 0 -1px 1px #ff5c65;
-    color: #ffef7f;
-    font-size: 0.9em;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  height: 36px;
+  padding: 8px;
+  background: #ff5c65;
+  box-shadow: 0 -1px 1px #ff5c65;
+  color: #ffef7f;
+  font-size: 0.9em;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .villain-demo .form {
-    flex: 1;
-    box-shadow: 0 0 1px #d1d5da;
-    padding: 16px;
-    overflow-y: auto;
+  flex: 1;
+  box-shadow: 0 0 1px #d1d5da;
+  padding: 16px;
+  overflow-y: auto;
 }
 
 .villain-demo header img {
-    height: 100%;
+  height: 90%;
+  margin: 8px;
 }
 
 .villain-demo header span {
-    font-weight: bold;
-    text-align: center;
-    font-family: "Lucida Console", Monaco, monospace;
-    background: transparent;
-    border: 2px solid  #ffef7f;
-    padding: 2px 8px;
-    display: inline-block;
-    margin: 4px;
-    border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Lucida Console', Monaco, monospace;
+  background: transparent;
+  border: 2px solid #ffef7f;
+  padding: 2px 8px;
+  display: inline-block;
+  margin: 8px;
+  border-radius: 4px;
 }
 
-
-.villain-demo .field input, .villain-demo .field select{
-    color: #3c3c3c;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    background: #fff;
-    padding: 2px 6px;
-    max-width: 50%;
+.villain-demo .field input {
+  color: #3c3c3c;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: #fff;
+  padding: 2px 6px;
+  max-width: 50%;
 }
 
-.villain-demo .field input[type=checkbox] {
-    transform: scale(1.25);
+.villain-demo .field input[type='checkbox'] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.villain-demo .field select {
+  padding: 0.5em 3em 0.5em 0.5em;
+  /* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
+  border: 1px solid #c7c7c7;
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #676767;
+  outline: none;
+  display: inline-block;
+  transition: all 0.3s ease-in-out;
+}
+
+.villain-demo .field select::-ms-expand {
+  display: none;
+}
+.villain-demo .field select:focus {
+  border-color: #569aff;
+  box-shadow: inset 0 0 4px #569aff;
+}
+.villain-demo .field select:hover {
+  border-color: #888888;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .villain-demo .field select {
+    padding-right: 3em;
+  }
 }
 
 .villain-demo .instance {
-    align-self: center;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    position: relative;
+  align-self: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.villain-demo .field .custom-checkbox-input {
+  opacity: 1;
+  position: relative;
+}
+
+.villain-demo .field .custom-checkbox-input::before {
+  content: '';
+  position: absolute;
+  background: #fff;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  display: block;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 0.24);
+  border-radius: 0.3rem;
+}
+
+.villain-demo .field .custom-checkbox-input:checked::before {
+  background: #ff5c65;
+}
+
+.villain-demo .field .custom-checkbox-input::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 15%;
+  bottom: -50%;
+  width: 4px;
+  height: 8px;
+  transform: translate(-50%, -50%);
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  cursor: pointer;
+}
+
+.villain-demo .field .custom-checkbox-input:checked::after {
+  display: block;
 }
