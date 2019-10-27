@@ -59,7 +59,7 @@ class SliderRail extends Component {
             style={{
               left: `${percent}%`,
               position: 'absolute',
-              transform: 'translate(4px, -11px)',
+              transform: 'translate(4px, -33px)',
             }}
           >
             <Tooltip value={value} />

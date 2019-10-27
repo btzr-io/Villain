@@ -54,7 +54,7 @@ class Handle extends Component {
           <div
             style={{
               position: 'absolute',
-              transform: 'translate(0px, -14px)',
+              transform: 'translate(0, -36px)',
             }}
           >
             <Tooltip value={value} />

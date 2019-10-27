@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Tooltip = ({ value = null }) => (
   <div className="tooltip">
-    <span className="tooltiptext">Value: {value}</span>
+    <span className="tooltiptext">{value}</span>
   </div>
 )
 
