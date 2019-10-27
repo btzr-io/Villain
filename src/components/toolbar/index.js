@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import Button from './button'
 import WrapSelect from './select'
@@ -183,7 +183,7 @@ const Toolbar = ({
           />
         )}
 
-          {/*
+        {/*
             Move this component to menu!
           <WrapSelect
             inputId="langSelector"
