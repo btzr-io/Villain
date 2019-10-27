@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'

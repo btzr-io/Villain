@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Tooltip from './tooltip'
 
 const railStyle = {
   position: 'absolute',
@@ -8,7 +7,6 @@ const railStyle = {
   width: '100%',
   height: '100%',
   cursor: 'pointer',
-  zIndex: 300,
   borderRadius: '4px',
   backgroundColor: 'var(--slider-bg)',
   zIndex: -1,
