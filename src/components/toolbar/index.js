@@ -8,8 +8,11 @@ import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
 import Localize from '@/localize'
 
+import ToolbarMenu from '@/components/menu'
+
 import {
   mdiPin,
+  mdiSettings,
   mdiBookOpen,
   mdiFullscreen,
   mdiWeatherNight,
@@ -181,6 +184,9 @@ class Toolbar extends Component {
             disabled={renderError}
             tooltip={Localize['Pin controls']}
           />
+
+          <ToolbarMenu />
+
           <Button
             type={'icon'}
             tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
@@ -188,13 +194,15 @@ class Toolbar extends Component {
             disabled={renderError}
             {...layoutProps}
           />
+          {/*
           <Button
             type={'icon'}
             tooltip={theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']}
             onClick={toggleTheme}
             disabled={renderError}
             {...themeProps}
-          />
+          />  */}
+
           {allowFullScreen && (
             <Button
               type={'icon'}
@@ -207,6 +215,7 @@ class Toolbar extends Component {
               disabled={renderError}
             />
           )}
+
           {/*
             Move this component to menu!
           <WrapSelect
