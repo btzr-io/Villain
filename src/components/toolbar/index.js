@@ -8,8 +8,11 @@ import Slider from '@/components/slider'
 import { ReaderContext } from '@/context'
 import Localize from '@/localize'
 
+import ToolbarMenu from '@/components/menu'
+
 import {
   mdiPin,
+  mdiSettings,
   mdiBookOpen,
   mdiFullscreen,
   mdiWeatherNight,
@@ -152,6 +155,7 @@ const Toolbar = ({
           disabled={renderError}
           tooltip={Localize['Pin controls']}
         />
+        <ToolbarMenu />
         <Button
           type={'icon'}
           tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
@@ -178,7 +182,8 @@ const Toolbar = ({
             disabled={renderError}
           />
         )}
-        {/*
+
+          {/*
             Move this component to menu!
           <WrapSelect
             inputId="langSelector"

@@ -57,6 +57,7 @@
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0;
+  font-size: 14px;
 }
 
 .villain--static .villain-canvas {
@@ -65,6 +66,18 @@
 
 .villain .villain-icon {
   fill: var(--icon-color);
+}
+
+.menu {
+  background: var(--toolbar-bg);
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 4px;
+}
+
+.menu-item {
+  padding: 4px;
+  margin: 4px;
 }
 
 /* Slider */
@@ -104,7 +117,7 @@
   -moz-appearance: textfield;
   text-align: right;
   max-width: 38px;
-  font-size: 16px;
+  font-size: 14px;
   font-family: var(--font-fami]y);
   font-weight: 700;
   background: var(--input-bg);
@@ -127,7 +140,7 @@
 .villain-label {
   margin: 0 6px;
   opacity: 0.8;
-  font-size: 16px;
+  font-size: 14px;
   padding: 0 2px;
   font-weight: 700;
 }
@@ -356,13 +369,13 @@
 .wrapper-input {
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: baseline;
   align-self: center;
   flex-grow: 0;
-  min-width: 58px;
+  min-width: 52px;
   background: var(--input-bg);
   border: 2px solid var(--input-border);
-  padding: 1px 4px;
+  padding: 2px 4px;
   color: var(--fg-color);
   margin: 0 6px;
   border-radius: 4px;
