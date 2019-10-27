@@ -53,19 +53,7 @@ class SliderRail extends Component {
           onMouseEnter: this.onMouseEnter,
           onMouseLeave: this.onMouseLeave,
         })}
-      >
-        {!activeHandleID && value ? (
-          <div
-            style={{
-              left: `${percent}%`,
-              position: 'absolute',
-              transform: 'translate(4px, -33px)',
-            }}
-          >
-            <Tooltip value={value} />
-          </div>
-        ) : null}
-      </div>
+      />
     )
   }
 }

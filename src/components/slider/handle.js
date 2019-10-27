@@ -41,7 +41,6 @@ class Handle extends Component {
           WebkitTapHighlightColor: 'rgba(0,0,0,0)',
           border: 0,
           borderRadius: '50%',
-          boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.2)',
           backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
           zIndex: 1,
         }}
@@ -50,16 +49,7 @@ class Handle extends Component {
           onMouseLeave: this.onMouseLeave,
         })}
       >
-        {(mouseOver || isActive) && !disabled ? (
-          <div
-            style={{
-              position: 'absolute',
-              transform: 'translate(0, -36px)',
-            }}
-          >
-            <Tooltip value={value} />
-          </div>
-        ) : null}
+        {(mouseOver || isActive) && !disabled ? <Tooltip value={value} /> : null}
       </button>
     )
   }
