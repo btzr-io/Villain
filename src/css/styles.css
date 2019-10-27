@@ -277,27 +277,24 @@
 /* slider tooltip */
 
 .villain-toolbar .tooltip {
-  position: relative;
+  position: absolute;
   display: inline-block;
   border-bottom: 0;
-  margin-bottom: 100px;
-  margin-left: 22px;
 }
 
-.villain-toolbar .tooltip .tooltip-text {
-  min-width: 3rem;
+.villain-toolbar .tooltip .tooltiptext {
+  min-width: 80px;
   background-color: var(--tooltip-bg);
   color: var(--tooltip-fg);
   text-align: center;
-  font-size: 0.9em;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
   font-weight: bold;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 5px 10px;
   position: absolute;
   z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -2rem;
+  transform: translate(-50%, -100%);
 }
 
 .villain-toolbar .tooltip .tooltip-text::after {
