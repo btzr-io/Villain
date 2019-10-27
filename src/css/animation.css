@@ -8,6 +8,7 @@
         transform: rotate(360deg);
     }
 }
+
 @keyframes load {
     0% {
         -webkit-transform: rotate(0deg);

@@ -17,9 +17,11 @@
 .tooltip-con.top-edge {
     bottom: -220%;
 }
+
 .tooltip-con.right-edge {
     left: 0;
 }
+
 .tooltip-con.left-edge {
     left: 100%;
 }
