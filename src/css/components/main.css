@@ -1,10 +1,12 @@
 .villain {
+  --font-family: Helvetica. Arial, sans-serif;
+
   position: relative;
   background-color: var(--bg-color);
   color: var(--fg-color);
-  font-family: Arial, sans-serif;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: var(--font-family);
 }
 
 .villain--static .villain-toolbar {
@@ -12,15 +14,13 @@
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0;
+  font-size: 14px;
 }
 
-.villain--static .villain-canvas,
-.villain--static .villain-canvas--overlay {
+.villain--static .villain-canvas {
   bottom: var(--toolbar-height);
 }
 
 .villain .villain-icon {
   fill: var(--icon-color);
 }
-
-
