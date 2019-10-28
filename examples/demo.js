@@ -61,9 +61,9 @@ class Demo extends Component {
 
   render() {
     const options = { workerUrl: '/build/worker-bundle.js', ...this.optionsToProps() }
-    
+
     return (
-      <div className="villain-demo" data-theme={options.theme}
+      <div className="villain-demo" data-theme={options.theme}>
         <aside>
           <header>
             <img src="./logo.png" alt="logo" />
