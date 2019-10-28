@@ -1,5 +1,5 @@
 .villain.Dark {
-  --bg-color: #121212;
+  --bg-color: #131313;
   --fg-color: #fff;
   --icon-color: var(--fg-color);
   --slider-bg: rgba(255, 255, 255, 0.1);
@@ -12,7 +12,7 @@
   --button-bg: rgba(255, 255, 255, 0.1);
   --button-active-bg: rgba(255, 255, 255, 0.15);
   --button-hover-bg: var(--button-active-bg);
-  --toolbar-bg: #212121;
+  --toolbar-bg: #282828;
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;

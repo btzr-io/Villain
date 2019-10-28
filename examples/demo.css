@@ -44,18 +44,18 @@ body,
 }
 
 .villain-demo label span {
-  color: #3c3c3c;
+  opacity: 0.72;
 }
 
 .villain-demo aside {
   display: flex;
   flex-direction: column;
   min-width: 320px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  margin: 24px;
-  border-radius: 8px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0;
   overflow: auto;
   box-shadow: 0 1px 16px rgba(0, 0, 0, 0.12);
+  background-color: var(--card-bg);
 }
 
 .villain-demo header {
@@ -63,7 +63,6 @@ body,
   height: 36px;
   padding: 8px;
   background: #ff5c65;
-  box-shadow: 0 -1px 1px #ff5c65;
   color: #ffef7f;
   font-size: 0.9em;
   justify-content: space-between;
@@ -92,12 +91,13 @@ body,
   display: inline-block;
   margin: 8px;
   border-radius: 4px;
+  color: #ffef7f;
 }
 
 .villain-demo .field input {
-  color: #3c3c3c;
+  color: var(--primary-text);
   border: 1px solid rgba(0, 0, 0, 0.2);
-  background: #fff;
+  background: var(--card-bg);
   padding: 2px 6px;
   max-width: 50%;
 }
@@ -110,24 +110,15 @@ body,
 .villain-demo .field select {
   padding: 0.5em 3em 0.5em 0.5em;
   /* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
-  border: 1px solid #c7c7c7;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #676767;
-  outline: none;
+  background-color: var(--card-bg);
+  color: var(--primary-text);
   display: inline-block;
-  transition: all 0.3s ease-in-out;
 }
 
 .villain-demo .field select::-ms-expand {
   display: none;
-}
-.villain-demo .field select:focus {
-  border-color: #569aff;
-  box-shadow: inset 0 0 4px #569aff;
-}
-.villain-demo .field select:hover {
-  border-color: #888888;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -152,7 +143,7 @@ body,
 .villain-demo .field .custom-checkbox-input::before {
   content: '';
   position: absolute;
-  background: #fff;
+  background: var(--card-bg);
   left: 50%;
   top: 50%;
   width: 18px;
