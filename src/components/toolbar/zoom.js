@@ -22,6 +22,7 @@ const ZoomControls = ({ disabled, onUpdate }) => {
 
   // State
   const [zoom, setZoom] = useState('0')
+  const defaultMin = zoom
   const [focusState, setFocusState] = useState(false)
 
   // Ref
