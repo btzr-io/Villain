@@ -1,0 +1,47 @@
+.villain-toolbar .villain-input {
+    -moz-appearance: textfield;
+    text-align: right;
+    width: 52px;
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    padding: 2px 6px;
+    color: var(--fg-color);
+    margin: 0 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.villain-toolbar .villain-input:focus {
+    background: var(--input-focus-bg);
+    border-color: var(--input-border-focus);
+}
+
+.villain-toolbar input[type='number']::-webkit-inner-spin-button,
+.villain-toolbar input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.villain-label {
+    margin: 0 6px;
+    opacity: 0.8;
+    font-size: 14px;
+    padding: 0 2px;
+    font-weight: bold;
+}
+
+.villain-toolbar .wrapselect-container {
+    display: flex;
+    align-items: center;
+}
+
+.villain-toolbar select {
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    color: var(--fg-color);
+    margin: 0 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
