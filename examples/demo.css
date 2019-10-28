@@ -63,39 +63,10 @@ body,
   background-color: var(--card-bg);
 }
 
-.villain-demo header {
-  display: flex;
-  height: 36px;
-  padding: 8px;
-  background: #ff5c65;
-  color: #ffef7f;
-  font-size: 0.9em;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .villain-demo .form {
   flex: 1;
   padding: 16px;
   overflow-y: auto;
-}
-
-.villain-demo header img {
-  height: 90%;
-  margin: 8px;
-}
-
-.villain-demo header span {
-  font-weight: bold;
-  text-align: center;
-  font-family: 'Lucida Console', Monaco, monospace;
-  background: transparent;
-  border: 2px solid #ffef7f;
-  padding: 2px 8px;
-  display: inline-block;
-  margin: 8px;
-  border-radius: 4px;
-  color: #ffef7f;
 }
 
 .villain-demo .field input {
