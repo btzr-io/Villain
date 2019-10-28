@@ -5,7 +5,14 @@ import {
   TooltipReference,
 } from 'reakit/Tooltip'
 
-const Tooltip = ({ text, children, overrideClass = '', style, ...props }) => {
+const Tooltip = ({
+  text,
+  children,
+  overrideClass = '',
+  style,
+  isVisible = false,
+  ...props
+}) => {
   const tooltip = useTooltipState()
   return (
     <>
@@ -14,7 +21,13 @@ const Tooltip = ({ text, children, overrideClass = '', style, ...props }) => {
           React.cloneElement(React.Children.only(children), referenceProps)
         }
       </TooltipReference>
-      <ReakitTooltip {...tooltip} {...props} style={style} className={`tooltip`}>
+      <ReakitTooltip
+        {...tooltip}
+        {...props}
+        visible={isVisible}
+        style={style}
+        className={`tooltip-villain ${overrideClass}`}
+      >
         {text}
       </ReakitTooltip>
     </>

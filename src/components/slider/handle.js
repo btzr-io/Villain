@@ -40,7 +40,11 @@ class Handle extends Component {
     const { mouseOver } = this.state
 
     return (
-      <Tooltip text={value} style={{ fontWeigth: 700, fontSize: '14px' }}>
+      <Tooltip
+        text={value}
+        style={{ fontWeigth: 700, fontSize: '14px' }}
+        isVisible={(mouseOver || isActive) && !disabled}
+      >
         <button
           role="slider"
           aria-valuemin={min}
