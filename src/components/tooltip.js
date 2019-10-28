@@ -1,47 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import {
+  useTooltipState,
+  Tooltip as ReakitTooltip,
+  TooltipReference,
+} from 'reakit/Tooltip'
 
-const Tooltip = ({ text, overrideClass = '', children, style }) => {
-  const [hover, setHover] = useState(false)
-  let clearDelay = null
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
-  const onMouseEnter = () => {
-    clearTimeout(clearDelay)
-
-    clearDelay = setTimeout(() => {
-      setHover(true)
-    }, 600)
-  }
-
-  const onMouseLeave = () => {
-    clearTimeout(clearDelay)
-    setHover(false)
-  }
-
-  const handleKeyDown = () => {
-    clearTimeout(clearDelay)
-    setHover(false)
-  }
-
+const Tooltip = ({ text, children, overrideClass = '', style, ...props }) => {
+  const tooltip = useTooltipState()
   return (
-    <div style={{ position: 'relative', ...style }}>
-      <div
-        className={`tooltip-con ${overrideClass}`}
-        style={{ display: hover ? 'block' : 'none' }}
-      >
-        <span className="tooltip-text">{text}</span>
-      </div>
-      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-        {children}
-      </div>
-    </div>
+    <>
+      <TooltipReference {...tooltip}>
+        {referenceProps =>
+          React.cloneElement(React.Children.only(children), referenceProps)
+        }
+      </TooltipReference>
+      <ReakitTooltip {...tooltip} {...props} style={style} className={`tooltip`}>
+        {text}
+      </ReakitTooltip>
+    </>
   )
 }
 
