@@ -19,10 +19,12 @@ All notable changes to this project will be documented in this file. The format 
 - Slider component skipped key tab [(#40)](https://github.com/btzr-io/Villain/issues/40)
 - Improve image type validation [(#50)](https://github.com/btzr-io/Villain/issues/50)
 - Unified tooltip [(#93)](https://github.com/btzr-io/Villain/issues/93)
+- Tooltip hide / show fails [(#165)](https://github.com/btzr-io/Villain/issues/164)
 
 ### Changed
 
 - Renamed workerPath option to workerUrl [(#55)](https://github.com/btzr-io/Villain/issues/55)
+- Refactored Tooltip component with ReaKit [(#185)](https://github.com/btzr-io/Villain/pull/185)
 
 ## [0.0.9] - [2019-10-15]
 
