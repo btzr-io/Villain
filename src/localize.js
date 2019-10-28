@@ -6,6 +6,7 @@ import ES from '@/locales/messages.es.json'
 import FR from '@/locales/messages.fr.json'
 import PT from '@/locales/messages.pt.json'
 import RU from '@/locales/messages.ru.json'
+import MY from '@/locales/messages.my.json'
 
 const localize = new LocalizedStrings({
   EN,
@@ -14,6 +15,7 @@ const localize = new LocalizedStrings({
   FR,
   PT,
   RU,
+  MY,
 })
 
 export default localize
