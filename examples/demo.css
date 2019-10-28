@@ -36,6 +36,7 @@ body,
   min-width: 400px;
   min-height: 400px;
   box-shadow: 0 1px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
 }
 
 .villain-demo label {
@@ -43,7 +44,7 @@ body,
   align-content: center;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem;
+  padding: 1rem;
   border-bottom: 1px solid var(--input-border);
 }
 
