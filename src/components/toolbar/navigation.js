@@ -82,7 +82,6 @@ const Navigation = () => {
       <Button
         type={'icon'}
         tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
-        tooltipClass="left-edge"
         onClick={mangaMode ? navigateForward : navigateBackward}
         disabled={mangaMode ? isLastPage : isFirstPage}
         icon={mdiChevronLeft}

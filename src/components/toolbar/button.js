@@ -1,43 +1,33 @@
 import React from 'react'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
-import Tooltip from '@/components/tooltip'
+import { Button } from "reakit/Button";
 
-const Button = ({
-  type,
-  onClick,
+const ToolbarButton = ({
   icon,
+  type,
   label,
   title,
-  disabled,
   active,
   tooltip,
-  tooltipClass,
-  ariaLabel,
+  onClick,
   children,
+  disabled,
+  ...otherProps
 }) => {
-  const button = (
-    <button
-      role="button"
-      aria-label={ariaLabel || title || tooltip}
-      title={title}
+  return (
+    <Button
+      title={tooltip || title}
       onClick={onClick}
       disabled={disabled}
       className={clsx('button', type && `button-${type}`, active && 'button--active')}
+      {...otherProps}
     >
       {icon && <Icon path={icon} size={'26px'} className={'villain-icon'} />}
       {label && <span className={'villain-label'}>{label}</span>}
       {children && <span className={'villain-label'}>{children}</span>}
-    </button>
-  )
-
-  return tooltip ? (
-    <Tooltip text={tooltip} overrideClass={tooltipClass}>
-      {button}
-    </Tooltip>
-  ) : (
-    button
+    </Button>
   )
 }
 
-export default React.memo(Button)
+export default React.memo(ToolbarButton)
