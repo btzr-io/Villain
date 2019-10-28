@@ -1,5 +1,5 @@
 <h1 align=center>
- <img align=center width="40%" src="https://user-images.githubusercontent.com/14793624/59959492-854cd400-9475-11e9-9149-4d21baa5591c.png" />
+ <img align=center width="40%" src="https://gist.githubusercontent.com/jkvyff/759663b953cbe0af4c7a85b681600439/raw/2d07b77a9d7a6f9ce4c8406d703d4c042dcee28b/Villain-logo.svg?sanitize=true" />
 </h1>
 
 <h2 align=center>
