@@ -3,7 +3,6 @@ import clsx from 'clsx'
 import Villain from '@/index.js'
 import { version } from '../package.json'
 import './demo.css'
-import ToggleThemeButton from './ToggleThemeButton'
 
 class Demo extends Component {
   state = {
@@ -16,21 +15,10 @@ class Demo extends Component {
       autoHideControls: false,
       allowGlobalShortcuts: false,
     },
-    theme: 'light',
   }
 
   constructor(props) {
     super(props)
-  }
-
-  toggleTheme = () => {
-    const theme = this.state.theme === 'light' ? 'dark' : 'light'
-    document.documentElement.classList.add('color-theme-in-transition')
-    this.setState({ theme })
-    document.documentElement.setAttribute('data-theme', theme)
-    window.setTimeout(() => {
-      document.documentElement.classList.remove('color-theme-in-transition')
-    }, 300)
   }
 
   handleChange = ({ target }) => {
@@ -73,8 +61,9 @@ class Demo extends Component {
 
   render() {
     const options = { workerUrl: '/build/worker-bundle.js', ...this.optionsToProps() }
+    
     return (
-      <div className="villain-demo">
+      <div className="villain-demo" data-theme={options.theme}
         <aside>
           <header>
             <img src="./logo.png" alt="logo" />
@@ -89,7 +78,6 @@ class Demo extends Component {
         <div className="instance">
           <Villain file={this.state.file} options={options} />
         </div>
-        <ToggleThemeButton toggleTheme={this.toggleTheme} />
       </div>
     )
   }

@@ -1,18 +1,18 @@
 .villain.Dark {
-  --bg-color: #0c0d11;
-  --fg-color: #FFF;
+  --bg-color: #121212;
+  --fg-color: #fff;
   --icon-color: var(--fg-color);
   --slider-bg: rgba(255, 255, 255, 0.1);
   --slider-track-bg: #fff;
   --slider-buffer-bg: rgba(255, 255, 255, 0.4);
   --input-border-focus: rgba(255, 255, 255, 0.4);
-  --input-bg: rgba(0, 0, 0, 0.32);
+  --input-bg: rgba(0, 0, 0, 0.24);
   --input-border: rgba(0, 0, 0, 0.24);
   --input-focus-bg: rgba(225, 225, 225, 0.15);
   --button-bg: rgba(255, 255, 255, 0.1);
   --button-active-bg: rgba(255, 255, 255, 0.15);
   --button-hover-bg: var(--button-active-bg);
-  --toolbar-bg: #1f212b;
+  --toolbar-bg: #212121;
   --toolbar-border: rgba(255, 255, 255, 0.2);
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;
@@ -41,12 +41,15 @@
 }
 
 .villain {
+  --font-family: Helvetica. Arial, sans-serif;
+
   position: relative;
   background-color: var(--bg-color);
   color: var(--fg-color);
-  font-family: Arial, sans-serif;
+  font-family: sans-serif;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: var(--font-family);
 }
 
 .villain--static .villain-toolbar {
@@ -54,15 +57,27 @@
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0;
+  font-size: 14px;
 }
 
-.villain--static .villain-canvas,
-.villain--static .villain-canvas--overlay {
+.villain--static .villain-canvas {
   bottom: var(--toolbar-height);
 }
 
 .villain .villain-icon {
   fill: var(--icon-color);
+}
+
+.menu {
+  background: var(--toolbar-bg);
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 4px;
+}
+
+.menu-item {
+  padding: 4px;
+  margin: 4px;
 }
 
 /* Slider */
@@ -101,20 +116,19 @@
 .villain-toolbar .villain-input {
   -moz-appearance: textfield;
   text-align: right;
-  width: 52px;
-  background: var(--input-bg);
-  border: 2px solid var(--input-border);
-  padding: 2px 6px;
-  color: var(--fg-color);
-  margin: 0 6px;
-  border-radius: 4px;
+  max-width: 38px;
   font-size: 14px;
-  font-weight: bold;
+  font-family: var(--font-fami]y);
+  font-weight: 700;
+  background: var(--input-bg);
+  border: 0;
+  color: var(--fg-color);
 }
 
 .villain-toolbar .villain-input:focus {
-  background: var(--input-focus-bg);
-  border-color: var(--input-border-focus);
+  background: transparent;
+  border-color: transparent;
+  outline: 0;
 }
 
 .villain-toolbar input[type='number']::-webkit-inner-spin-button,
@@ -128,7 +142,7 @@
   opacity: 0.8;
   font-size: 14px;
   padding: 0 2px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .villain-toolbar .wrapselect-container {
@@ -252,9 +266,12 @@
 }
 
 .villain .button-icon {
-  padding: 0.2rem 0.4rem;
+  padding: 0.3em;
   border-radius: 4px;
   background: transparent;
+  width: 32px;
+  height: 32px;
+  margin: 0px 6px;
 }
 
 .villain .button-icon:hover:not(:disabled):not(.button--active),
@@ -267,12 +284,6 @@
   background: var(--button-active-bg);
 }
 
-.villain .button-toggler {
-  padding: 4px;
-  background: transparent;
-  width: 140px;
-}
-
 .villain button[disabled] {
   opacity: 0.64;
   cursor: default;
@@ -281,38 +292,25 @@
 /* slider tooltip */
 
 .villain-toolbar .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 0;
-  margin-bottom: 100px;
-  margin-left: 22px;
+  position: absolute;
+  margin: auto;
+  bottom: 40px;
+  font-family: var(--font-family);
 }
 
 .villain-toolbar .tooltip .tooltiptext {
-  min-width: 3rem;
   background-color: var(--tooltip-bg);
   color: var(--tooltip-fg);
   text-align: center;
-  font-size: 0.9em;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 700;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 4px 8px;
   position: absolute;
+  display: inline-block;
   z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -2rem;
-}
-
-.villain-toolbar .tooltip .tooltiptext::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: var(--tooltip-bg) transparent transparent transparent;
+  line-height: 1;
+  transform: translate(-50%, -100%);
 }
 
 /* Layout */
@@ -327,8 +325,7 @@
   z-index: 99;
 }
 
-.villain-canvas,
-.villain-canvas--overlay {
+.villain-canvas {
   width: 100%;
   position: absolute;
   top: 0;
@@ -337,10 +334,6 @@
   bottom: 0;
   margin: 0;
   z-index: 0;
-}
-
-.villain-canvas--overlay {
-  background: var(--bg-color);
 }
 
 .openseadragon-message {
@@ -371,6 +364,57 @@
   border-radius: 50%;
   width: 10em;
   height: 10em;
+}
+
+.wrapper-input {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  align-self: center;
+  flex-grow: 0;
+  min-width: 52px;
+  background: var(--input-bg);
+  border: 2px solid var(--input-border);
+  padding: 2px 4px;
+  color: var(--fg-color);
+  margin: 0 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.wrapper-input .villain-input {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  padding-right: 0;
+  border-radius: 0;
+  display: inline-block;
+  min-width: 0;
+  text-align: right;
+  flex: 1 1 0;
+}
+
+.wrapper-input .villain-label {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  display: inline-block;
+  min-width: 0;
+  width: 25%;
+  text-align: left;
+  flex: 1 1 0;
+}
+
+.wrapper-input[data-focus='true'] {
+  background: var(--input-focus-bg);
+  border-color: var(--input-border-focus);
+}
+
+.wrapper-input .villain-label--center {
+  text-align: center;
+  flex: 0.5;
 }
 
 .villain-loader-indicator {

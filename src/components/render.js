@@ -346,7 +346,7 @@ class CanvasRender extends Component {
 
     // Handle toolbar visibility
     if (autoHideControls !== prevProps.autoHideControls) {
-        this.context.updateState({ showControls: !autoHideControls, autoHideControls })
+      this.context.updateState({ showControls: !autoHideControls, autoHideControls })
     }
 
     // Handle theme changed
@@ -384,7 +384,9 @@ class CanvasRender extends Component {
           showControls={!autoHideControls || showControls}
         />
         <div id={id} className={'villain-canvas'} />
-        {renderError && <RenderError message={Localize['Invalid image']} icon={mdiImageBrokenVariant} />}
+        {renderError && (
+          <RenderError message={Localize['Invalid image']} icon={mdiImageBrokenVariant} />
+        )}
       </React.Fragment>
     )
   }
