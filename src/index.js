@@ -6,8 +6,8 @@ import Uncompress from '@/components/uncompress'
 import CanvasRender from '@/components/render'
 import { ReaderContext, ReaderProvider } from '@/context'
 
-// Css
-import 'src/css/styles.scss'
+// Styles
+import '@/css'
 
 const defaultOpts = {
   theme: 'Dark',

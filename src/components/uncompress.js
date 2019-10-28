@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
 import { asyncForEach, fetchArchive, isValidImageType } from '@/lib/utils'
