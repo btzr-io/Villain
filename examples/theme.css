@@ -1,0 +1,47 @@
+html.color-theme-in-transition,
+html.color-theme-in-transition *,
+html.color-theme-in-transition *:before,
+html.color-theme-in-transition *:after {
+  transition: all 750ms !important;
+  transition-delay: 0 !important;
+}
+
+html {
+  /* global colors */
+  --primaryTheme: #e52863;
+
+  --primaryBg: #fff;
+
+  --primaryText: #212121;
+  --secondaryText: #7b7b7b;
+
+  --primaryButtonText: #fff;
+
+  --primaryBorderBg: #efefef;
+
+  --activeSelectionBg: rgba(162, 162, 162, 0.1);
+
+  --primaryShadowBg: rgba(204, 204, 204, 0.7);
+}
+
+html[data-theme='dark'] {
+  /* global colors */
+  --primaryTheme: #e52863;
+  --primaryBg: #1a1a1d;
+  --primaryText: rgba(255, 255, 255, 0.8);
+  --secondaryText: white;
+  --primaryButtonText: #fff;
+  --primaryBorderBg: #292929;
+  --activeSelectionBg: rgba(0, 0, 0, 0.18);
+  --primaryShadowBg: rgba(8, 8, 8, 0.7);
+}
+
+body {
+  background: var(--primaryBg);
+  color: var(--primaryText);
+  font-weight: 400;
+}
+
+span {
+  color: var(--primaryText) !important;
+}
