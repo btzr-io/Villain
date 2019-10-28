@@ -63,12 +63,14 @@ const url = '/files/test.cbz'
 
 Available options to customize the reader component:
 
-| Name             | Type   | Default | Description                                         |
-| ---------------- | ------ | ------- | --------------------------------------------------- |
-| workerUrl        | string | null    | path to libarchive.js `worker-bundle`.              |
-| allowFullScreen  | bool   | true    | Show full screen button.                            |
-| autoHideControls | bool   | false   | Set inital auto hide state of toolbar.              |
-| preview          | number | null    | Load and render only the provided number of images. |
+| Name                 | Type   | Default  | Description                                                                    |
+| -------------------- | ------ | -------- | ------------------------------------------------------------------------------ |
+| theme                | string | `'Dark'` | Displayed theme `'Dark'` or `'Light'`.                                         |
+| preview              | number | null     | Load and render only the provided number of images.                            |
+| workerUrl            | string | null     | path to libarchive.js `worker-bundle`.                                         |
+| allowFullScreen      | bool   | true     | Show full screen button.                                                       |
+| autoHideControls     | bool   | false    | Set inital auto hide state of toolbar.                                         |
+| allowGlobalShortcuts | bool   | false    | Enables shortcuts: `f` for fullscreen, left and right arrow to navigate pages. |
 
 ## Development
 
