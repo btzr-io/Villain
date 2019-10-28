@@ -15,6 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/btzr-io/Villain.git"
   },
+  "files": ["dist/"],
   "keywords": [
     "react"
   ],
