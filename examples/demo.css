@@ -40,7 +40,7 @@ body,
   align-items: center;
   justify-content: space-between;
   padding: 0.8rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--input-border);
 }
 
 .villain-demo label span {
@@ -71,7 +71,6 @@ body,
 
 .villain-demo .form {
   flex: 1;
-  box-shadow: 0 0 1px #d1d5da;
   padding: 16px;
   overflow-y: auto;
 }
@@ -96,10 +95,11 @@ body,
 
 .villain-demo .field input {
   color: var(--primary-text);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: var(--card-bg);
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
   padding: 2px 6px;
   max-width: 50%;
+  padding: 0.25em 0.5em;
 }
 
 .villain-demo .field input[type='checkbox'] {
@@ -108,23 +108,17 @@ body,
 }
 
 .villain-demo .field select {
-  padding: 0.5em 3em 0.5em 0.5em;
+  padding: 0.25em 0.5em;
   /* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--input-border);
   border-radius: 0;
-  background-color: var(--card-bg);
+  background-color: var(--input-bg);
   color: var(--primary-text);
   display: inline-block;
 }
 
 .villain-demo .field select::-ms-expand {
   display: none;
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  .villain-demo .field select {
-    padding-right: 3em;
-  }
 }
 
 .villain-demo .instance {
@@ -138,12 +132,15 @@ body,
 .villain-demo .field .custom-checkbox-input {
   opacity: 1;
   position: relative;
+  background: transparent;
+  border: 0;
+  outline: 0;
 }
 
 .villain-demo .field .custom-checkbox-input::before {
   content: '';
   position: absolute;
-  background: var(--card-bg);
+  background: var(--input-bg);
   left: 50%;
   top: 50%;
   width: 18px;
@@ -151,7 +148,7 @@ body,
   display: block;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  border: 2px solid rgba(0, 0, 0, 0.24);
+  border: 2px solid var(--input-border);
   border-radius: 0.3rem;
 }
 
@@ -163,8 +160,8 @@ body,
   content: '';
   position: absolute;
   display: none;
-  left: 15%;
-  bottom: -50%;
+  left: 16%;
+  bottom: -20%;
   width: 4px;
   height: 8px;
   transform: translate(-50%, -50%);
