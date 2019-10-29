@@ -35,9 +35,7 @@ export class ReaderProvider extends Component {
   state = { ...defaultState, ...defaultSettings }
 
   updateState = (data, callback) => {
-    console.log(data, callback)
     this.setState(data, callback)
-    this.forceUpdate(callback)
   }
 
   clear = () => {
