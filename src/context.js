@@ -31,11 +31,13 @@ const defaultSettings = {
 }
 
 export class ReaderProvider extends Component {
-  //Define deafault state and  merge external values
-  state = { ...defaultState, ...defaultSettings, ...this.props.defaultState }
+  //Define default state and merge external values
+  state = { ...defaultState, ...defaultSettings }
 
   updateState = (data, callback) => {
+    console.log(data, callback)
     this.setState(data, callback)
+    this.forceUpdate(callback)
   }
 
   clear = () => {
