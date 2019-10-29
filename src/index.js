@@ -19,10 +19,6 @@ class Villain extends Component {
   render() {
     const { file, width, height, options } = this.props
 
-    // Merge default options
-
-    // Set default value in context state
-    // Nore: unsure about this, probably not a good idea, please fix it!
     const {
       allowFullScreen,
       allowGlobalShortcuts,
