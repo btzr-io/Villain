@@ -114,7 +114,6 @@ const Toolbar = ({
     setLang(target.value)
   }
 
-
   const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
 
   const progress = (pages.length / totalPages) * 100
@@ -151,25 +150,28 @@ const Toolbar = ({
         <ToolbarMenu />
         <Button
           type={'icon'}
-          icon={ bookMode ? mdiBookOpen : mdiBookOpenOutline}
-          tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
+          icon={bookMode ? mdiBookOpen : mdiBookOpenOutline}
           onClick={() => toggleSetting('bookMode')}
           disabled={renderError}
+          tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
         />
         <Button
           type={'icon'}
-          icon={ theme === 'Light' ? mdiWeatherNight : mdiWhiteBalanceSunny }
-          tooltip={theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']}
+          icon={theme === 'Light' ? mdiWeatherNight : mdiWhiteBalanceSunny}
           onClick={toggleTheme}
           disabled={renderError}
+          tooltip={theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']}
         />
         {allowFullScreen && (
           <Button
             type={'icon'}
             icon={fullScreenIcon}
-            tooltip={fullscreen ? Localize['Exit fullscreen'] : Localize['Enter fullscreen']}
             onClick={toggleFullscreen}
             disabled={renderError}
+            tooltip={
+              fullscreen ? Localize['Exit fullscreen'] : Localize['Enter fullscreen']
+            }
+            tooltipPlacement={'top-end'}
           />
         )}
 

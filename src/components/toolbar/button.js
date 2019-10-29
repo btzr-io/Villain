@@ -1,7 +1,8 @@
 import React from 'react'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
-import { Button } from "reakit/Button";
+import { Button } from 'reakit/Button'
+import Tooltip from '@/components/tooltip'
 
 const ToolbarButton = ({
   icon,
@@ -13,11 +14,12 @@ const ToolbarButton = ({
   onClick,
   children,
   disabled,
+  tooltipPlacement,
   ...otherProps
 }) => {
-  return (
+  const elem = (
     <Button
-      title={tooltip || title}
+      title={title}
       onClick={onClick}
       disabled={disabled}
       className={clsx('button', type && `button-${type}`, active && 'button--active')}
@@ -28,6 +30,14 @@ const ToolbarButton = ({
       {children && <span className={'villain-label'}>{children}</span>}
     </Button>
   )
+
+  return !tooltip ? (
+    elem
+  ) : (
+    <Tooltip title={tooltip} placement={tooltipPlacement}>
+      {elem}
+    </Tooltip>
+  )
 }
 
-export default React.memo(ToolbarButton)
+export default ToolbarButton

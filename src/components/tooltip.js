@@ -1,48 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
-const Tooltip = ({ text, overrideClass = '', children, style }) => {
-  const [hover, setHover] = useState(false)
-  let clearDelay = null
+import {
+  useTooltipState,
+  Tooltip as ReakitTooltip,
+  TooltipReference,
+} from 'reakit/Tooltip'
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
-  const onMouseEnter = () => {
-    clearTimeout(clearDelay)
-
-    clearDelay = setTimeout(() => {
-      setHover(true)
-    }, 600)
-  }
-
-  const onMouseLeave = () => {
-    clearTimeout(clearDelay)
-    setHover(false)
-  }
-
-  const handleKeyDown = () => {
-    clearTimeout(clearDelay)
-    setHover(false)
-  }
-
+const Tooltip = ({ style, title, children, placement = 'top', ...props }) => {
+  const tooltip = useTooltipState({ placement })
   return (
-    <div style={{ position: 'relative', ...style }}>
-      <div
-        className={`tooltip-con ${overrideClass}`}
-        style={{ display: hover ? 'block' : 'none' }}
+    <>
+      <TooltipReference {...tooltip}>
+        {referenceProps =>
+          React.cloneElement(React.Children.only(children), referenceProps)
+        }
+      </TooltipReference>
+      <ReakitTooltip
+        {...tooltip}
+        {...props}
+        style={style}
+        className={`tooltip-villain`}
+        unstable_portal={false}
       >
-        <span className="tooltip-text">{text}</span>
-      </div>
-      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-        {children}
-      </div>
-    </div>
+        {title}
+      </ReakitTooltip>
+    </>
   )
 }
 
-export default React.memo(Tooltip)
+export default Tooltip
