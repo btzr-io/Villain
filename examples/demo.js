@@ -8,7 +8,7 @@ class Demo extends Component {
   state = {
     file: '/build/testFile/Example-archive.zip',
     options: {
-      preview: 0,
+      preview: '',
       theme: { type: 'select', value: 'Light', options: ['Dark', 'Light'] },
       mangaMode: false,
       allowFullScreen: true,
