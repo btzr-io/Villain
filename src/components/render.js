@@ -326,6 +326,7 @@ class CanvasRender extends Component {
       bookMode,
       autoHideControls,
       mangaMode,
+      allowGlobalShortcuts,
     } = this.props
 
     // Page changed
@@ -367,6 +368,11 @@ class CanvasRender extends Component {
     // re-render page when mangaMode is changed
     if (mangaMode !== prevProps.mangaMode) {
       this.context.updateState({ mangaMode }, () => this.renderPage(currentPage))
+    }
+
+    // force updateState when allowGlobalShortcuts is changed
+    if (allowGlobalShortcuts !== prevProps.allowGlobalShortcuts) {
+      this.context.updateState({ allowGlobalShortcuts })
     }
   }
 
