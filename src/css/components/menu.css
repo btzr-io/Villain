@@ -6,6 +6,11 @@
   padding: 4px 6px;
 }
 
+.menu-item .villain-icon,
+.menu-checkbox .villain-icon {
+  margin-right: 12px;
+}
+
 .menu-item, .menu-checkbox {
   padding: 6px 8px;
   margin: 4px 0;
@@ -16,10 +21,19 @@
   width:100%;
   text-align: left;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   outline: none;
   border-radius: 4px;
+}
+
+.menu-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  align-items: center;
+  flex-grow: 1 1 0;
+  width: 100%;
 }
 
 
@@ -63,6 +77,7 @@
 
 .menu-separator {
   border: 0;
-  margin: 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 8px 0;
+  border-top: 1px solid var(--fg-color);
+  opacity: 0.2;
 }

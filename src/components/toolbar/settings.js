@@ -5,7 +5,7 @@ import  Button  from '@/components/toolbar/button'
 import Menu from '@/components/menu'
 import { ReaderContext } from '@/context'
 
-
+import { mdiKeyboard, mdiBrightness4, mdiPagePrevious } from '@mdi/js';
 
 const SettingsMenu = () => {
   const context = useContext(ReaderContext);
@@ -29,25 +29,29 @@ const SettingsMenu = () => {
     onChange: HandleMangaToggle,
     checked: isMangaMode,
     content: (
-      <Button>
+      <Button icon={mdiPagePrevious}>
+        <div className={'menu-item-content'}>
         <div className={'mneu-item-label'}>{ "Manga mode" }</div>
         <div className={'menu-item-toggler'}/>
+        </div>
       </Button>),
   },{
     itemType: 'checkbox',
     onChange: HandleThemeToggle,
     checked: isDarkTheme,
     content: (
-      <Button>
-        <div className={'mneu-item-label'}>{"Dark theme"}</div>
+      <Button icon={mdiBrightness4}>
+      <div className={'menu-item-content'}>
+        <div className={'menu-item-label'}>{"Dark theme"}</div>
         <div className={'menu-item-toggler'}/>
+        </div>
       </Button>
     ),
   },
   { itemType: 'separator', content: (<hr/>) },
   {
     itemType: 'item',
-    content: (<Button>{ "Keyboard shortcuts" }</Button>),
+    content: (<Button icon={mdiKeyboard}><div className={'menu-item-content'}>{ "Keyboard shortcuts" }</div></Button>),
   },
 ]
 
