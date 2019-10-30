@@ -24,7 +24,6 @@ const ToolbarButton = React.forwardRef(({
       className={clsx('button', typeClass && `button-${typeClass}`, active && 'button--active')}
       {...otherProps}
       ref={ref}
-      tabbable
     >
       {icon && <Icon path={icon} size={'24px'} className={'villain-icon'} />}
       {label && <span className={'villain-button-label'}>{label}</span>}
