@@ -34,4 +34,9 @@
 .villain button[disabled] {
   opacity: 0.64;
   cursor: default;
+  pointer-events: none;
+}
+
+.villain .button-wrapper:focus {
+  outline: none;
 }
