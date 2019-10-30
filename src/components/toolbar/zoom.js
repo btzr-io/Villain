@@ -82,14 +82,14 @@ const ZoomControls = ({ disabled, onUpdate }) => {
   return (
     <React.Fragment>
       <Button
-        type={'icon'}
+        typeClass={'icon'}
         tooltip={Localize['Zoom in']}
         icon={mdiPlus}
         disabled={!canZoomIn || disabled}
         onClick={triggerIncrement}
       />
       <Button
-        type={'icon'}
+        typeClass={'icon'}
         icon={mdiMinus}
         tooltip={Localize['Zoom out']}
         disabled={!canZoomOut || disabled}

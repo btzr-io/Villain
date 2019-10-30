@@ -6,7 +6,7 @@
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);
   font-family: var(--font-family);
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .villain--static .villain-toolbar {

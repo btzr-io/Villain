@@ -1,25 +1,22 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import Button from './button'
+import Settings from './settings'
 import WrapSelect from './select'
 import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
-import { ReaderContext } from '@/context'
 import Localize from '@/localize'
-
-import ToolbarMenu from '@/components/menu'
+import { ReaderContext } from '@/context'
 
 import {
   mdiPin,
-  mdiSettings,
   mdiBookOpen,
   mdiFullscreen,
   mdiWeatherNight,
   mdiFullscreenExit,
   mdiBookOpenOutline,
   mdiWhiteBalanceSunny,
-  mdiWeb,
 } from '@mdi/js'
 
 const isFocused = () => {
@@ -139,32 +136,39 @@ const Toolbar = ({
           disabled={renderError}
         />
         <div className="divider" />
+
+        <Settings />
+
         <Button
-          type={'icon'}
+          typeClass={'icon'}
           icon={mdiPin}
           active={!autoHideControls}
           onClick={togglePin}
           disabled={renderError}
           tooltip={Localize['Pin controls']}
         />
-        <ToolbarMenu />
+
         <Button
-          type={'icon'}
+          typeClass={'icon'}
           icon={bookMode ? mdiBookOpen : mdiBookOpenOutline}
           onClick={() => toggleSetting('bookMode')}
           disabled={renderError}
           tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
         />
+
+        {/*
         <Button
-          type={'icon'}
+          typeClass={'icon'}
           icon={theme === 'Light' ? mdiWeatherNight : mdiWhiteBalanceSunny}
           onClick={toggleTheme}
           disabled={renderError}
           tooltip={theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']}
         />
+        */}
+
         {allowFullScreen && (
           <Button
-            type={'icon'}
+            typeClass={'icon'}
             icon={fullScreenIcon}
             onClick={toggleFullscreen}
             disabled={renderError}

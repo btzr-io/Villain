@@ -80,7 +80,7 @@ const Navigation = () => {
   return (
     <div className={'villain-toolbar-group'}>
       <Button
-        type={'icon'}
+        typeClass={'icon'}
         icon={mdiChevronLeft}
         onClick={mangaMode ? navigateForward : navigateBackward}
         disabled={mangaMode ? isLastPage : isFirstPage}
@@ -88,7 +88,7 @@ const Navigation = () => {
         tooltipPlacement={'top-start'}
       />
       <Button
-        type={'icon'}
+        typeClass={'icon'}
         icon={mdiChevronRight}
         onClick={mangaMode ? navigateBackward : navigateForward}
         disabled={mangaMode ? isFirstPage : isLastPage}

@@ -4,40 +4,44 @@ import clsx from 'clsx'
 import { Button } from 'reakit/Button'
 import Tooltip from '@/components/tooltip'
 
-const ToolbarButton = ({
+const ToolbarButton = React.forwardRef(({
   icon,
-  type,
   label,
   title,
   active,
   tooltip,
   onClick,
   children,
-  disabled,
+  typeClass,
   tooltipPlacement,
   ...otherProps
-}) => {
-  const elem = (
+}, ref) => {
+
+  let elem = (
     <Button
       title={title}
       onClick={onClick}
-      disabled={disabled}
-      className={clsx('button', type && `button-${type}`, active && 'button--active')}
+      className={clsx('button', typeClass && `button-${typeClass}`, active && 'button--active')}
       {...otherProps}
+      ref={ref}
+      tabbable
     >
-      {icon && <Icon path={icon} size={'26px'} className={'villain-icon'} />}
-      {label && <span className={'villain-label'}>{label}</span>}
-      {children && <span className={'villain-label'}>{children}</span>}
+      {icon && <Icon path={icon} size={'24px'} className={'villain-icon'} />}
+      {label && <span className={'villain-button-label'}>{label}</span>}
+      {children}
     </Button>
   )
 
-  return !tooltip ? (
-    elem
-  ) : (
-    <Tooltip title={tooltip} placement={tooltipPlacement}>
-      {elem}
-    </Tooltip>
-  )
-}
+  if(tooltip) {
+    elem = (
+      <Tooltip title={tooltip} placement={tooltipPlacement}>
+       {elem}
+      </Tooltip>
+    )
+  }
+
+  return elem;
+})
+
 
 export default ToolbarButton

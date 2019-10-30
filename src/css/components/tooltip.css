@@ -1,6 +1,5 @@
 .tooltip-villain {
   color: var(--tooltip-fg, #fff);
-  font-size: 0.8em;
   background-color: var(--tooltip-bg, #575a67);
   width: max-content;
   z-index: 99;

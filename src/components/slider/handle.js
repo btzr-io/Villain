@@ -43,6 +43,8 @@ class Handle extends Component {
           borderRadius: '50%',
           backgroundColor: disabled ? 'transparent' : 'var(--slider-track-bg)',
           zIndex: 1,
+          margin: 0,
+          padding: 0,
         }}
         {...getHandleProps(id, {
           onMouseEnter: this.onMouseEnter,
