@@ -9,24 +9,8 @@ import { ReaderContext, ReaderProvider } from '@/context'
 // Styles
 import '@/css'
 
-const defaultOpts = {
-  theme: 'Dark',
-  preview: null,
-  workerUrl: null,
-  allowFullScreen: true,
-  autoHideControls: false,
-  allowGlobalShortcuts: false,
-}
-
 class Villain extends Component {
   static contextType = ReaderContext
-
-  static defaultProps = {
-    file: null,
-    width: '780px',
-    height: '380px',
-    options: { ...defaultOpts },
-  }
 
   constructor(props) {
     super(props)
@@ -35,26 +19,23 @@ class Villain extends Component {
   render() {
     const { file, width, height, options } = this.props
 
-    // Merge default options
-    const opts = { ...defaultOpts, ...options }
-
-    // Set default value in context state
-    // Nore: unsure about this, probably not a good idea, please fix it!
     const {
-      autoHideControls,
       allowFullScreen,
-      mangaMode,
-      theme,
       allowGlobalShortcuts,
-    } = opts
+      autoHideControls,
+      mangaMode,
+      preview,
+      theme,
+      workerUrl,
+    } = options
 
     return (
       <ReaderProvider
         defaultState={{ theme, autoHideControls, mangaMode, allowGlobalShortcuts }}
       >
-        <Wrapp width={width} height={height} preview={opts.preview}>
+        <Wrapp width={width} height={height} preview={preview}>
           {container => (
-            <Uncompress file={file} workerUrl={opts.workerUrl} preview={opts.preview}>
+            <Uncompress file={file} workerUrl={workerUrl} preview={preview}>
               <ReaderContext.Consumer>
                 {({ state }) => (
                   <CanvasRender
@@ -65,7 +46,7 @@ class Villain extends Component {
                     container={container}
                     bookMode={state.bookMode}
                     mangaMode={mangaMode}
-                    allowGlobalShortcuts={state.allowGlobalShortcuts}
+                    allowGlobalShortcuts={allowGlobalShortcuts}
                     currentPage={state.currentPage}
                     allowFullScreen={allowFullScreen}
                     autoHideControls={autoHideControls}
