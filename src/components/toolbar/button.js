@@ -31,7 +31,7 @@ const ToolbarButton = ({
     </Button>
   )
 
-  return !tooltip ? (
+  return !tooltip || disabled ? (
     elem
   ) : (
     <Tooltip title={tooltip} placement={tooltipPlacement}>
