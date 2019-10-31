@@ -77,6 +77,14 @@ const Navigation = () => {
     }
   }
 
+  const checkLastPage = () => {
+    return isLastPage ? null : Localize['Next page']
+  }
+
+  const checkFirstPage = () => {
+    return isFirstPage ? null : Localize['Previous page']
+  }
+
   return (
     <div className={'villain-toolbar-group'}>
       <Button
@@ -84,7 +92,7 @@ const Navigation = () => {
         icon={mdiChevronLeft}
         onClick={mangaMode ? navigateForward : navigateBackward}
         disabled={mangaMode ? isLastPage : isFirstPage}
-        tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
+        tooltip={mangaMode ? checkLastPage() : checkFirstPage()}
         tooltipPlacement={'top-start'}
       />
       <Button
@@ -92,7 +100,7 @@ const Navigation = () => {
         icon={mdiChevronRight}
         onClick={mangaMode ? navigateBackward : navigateForward}
         disabled={mangaMode ? isFirstPage : isLastPage}
-        tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
+        tooltip={mangaMode ? checkFirstPage() : checkLastPage()}
       />
 
       <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
