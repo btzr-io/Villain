@@ -7,6 +7,7 @@ import alias from 'rollup-plugin-alias'
 import { terser } from 'rollup-plugin-terser'
 import json from 'rollup-plugin-json'
 import path from 'path'
+import scss from 'rollup-plugin-scss'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -28,6 +29,22 @@ export default {
     css({
       raw: './dist/style.css',
       minified: './dist/style.min.css',
+    }),
+    scss({
+      output: true,
+
+      // Filename to write all styles to
+      output: 'style.css',
+
+      output: function(styles, styleNodes) {
+        writeFileSync('style.css', styles)
+      },
+
+      // Disable any style output or callbacks, import as string
+      output: false,
+
+      // Determine if node process should be terminated on error (default: false)
+      failOnError: true,
     }),
     babel({
       exclude: 'node_modules/**',
