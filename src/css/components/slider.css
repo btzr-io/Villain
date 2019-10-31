@@ -13,6 +13,7 @@
   background-color: var(--slider-buffer-bg);
   position: absolute;
   transition: width 0.3s ease;
+  will-change: width;
 }
 
 .villain-slider .slider-track {

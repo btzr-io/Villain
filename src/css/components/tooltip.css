@@ -1,0 +1,9 @@
+.tooltip-villain {
+  color: var(--tooltip-fg, #fff);
+  background-color: var(--tooltip-bg, #575a67);
+  width: max-content;
+  z-index: 99;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}

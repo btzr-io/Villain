@@ -65,10 +65,6 @@ class Demo extends Component {
     return (
       <div className="villain-demo" data-theme={options.theme}>
         <aside>
-          <header>
-            <img src="./logo.png" alt="logo" />
-            <span>{`v ${version}`}</span>
-          </header>
           <div className="form">
             <h3>Options</h3>
             <Field name="file" type="file" onChange={this.handleChange} />

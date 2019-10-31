@@ -8,22 +8,20 @@ html.color-theme-in-transition *:after {
 
 .villain-demo[data-theme='Light'] {
   /* global colors */
-  --primaryTheme: #e52863;
-
   --primary-bg: #f2f2f2;
   --card-bg: #fff;
-
   --primary-text: #212121;
-  --secondaryText: #7b7b7b;
+  --input-bg: #fff;
+  --input-border: rgba(0, 0, 0, 0.2);
 }
 
 .villain-demo[data-theme='Dark'] {
   /* global colors */
-  --primaryTheme: #e52863;
-  --primary-bg: #090909;
+  --primary-bg: #0b0b0b;
   --card-bg: #282828;
   --primary-text: #fff;
-  --secondaryText: white;
+  --input-bg: rgba(255, 255, 255, 0.1);
+  --input-border: rgba(255, 255, 255, 0.4);
 }
 
 .villain-demo {

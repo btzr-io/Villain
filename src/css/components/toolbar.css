@@ -9,7 +9,6 @@
 }
 
 .villain-toolbar {
-  font-size: 1rem;
   background: var(--toolbar-bg);
   padding: 0 4px;
   display: flex;

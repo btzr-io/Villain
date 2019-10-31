@@ -1,43 +1,46 @@
 import React from 'react'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
+import { Button } from 'reakit/Button'
 import Tooltip from '@/components/tooltip'
 
-const Button = ({
-  type,
-  onClick,
+const ToolbarButton = React.forwardRef(({
   icon,
   label,
   title,
-  disabled,
   active,
   tooltip,
-  tooltipClass,
-  ariaLabel,
+  onClick,
   children,
-}) => {
-  const button = (
-    <button
-      role="button"
-      aria-label={ariaLabel || title || tooltip}
+  typeClass,
+  tooltipPlacement,
+  ...otherProps
+}, ref) => {
+
+  let elem = (
+    <Button
       title={title}
       onClick={onClick}
-      disabled={disabled}
-      className={clsx('button', type && `button-${type}`, active && 'button--active')}
+      className={clsx('button', typeClass && `button-${typeClass}`, active && 'button--active')}
+      {...otherProps}
+      ref={ref}
     >
-      {icon && <Icon path={icon} size={'26px'} className={'villain-icon'} />}
-      {label && <span className={'villain-label'}>{label}</span>}
-      {children && <span className={'villain-label'}>{children}</span>}
-    </button>
+      {icon && <Icon path={icon} size={'24px'} className={'villain-icon'} />}
+      {label && <span className={'villain-button-label'}>{label}</span>}
+      {children}
+    </Button>
   )
 
-  return tooltip ? (
-    <Tooltip text={tooltip} overrideClass={tooltipClass}>
-      {button}
-    </Tooltip>
-  ) : (
-    button
-  )
-}
+  if(tooltip) {
+    elem = (
+      <Tooltip title={tooltip} placement={tooltipPlacement}>
+       {elem}
+      </Tooltip>
+    )
+  }
 
-export default React.memo(Button)
+  return elem;
+})
+
+
+export default ToolbarButton

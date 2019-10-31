@@ -80,19 +80,19 @@ const Navigation = () => {
   return (
     <div className={'villain-toolbar-group'}>
       <Button
-        type={'icon'}
-        tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
-        tooltipClass="left-edge"
+        typeClass={'icon'}
+        icon={mdiChevronLeft}
         onClick={mangaMode ? navigateForward : navigateBackward}
         disabled={mangaMode ? isLastPage : isFirstPage}
-        icon={mdiChevronLeft}
+        tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
+        tooltipPlacement={'top-start'}
       />
       <Button
-        type={'icon'}
-        tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
+        typeClass={'icon'}
+        icon={mdiChevronRight}
         onClick={mangaMode ? navigateBackward : navigateForward}
         disabled={mangaMode ? isFirstPage : isLastPage}
-        icon={mdiChevronRight}
+        tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
       />
 
       <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
