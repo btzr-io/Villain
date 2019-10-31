@@ -3,7 +3,7 @@
   border: 0;
   border-radius: 4px;
   color: var(--fg-color);
-  margin: 0;
+  margin: 0 4px;
   padding: 2px;
   cursor: pointer;
   display: flex;
@@ -12,43 +12,30 @@
   cursor: pointer;
 }
 
-.villain .button.button-icon {
+.villain .button-icon {
   padding: 0.3em;
   border-radius: 4px;
   background: transparent;
   width: 32px;
   height: 32px;
-  margin: 0;
+  margin: 0px 6px;
 }
 
 .villain-button-label {
   padding: 2px 4px;
 }
 
-.villain .button.button-icon:hover:not(:disabled):not(.button--active),
-.villain .button.button-icon:focus:not(:disabled):not(.button--active) {
+.villain .button-icon:hover:not([aria-disabled='true']):not(.button--active),
+.villain .button-icon:focus:not([aria-disabled='true']):not(.button--active) {
   background: var(--button-hover-bg);
 }
 
-.villain .button.button--active:not(:disabled),
-.villain .button.button-icon:active:not(:disabled) {
+.villain .button--active:not([aria-disabled='true']),
+.villain .button-icon:active:not([aria-disabled='true']) {
   background: var(--button-active-bg);
 }
 
-.villain button[disabled] {
+.villain button[aria-disabled='true'] {
   opacity: 0.64;
   cursor: default;
-  pointer-events: none;
-}
-
-.villain .button-wrapper {
-  margin: 0 4px;
-}
-
-.villain .button-wrapper.button-icon {
-  margin: 0px 6px;
-}
-
-.villain .button-wrapper:focus {
-  outline: none;
 }

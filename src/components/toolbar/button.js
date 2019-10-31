@@ -21,26 +21,22 @@ const ToolbarButton = React.forwardRef(
     ref
   ) => {
     let elem = (
-      <span
-        tabIndex={0}
-        className={clsx('button-wrapper', typeClass && `button-${typeClass}`)}
+      <Button
+        focusable
+        title={title}
+        onClick={onClick}
+        className={clsx(
+          'button',
+          typeClass && `button-${typeClass}`,
+          active && 'button--active'
+        )}
+        {...otherProps}
+        ref={ref}
       >
-        <Button
-          title={title}
-          onClick={onClick}
-          className={clsx(
-            'button',
-            typeClass && `button-${typeClass}`,
-            active && 'button--active'
-          )}
-          {...otherProps}
-          ref={ref}
-        >
-          {icon && <Icon path={icon} size={'24px'} className={'villain-icon'} />}
-          {label && <span className={'villain-button-label'}>{label}</span>}
-          {children}
-        </Button>
-      </span>
+        {icon && <Icon path={icon} size={'24px'} className={'villain-icon'} />}
+        {label && <span className={'villain-button-label'}>{label}</span>}
+        {children}
+      </Button>
     )
 
     if (tooltip) {
