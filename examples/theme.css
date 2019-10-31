@@ -1,0 +1,33 @@
+html.color-theme-in-transition,
+html.color-theme-in-transition *,
+html.color-theme-in-transition *:before,
+html.color-theme-in-transition *:after {
+  transition: all 750ms !important;
+  transition-delay: 0 !important;
+}
+
+.villain-demo[data-theme='Light'] {
+  /* global colors */
+  --primaryTheme: #e52863;
+
+  --primary-bg: #f2f2f2;
+  --card-bg: #fff;
+
+  --primary-text: #212121;
+  --secondaryText: #7b7b7b;
+}
+
+.villain-demo[data-theme='Dark'] {
+  /* global colors */
+  --primaryTheme: #e52863;
+  --primary-bg: #090909;
+  --card-bg: #282828;
+  --primary-text: #fff;
+  --secondaryText: white;
+}
+
+.villain-demo {
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  font-weight: 400;
+}

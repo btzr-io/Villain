@@ -1,15 +1,27 @@
-import React, { Component, useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 import Localize from '@/localize'
 
+const useFocus = () => {
+  const htmlElRef = useRef(null)
+  const setFocus = () => {
+    if (htmlElRef.current) {
+      htmlElRef.current.focus()
+      htmlElRef.current.select()
+    }
+  }
+  return [htmlElRef, setFocus]
+}
+
 const Navigation = () => {
   const context = useContext(ReaderContext)
   const { totalPages, isFirstPage, isLastPage, mangaMode, currentPage } = context.state
   const { navigateForward, navigateBackward, navigateToPage } = context
-
   const [state, setState] = useState({ value: currentPage || 1 })
+  const [focusState, setFocusState] = useState(false)
+  const [inputRef, setInputFocus] = useFocus()
 
   useEffect(() => {
     resetInput()
@@ -41,13 +53,22 @@ const Navigation = () => {
     const { value } = event.target
     const format = value.replace(/\..*|^0+/gm, '')
 
-    if (format.length < 5) {
+    if (format.length < 4) {
       setState({ value: value ? format : currentPage + 1 })
     }
   }
 
   const handleBlur = () => {
     triggerNavigation()
+    setFocusState(false)
+  }
+
+  const handleFocus = () => {
+    setFocusState(true)
+  }
+
+  const handleClick = e => {
+    setInputFocus()
   }
 
   const handleKeyPress = e => {
@@ -74,23 +95,29 @@ const Navigation = () => {
         icon={mdiChevronRight}
       />
 
-      <input
-        min={1}
-        step={1}
-        max={totalPages}
-        type="number"
-        aria-label="Go to page number"
-        role="textbox"
-        contentEditable="true"
-        title="Page"
-        pattern={'d+'}
-        className={'villain-input'}
-        onBlur={handleBlur}
-        onChange={handlePageNumber}
-        onKeyPress={handleKeyPress}
-        value={state.value}
-      />
-      <div className={'villain-label'}>{` of ${totalPages}`}</div>
+      <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
+        <input
+          min={1}
+          step={1}
+          size={3}
+          ref={inputRef}
+          max={totalPages}
+          type="number"
+          aria-label="Go to page number"
+          role="textbox"
+          contentEditable="true"
+          title="Page"
+          pattern={'d+'}
+          className={'villain-input'}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          onChange={handlePageNumber}
+          onKeyPress={handleKeyPress}
+          value={state.value}
+        />
+        <div className={'villain-label villain-label--center'}>{'/'}</div>
+        <div className={'villain-label'}>{`${totalPages}`}</div>
+      </div>
     </div>
   )
 }

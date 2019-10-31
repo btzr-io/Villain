@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
 import Handle from './handle'
+import SliderRail from './sliderRail'
 
 const mainColor = '#FFF'
 
@@ -13,14 +14,6 @@ const sliderStyle = {
   borderRadius: '4px',
   justifyContent: 'center',
   zIndex: 99,
-}
-
-const railStyle = {
-  margin: 0,
-  width: '100%',
-  height: '100%',
-  borderRadius: '4px',
-  backgroundColor: 'var(--slider-bg)',
 }
 
 const Track = ({ source, target, getTrackProps }) => {
@@ -39,13 +32,7 @@ const Track = ({ source, target, getTrackProps }) => {
 
 const defaultValues = [1]
 
-const SliderUI = ({
-  max = 1, 
-  bufferProgress = 0, 
-  reversed,
-  onChange,
-  value
-}) => {
+const SliderUI = ({ max = 1, bufferProgress = 0, reversed, onChange, value }) => {
   const [seeking, setSeeking] = useState(false)
   const [values, setValue] = useState(defaultValues.slice())
 
@@ -75,9 +62,15 @@ const SliderUI = ({
         reversed={reversed}
       >
         <Rail>
-          {({ getRailProps }) => <div style={railStyle} {...getRailProps()} />}
+          {({ activeHandleID, getEventData, getRailProps }) => (
+            <SliderRail
+              activeHandleID={activeHandleID}
+              getEventData={getEventData}
+              getRailProps={getRailProps}
+            />
+          )}
         </Rail>
-        
+
         <Handles>
           {({ handles, activeHandleID, getHandleProps }) => (
             <div className="slider-handles">

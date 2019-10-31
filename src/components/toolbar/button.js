@@ -14,7 +14,7 @@ const Button = ({
   tooltip,
   tooltipClass,
   ariaLabel,
-  children
+  children,
 }) => {
   const button = (
     <button
@@ -27,9 +27,7 @@ const Button = ({
     >
       {icon && <Icon path={icon} size={'26px'} className={'villain-icon'} />}
       {label && <span className={'villain-label'}>{label}</span>}
-      {children && (
-        <span className={'villain-label'}>{children}</span>
-      )}
+      {children && <span className={'villain-label'}>{children}</span>}
     </button>
   )
 

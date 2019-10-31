@@ -1,0 +1,11 @@
+.menu {
+  background: var(--toolbar-bg);
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 4px;
+}
+
+.menu-item {
+  padding: 4px;
+  margin: 4px;
+}

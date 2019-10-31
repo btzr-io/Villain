@@ -1,0 +1,55 @@
+/* toolbar */
+
+.villain-toolbar.villain-toolbar-hide:not(:hover) {
+  bottom: -50px;
+  opacity: 0;
+  transition: 0.3s ease;
+  transition-property: opacity, bottom;
+  transition-delay: 1s;
+}
+
+.villain-toolbar {
+  font-size: 1rem;
+  background: var(--toolbar-bg);
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--toolbar-height);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+  z-index: 1;
+  margin: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: 0.3s ease;
+  transition-property: opacity, bottom;
+  transition-delay: 0.1s;
+}
+
+.villain-toolbar .divider {
+  height: 1em;
+  width: 2px;
+  margin: 0 12px;
+  background: var(--toolbar-border);
+}
+
+.villain-toolbar-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
+}
+
+.villain-toolbar-group[disabled] {
+  opacity: 0.4;
+  user-select: none;
+  pointer-events: none;
+}
+
+.villain-toolbar-group-expand {
+  flex-grow: 1;
+}
