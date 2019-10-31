@@ -70,7 +70,7 @@ Available options to customize the reader component:
 | workerUrl            | string | null    | path to libarchive.js `worker-bundle`.               |
 | mangaMode            | bool   | false   | Select in order to read right to left.               |
 | allowFullScreen      | bool   | true    | Show full screen button.                             |
-| autoHideControls     | bool   | false   | Set inital auto hide state of toolbar.               |
+| autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.               |
 | allowGlobalShortcuts | bool   | false   | Allows shortcuts without having to focus the viewer. |
 
 ## Development
