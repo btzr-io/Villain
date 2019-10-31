@@ -20,6 +20,19 @@ An open source web-based comic book reader.
 
 <br/>
 
+## Limitations
+
+Villain has some limitations regarding the archive formats:
+
+- [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs) is used to open the archive. Here are the formats supported by the library:
+  - `ZIP`
+  - `7-Zip`
+  - `RAR v4`
+  - `RAR v5`
+  - `TAR`
+- Encrypted archived are not yet supported ([#26](https://github.com/btzr-io/Villain/issues/26)).
+- Some `.rar` and `.cbr` fail to load ([#1](https://github.com/btzr-io/Villain/issues/1)).
+
 ## Installation
 
 ```SHELL
