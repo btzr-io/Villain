@@ -33,8 +33,6 @@ body,
   margin: auto;
   height: 80% !important;
   width: 80% !important;
-  min-width: 400px;
-  min-height: 400px;
   box-shadow: 0 1px 16px rgba(0, 0, 0, 0.12);
   border-radius: 12px;
 }
