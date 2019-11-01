@@ -156,16 +156,6 @@ const Toolbar = ({
           tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
         />
 
-        {/*
-        <Button
-          typeClass={'icon'}
-          icon={theme === 'Light' ? mdiWeatherNight : mdiWhiteBalanceSunny}
-          onClick={toggleTheme}
-          disabled={renderError}
-          tooltip={theme === 'Light' ? Localize['Dark theme'] : Localize['Light theme']}
-        />
-        */}
-
         {allowFullScreen && (
           <Button
             typeClass={'icon'}

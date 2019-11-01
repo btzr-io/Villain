@@ -7,11 +7,14 @@
   "Exit fullscreen": "Exit fullscreen",
   "Book view": "Book view",
   "Page view": "Page view",
+  "Manga mode": "Manga mode",
   "Light theme": "Light theme",
   "Dark theme": "Dark theme",
   "Zoom in": "Zoom in",
   "Zoom out": "Zoom out",
   "Example test": "Example test!",
   "Cant open archive": "Can't open archive!",
-  "Invalid image": "Invalid image!"
+  "Invalid image": "Invalid image!",
+  "Keyboard shortcuts": "Keyboard shortcuts",
+  "Settings": "Settings"
 }
