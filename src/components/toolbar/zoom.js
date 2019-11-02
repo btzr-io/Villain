@@ -1,21 +1,14 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
-import { mdiPlus, mdiMinus } from '@mdi/js'
-import Localize from '@/localize'
-
 import { ToolbarItem } from 'reakit'
 
-const useFocus = () => {
-  const htmlElRef = useRef(null)
-  const setFocus = () => {
-    if (htmlElRef.current) {
-      htmlElRef.current.focus()
-      htmlElRef.current.select()
-    }
-  }
-  return [htmlElRef, setFocus]
-}
+// Uitls
+import Localize from '@/localize'
+import useFocus from '@/lib/use-focus'
+
+// Icons
+import { mdiPlus, mdiMinus } from '@mdi/js'
 
 const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
   // Context
@@ -23,7 +16,7 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
   const { canZoomIn, canZoomOut, currentZoom } = context.state
 
   // State
-  const [zoom, setZoom] = useState('0')
+  const [state, setState] = useState({ value: '' })
   const [focusState, setFocusState] = useState(false)
 
   // Ref
@@ -35,12 +28,16 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
 
   const resetInput = () => {
     if (currentZoom) {
-      setZoom(currentZoom)
+      setState({ value: currentZoom })
     }
   }
 
   const triggerUpdate = () => {
-    onUpdate(zoom)
+    if (state.value.length > 0) {
+      onUpdate(state.value)
+    } else {
+      resetInput()
+    }
   }
 
   const triggerIncrement = () => {
@@ -55,10 +52,10 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
 
   const handleChange = event => {
     const { value } = event.target
-    console.info(typeof value)
-    const format = value.replace(/\..*|^0+/gm, '')
-    if (format && format.length < 4) {
-      setZoom(format)
+    const format = value.replace(/\..*|^0+[\s]/gm, '')
+
+    if (format.length < 4) {
+      setState({ value: value ? format : currentZoom })
     }
   }
 
@@ -106,22 +103,22 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
       <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
         <ToolbarItem
           {...toolbarItemProps}
-          min={0}
           step={1}
           size={3}
-          max={100}
+          pattern={'d+'}
           ref={inputRef}
           type={'number'}
-          value={zoom}
+          role={'textbox'}
+          contentEditable="true"
           title="Zoom"
           aria-label="Zoom to percentage value"
-          contentEditable="true"
           onBlur={handleBlur}
           onFocus={handleFocus}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
           className={'villain-input'}
           disabled={disabled}
+          value={state.value}
           as={'input'}
         />
 

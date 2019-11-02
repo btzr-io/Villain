@@ -1,21 +1,14 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import Button from './button'
 import { ReaderContext } from '@/context'
-import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
-import Localize from '@/localize'
-
 import { ToolbarItem } from 'reakit'
 
-const useFocus = () => {
-  const htmlElRef = useRef(null)
-  const setFocus = () => {
-    if (htmlElRef.current) {
-      htmlElRef.current.focus()
-      htmlElRef.current.select()
-    }
-  }
-  return [htmlElRef, setFocus]
-}
+//Utils
+import Localize from '@/localize'
+import useFocus from '@/lib/use-focus'
+
+// Icons
+import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 
 const Navigation = ({ toolbarItemProps }) => {
   const context = useContext(ReaderContext)
