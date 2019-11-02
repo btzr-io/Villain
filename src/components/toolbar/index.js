@@ -177,6 +177,7 @@ const Toolbar = ({
           onClick={() => toggleSetting('bookMode')}
           disabled={renderError}
           tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
+          tooltipPlacement={allowFullScreen ? 'top' : 'top-end'}
           as={Button}
         />
 

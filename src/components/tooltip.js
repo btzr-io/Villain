@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   useTooltipState,
@@ -8,19 +8,25 @@ import {
 
 const Tooltip = React.forwardRef(
   ({ style, title, children, placement = 'top', ...props }, ref) => {
-    const tooltip = useTooltipState({ placement })
+    const tooltipState = useTooltipState({ placement })
+
+    // Update tooltip placement
+    useEffect(() => {
+      tooltipState.place(placement)
+    }, [placement])
+
     return (
       <>
-        <TooltipReference {...tooltip} {...props} ref={ref}>
+        <TooltipReference {...tooltipState} {...props} ref={ref}>
           {referenceProps =>
             React.cloneElement(React.Children.only(children), referenceProps)
           }
         </TooltipReference>
         <ReakitTooltip
-          {...tooltip}
+          {...tooltipState}
           style={style}
-          className={`tooltip-villain`}
           unstable_portal={false}
+          className={'tooltip-villain'}
         >
           {title}
         </ReakitTooltip>
