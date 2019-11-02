@@ -7,10 +7,18 @@ import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import Localize from '@/localize'
+
+import {
+  Toolbar as ToolbarBase,
+  ToolbarItem,
+  ToolbarSeparator,
+  useToolbarState,
+} from 'reakit'
 import { ReaderContext } from '@/context'
 
 import {
   mdiPin,
+  mdiPinOff,
   mdiBookOpen,
   mdiFullscreen,
   mdiWeatherNight,
@@ -113,11 +121,22 @@ const Toolbar = ({
 
   const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
 
+  //TODO: Memoize this
   const progress = (pages.length / totalPages) * 100
 
+  const toolbar = useToolbarState()
+
   return (
-    <div className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}>
-      <NavigationControls currentPage={currentPage} totalPages={totalPages} />
+    <ToolbarBase
+      {...toolbar}
+      aria-label={'Toolbar'}
+      className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}
+    >
+      <NavigationControls
+        currentPage={currentPage}
+        totalPages={totalPages}
+        toolbarItemProps={toolbar}
+      />
 
       <div className={'villain-toolbar-group villain-toolbar-group-expand'}>
         <Slider
@@ -126,6 +145,7 @@ const Toolbar = ({
           bufferProgress={progress}
           onChange={navigateToPage}
           reversed={mangaMode}
+          toolbarItemProps={toolbar}
         />
       </div>
 
@@ -134,30 +154,35 @@ const Toolbar = ({
           onUpdate={updateZoom}
           currentZoom={currentZoom}
           disabled={renderError}
+          toolbarItemProps={toolbar}
         />
-        <div className="divider" />
+        <ToolbarSeparator className="divider" />
 
-        <Settings />
+        <ToolbarItem {...toolbar} as={Settings} />
 
-        <Button
+        <ToolbarItem
+          {...toolbar}
           typeClass={'icon'}
-          icon={mdiPin}
-          active={!autoHideControls}
+          icon={autoHideControls ? mdiPin : mdiPinOff}
           onClick={togglePin}
           disabled={renderError}
-          tooltip={Localize['Pin controls']}
+          tooltip={autoHideControls ? Localize['Pin toolbar'] : Localize['Unpin toolbar']}
+          as={Button}
         />
 
-        <Button
+        <ToolbarItem
+          {...toolbar}
           typeClass={'icon'}
           icon={bookMode ? mdiBookOpen : mdiBookOpenOutline}
           onClick={() => toggleSetting('bookMode')}
           disabled={renderError}
           tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
+          as={Button}
         />
 
         {allowFullScreen && (
-          <Button
+          <ToolbarItem
+            {...toolbar}
             typeClass={'icon'}
             icon={fullScreenIcon}
             onClick={toggleFullscreen}
@@ -166,22 +191,11 @@ const Toolbar = ({
               fullscreen ? Localize['Exit fullscreen'] : Localize['Enter fullscreen']
             }
             tooltipPlacement={'top-end'}
+            as={Button}
           />
         )}
-
-        {/*
-            Move this component to menu!
-          <WrapSelect
-            inputId="langSelector"
-            value={this.state.lang}
-            options={Localize.getAvailableLanguages()}
-            onChange={this.handleLanguageChange}
-            icon={mdiWeb}
-            label="Language toggle"
-          />
-         */}
       </div>
-    </div>
+    </ToolbarBase>
   )
 }
 

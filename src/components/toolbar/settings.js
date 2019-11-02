@@ -5,7 +5,7 @@ import Localize from '@/localize'
 import { ReaderContext } from '@/context'
 import { mdiSettings, mdiKeyboard, mdiBrightness4, mdiPagePrevious } from '@mdi/js'
 
-const SettingsMenu = () => {
+const SettingsMenu = React.forwardRef((props, ref) => {
   const context = useContext(ReaderContext)
 
   const settingsButton = <Button typeClass={'icon'} icon={mdiSettings} />
@@ -63,14 +63,15 @@ const SettingsMenu = () => {
 
   return (
     <Menu
+      {...props}
+      ref={ref}
       items={menuItems}
       tooltip={Localize['Settings']}
       placement={'top'}
-      className={'menu'}
       disclosure={settingsButton}
-      aria-label={'Settings'}
+      ariaLabel={Localize['Settings']}
     />
   )
-}
+})
 
 export default SettingsMenu

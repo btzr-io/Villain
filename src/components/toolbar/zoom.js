@@ -4,6 +4,8 @@ import { ReaderContext } from '@/context'
 import { mdiPlus, mdiMinus } from '@mdi/js'
 import Localize from '@/localize'
 
+import { ToolbarItem } from 'reakit'
+
 const useFocus = () => {
   const htmlElRef = useRef(null)
   const setFocus = () => {
@@ -15,7 +17,7 @@ const useFocus = () => {
   return [htmlElRef, setFocus]
 }
 
-const ZoomControls = ({ disabled, onUpdate }) => {
+const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
   // Context
   const context = useContext(ReaderContext)
   const { canZoomIn, canZoomOut, currentZoom } = context.state
@@ -81,24 +83,29 @@ const ZoomControls = ({ disabled, onUpdate }) => {
 
   return (
     <React.Fragment>
-      <Button
+      <ToolbarItem
+        {...toolbarItemProps}
         typeClass={'icon'}
         tooltip={Localize['Zoom in']}
         icon={mdiPlus}
         disabled={!canZoomIn || disabled}
         onClick={triggerIncrement}
+        as={Button}
       />
-      <Button
+      <ToolbarItem
+        {...toolbarItemProps}
         typeClass={'icon'}
         icon={mdiMinus}
         tooltip={Localize['Zoom out']}
         disabled={!canZoomOut || disabled}
         onClick={triggerDecrement}
+        as={Button}
       />
 
       {/* This wrapper is used to force an update for the initial value and when the zoom buttons trigger a change */}
       <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
-        <input
+        <ToolbarItem
+          {...toolbarItemProps}
           min={0}
           step={1}
           size={3}
@@ -115,6 +122,7 @@ const ZoomControls = ({ disabled, onUpdate }) => {
           onKeyPress={handleKeyPress}
           className={'villain-input'}
           disabled={disabled}
+          as={'input'}
         />
 
         <div className={'villain-label villain-label--center'}>%</div>

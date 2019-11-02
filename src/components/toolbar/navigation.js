@@ -4,6 +4,8 @@ import { ReaderContext } from '@/context'
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 import Localize from '@/localize'
 
+import { ToolbarItem } from 'reakit'
+
 const useFocus = () => {
   const htmlElRef = useRef(null)
   const setFocus = () => {
@@ -15,7 +17,7 @@ const useFocus = () => {
   return [htmlElRef, setFocus]
 }
 
-const Navigation = () => {
+const Navigation = ({ toolbarItemProps }) => {
   const context = useContext(ReaderContext)
   const { totalPages, isFirstPage, isLastPage, mangaMode, currentPage } = context.state
   const { navigateForward, navigateBackward, navigateToPage } = context
@@ -79,24 +81,29 @@ const Navigation = () => {
 
   return (
     <div className={'villain-toolbar-group'}>
-      <Button
+      <ToolbarItem
+        {...toolbarItemProps}
         typeClass={'icon'}
         icon={mdiChevronLeft}
         onClick={mangaMode ? navigateForward : navigateBackward}
         disabled={mangaMode ? isLastPage : isFirstPage}
         tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
         tooltipPlacement={'top-start'}
+        as={Button}
       />
-      <Button
+      <ToolbarItem
+        {...toolbarItemProps}
         typeClass={'icon'}
         icon={mdiChevronRight}
         onClick={mangaMode ? navigateBackward : navigateForward}
         disabled={mangaMode ? isFirstPage : isLastPage}
         tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
+        as={Button}
       />
 
       <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
-        <input
+        <ToolbarItem
+          {...toolbarItemProps}
           min={1}
           step={1}
           size={3}
@@ -114,6 +121,7 @@ const Navigation = () => {
           onChange={handlePageNumber}
           onKeyPress={handleKeyPress}
           value={state.value}
+          as={'input'}
         />
         <div className={'villain-label villain-label--center'}>{'/'}</div>
         <div className={'villain-label'}>{`${totalPages}`}</div>

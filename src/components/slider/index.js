@@ -32,7 +32,14 @@ const Track = ({ source, target, getTrackProps }) => {
 
 const defaultValues = [1]
 
-const SliderUI = ({ max = 1, bufferProgress = 0, reversed, onChange, value }) => {
+const SliderUI = ({
+  max = 1,
+  bufferProgress = 0,
+  reversed,
+  onChange,
+  value,
+  toolbarItemProps,
+}) => {
   const [seeking, setSeeking] = useState(false)
   const [values, setValue] = useState(defaultValues.slice())
 
@@ -81,6 +88,7 @@ const SliderUI = ({ max = 1, bufferProgress = 0, reversed, onChange, value }) =>
                   domain={domain}
                   isActive={handle.id === activeHandleID}
                   getHandleProps={getHandleProps}
+                  toolbarItemProps={toolbarItemProps}
                 />
               ))}
             </div>

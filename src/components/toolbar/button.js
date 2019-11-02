@@ -20,6 +20,9 @@ const ToolbarButton = React.forwardRef(
     },
     ref
   ) => {
+    const containerProps = { ref, ...otherProps }
+    const otherButtonProps = !tooltip ? containerProps : {}
+
     let elem = (
       <Button
         focusable
@@ -30,8 +33,7 @@ const ToolbarButton = React.forwardRef(
           typeClass && `button-${typeClass}`,
           active && 'button--active'
         )}
-        {...otherProps}
-        ref={ref}
+        {...otherButtonProps}
       >
         {icon && <Icon path={icon} size={'24px'} className={'villain-icon'} />}
         {label && <span className={'villain-button-label'}>{label}</span>}
@@ -41,7 +43,7 @@ const ToolbarButton = React.forwardRef(
 
     if (tooltip) {
       elem = (
-        <Tooltip title={tooltip} placement={tooltipPlacement}>
+        <Tooltip {...containerProps} title={tooltip} placement={tooltipPlacement}>
           {elem}
         </Tooltip>
       )

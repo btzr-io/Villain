@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from './tooltip'
+import { ToolbarItem } from 'reakit'
 
 class Handle extends Component {
   state = {
@@ -22,12 +23,14 @@ class Handle extends Component {
       isActive,
       disabled,
       getHandleProps,
+      toolbarItemProps,
     } = this.props
 
     const { mouseOver } = this.state
 
     return (
-      <button
+      <ToolbarItem
+        {...toolbarItemProps}
         role="slider"
         aria-valuemin={min}
         aria-valuemax={max}
@@ -50,9 +53,10 @@ class Handle extends Component {
           onMouseEnter: this.onMouseEnter,
           onMouseLeave: this.onMouseLeave,
         })}
+        as={'button'}
       >
         {(mouseOver || isActive) && !disabled ? <Tooltip value={value} /> : null}
-      </button>
+      </ToolbarItem>
     )
   }
 }
