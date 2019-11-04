@@ -31,7 +31,7 @@ const SettingsMenu = () => {
       content: (
         <Button icon={mdiPagePrevious}>
           <div className={'menu-item-content'}>
-            <div className={'mneu-item-label'}>{Localize['Manga mode']}</div>
+            <div className={'menu-item-label'}>{Localize['Manga mode']}</div>
             <div className={'menu-item-toggler'} />
           </div>
         </Button>
@@ -63,6 +63,7 @@ const SettingsMenu = () => {
 
   return (
     <Menu
+      id="porra"
       items={menuItems}
       tooltip={Localize['Settings']}
       placement={'top'}

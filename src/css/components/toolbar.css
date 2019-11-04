@@ -1,6 +1,4 @@
-/* toolbar */
-
-.villain-toolbar.villain-toolbar-hide:not(:hover) {
+toolbar .villain-toolbar.villain-toolbar-hide:not(:hover) {
   bottom: -50px;
   opacity: 0;
   transition: 0.3s ease;
