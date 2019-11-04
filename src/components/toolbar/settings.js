@@ -20,6 +20,10 @@ const SettingsMenu = () => {
     context.updateState(prevState => ({ mangaMode: !prevState.mangaMode }))
   }
 
+  const HandleLanguageToggle = () => {
+    context.updateState(prevState => ({ mangaMode: !prevState.mangaMode }))
+  }
+
   const isDarkTheme = context.state.theme === 'Dark'
   const isMangaMode = context.state.mangaMode
 
@@ -31,7 +35,20 @@ const SettingsMenu = () => {
       content: (
         <Button icon={mdiPagePrevious}>
           <div className={'menu-item-content'}>
-            <div className={'mneu-item-label'}>{Localize['Manga mode']}</div>
+            <div className={'menu-item-label'}>{Localize['Languages']}</div>
+            <div className={'menu-item-toggler'} />
+          </div>
+        </Button>
+      ),
+    },
+    {
+      itemType: 'checkbox',
+      onChange: HandleMangaToggle,
+      checked: isMangaMode,
+      content: (
+        <Button icon={mdiPagePrevious}>
+          <div className={'menu-item-content'}>
+            <div className={'menu-item-label'}>{Localize['Manga mode']}</div>
             <div className={'menu-item-toggler'} />
           </div>
         </Button>
