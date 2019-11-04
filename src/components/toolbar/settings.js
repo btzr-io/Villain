@@ -137,6 +137,7 @@ const SettingsMenu = () => {
       className={'menu'}
       disclosure={settingsButton}
       aria-label={'Settings'}
+      preventBodyScroll="disable"
     />
   )
 }
