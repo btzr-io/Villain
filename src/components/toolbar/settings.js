@@ -6,6 +6,7 @@ import { ReaderContext } from '@/context'
 import { mdiSettings, mdiKeyboard, mdiBrightness4, mdiPagePrevious } from '@mdi/js'
 
 const SettingsMenu = () => {
+  const [language, setLanguage] = useState(false)
   const context = useContext(ReaderContext)
 
   const settingsButton = <Button typeClass={'icon'} icon={mdiSettings} />
@@ -21,7 +22,7 @@ const SettingsMenu = () => {
   }
 
   const HandleLanguageToggle = () => {
-    context.updateState(prevState => ({ mangaMode: !prevState.mangaMode }))
+    setLanguage(!language)
   }
 
   const isDarkTheme = context.state.theme === 'Dark'
@@ -30,13 +31,12 @@ const SettingsMenu = () => {
   const menuItems = [
     {
       itemType: 'checkbox',
-      onChange: HandleMangaToggle,
+      onChange: HandleLanguageToggle,
       checked: isMangaMode,
       content: (
         <Button icon={mdiPagePrevious}>
           <div className={'menu-item-content'}>
             <div className={'menu-item-label'}>{Localize['Languages']}</div>
-            <div className={'menu-item-toggler'} />
           </div>
         </Button>
       ),
@@ -78,9 +78,60 @@ const SettingsMenu = () => {
     },
   ]
 
+  const languageItems = [
+    {
+      itemType: 'checkbox',
+      onChange: HandleLanguageToggle,
+      checked: isMangaMode,
+      content: (
+        <Button>
+          <div className={'menu-item-content'}>
+            <div className={'menu-item-label'}>{Localize['English']}</div>
+          </div>
+        </Button>
+      ),
+    },
+    {
+      itemType: 'checkbox',
+      onChange: HandleLanguageToggle,
+      checked: isMangaMode,
+      content: (
+        <Button>
+          <div className={'menu-item-content'}>
+            <div className={'menu-item-label'}>{Localize['Portuguese']}</div>
+          </div>
+        </Button>
+      ),
+    },
+    {
+      itemType: 'checkbox',
+      onChange: HandleLanguageToggle,
+      checked: isDarkTheme,
+      content: (
+        <Button>
+          <div className={'menu-item-content'}>
+            <div className={'menu-item-label'}>{Localize['Spanish']}</div>
+          </div>
+        </Button>
+      ),
+    },
+    {
+      itemType: 'checkbox',
+      onChange: HandleLanguageToggle,
+      checked: isDarkTheme,
+      content: (
+        <Button>
+          <div className={'menu-item-content'}>
+            <div className={'menu-item-label'}>{Localize['French']}</div>
+          </div>
+        </Button>
+      ),
+    },
+  ]
+
   return (
     <Menu
-      items={menuItems}
+      items={language ? languageItems : menuItems}
       tooltip={Localize['Settings']}
       placement={'top'}
       className={'menu'}
