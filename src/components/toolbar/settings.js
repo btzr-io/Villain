@@ -63,7 +63,6 @@ const SettingsMenu = () => {
 
   return (
     <Menu
-      id="porra"
       items={menuItems}
       tooltip={Localize['Settings']}
       placement={'top'}
