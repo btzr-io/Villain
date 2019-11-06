@@ -4,8 +4,8 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 4px 6px;
-  opacity: 0.98;
-  animation: slide 0.15s ease;
+  transition: all 0.3s cubic-bezier(0, 1.1, 0, 0.99);
+  animation: slide 0.5s cubic-bezier(0, 1.1, 0, 0.99);
 }
 
 .menu-item .villain-icon,
@@ -89,13 +89,13 @@
 
 @keyframes slide {
   from {
-    z-index: -1;
+    display: none;
     opacity: 0;
-    transform: translate(519px, -100px) scale(0);
+    /* transform: translate(519px, -100px) scale(0); */
   }
   to {
-    z-index: 10;
+    display: block;
     opacity: 0.98;
-    transform: translate(519px, -158px) scale(1);
+    /* transform: translate(519px, -158px) scale(1); */
   }
 }
