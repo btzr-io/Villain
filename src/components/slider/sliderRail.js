@@ -36,15 +36,7 @@ const SliderRail = ({ activeHandleID, getEventData, getRailProps }) => {
     }
   }
 
-  return (
-    <div
-      style={railStyle}
-      {...getRailProps({
-        onMouseEnter: onMouseEnter,
-        onMouseLeave: onMouseLeave,
-      })}
-    />
-  )
+  return <div style={railStyle} {...getRailProps({ onMouseEnter, onMouseLeave })} />
 }
 
 SliderRail.propTypes = {
