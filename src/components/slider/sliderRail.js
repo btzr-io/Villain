@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const railStyle = {
@@ -12,49 +12,31 @@ const railStyle = {
   zIndex: -1,
 }
 
-class SliderRail extends Component {
-  state = {
-    value: null,
-    percent: null,
+const SliderRail = ({ activeHandleID, getEventData, getRailProps }) => {
+  const [value, setValue] = useState(null)
+  const [percent, setPercent] = useState(null)
+
+  const onMouseEnter = () => {
+    document.addEventListener('mousemove', onMouseMove)
   }
 
-  static defaultProps = {
-    disabled: false,
+  const onMouseLeave = () => {
+    setValue(null)
+    setPercent(null)
+    document.removeEventListener('mousemove', onMouseMove)
   }
 
-  onMouseEnter = () => {
-    document.addEventListener('mousemove', this.onMouseMove)
-  }
-
-  onMouseLeave = () => {
-    this.setState({ value: null, percent: null })
-    document.removeEventListener('mousemove', this.onMouseMove)
-  }
-
-  onMouseMove = e => {
-    const { activeHandleID, getEventData } = this.props
-
+  const onMouseMove = e => {
     if (activeHandleID) {
-      this.setState({ value: null, percent: null })
+      setValue(null)
+      setPercent(null)
     } else {
-      this.setState(getEventData(e))
+      setValue(getEventData(e).value)
+      setPercent(getEventData(e).percent)
     }
   }
 
-  render() {
-    const { value, percent } = this.state
-    const { activeHandleID, getRailProps } = this.props
-
-    return (
-      <div
-        style={railStyle}
-        {...getRailProps({
-          onMouseEnter: this.onMouseEnter,
-          onMouseLeave: this.onMouseLeave,
-        })}
-      />
-    )
-  }
+  return <div style={railStyle} {...getRailProps({ onMouseEnter, onMouseLeave })} />
 }
 
 SliderRail.propTypes = {
