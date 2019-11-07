@@ -1,6 +1,6 @@
 .menu {
   background: var(--toolbar-bg);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 4px 6px;
@@ -13,14 +13,15 @@
   height: 24px;
 }
 
-.menu-item, .menu-checkbox {
+.menu-item,
+.menu-checkbox {
   padding: 6px 8px;
   margin: 4px 0;
   border: 0;
   background: transparent;
   font-size: 14px;
   color: var(--fg-color);
-  width:100%;
+  width: 100%;
   text-align: left;
   display: flex;
   justify-content: flex-start;
@@ -38,7 +39,6 @@
   width: 100%;
 }
 
-
 .menu-item-toggler {
   height: 16px;
   width: 30px;
@@ -52,7 +52,7 @@
 .menu-item-toggler::after {
   content: '';
   display: block;
-  background: #FFF;
+  background: #fff;
   height: 12px;
   width: 12px;
   position: absolute;
@@ -63,17 +63,18 @@
   border-radius: 12px;
 }
 
-.menu-checkbox[aria-checked=true] .menu-item-toggler::after {
+.menu-checkbox[aria-checked='true'] .menu-item-toggler::after {
   left: initial;
   right: 0;
   transform: translate(0, -50%);
 }
 
-.menu-checkbox[aria-checked=true] .menu-item-toggler {
-  background: #EF5350;
+.menu-checkbox[aria-checked='true'] .menu-item-toggler {
+  background: #ef5350;
 }
 
-.menu-item:focus, .menu-checkbox:focus {
+.menu-item:focus,
+.menu-checkbox:focus {
   background: var(--button-bg);
 }
 

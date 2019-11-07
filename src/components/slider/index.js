@@ -8,7 +8,7 @@ const mainColor = '#FFF'
 const sliderStyle = {
   position: 'absolute',
   width: '100%',
-  height: 6,
+  height: 4,
   display: 'flex',
   alignItems: 'center',
   borderRadius: '4px',
