@@ -83,6 +83,7 @@ const Navigation = ({ toolbarItemProps }) => {
         tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
         tooltipPlacement={'top-start'}
         as={Button}
+        focusable
       />
       <ToolbarItem
         {...toolbarItemProps}
@@ -92,6 +93,7 @@ const Navigation = ({ toolbarItemProps }) => {
         disabled={mangaMode ? isFirstPage : isLastPage}
         tooltip={mangaMode ? Localize['Next page'] : Localize['Next page']}
         as={Button}
+        focusable
       />
 
       <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
@@ -115,6 +117,7 @@ const Navigation = ({ toolbarItemProps }) => {
           onKeyPress={handleKeyPress}
           value={state.value}
           as={'input'}
+          focusable
         />
         <div className={'villain-label villain-label--center'}>{'/'}</div>
         <div className={'villain-label'}>{`${totalPages}`}</div>
