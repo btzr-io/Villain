@@ -168,6 +168,7 @@ const Toolbar = ({
           disabled={renderError}
           tooltip={autoHideControls ? Localize['Pin toolbar'] : Localize['Unpin toolbar']}
           as={Button}
+          focusable
         />
 
         <ToolbarItem
@@ -179,6 +180,7 @@ const Toolbar = ({
           tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
           tooltipPlacement={allowFullScreen ? 'top' : 'top-end'}
           as={Button}
+          focusable
         />
 
         {allowFullScreen && (
@@ -193,6 +195,7 @@ const Toolbar = ({
             }
             tooltipPlacement={'top-end'}
             as={Button}
+            focusable
           />
         )}
       </div>

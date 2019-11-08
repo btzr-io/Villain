@@ -88,6 +88,7 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
         disabled={!canZoomIn || disabled}
         onClick={triggerIncrement}
         as={Button}
+        focusable
       />
       <ToolbarItem
         {...toolbarItemProps}
@@ -97,6 +98,7 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
         disabled={!canZoomOut || disabled}
         onClick={triggerDecrement}
         as={Button}
+        focusable
       />
 
       {/* This wrapper is used to force an update for the initial value and when the zoom buttons trigger a change */}
@@ -120,6 +122,7 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
           disabled={disabled}
           value={state.value}
           as={'input'}
+          focusable
         />
 
         <div className={'villain-label villain-label--center'}>%</div>
