@@ -47,8 +47,15 @@ function Item({ index, itemType, children, openSubmenu, ...props }) {
   )
 }
 
-const ItemList = ({ menuProps, closeSubmenu,items, getProps, getContent, name, listType }) => {
-
+const ItemList = ({
+  menuProps,
+  closeSubmenu,
+  items,
+  getProps,
+  getContent,
+  name,
+  listType,
+}) => {
   return (
     <MenuGroup {...menuProps}>
       {items.map((item, index) => (
@@ -62,7 +69,6 @@ const ItemList = ({ menuProps, closeSubmenu,items, getProps, getContent, name, l
 
 const MenuHeader = ({ menuProps, closeSubmenu, title }) => {
   const itemProps = {
-    itemType: 'item',
     onClick: closeSubmenu,
   }
 
@@ -73,9 +79,12 @@ const MenuHeader = ({ menuProps, closeSubmenu, title }) => {
   )
 
   return (
-    <Item {...menuProps} {...itemProps}>
-      {props => React.cloneElement(React.Children.only(content), props)}
-    </Item>
+    <div className={'menu-header'}>
+      <Item {...menuProps} {...itemProps}>
+        {props => React.cloneElement(React.Children.only(content), props)}
+      </Item>
+      <MenuSeparator className={'menu-separator'} as={'div'} style={{ margin: 0 }} />
+    </div>
   )
 }
 
@@ -87,19 +96,26 @@ const MenuPanel = React.forwardRef(
           <MenuHeader menuProps={menuProps} closeSubmenu={closeSubmenu} title={title} />
         )}
         {list ? (
-          <ItemList menuProps={menuProps} {...list} name={title} closeSubmenu={closeSubmenu}/>
+          <ItemList
+            menuProps={menuProps}
+            {...list}
+            name={title}
+            closeSubmenu={closeSubmenu}
+          />
         ) : (
-          items.map(({ content, nestedTitle, nestedItems, nestedList, ...itemProps }, i) => (
-            <Item
-              {...menuProps}
-              {...itemProps}
-              openSubmenu={openSubmenu}
-              index={i}
-              key={i}
-            >
-              {props => React.cloneElement(React.Children.only(content), props)}
-            </Item>
-          ))
+          items.map(
+            ({ content, nestedTitle, nestedItems, nestedList, ...itemProps }, i) => (
+              <Item
+                {...menuProps}
+                {...itemProps}
+                openSubmenu={openSubmenu}
+                index={i}
+                key={i}
+              >
+                {props => React.cloneElement(React.Children.only(content), props)}
+              </Item>
+            )
+          )
         )}
       </div>
     )
@@ -165,8 +181,11 @@ const MenuWithTooltip = React.forwardRef(
       if (submenuState.index && submenuState.index > -1) {
         const selected = items[submenuState.index]
         if (selected) {
-          console.info(selected.nestedList)
-          if (selected.nestedList && selected.nestedList.items && selected.nestedList.items.length > 0) {
+          if (
+            selected.nestedList &&
+            selected.nestedList.items &&
+            selected.nestedList.items.length > 0
+          ) {
             setSubmenuState({
               show: true,
               list: selected.nestedList,
@@ -217,7 +236,7 @@ const MenuWithTooltip = React.forwardRef(
         </Tooltip>
         <Menu
           {...menu}
-          className={'menu'}
+          className={clsx('menu')}
           aria-label={ariaLabel}
           style={{ height: `${height}px` }}
         >

@@ -8,6 +8,7 @@ const ToolbarButton = React.forwardRef(
   (
     {
       icon,
+      iconSize,
       label,
       title,
       active,
@@ -35,7 +36,9 @@ const ToolbarButton = React.forwardRef(
         )}
         {...otherButtonProps}
       >
-        {icon && <Icon path={icon} size={'24px'} className={'villain-icon'} />}
+        {icon && (
+          <Icon path={icon} size={iconSize || '24px'} className={'villain-icon'} />
+        )}
         {label && <span className={'villain-button-label'}>{label}</span>}
         {children}
       </Button>

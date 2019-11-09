@@ -13,5 +13,9 @@
   "Zoom out": "Reducir",
   "Example test": "¡Test de ejemplo!",
   "Cant open archive": "¡No se puede abrir el archivo!",
-  "Invalid image": "¡La imagen no es válida!"
+  "Invalid image": "¡La imagen no es válida!",
+  "Language": "Idioma",
+  "Languages": "Idiomas",
+  "Settings": "Configuraciones",
+  "Keyboard shortcuts": "Atajos de teclado"
 }

@@ -7,11 +7,15 @@
   "Exit fullscreen": "Desativar tela cheia",
   "Book view": "Visão de página dupla",
   "Page view": "Visão de página única",
-  "Light theme": "Ativar tema claro",
-  "Dark theme": "Ativar tema escuro",
+  "Light theme": "Tema claro",
+  "Dark theme": "Tema escuro",
   "Zoom in": "Aumentar zoom",
   "Zoom out": "Diminuir zoom",
   "Example test": "Teste de exemplo!",
   "Cant open archive": "Não é possível abrir o arquivo!",
-  "Invalid image": "Imagem inválida!"
+  "Invalid image": "Imagem inválida!",
+  "Language": "Língua",
+  "Languages": "Línguas",
+  "Settings": "Configurações",
+  "Keyboard shortcuts": "Atalhos do teclado"
 }

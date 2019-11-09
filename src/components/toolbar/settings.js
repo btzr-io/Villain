@@ -5,6 +5,8 @@ import Localize from '@/localize'
 import { Checkbox } from 'reakit/Checkbox'
 import { ReaderContext } from '@/context'
 
+import getLanguageName from '@/lib/language-name'
+
 import Icon from '@mdi/react'
 import {
   mdiSettings,
@@ -13,6 +15,8 @@ import {
   mdiPagePrevious,
   mdiTranslate,
   mdiChevronRight,
+  mdiRadioboxMarked,
+  mdiRadioboxBlank,
 } from '@mdi/js'
 
 const SettingsMenu = React.forwardRef((props, ref) => {
@@ -30,7 +34,7 @@ const SettingsMenu = React.forwardRef((props, ref) => {
     context.updateState(prevState => ({ mangaMode: !prevState.mangaMode }))
   }
 
-  const handleLanguageChange = (language) => {
+  const handleLanguageChange = language => {
     context.updateState({ language })
   }
 
@@ -79,25 +83,35 @@ const SettingsMenu = React.forwardRef((props, ref) => {
           </div>
         </Button>
       ),
-      nestedTitle: 'Languages',
+      nestedTitle: Localize['Languages'],
       nestedList: {
         listType: 'radio',
         items: Localize.getAvailableLanguages(),
-        getProps: (item, index, closeSubmenu ) => {
-            return {
-              name,
-              value: item,
-              itemType: 'radio',
-              checked: Localize.getLanguage() === item,
-              onClick: closeSubmenu,
-              onChange: () => handleLanguageChange(item),
-            }
-          },
-          getContent: (item, index, props) => (<Button {...props} key={index}>
-              <div className={'menu-item-content'}>{item}</div>
-            </Button>),
+        getProps: (item, index, closeSubmenu) => {
+          return {
+            name,
+            value: item,
+            itemType: 'radio',
+            checked: Localize.getLanguage() === item,
+            onClick: closeSubmenu,
+            onChange: () => handleLanguageChange(item),
+          }
+        },
+        getContent: (item, index, props) => (
+          <Button
+            icon={props.checked ? mdiRadioboxMarked : mdiRadioboxBlank}
+            iconSize={'20px'}
+            {...props}
+            key={index}
+          >
+            <div className={'menu-item-content'}>
+              <div className={'menu-item-label'}>{getLanguageName(item)}</div>
+            </div>
+          </Button>
+        ),
       },
     },
+    { itemType: 'separator', content: <hr /> },
     {
       content: (
         <Button icon={mdiKeyboard}>

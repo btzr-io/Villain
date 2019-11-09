@@ -1,7 +1,6 @@
 .menu {
   /* Vars */
-  --menu-width: 200px;
-
+  --menu-width: 220px;
   width: var(--menu-width);
   background: var(--toolbar-bg);
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -14,6 +13,10 @@
   margin-right: 12px;
   width: 24px;
   height: 24px;
+}
+
+.menu-radio .villain-icon {
+  margin-right: 14px;
 }
 
 .menu-item:first-child {

@@ -13,5 +13,9 @@
   "Zoom out": "Zoom arrière",
   "Example test": "Exemple de test!",
   "Cant open archive": "Impossible d'ouvrir l'archive!",
-  "Invalid image": "Image invalide!"
+  "Invalid image": "Image invalide!",
+  "Language": "Langage",
+  "languages": "Langues",
+  "Settings": "Paramètres",
+  "Keyboard shortcuts": "Raccourcis clavier"
 }
