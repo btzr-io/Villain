@@ -1,20 +1,30 @@
 .menu {
+  /* Vars */
+  --menu-width: 200px;
+
+  width: var(--menu-width);
   background: var(--toolbar-bg);
-  margin-bottom: 20px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  padding: 4px 6px;
+  overflow-x: hidden;
+  margin-bottom: 20px;
 }
 
-.menu-item .villain-icon,
-.menu-checkbox .villain-icon {
+.menu-item .villain-icon {
   margin-right: 12px;
   width: 24px;
   height: 24px;
 }
 
-.menu-item,
-.menu-checkbox {
+.menu-item:first-child {
+  margin-top: 0;
+}
+
+.menu-item:last-child {
+  margin-bottom: 0;
+}
+
+.menu-item {
   padding: 6px 8px;
   margin: 4px 0;
   border: 0;
@@ -27,7 +37,6 @@
   justify-content: flex-start;
   align-items: center;
   outline: none;
-  border-radius: 4px;
 }
 
 .menu-item-content {
@@ -37,6 +46,9 @@
   align-items: center;
   flex-grow: 1 1 0;
   width: 100%;
+}
+.menu-item .menu-item-icon {
+  margin: 0;
 }
 
 .menu-item-toggler {
@@ -73,8 +85,7 @@
   background: #ef5350;
 }
 
-.menu-item:focus,
-.menu-checkbox:focus {
+.menu-item:focus {
   background: var(--button-bg);
 }
 
@@ -83,4 +94,28 @@
   margin: 8px 0;
   border-top: 1px solid var(--fg-color);
   opacity: 0.2;
+}
+
+.menu--panel {
+  margin: 0;
+  padding: 0;
+  width: var(--menu-width);
+  display: inline-block;
+  vertical-align: top;
+}
+
+.menu--slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: auto;
+  width: calc(var(--menu-width) * 2);
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+}
+.menu-title {
+  padding: 8px;
+  margin: 4px 0;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }

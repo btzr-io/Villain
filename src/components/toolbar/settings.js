@@ -2,8 +2,18 @@ import React, { useState, useContext } from 'react'
 import Menu from '@/components/menu'
 import Button from '@/components/toolbar/button'
 import Localize from '@/localize'
+import { Checkbox } from 'reakit/Checkbox'
 import { ReaderContext } from '@/context'
-import { mdiSettings, mdiKeyboard, mdiBrightness4, mdiPagePrevious } from '@mdi/js'
+
+import Icon from '@mdi/react'
+import {
+  mdiSettings,
+  mdiKeyboard,
+  mdiBrightness4,
+  mdiPagePrevious,
+  mdiTranslate,
+  mdiChevronRight,
+} from '@mdi/js'
 
 const SettingsMenu = React.forwardRef((props, ref) => {
   const context = useContext(ReaderContext)
@@ -29,12 +39,12 @@ const SettingsMenu = React.forwardRef((props, ref) => {
       onChange: HandleMangaToggle,
       checked: isMangaMode,
       content: (
-        <Button icon={mdiPagePrevious}>
+        <Checkbox icon={mdiPagePrevious} as={Button}>
           <div className={'menu-item-content'}>
             <div className={'mneu-item-label'}>{Localize['Manga mode']}</div>
             <div className={'menu-item-toggler'} />
           </div>
-        </Button>
+        </Checkbox>
       ),
     },
     {
@@ -42,15 +52,32 @@ const SettingsMenu = React.forwardRef((props, ref) => {
       onChange: HandleThemeToggle,
       checked: isDarkTheme,
       content: (
-        <Button icon={mdiBrightness4}>
+        <Checkbox icon={mdiBrightness4} as={Button}>
           <div className={'menu-item-content'}>
             <div className={'menu-item-label'}>{Localize['Dark theme']}</div>
             <div className={'menu-item-toggler'} />
           </div>
-        </Button>
+        </Checkbox>
       ),
     },
     { itemType: 'separator', content: <hr /> },
+    {
+      itemType: 'submenu',
+      content: (
+        <Button icon={mdiTranslate}>
+          <div className={'menu-item-content'}>
+            <div className={'menu-item-label'}>{Localize['Language']}</div>
+            <Icon
+              path={mdiChevronRight}
+              size={'24px'}
+              className={'villain-icon menu-item-icon'}
+            />
+          </div>
+        </Button>
+      ),
+      nestedTitle: 'Languages',
+      nestedItems: [],
+    },
     {
       itemType: 'item',
       content: (
