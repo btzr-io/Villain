@@ -22,6 +22,7 @@ const defaultState = {
 const defaultSettings = {
   // Settings
   theme: 'Dark',
+  language: 'en',
   mangaMode: false,
   bookMode: false,
   fullscreen: false,

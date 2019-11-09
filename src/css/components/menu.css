@@ -110,8 +110,6 @@
   left: 0;
   margin: auto;
   width: calc(var(--menu-width) * 2);
-  transition: all 0.3s ease;
-  transition-delay: 0.1s;
 }
 .menu-title {
   padding: 8px;

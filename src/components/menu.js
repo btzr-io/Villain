@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   MenuGroup,
+  MenuItemRadio,
   MenuSeparator,
   MenuDisclosure,
   MenuItemCheckbox,
@@ -21,6 +22,7 @@ import { useCheckboxState } from 'reakit'
 
 const ContainerTypes = {
   item: MenuItem,
+  radio: MenuItemRadio,
   checkbox: MenuItemCheckbox,
   separator: MenuSeparator,
 }
@@ -45,6 +47,19 @@ function Item({ index, itemType, children, openSubmenu, ...props }) {
   )
 }
 
+const ItemList = ({ menuProps, closeSubmenu,items, getProps, getContent, name, listType }) => {
+
+  return (
+    <MenuGroup {...menuProps}>
+      {items.map((item, index) => (
+        <Item {...menuProps} {...getProps(item, index, closeSubmenu)} key={index}>
+          {props => getContent(item, index, props)}
+        </Item>
+      ))}
+    </MenuGroup>
+  )
+}
+
 const MenuHeader = ({ menuProps, closeSubmenu, title }) => {
   const itemProps = {
     itemType: 'item',
@@ -65,17 +80,27 @@ const MenuHeader = ({ menuProps, closeSubmenu, title }) => {
 }
 
 const MenuPanel = React.forwardRef(
-  ({ title, items, openSubmenu, closeSubmenu, menuProps }, ref) => {
+  ({ title, items, list, openSubmenu, closeSubmenu, menuProps }, ref) => {
     return (
       <div className={'menu--panel'} ref={ref}>
         {title && (
           <MenuHeader menuProps={menuProps} closeSubmenu={closeSubmenu} title={title} />
         )}
-        {items.map(({ content, nestedTitle, nestedItems, ...itemProps }, i) => (
-          <Item {...menuProps} {...itemProps} openSubmenu={openSubmenu} index={i} key={i}>
-            {props => React.cloneElement(React.Children.only(content), props)}
-          </Item>
-        ))}
+        {list ? (
+          <ItemList menuProps={menuProps} {...list} name={title} closeSubmenu={closeSubmenu}/>
+        ) : (
+          items.map(({ content, nestedTitle, nestedItems, nestedList, ...itemProps }, i) => (
+            <Item
+              {...menuProps}
+              {...itemProps}
+              openSubmenu={openSubmenu}
+              index={i}
+              key={i}
+            >
+              {props => React.cloneElement(React.Children.only(content), props)}
+            </Item>
+          ))
+        )}
       </div>
     )
   }
@@ -92,6 +117,7 @@ const MenuWithTooltip = React.forwardRef(
     const [height, setHeight] = React.useState(0)
     const [submenuState, setSubmenuState] = React.useState({
       show: false,
+      list: null,
       index: null,
       items: null,
       title: null,
@@ -102,8 +128,7 @@ const MenuWithTooltip = React.forwardRef(
     }
 
     const reset = () => {
-      setSubmenuState({ show: false, index: null, items: null, title: null })
-      setHeight(getHeight(mainRef.current))
+      setSubmenuState({ show: false, index: null, items: null, title: null, list: null })
     }
 
     const handleSubmenuOpen = index => {
@@ -116,6 +141,7 @@ const MenuWithTooltip = React.forwardRef(
 
     const handleMenuOpen = () => {
       reset()
+      setHeight(getHeight(mainRef.current))
     }
 
     const handleMenuClose = () => {
@@ -138,12 +164,22 @@ const MenuWithTooltip = React.forwardRef(
       // Update submenu content
       if (submenuState.index && submenuState.index > -1) {
         const selected = items[submenuState.index]
-        if (selected && selected.nestedItems && selected.nestedItems.length > 0) {
-          setSubmenuState({
-            show: true,
-            items: selected.nestedItems,
-            title: selected.nestedTitle,
-          })
+        if (selected) {
+          console.info(selected.nestedList)
+          if (selected.nestedList && selected.nestedList.items && selected.nestedList.items.length > 0) {
+            setSubmenuState({
+              show: true,
+              list: selected.nestedList,
+              title: selected.nestedTitle,
+            })
+          }
+          if (selected.nestedItems && selected.nestedItems.length > 0) {
+            setSubmenuState({
+              show: true,
+              items: selected.nestedItems,
+              title: selected.nestedTitle,
+            })
+          }
         }
       }
     }, [submenuState.index])
@@ -153,6 +189,8 @@ const MenuWithTooltip = React.forwardRef(
       // Submenu open
       if (submenuState.show) {
         setHeight(getHeight(subRef.current))
+      } else {
+        setHeight(getHeight(mainRef.current))
       }
     }, [submenuState.show])
 
@@ -194,10 +232,10 @@ const MenuWithTooltip = React.forwardRef(
               closeSubmenu={handleSubmenuClose}
               ref={mainRef}
             />
-
             {submenuState.show && (
               <MenuPanel
                 menuProps={menu}
+                list={submenuState.list}
                 title={submenuState.title}
                 items={submenuState.items}
                 openSubmenu={handleSubmenuOpen}

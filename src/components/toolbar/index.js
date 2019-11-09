@@ -66,13 +66,6 @@ const Toolbar = ({
     allowGlobalShortcuts,
   } = state
 
-  const [lang, setLang] = useState('en-US')
-
-  useEffect(() => {
-    // Note: Unsure about this, it probalby affect peformance
-    Localize.setLanguage(lang)
-  }, [lang])
-
   // Note:? We should provide an api to add, define, overwrite key shortcuts
   const handleShortcuts = useCallback(
     event => {

@@ -20,14 +20,18 @@ const SettingsMenu = React.forwardRef((props, ref) => {
 
   const settingsButton = <Button typeClass={'icon'} icon={mdiSettings} />
 
-  const HandleThemeToggle = () => {
+  const handleThemeToggle = () => {
     context.updateState(prevState => ({
       theme: prevState.theme === 'Dark' ? 'Light' : 'Dark',
     }))
   }
 
-  const HandleMangaToggle = () => {
+  const handleMangaToggle = () => {
     context.updateState(prevState => ({ mangaMode: !prevState.mangaMode }))
+  }
+
+  const handleLanguageChange = (language) => {
+    context.updateState({ language })
   }
 
   const isDarkTheme = context.state.theme === 'Dark'
@@ -36,7 +40,7 @@ const SettingsMenu = React.forwardRef((props, ref) => {
   const menuItems = [
     {
       itemType: 'checkbox',
-      onChange: HandleMangaToggle,
+      onChange: handleMangaToggle,
       checked: isMangaMode,
       content: (
         <Checkbox icon={mdiPagePrevious} as={Button}>
@@ -49,7 +53,7 @@ const SettingsMenu = React.forwardRef((props, ref) => {
     },
     {
       itemType: 'checkbox',
-      onChange: HandleThemeToggle,
+      onChange: handleThemeToggle,
       checked: isDarkTheme,
       content: (
         <Checkbox icon={mdiBrightness4} as={Button}>
@@ -76,10 +80,25 @@ const SettingsMenu = React.forwardRef((props, ref) => {
         </Button>
       ),
       nestedTitle: 'Languages',
-      nestedItems: [],
+      nestedList: {
+        listType: 'radio',
+        items: Localize.getAvailableLanguages(),
+        getProps: (item, index, closeSubmenu ) => {
+            return {
+              name,
+              value: item,
+              itemType: 'radio',
+              checked: Localize.getLanguage() === item,
+              onClick: closeSubmenu,
+              onChange: () => handleLanguageChange(item),
+            }
+          },
+          getContent: (item, index, props) => (<Button {...props} key={index}>
+              <div className={'menu-item-content'}>{item}</div>
+            </Button>),
+      },
     },
     {
-      itemType: 'item',
       content: (
         <Button icon={mdiKeyboard}>
           <div className={'menu-item-content'}>{Localize['Keyboard shortcuts']}</div>
