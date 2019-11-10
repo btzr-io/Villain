@@ -2,7 +2,6 @@ import React from 'react'
 import clsx from 'clsx'
 import Icon from '@mdi/react'
 import { MenuGroup } from 'reakit/Menu'
-import { mdiChevronRight } from '@mdi/js'
 import { CustomItems } from '@/components/menu/custom'
 
 export function Item({
