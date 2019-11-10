@@ -180,26 +180,26 @@ const MenuWithTooltip = React.forwardRef(
     React.useEffect(() => {
       // Update submenu content
       if (submenuState.index && submenuState.index > -1) {
+        // Check if selected iteam exist
         const selected = items[submenuState.index]
+
         if (selected) {
-          if (
+          // Contains a list of similar items
+          const hasNestedList =
             selected.nestedList &&
             selected.nestedList.items &&
             selected.nestedList.items.length > 0
-          ) {
-            setSubmenuState({
-              show: true,
-              list: selected.nestedList,
-              title: selected.nestedTitle,
-            })
-          }
-          if (selected.nestedItems && selected.nestedItems.length > 0) {
-            setSubmenuState({
-              show: true,
-              items: selected.nestedItems,
-              title: selected.nestedTitle,
-            })
-          }
+
+          // Contains items
+          const hasNestedItems = selected.nestedItems && selected.nestedItems.length > 0
+
+          // Update submenu state and show it
+          setSubmenuState({
+            show: true,
+            list: hasNestedList ? selected.nestedList : null,
+            items: hasNestedItems ? selected.nestedItems : null,
+            title: selected.nestedTitle,
+          })
         }
       }
     }, [submenuState.index])
