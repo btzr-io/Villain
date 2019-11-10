@@ -193,13 +193,18 @@ const MenuWithTooltip = React.forwardRef(
           // Contains items
           const hasNestedItems = selected.nestedItems && selected.nestedItems.length > 0
 
+          // Validate state update
+          const show = hasNestedList || hasNestedItems
+
           // Update submenu state and show it
-          setSubmenuState({
-            show: true,
-            list: hasNestedList ? selected.nestedList : null,
-            items: hasNestedItems ? selected.nestedItems : null,
-            title: selected.nestedTitle,
-          })
+          if (show) {
+            setSubmenuState({
+              show,
+              list: hasNestedList ? selected.nestedList : null,
+              items: hasNestedItems ? selected.nestedItems : null,
+              title: selected.nestedTitle,
+            })
+          }
         }
       }
     }, [submenuState.index])
