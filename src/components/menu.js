@@ -218,8 +218,6 @@ const MenuWithTooltip = React.forwardRef(
       menu.unstable_update()
     }, [height])
 
-    const translateX = submenuState.show ? '-50%' : 0
-
     return (
       <>
         <TooltipReference ref={ref} {...tooltipState} {...props}>
@@ -241,8 +239,8 @@ const MenuWithTooltip = React.forwardRef(
           style={{ height: `${height}px` }}
         >
           <div
-            className={'menu--slider'}
-            style={{ transform: `translate3d(${translateX}, 0 , 0)` }}
+            className={'menu--animated-content'}
+            style={{ height: height + 'px' }}
           >
             <MenuPanel
               menuProps={menu}

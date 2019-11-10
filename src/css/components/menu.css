@@ -40,6 +40,7 @@
   justify-content: flex-start;
   align-items: center;
   outline: none;
+  cursor: pointer;
 }
 
 .menu-item-content {
@@ -58,18 +59,17 @@
   height: 16px;
   width: 30px;
   border-radius: 16px;
-  background: var(--button-bg);
   position: relative;
   margin-left: 24px;
-  padding: 1px;
+  background: var(--toggler-bg);
 }
 
 .menu-item-toggler::after {
   content: '';
   display: block;
-  background: #fff;
-  height: 12px;
-  width: 12px;
+  background: var(--toolbar-bg);
+  height: 10px;
+  width: 10px;
   position: absolute;
   top: 50%;
   left: 0;
@@ -85,7 +85,7 @@
 }
 
 .menu-checkbox[aria-checked='true'] .menu-item-toggler {
-  background: #ef5350;
+  background: var(--fg-color);
 }
 
 .menu-item:focus {
@@ -104,15 +104,17 @@
   padding: 0;
   width: var(--menu-width);
   display: inline-block;
-  vertical-align: top;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--toolbar-bg);
 }
 
-.menu--slider {
+.menu--animated-content {
   position: absolute;
   top: 0;
   left: 0;
   margin: auto;
-  width: calc(var(--menu-width) * 2);
 }
 .menu-title {
   padding: 8px;

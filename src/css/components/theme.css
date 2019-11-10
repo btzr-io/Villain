@@ -17,6 +17,7 @@
   --toolbar-height: 50px;
   --tooltip-bg: #575a67;
   --tooltip-fg: var(--fg-color);
+  --toggler-bg: rgba(255, 255, 255, 0.24);
 }
 
 .villain.Light {
@@ -38,4 +39,5 @@
   --toolbar-height: 50px;
   --tooltip-bg: rgba(24, 24, 24, 0.64);
   --tooltip-fg: #fff;
+  --toggler-bg: rgba(0, 0, 0, 0.24);
 }

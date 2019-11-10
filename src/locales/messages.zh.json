@@ -13,5 +13,12 @@
   "Zoom out": "縮小",
   "Example test": "範例測試！",
   "Cant open archive": "無法開啟檔案！",
-  "Invalid image": "無效的圖片！"
+  "Invalid image": "無效的圖片！",
+  "Language": "语言",
+  "Languages": "语言能力",
+  "Settings": "设定值",
+  "Keyboard shortcuts": "键盘快捷键",
+  "Manga mode": "漫画模式",
+  "Pin toolbar": "固定工具栏",
+  "Unpin toolbar": "取消固定工具栏"
 }

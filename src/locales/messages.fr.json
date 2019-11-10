@@ -17,5 +17,8 @@
   "Language": "Langage",
   "languages": "Langues",
   "Settings": "Paramètres",
-  "Keyboard shortcuts": "Raccourcis clavier"
+  "Keyboard shortcuts": "Raccourcis clavier",
+  "Manga mode": "Mode manga",
+  "Pin toolbar": "Épingler la barre d'outils",
+  "Unpin toolbar": "Détacher la barre d'outils"
 }
