@@ -45,17 +45,20 @@ const MenuPanel = React.forwardRef(
           />
         ) : (
           items.map(
-            ({ content, nestedTitle, nestedItems, nestedList, ...itemProps }, i) => (
-              <Item
-                {...menuProps}
-                {...itemProps}
-                openSubmenu={openSubmenu}
-                index={i}
-                key={i}
-              >
-                {props => React.cloneElement(React.Children.only(content), props)}
-              </Item>
-            )
+            ({ content, nestedTitle, nestedItems, nestedList, ...itemProps }, index) => {
+              const itemKey = `${itemProps.itemType || 'item'}-${index}`
+              return (
+                <Item
+                  {...menuProps}
+                  {...itemProps}
+                  openSubmenu={openSubmenu}
+                  index={index}
+                  key={itemKey}
+                >
+                  {props => React.cloneElement(React.Children.only(content), props)}
+                </Item>
+              )
+            }
           )
         )}
       </div>

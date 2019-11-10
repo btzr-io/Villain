@@ -50,7 +50,11 @@ export function ItemList({
   return (
     <MenuGroup {...menuProps}>
       {items.map((item, index) => (
-        <Item {...menuProps} {...getProps(item, index, closeSubmenu)} key={index}>
+        <Item
+          {...menuProps}
+          {...getProps(item, index, closeSubmenu)}
+          key={`${item}-${index}`}
+        >
           {props => getContent(item, index, props)}
         </Item>
       ))}

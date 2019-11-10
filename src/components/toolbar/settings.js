@@ -102,7 +102,6 @@ const SettingsMenu = React.forwardRef((props, ref) => {
             icon={props.checked ? mdiRadioboxMarked : mdiRadioboxBlank}
             iconSize={'20px'}
             {...props}
-            key={index}
           >
             <div className={'menu-item-content'}>
               <div className={'menu-item-label'}>{getLanguageName(item)}</div>
