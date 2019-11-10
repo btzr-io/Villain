@@ -15,10 +15,7 @@ import {
   MenuDisclosure,
   MenuItemCheckbox,
   useMenuState,
-  useMenuItemCheckbox,
 } from 'reakit/Menu'
-
-import { useCheckboxState } from 'reakit'
 
 const ContainerTypes = {
   item: MenuItem,
