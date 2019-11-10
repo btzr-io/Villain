@@ -1,26 +1,24 @@
 import React from 'react'
 import clsx from 'clsx'
+import Icon from '@mdi/react'
+import { MenuGroup } from 'reakit/Menu'
+import { mdiChevronRight } from '@mdi/js'
+import { CustomItems } from '@/components/menu/custom'
 
-import {
-  MenuItem,
-  MenuGroup,
-  MenuSeparator,
-  MenuItemRadio,
-  MenuItemCheckbox,
-  useMenuState,
-} from 'reakit/Menu'
+export function Item({
+  index,
+  itemType,
+  content,
+  children,
+  openSubmenu,
+  onClick,
+  ...props
+}) {
+  const ContainerType = CustomItems[itemType] || CustomItems.item
 
-const ContainerTypes = {
-  item: MenuItem,
-  radio: MenuItemRadio,
-  checkbox: MenuItemCheckbox,
-  separator: MenuSeparator,
-}
-
-export function Item({ index, itemType, children, openSubmenu, ...props }) {
-  const ContainerType = ContainerTypes[itemType] || ContainerTypes.item
-
-  const handleClick = () => {
+  const handleClick = e => {
+    onClick && onClick(e)
+    // Close submenu
     if (itemType === 'submenu') {
       openSubmenu && openSubmenu(index)
     }
@@ -32,8 +30,8 @@ export function Item({ index, itemType, children, openSubmenu, ...props }) {
   )
 
   return (
-    <ContainerType onClick={handleClick} {...props} className={itemClass}>
-      {children}
+    <ContainerType onClick={handleClick} className={itemClass} {...props}>
+      {content || children}
     </ContainerType>
   )
 }
@@ -55,7 +53,7 @@ export function ItemList({
           {...getProps(item, index, closeSubmenu)}
           key={`${item}-${index}`}
         >
-          {props => getContent(item, index, props)}
+          {getContent(item)}
         </Item>
       ))}
     </MenuGroup>

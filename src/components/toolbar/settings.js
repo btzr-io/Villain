@@ -8,15 +8,13 @@ import { ReaderContext } from '@/context'
 import getLanguageName from '@/lib/language-name'
 
 import Icon from '@mdi/react'
+
 import {
   mdiSettings,
   mdiKeyboard,
+  mdiTranslate,
   mdiBrightness4,
   mdiPagePrevious,
-  mdiTranslate,
-  mdiChevronRight,
-  mdiRadioboxMarked,
-  mdiRadioboxBlank,
 } from '@mdi/js'
 
 const SettingsMenu = React.forwardRef((props, ref) => {
@@ -43,46 +41,24 @@ const SettingsMenu = React.forwardRef((props, ref) => {
 
   const menuItems = [
     {
+      icon: mdiPagePrevious,
+      content: Localize['Manga mode'],
+      checked: isMangaMode,
       itemType: 'checkbox',
       onChange: handleMangaToggle,
-      checked: isMangaMode,
-      content: (
-        <Checkbox icon={mdiPagePrevious} as={Button}>
-          <div className={'menu-item-content'}>
-            <div className={'mneu-item-label'}>{Localize['Manga mode']}</div>
-            <div className={'menu-item-toggler'} />
-          </div>
-        </Checkbox>
-      ),
     },
     {
+      icon: mdiBrightness4,
+      content: Localize['Dark theme'],
+      checked: isDarkTheme,
       itemType: 'checkbox',
       onChange: handleThemeToggle,
-      checked: isDarkTheme,
-      content: (
-        <Checkbox icon={mdiBrightness4} as={Button}>
-          <div className={'menu-item-content'}>
-            <div className={'menu-item-label'}>{Localize['Dark theme']}</div>
-            <div className={'menu-item-toggler'} />
-          </div>
-        </Checkbox>
-      ),
     },
-    { itemType: 'separator', content: <hr /> },
+    { itemType: 'separator' },
     {
+      icon: mdiTranslate,
+      content: Localize['Language'],
       itemType: 'submenu',
-      content: (
-        <Button icon={mdiTranslate}>
-          <div className={'menu-item-content'}>
-            <div className={'menu-item-label'}>{Localize['Language']}</div>
-            <Icon
-              path={mdiChevronRight}
-              size={'24px'}
-              className={'villain-icon menu-item-icon'}
-            />
-          </div>
-        </Button>
-      ),
       nestedTitle: Localize['Languages'],
       nestedList: {
         listType: 'radio',
@@ -97,26 +73,13 @@ const SettingsMenu = React.forwardRef((props, ref) => {
             onChange: () => handleLanguageChange(item),
           }
         },
-        getContent: (item, index, props) => (
-          <Button
-            icon={props.checked ? mdiRadioboxMarked : mdiRadioboxBlank}
-            iconSize={'20px'}
-            {...props}
-          >
-            <div className={'menu-item-content'}>
-              <div className={'menu-item-label'}>{getLanguageName(item)}</div>
-            </div>
-          </Button>
-        ),
+        getContent: item => getLanguageName(item),
       },
     },
-    { itemType: 'separator', content: <hr /> },
+    { itemType: 'separator' },
     {
-      content: (
-        <Button icon={mdiKeyboard}>
-          <div className={'menu-item-content'}>{Localize['Keyboard shortcuts']}</div>
-        </Button>
-      ),
+      icon: mdiKeyboard,
+      content: Localize['Keyboard shortcuts'],
     },
   ]
 

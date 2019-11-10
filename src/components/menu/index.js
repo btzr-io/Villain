@@ -1,33 +1,8 @@
 import React from 'react'
-import clsx from 'clsx'
-import Button from '@/components/toolbar/button'
 import { Tooltip, TooltipReference, useTooltipState } from 'reakit/Tooltip'
+import { MenuHeader } from '@/components/menu/custom'
 import { Item, ItemList } from '@/components/menu/item'
-
-import { Menu, MenuSeparator, MenuDisclosure, useMenuState } from 'reakit/Menu'
-
-import { mdiChevronLeft } from '@mdi/js'
-
-const MenuHeader = ({ menuProps, closeSubmenu, title }) => {
-  const itemProps = {
-    onClick: closeSubmenu,
-  }
-
-  const content = (
-    <Button icon={mdiChevronLeft}>
-      <div className={'menu-item-content'}>{title}</div>
-    </Button>
-  )
-
-  return (
-    <div className={'menu-header'}>
-      <Item {...menuProps} {...itemProps}>
-        {props => React.cloneElement(React.Children.only(content), props)}
-      </Item>
-      <MenuSeparator className={'menu-separator'} as={'div'} style={{ margin: 0 }} />
-    </div>
-  )
-}
+import { Menu, MenuDisclosure, useMenuState } from 'reakit/Menu'
 
 const MenuPanel = React.forwardRef(
   ({ title, items, list, openSubmenu, closeSubmenu, menuProps }, ref) => {
@@ -44,22 +19,18 @@ const MenuPanel = React.forwardRef(
             closeSubmenu={closeSubmenu}
           />
         ) : (
-          items.map(
-            ({ content, nestedTitle, nestedItems, nestedList, ...itemProps }, index) => {
-              const itemKey = `${itemProps.itemType || 'item'}-${index}`
-              return (
-                <Item
-                  {...menuProps}
-                  {...itemProps}
-                  openSubmenu={openSubmenu}
-                  index={index}
-                  key={itemKey}
-                >
-                  {props => React.cloneElement(React.Children.only(content), props)}
-                </Item>
-              )
-            }
-          )
+          items.map(({ nestedTitle, nestedItems, nestedList, ...itemProps }, index) => {
+            const itemKey = `${itemProps.itemType || 'item'}-${index}`
+            return (
+              <Item
+                {...menuProps}
+                {...itemProps}
+                openSubmenu={openSubmenu}
+                index={index}
+                key={itemKey}
+              />
+            )
+          })
         )}
       </div>
     )
@@ -174,7 +145,7 @@ const MenuWithTooltip = React.forwardRef(
     }, [height])
 
     return (
-      <>
+      <React.Fragment>
         <TooltipReference ref={ref} {...tooltipState} {...props}>
           {referenceProps => (
             <MenuDisclosure {...menu} {...referenceProps}>
@@ -189,7 +160,7 @@ const MenuWithTooltip = React.forwardRef(
         </Tooltip>
         <Menu
           {...menu}
-          className={clsx('menu')}
+          className={'menu'}
           aria-label={ariaLabel}
           style={{ height: `${height}px` }}
         >
@@ -215,7 +186,7 @@ const MenuWithTooltip = React.forwardRef(
             )}
           </div>
         </Menu>
-      </>
+      </React.Fragment>
     )
   }
 )
