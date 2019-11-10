@@ -40,6 +40,7 @@ function Item({ index, itemType, children, openSubmenu, ...props }) {
     itemType !== 'separator' && 'menu-item',
     itemType && `menu-${itemType}`
   )
+
   return (
     <ContainerType onClick={handleClick} {...props} className={itemClass}>
       {children}
@@ -205,17 +206,23 @@ const MenuWithTooltip = React.forwardRef(
 
     // Submenu transition
     React.useEffect(() => {
+      const subElement = subRef.current
+      const mainElement = mainRef.current
       // Submenu open
       if (submenuState.show) {
-        setHeight(getHeight(subRef.current))
+        subElement && setHeight(getHeight(subElement))
       } else {
-        setHeight(getHeight(mainRef.current))
+        mainElement && setHeight(getHeight(mainElement))
       }
+
+      menu.first()
     }, [submenuState.show])
 
     // Hanlde size updates
     React.useEffect(() => {
-      menu.unstable_update()
+      if (height) {
+        menu.unstable_update()
+      }
     }, [height])
 
     return (
@@ -238,18 +245,16 @@ const MenuWithTooltip = React.forwardRef(
           aria-label={ariaLabel}
           style={{ height: `${height}px` }}
         >
-          <div
-            className={'menu--animated-content'}
-            style={{ height: height + 'px' }}
-          >
-            <MenuPanel
-              menuProps={menu}
-              items={items}
-              openSubmenu={handleSubmenuOpen}
-              closeSubmenu={handleSubmenuClose}
-              ref={mainRef}
-            />
-            {submenuState.show && (
+          <div className={'menu--animated-content'} style={{ height: height + 'px' }}>
+            {!submenuState.show ? (
+              <MenuPanel
+                menuProps={menu}
+                items={items}
+                openSubmenu={handleSubmenuOpen}
+                closeSubmenu={handleSubmenuClose}
+                ref={mainRef}
+              />
+            ) : (
               <MenuPanel
                 menuProps={menu}
                 list={submenuState.list}
