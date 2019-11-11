@@ -1659,6 +1659,11 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
+body-scroll-lock@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/body-scroll-lock/-/body-scroll-lock-2.6.4.tgz#567abc60ef4d656a79156781771398ef40462e94"
+  integrity sha512-NP08WsovlmxEoZP9pdlqrE+AhNaivlTrz9a0FF37BQsnOrpN48eNqivKkE7SYpM9N+YIPjsdVzfLAUQDBm6OQw==
+
 bonjour@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bonjour/-/bonjour-3.5.0.tgz#8e890a183d8ee9a2393b3844c691a42bcf7bc9f5"
@@ -6700,6 +6705,11 @@ pn@^1.1.0:
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
 
+popper.js@^1.15.0:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.0.tgz#2e1816bcbbaa518ea6c2e15a466f4cb9c6e2fbb3"
+  integrity sha512-+G+EkOPoE5S/zChTpmBSSDYmhXJ5PsW8eMhH8cP/CQHMFPBG/kC9Y5IIw6qNYgdJ+/COf0ddY2li28iHaZRSjw==
+
 portfinder@^1.0.24:
   version "1.0.24"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.24.tgz#11efbc6865f12f37624b6531ead1d809ed965cfa"
@@ -7487,6 +7497,26 @@ readdirp@^2.2.1:
     graceful-fs "^4.1.11"
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
+
+reakit-system@^0.6.8:
+  version "0.6.8"
+  resolved "https://registry.yarnpkg.com/reakit-system/-/reakit-system-0.6.8.tgz#c01697f61652f8df1c8022ebfbbae33f5a172bf9"
+  integrity sha512-q0ppF9T/+s89IdUL+LKKdi/RrZojpcOOhiDnpNJ5GbcMbOwM/i7H6i8Zd+uqAUcZV90sd0aj8TqVrFa9m12VnQ==
+
+reakit-utils@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/reakit-utils/-/reakit-utils-0.7.0.tgz#06af652edca1b1ae3fc93f07ac952db39f4be4c3"
+  integrity sha512-DU3I0QnqYo7ewbSGQhUl/vJjnJlHe8sZGEJpX60uLiBepkBbf63Ns5xxQz6FoOVN1WqxKH+bm6yQ3KpkhE4CTw==
+
+reakit@^1.0.0-beta.9:
+  version "1.0.0-beta.11"
+  resolved "https://registry.yarnpkg.com/reakit/-/reakit-1.0.0-beta.11.tgz#cc881ffef5b802cd56cf0662605d4197125a79ac"
+  integrity sha512-v2Pr3IPav+YiPDv8bRvwMsq3317Fkm+q/5xnJsR/nasBDg6ZBiv6Fg4HfGPR6BmlQSn1Ieasbtt5HBNFObDTCw==
+  dependencies:
+    body-scroll-lock "^2.6.4"
+    popper.js "^1.15.0"
+    reakit-system "^0.6.8"
+    reakit-utils "^0.7.0"
 
 realpath-native@^1.1.0:
   version "1.1.0"
