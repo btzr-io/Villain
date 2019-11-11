@@ -20,19 +20,6 @@ An open source web-based comic book reader.
 
 <br/>
 
-## Limitations
-
-Villain has some limitations regarding the archive formats:
-
-- [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs) is used to open the archive. Here are the formats supported by the library:
-  - `ZIP`
-  - `7-Zip`
-  - `RAR v4`
-  - `RAR v5`
-  - `TAR`
-- Encrypted archived are not yet supported ([#26](https://github.com/btzr-io/Villain/issues/26)).
-- Some `.rar` and `.cbr` fail to load ([#1](https://github.com/btzr-io/Villain/issues/1)).
-
 ## Installation
 
 ```SHELL
@@ -47,10 +34,7 @@ so you will need to provide the path of `webworker`:
 > The webworker bundle lives in libarchive.js/dist folder so you need to make sure that it is available in your public folder since it will not get bundled if you're using bundler (it's all bundled up already)
 
 ```JSX
-const opts = {
-  workerUrl: 'path to ../build/worker-bundle.js',
-  ...
-}
+const workerUrl = 'path to ../build/worker-bundle.js',
 ```
 
 ## Usage
@@ -67,10 +51,22 @@ import 'villain-react/dist/style.min.css'
 // Path of the comicbook archive
 const url = '/files/test.cbz'
 
+// Path of the libarchivejs webworker bundle
+const workerUrl = 'path to ../build/worker-bundle.js',
+
 //...
 
 <Villain file={url} options={opts} />
 ```
+## Options
+
+Available props of the component:
+
+| Name      | Type               | Default             | Description                           |
+| ----------| ------------------ | ------------------- | ------------------------------------- |
+| file      | string, file, blob | null                | Path or file source of the archive.   |
+| options   | object             | [options](https://github.com/btzr-io/Villain#options) | Options to customize the reader component   |
+| workerUrl | string             | null                | Path to libarchive.js `worker-bundle` |
 
 ## Options
 
@@ -80,11 +76,23 @@ Available options to customize the reader component:
 | -------------------- | ------ | ------- | ---------------------------------------------------- |
 | preview              | number | null    | Load and render only the provided number of images.  |
 | theme                | string | 'Dark'  | Choose CSS styling from between ('Light', 'Dark).    |
-| workerUrl            | string | null    | path to libarchive.js `worker-bundle`.               |
 | mangaMode            | bool   | false   | Select in order to read right to left.               |
 | allowFullScreen      | bool   | true    | Show full screen button.                             |
-| autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.               |
+| autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.              |
 | allowGlobalShortcuts | bool   | false   | Allows shortcuts without having to focus the viewer. |
+
+## Formats
+ Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs)
+  - `ZIP`
+  - `7-Zip`
+  - `RAR v4`
+  - `RAR v5`
+  - `TAR`
+  
+## Known issues  
+
+- Some `.rar` and `.cbr` fail to load ([#1](https://github.com/btzr-io/Villain/issues/1)).
+- Encrypted archived are not yet supported ([#26](https://github.com/btzr-io/Villain/issues/26)).
 
 ## Development
 
