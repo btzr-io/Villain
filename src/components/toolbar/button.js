@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
-import { Button } from 'reakit/Button'
+import { Button } from 'reakit'
 import Tooltip from '@/components/tooltip'
 
 const ToolbarButton = React.forwardRef(

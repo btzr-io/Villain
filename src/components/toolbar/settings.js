@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'
 import Menu from '@/components/menu'
 import Button from '@/components/toolbar/button'
 import Localize from '@/localize'
-import { Checkbox } from 'reakit/Checkbox'
 import { ReaderContext } from '@/context'
 
 import getLanguageName from '@/lib/language-name'

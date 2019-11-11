@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import {
-  useTooltipState,
-  Tooltip as ReakitTooltip,
-  TooltipReference,
-} from 'reakit/Tooltip'
+import { useTooltipState, Tooltip as ReakitTooltip, TooltipReference } from 'reakit'
 
 const Tooltip = React.forwardRef(
   ({ style, title, children, placement = 'top', ...props }, ref) => {

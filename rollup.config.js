@@ -21,6 +21,7 @@ export default {
     format: 'umd',
     globals: {
       react: 'React',
+      reakit: 'reakit',
       'react-dom': 'ReactDOM',
     },
   },
@@ -61,5 +62,5 @@ export default {
     terser(),
   ],
 
-  external: ['react', 'react-dom', ''],
+  external: ['react', 'react-dom', 'reakit'],
 }

@@ -8,7 +8,7 @@ import {
   MenuItemRadio,
   MenuItemCheckbox,
   useMenuState,
-} from 'reakit/Menu'
+} from 'reakit'
 
 import {
   mdiChevronLeft,

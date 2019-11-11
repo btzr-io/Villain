@@ -1,8 +1,14 @@
 import React from 'react'
-import { Tooltip, TooltipReference, useTooltipState } from 'reakit/Tooltip'
 import { MenuHeader } from '@/components/menu/custom'
 import { Item, ItemList } from '@/components/menu/item'
-import { Menu, MenuDisclosure, useMenuState } from 'reakit/Menu'
+import {
+  Menu,
+  MenuDisclosure,
+  Tooltip,
+  TooltipReference,
+  useTooltipState,
+  useMenuState,
+} from 'reakit'
 
 const MenuPanel = React.forwardRef(
   ({ title, items, list, openSubmenu, closeSubmenu, menuProps }, ref) => {
