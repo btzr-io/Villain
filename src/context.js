@@ -9,6 +9,7 @@ const defaultState = {
   hover: false,
   error: null,
   totalPages: 0,
+  fullscreen: false,
   isLastPage: false,
   isFirstPage: true,
   currentPage: null,

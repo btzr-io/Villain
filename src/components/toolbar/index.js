@@ -7,7 +7,7 @@ import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import Localize from '@/localize'
 import { ReaderContext } from '@/context'
-import { getNestedFocus } from '@/lib/use-focus'
+import { getNestedFocus, getInteractionFocus } from '@/lib/use-focus'
 
 import {
   Toolbar as ToolbarBase,
@@ -27,7 +27,13 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-const Toolbar = ({ container, updateZoom, renderError, showControls }) => {
+const Toolbar = ({
+  container,
+  updateZoom,
+  renderError,
+  showControls,
+  toggleFullscreen,
+}) => {
   const {
     state,
     toggleSetting,
@@ -36,7 +42,6 @@ const Toolbar = ({ container, updateZoom, renderError, showControls }) => {
     navigateToPage,
     togglePin,
     toggleTheme,
-    toggleFullscreen,
   } = useContext(ReaderContext)
 
   const {
@@ -56,7 +61,11 @@ const Toolbar = ({ container, updateZoom, renderError, showControls }) => {
   const handleShortcuts = useCallback(
     event => {
       // Check if it should restrict listening for key shortcuts on player focus
-      if (getNestedFocus(container)) {
+      if (getInteractionFocus()) {
+        return
+      }
+
+      if (!allowGlobalShortcuts && !getNestedFocus(container)) {
         return
       }
 

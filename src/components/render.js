@@ -132,8 +132,8 @@ class CanvasRender extends Component {
   }
 
   handleFullscreenChange = () => {
-    const isFullscreen = fullscreenElement()
-    this.context.updateState({ fullscreen: isFullscreen })
+    const fullscreen = fullscreenElement() !== null
+    this.context.updateState({ fullscreen })
     this.updateZoomLimits()
   }
 
@@ -169,7 +169,8 @@ class CanvasRender extends Component {
   }
 
   toggleFullscreen = () => {
-    const { container, allowFullScreen } = this.props
+    const { container } = this.props
+    const { allowFullScreen } = this.context.state
     if (allowFullScreen) toggleFullscreen(container)
   }
 
@@ -219,7 +220,7 @@ class CanvasRender extends Component {
 
     document.addEventListener('focus', this.handleFocus, true)
 
-    onFullscreenChange(document, 'add', this.handleFullscreenChange)
+    onFullscreenChange(container, 'add', this.handleFullscreenChange)
   }
 
   renderPage(index) {
@@ -305,7 +306,11 @@ class CanvasRender extends Component {
     // Remove event listeners
     document.removeEventListener('blur', this.handleBlur, true)
     document.removeEventListener('focus', this.handleFocus, true)
-    onFullscreenChange(document, 'remove', this.handleFullscreenChange)
+    onFullscreenChange(
+      this.props.container.current,
+      'remove',
+      this.handleFullscreenChange
+    )
     // Destroy OpenSeaDragon viewer
     this.viewer.destroy()
     this.viewer = null

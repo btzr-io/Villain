@@ -11,10 +11,18 @@ export const useFocus = () => {
   return [htmlElRef, setFocus]
 }
 
+// Detects is any chilkd of parent has focusableElements
 export const getNestedFocus = parent => {
   const elem = document.activeElement
-  const contains = parent.contains(elem)
-  const elementType = elem.tagName.toLowerCase()
-  const focusableElements = ['input', 'textarea', 'button']
-  return contains && focusableElements.indexOf(elementType) !== -1
+  return parent.contains(elem)
+}
+
+// Detects if user is typing or interacting with buttons or menus:
+// Useful for handling keyboard shortcuts
+export const getInteractionFocus = () => {
+  const activeElement = document.activeElement
+  if (activeElement) {
+    const focusableElements = ['BUTTON', 'INPUT', 'TEXTAREA']
+    return focusableElements.includes(activeElement.tagName)
+  }
 }
