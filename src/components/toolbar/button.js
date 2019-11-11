@@ -29,6 +29,7 @@ const ToolbarButton = React.forwardRef(
         focusable
         title={title}
         onClick={onClick}
+        aria-label={tooltip}
         className={clsx(
           'button',
           typeClass && `button-${typeClass}`,
