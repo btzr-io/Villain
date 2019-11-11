@@ -1,6 +1,6 @@
 const Languages = {
   EN: 'English',
-  ES: 'Espanol',
+  ES: 'Español',
   DE: 'Deutsch',
   FR: 'Français',
   PT: 'Português',
