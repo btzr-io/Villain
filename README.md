@@ -25,7 +25,7 @@ An open source web-based comic book reader.
 ```SHELL
 $ yarn add villain-react
 ```
-
+  
 ## WebWorker
 
 This component uses the [libarchivejs](https://github.com/nika-begiashvili/libarchivejs) for the extraction process,
@@ -36,6 +36,13 @@ so you will need to provide the path of `webworker`:
 ```JSX
 const workerUrl = 'path to ../build/worker-bundle.js',
 ```
+### Formats
+ Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs)
+  - `ZIP`
+  - `7-Zip`
+  - `RAR v4`
+  - `RAR v5`
+  - `TAR`
 
 ## Usage
 
@@ -58,7 +65,7 @@ const workerUrl = 'path to ../build/worker-bundle.js',
 
 <Villain file={url} options={opts} />
 ```
-## Options
+### Props
 
 Available props of the component:
 
@@ -68,7 +75,7 @@ Available props of the component:
 | options   | object             | [options](https://github.com/btzr-io/Villain#options) | Options to customize the reader component   |
 | workerUrl | string             | null                | Path to libarchive.js `worker-bundle` |
 
-## Options
+### Options
 
 Available options to customize the reader component:
 
@@ -80,19 +87,6 @@ Available options to customize the reader component:
 | allowFullScreen      | bool   | true    | Show full screen button.                             |
 | autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.              |
 | allowGlobalShortcuts | bool   | false   | Allows shortcuts without having to focus the viewer. |
-
-## Formats
- Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs)
-  - `ZIP`
-  - `7-Zip`
-  - `RAR v4`
-  - `RAR v5`
-  - `TAR`
-  
-## Known issues  
-
-- Some `.rar` and `.cbr` fail to load ([#1](https://github.com/btzr-io/Villain/issues/1)).
-- Encrypted archived are not yet supported ([#26](https://github.com/btzr-io/Villain/issues/26)).
 
 ## Development
 
@@ -106,6 +100,11 @@ An example archive has been provided to play around inside [`./build/testFile`](
 
 - A good resource for archives can be found here: https://archive.org/details/comics.
 - Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
+
+## Known issues  
+
+- Some `.rar` and `.cbr` fail to load ([#1](https://github.com/btzr-io/Villain/issues/1)).
+- Encrypted archived are not yet supported ([#26](https://github.com/btzr-io/Villain/issues/26)).
 
 ## Credits
 
