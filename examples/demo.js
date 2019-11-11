@@ -60,7 +60,7 @@ class Demo extends Component {
   }
 
   render() {
-    const options = { workerUrl: '/build/worker-bundle.js', ...this.optionsToProps() }
+    const options = this.optionsToProps()
 
     return (
       <div className="villain-demo" data-theme={options.theme}>
@@ -72,7 +72,11 @@ class Demo extends Component {
           </div>
         </aside>
         <div className="instance">
-          <Villain file={this.state.file} options={options} />
+          <Villain
+            file={this.state.file}
+            options={options}
+            workerUrl={'/build/worker-bundle.js'}
+          />
         </div>
       </div>
     )

@@ -27,33 +27,27 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-const Toolbar = ({
-  container,
-  updateZoom,
-  renderError,
-  showControls,
-  allowFullScreen,
-  toggleFullscreen,
-}) => {
+const Toolbar = ({ container, updateZoom, renderError, showControls }) => {
   const {
     state,
     toggleSetting,
     navigateForward,
     navigateBackward,
     navigateToPage,
-    toggleTheme,
     togglePin,
+    toggleTheme,
+    toggleFullscreen,
   } = useContext(ReaderContext)
 
   const {
-    theme,
     pages,
     bookMode,
     mangaMode,
+    totalPages,
     fullscreen,
     currentPage,
     currentZoom,
-    totalPages,
+    allowFullScreen,
     autoHideControls,
     allowGlobalShortcuts,
   } = state
@@ -99,10 +93,6 @@ const Toolbar = ({
       document.removeEventListener('keydown', handleShortcuts)
     }
   }, [handleShortcuts])
-
-  const handleLanguageChange = ({ target }) => {
-    setLang(target.value)
-  }
 
   const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
 

@@ -95,7 +95,7 @@
 
 .menu-separator {
   border: 0;
-  margin: 8px 0;
+  margin: 0;
   border-top: 1px solid var(--fg-color);
   opacity: 0.2;
 }

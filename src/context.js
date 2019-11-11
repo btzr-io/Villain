@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-export const ReaderContext = React.createContext()
 
 const defaultState = {
   size: 0,
@@ -31,9 +30,15 @@ const defaultSettings = {
   allowGlobalShortcuts: false,
 }
 
+// Default values
+const defaultContext = { ...defaultState, ...defaultSettings }
+
+// Create main context
+export const ReaderContext = React.createContext()
+
+// Create provider for context
 export class ReaderProvider extends Component {
-  //Define default state and merge external values
-  state = { ...defaultState, ...defaultSettings }
+  state = { ...defaultContext, ...this.props.externalOptions }
 
   updateState = (data, callback) => {
     this.setState(data, callback)
@@ -160,6 +165,3 @@ export class ReaderProvider extends Component {
     )
   }
 }
-
-//  Access context
-// <ReaderContext.Consumer> { context => (<div />)}<ReaderContext.Consumer/>

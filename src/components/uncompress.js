@@ -13,7 +13,7 @@ import Loader from '@/components/loader'
 import { mdiFileAlert } from '@mdi/js'
 import { setState } from 'expect/build/jestMatchersObject'
 
-const Uncompress = ({ file = null, workerUrl = null, preview = null, children }) => {
+const Uncompress = ({ file = null, workerUrl = null, children }) => {
   const context = useContext(ReaderContext)
 
   const state = useState({
@@ -22,7 +22,7 @@ const Uncompress = ({ file = null, workerUrl = null, preview = null, children })
     type: null,
   })
 
-  const { ready, error } = context.state
+  const { ready, error, preview } = context.state
 
   useEffect(() => {
     // Init libarchivejs: Setup worker

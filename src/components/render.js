@@ -307,27 +307,26 @@ class CanvasRender extends Component {
     document.removeEventListener('focus', this.handleFocus, true)
     onFullscreenChange(document, 'remove', this.handleFullscreenChange)
     // Destroy OpenSeaDragon viewer
-    this.viewer.canvas.removeEventListener('focus', this.handleFocus)
-    this.viewer.canvas.removeEventListener('blur', this.handleBlur)
     this.viewer.destroy()
     this.viewer = null
   }
 
   componentDidUpdate(prevProps) {
-    const { totalPages } = this.context.state
     const {
-      hover,
-      focus,
-      theme,
-      currentPage,
       bookMode,
-      autoHideControls,
       mangaMode,
-      allowGlobalShortcuts,
-    } = this.props
+      totalPages,
+      currentPage,
+      autoHideControls,
+    } = this.props.contextState
+
+    const prevContextState = prevProps.contextState
 
     // Page changed
-    if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
+    if (
+      currentPage !== prevContextState.currentPage ||
+      bookMode !== prevContextState.bookMode
+    ) {
       // Render new valid page
       if (currentPage >= 0 && currentPage < totalPages) {
         this.renderPage(currentPage)
@@ -335,40 +334,23 @@ class CanvasRender extends Component {
     }
 
     // Page changed
-    if (bookMode !== prevProps.bookMode) {
+    if (bookMode !== prevContextState.bookMode) {
       if (bookMode) {
         // Trigger re-render layout
         this.renderLayout()
       }
     }
 
-    // Handle toolbar visibility
-    if (autoHideControls !== prevProps.autoHideControls) {
-      this.context.updateState({ autoHideControls })
-    }
-
-    // Handle theme changed
-    if (theme !== prevProps.theme) {
-      if (theme) {
-        this.context.updateState({ theme })
-      }
-    }
-
     // re-render page when mangaMode is changed
-    if (mangaMode !== prevProps.mangaMode) {
-      this.context.updateState({ mangaMode }, () => this.renderPage(currentPage))
-    }
-
-    // force updateState when allowGlobalShortcuts is changed
-    if (allowGlobalShortcuts !== prevProps.allowGlobalShortcuts) {
-      this.context.updateState({ allowGlobalShortcuts })
+    if (mangaMode !== prevContextState.mangaMode) {
+      this.renderPage(currentPage)
     }
   }
 
   render() {
-    const { autoHideControls } = this.context.state
-    const { id, focus, hover, container, renderError, allowFullScreen } = this.props
-    const showControls = !autoHideControls || focus || hover
+    const { id, container, renderError, contextState } = this.props
+    const { focus, hover, autoHideControls } = contextState
+    const showControls = !autoHideControls || hover || focus
 
     return (
       <React.Fragment>
@@ -377,7 +359,6 @@ class CanvasRender extends Component {
           updateZoom={this.updateZoom}
           renderError={renderError}
           showControls={showControls}
-          allowFullScreen={allowFullScreen}
           toggleFullscreen={this.toggleFullscreen}
         />
         <div id={id} className={'villain-canvas'} />
