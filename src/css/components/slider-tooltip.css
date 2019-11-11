@@ -19,8 +19,9 @@
   border-radius: 50% 50% 0 50%;
   position: absolute;
   left: -25%;
-  bottom: 24px;
+  bottom: 42px;
   transform: rotate(45deg);
+  margin: 0;
 }
 
 .villain-toolbar .tooltip-text {
