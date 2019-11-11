@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-const useFocus = () => {
+export const useFocus = () => {
   const htmlElRef = useRef(null)
   const setFocus = () => {
     if (htmlElRef.current) {
@@ -11,4 +11,10 @@ const useFocus = () => {
   return [htmlElRef, setFocus]
 }
 
-export default useFocus
+export const getNestedFocus = parent => {
+  const elem = document.activeElement
+  const contains = parent.contains(elem)
+  const elementType = elem.tagName.toLowerCase()
+  const focusableElements = ['input', 'textarea', 'button']
+  return contains && focusableElements.indexOf(elementType) !== -1
+}

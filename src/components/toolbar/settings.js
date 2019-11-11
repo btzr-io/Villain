@@ -61,11 +61,10 @@ const SettingsMenu = React.forwardRef((props, ref) => {
       itemType: 'submenu',
       nestedTitle: Localize['Languages'],
       nestedList: {
-        listType: 'radio',
         items: Localize.getAvailableLanguages(),
-        getProps: (item, index, closeSubmenu) => {
+        getProps: ({ item, index, closeSubmenu, title }) => {
           return {
-            name,
+            name: title,
             value: item,
             itemType: 'radio',
             checked: Localize.getLanguage() === item,

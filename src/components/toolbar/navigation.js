@@ -5,7 +5,7 @@ import { ToolbarItem } from 'reakit'
 
 //Utils
 import Localize from '@/localize'
-import useFocus from '@/lib/use-focus'
+import { useFocus } from '@/lib/use-focus'
 
 // Icons
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'

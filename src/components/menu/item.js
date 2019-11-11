@@ -36,20 +36,19 @@ export function Item({
 }
 
 export function ItemList({
-  menuProps,
-  closeSubmenu,
+  title,
   items,
   getProps,
+  menuProps,
   getContent,
-  name,
-  listType,
+  closeSubmenu,
 }) {
   return (
     <MenuGroup {...menuProps}>
       {items.map((item, index) => (
         <Item
           {...menuProps}
-          {...getProps(item, index, closeSubmenu)}
+          {...getProps({ item, index, closeSubmenu, title })}
           key={`${item}-${index}`}
         >
           {getContent(item)}

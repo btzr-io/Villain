@@ -6,6 +6,8 @@ import ZoomControls from './zoom'
 import NavigationControls from './navigation'
 import Slider from '@/components/slider'
 import Localize from '@/localize'
+import { ReaderContext } from '@/context'
+import { getNestedFocus } from '@/lib/use-focus'
 
 import {
   Toolbar as ToolbarBase,
@@ -13,7 +15,6 @@ import {
   ToolbarSeparator,
   useToolbarState,
 } from 'reakit'
-import { ReaderContext } from '@/context'
 
 import {
   mdiPin,
@@ -26,21 +27,13 @@ import {
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-const isFocused = () => {
-  const elem = document.activeElement
-  const contains = document.querySelector('div.villain').contains(elem)
-  const elemType = elem.tagName.toLowerCase()
-  const forbiddenElemTypes = ['input', 'textarea', 'button']
-  return contains && forbiddenElemTypes.indexOf(elemType) === -1
-}
-
 const Toolbar = ({
-  allowFullScreen,
-  showControls,
-  toggleFullscreen,
+  container,
   updateZoom,
   renderError,
-  localize,
+  showControls,
+  allowFullScreen,
+  toggleFullscreen,
 }) => {
   const {
     state,
@@ -69,7 +62,7 @@ const Toolbar = ({
   const handleShortcuts = useCallback(
     event => {
       // Check if it should restrict listening for key shortcuts on player focus
-      if (!isFocused() && !allowGlobalShortcuts) {
+      if (getNestedFocus(container)) {
         return
       }
 

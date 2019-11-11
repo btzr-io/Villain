@@ -13,9 +13,9 @@ const MenuPanel = React.forwardRef(
         )}
         {list ? (
           <ItemList
-            menuProps={menuProps}
             {...list}
-            name={title}
+            title={title}
+            menuProps={menuProps}
             closeSubmenu={closeSubmenu}
           />
         ) : (
@@ -25,6 +25,7 @@ const MenuPanel = React.forwardRef(
               <Item
                 {...menuProps}
                 {...itemProps}
+                title={title}
                 openSubmenu={openSubmenu}
                 index={index}
                 key={itemKey}
@@ -37,29 +38,32 @@ const MenuPanel = React.forwardRef(
   }
 )
 
+const defaultSubmenuState = {
+  show: false,
+  list: null,
+  index: null,
+  title: null,
+  items: null,
+}
+
 const MenuWithTooltip = React.forwardRef(
   ({ disclosure, tooltip, items, placement, ariaLabel, ...props }, ref) => {
-    const menu = useMenuState({ placement })
+    const menu = useMenuState({ placement, gutter: 20 })
     const tooltipState = useTooltipState({ placement })
 
     const subRef = React.useRef(null)
     const mainRef = React.useRef(null)
 
     const [height, setHeight] = React.useState(0)
-    const [submenuState, setSubmenuState] = React.useState({
-      show: false,
-      list: null,
-      index: null,
-      items: null,
-      title: null,
-    })
+    const [submenuState, setSubmenuState] = React.useState({ ...defaultSubmenuState })
+
     const getHeight = element => {
       const bounds = element.getBoundingClientRect()
       return bounds.height
     }
 
     const reset = () => {
-      setSubmenuState({ show: false, index: null, items: null, title: null, list: null })
+      setSubmenuState({ ...defaultSubmenuState })
     }
 
     const handleSubmenuOpen = index => {
@@ -71,8 +75,9 @@ const MenuWithTooltip = React.forwardRef(
     }
 
     const handleMenuOpen = () => {
+      const mainElement = mainRef.current
+      mainElement && setHeight(getHeight(mainElement))
       reset()
-      setHeight(getHeight(mainRef.current))
     }
 
     const handleMenuClose = () => {
@@ -93,7 +98,7 @@ const MenuWithTooltip = React.forwardRef(
     // Handle submenu
     React.useEffect(() => {
       // Update submenu content
-      if (submenuState.index && submenuState.index > -1) {
+      if (submenuState.index || submenuState.index === 0) {
         // Check if selected iteam exist
         const selected = items[submenuState.index]
 
@@ -121,7 +126,7 @@ const MenuWithTooltip = React.forwardRef(
           }
         }
       }
-    }, [submenuState.index])
+    }, [submenuState.index, items])
 
     // Submenu transition
     React.useEffect(() => {
@@ -133,15 +138,11 @@ const MenuWithTooltip = React.forwardRef(
       } else {
         mainElement && setHeight(getHeight(mainElement))
       }
-
       menu.first()
     }, [submenuState.show])
-
     // Hanlde size updates
     React.useEffect(() => {
-      if (height) {
-        menu.unstable_update()
-      }
+      height && menu.unstable_update()
     }, [height])
 
     return (
@@ -164,7 +165,7 @@ const MenuWithTooltip = React.forwardRef(
           aria-label={ariaLabel}
           style={{ height: `${height}px` }}
         >
-          <div className={'menu--animated-content'} style={{ height: height + 'px' }}>
+          <div className={'menu--animated-content'}>
             {!submenuState.show ? (
               <MenuPanel
                 menuProps={menu}

@@ -30,9 +30,9 @@ const Villain = ({ file, width, height, options }) => {
               {({ state }) => (
                 <CanvasRender
                   id={'osd-canvas-render'}
+                  theme={theme}
                   hover={state.hover}
                   focus={state.focus}
-                  theme={theme}
                   container={container}
                   bookMode={state.bookMode}
                   mangaMode={mangaMode}

@@ -1,32 +1,34 @@
 /* toolbar */
 
 .villain-toolbar.villain-toolbar-hide:not(:hover) {
-  bottom: -50px;
   opacity: 0;
-  transition: 0.3s ease;
-  transition-property: opacity, bottom;
-  transition-delay: 1s;
+  transform: translate3d(0, 50px, 0);
 }
 
 .villain-toolbar {
   background: var(--toolbar-bg);
   padding: 0 4px;
   display: flex;
+  align-self: center;
   align-items: center;
   justify-content: space-between;
   height: var(--toolbar-height);
+  margin: 8px;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   opacity: 1;
   z-index: 1;
-  margin: 8px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  transition: 0.3s ease;
-  transition-property: opacity, bottom;
-  transition-delay: 0.1s;
+  box-sizing: border-box;
+  transform: translate3d(0, 0, 0);
+  /* animations */
+  transition-delay: 0.3s;
+  transition-property: opacity, transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
 }
 
 .villain-toolbar .divider {

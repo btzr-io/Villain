@@ -7,6 +7,7 @@ import RenderError from '@/components/renderError'
 import Localize from '@/localize'
 import { ReaderContext } from '../context'
 import { getKeyByValue } from '@/lib/utils'
+import { getNestedFocus } from '@/lib/use-focus'
 
 import {
   onFullscreenChange,
@@ -99,23 +100,16 @@ class CanvasRender extends Component {
   }
 
   handleFocus = () => {
-    const { autoHideControls } = this.props
-
-    if (autoHideControls) {
-      this.context.updateState({ focus: true })
-    }
+    const { container } = this.props
+    this.context.updateState({ focus: getNestedFocus(container) })
   }
 
   handleBlur = () => {
-    const { autoHideControls } = this.props
-
-    if (autoHideControls) {
-      this.context.updateState({ focus: false })
-    }
+    this.context.updateState({ focus: false })
   }
 
   handleEnter = () => {
-    const { autoHideControls } = this.props
+    const { autoHideControls } = this.context.state
 
     if (autoHideControls) {
       this.context.updateState({ hover: true })
@@ -123,7 +117,7 @@ class CanvasRender extends Component {
   }
 
   handleExit = () => {
-    const { autoHideControls } = this.props
+    const { autoHideControls } = this.context.state
 
     if (autoHideControls) {
       this.context.updateState({ hover: false })
@@ -180,7 +174,7 @@ class CanvasRender extends Component {
   }
 
   initOpenSeaDragon() {
-    const { id } = this.props
+    const { id, container } = this.props
     const { pages } = this.context.state
 
     // Detect browser vendor
@@ -188,9 +182,6 @@ class CanvasRender extends Component {
 
     // Create viewer
     this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
-
-    this.viewer.canvas.addEventListener('blur', this.handleBlur)
-    this.viewer.canvas.addEventListener('focus', this.handleFocus)
 
     // Events handler
     this.viewer.addHandler('open', () => {
@@ -223,6 +214,10 @@ class CanvasRender extends Component {
     this.viewer.addHandler('canvas-enter', this.handleEnter)
 
     this.viewer.addHandler('open-failed', this.handleError)
+
+    document.addEventListener('blur', this.handleBlur, true)
+
+    document.addEventListener('focus', this.handleFocus, true)
 
     onFullscreenChange(document, 'add', this.handleFullscreenChange)
   }
@@ -308,6 +303,8 @@ class CanvasRender extends Component {
 
   componentWillUnmount() {
     // Remove event listeners
+    document.removeEventListener('blur', this.handleBlur, true)
+    document.removeEventListener('focus', this.handleFocus, true)
     onFullscreenChange(document, 'remove', this.handleFullscreenChange)
     // Destroy OpenSeaDragon viewer
     this.viewer.canvas.removeEventListener('focus', this.handleFocus)
@@ -347,21 +344,13 @@ class CanvasRender extends Component {
 
     // Handle toolbar visibility
     if (autoHideControls !== prevProps.autoHideControls) {
-      this.context.updateState({ showControls: !autoHideControls, autoHideControls })
+      this.context.updateState({ autoHideControls })
     }
 
     // Handle theme changed
     if (theme !== prevProps.theme) {
       if (theme) {
         this.context.updateState({ theme })
-      }
-    }
-
-    if (this.context.state.autoHideControls) {
-      if (focus !== prevProps.focus) {
-        this.context.updateState({ showControls: focus })
-      } else if (hover !== prevProps.hover) {
-        this.context.updateState({ showControls: hover })
       }
     }
 
@@ -377,17 +366,19 @@ class CanvasRender extends Component {
   }
 
   render() {
-    const { id, autoHideControls, renderError, allowFullScreen } = this.props
-    const { showControls } = this.context.state
+    const { autoHideControls } = this.context.state
+    const { id, focus, hover, container, renderError, allowFullScreen } = this.props
+    const showControls = !autoHideControls || focus || hover
 
     return (
       <React.Fragment>
         <Toolbar
+          container={container}
           updateZoom={this.updateZoom}
-          toggleFullscreen={this.toggleFullscreen}
           renderError={renderError}
+          showControls={showControls}
           allowFullScreen={allowFullScreen}
-          showControls={!autoHideControls || showControls}
+          toggleFullscreen={this.toggleFullscreen}
         />
         <div id={id} className={'villain-canvas'} />
         {renderError && (

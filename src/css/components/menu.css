@@ -5,8 +5,9 @@
   background: var(--toolbar-bg);
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
+  overflow-y: auto;
   overflow-x: hidden;
-  margin-bottom: 20px;
+  max-height: 240px;
 }
 
 .menu-item .villain-icon {
@@ -103,19 +104,18 @@
   margin: 0;
   padding: 0;
   width: var(--menu-width);
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
   background: var(--toolbar-bg);
 }
 
 .menu--animated-content {
-  position: absolute;
-  top: 0;
-  left: 0;
   margin: auto;
 }
+
+.menu-header .menu-item {
+  margin: 0;
+}
+
 .menu-title {
   padding: 8px;
   margin: 4px 0;

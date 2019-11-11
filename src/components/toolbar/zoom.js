@@ -5,7 +5,7 @@ import { ToolbarItem } from 'reakit'
 
 // Uitls
 import Localize from '@/localize'
-import useFocus from '@/lib/use-focus'
+import { useFocus } from '@/lib/use-focus'
 
 // Icons
 import { mdiPlus, mdiMinus } from '@mdi/js'
