@@ -6,13 +6,17 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Added
 
-- Light theme [(#15)](https://github.com/btzr-io/Villain/issues/15)
+- Localization [(#76)](https://github.com/btzr-io/Villain/issues/76)
+- Menu (options) [(#13)](<(https://github.com/btzr-io/Villain/issues/13)>)
+- Dark and light theme [(#15)](https://github.com/btzr-io/Villain/issues/15)
 - Theme toggler [(#14)](https://github.com/btzr-io/Villain/issues/14)
 - Keyboard navigation for slider component [(#39)](https://github.com/btzr-io/Villain/issues/39)
 - Preview mode [(#27)](https://github.com/btzr-io/Villain/issues/27)
 - Manga mode [(#10)](https://github.com/btzr-io/Villain/issues/10)
 - Keyboard shortcuts [(#20)](https://github.com/btzr-io/Villain/issues/20)
-- Add aria-labels and roles to buttons and inputs [(#84)](https://github.com/btzr-io/Villain/issues/84)
+- Load archive from file object [(#129)](https://github.com/btzr-io/Villain/issues/129)
+- Aria-labels and roles to buttons and inputs [(#84)](https://github.com/btzr-io/Villain/issues/84)
+- Keyboard navigation for slider component [(#39)](https://github.com/btzr-io/Villain/issues/39)
 
 ### Fixed
 
@@ -22,7 +26,11 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Changed
 
+- Reduce module size [(#60)](https://github.com/btzr-io/Villain/issues/60)
+- Implement reakit [(#165)](https://github.com/btzr-io/Villain/issues/165)
 - Renamed workerPath option to workerUrl [(#55)](https://github.com/btzr-io/Villain/issues/55)
+- Move react/react-dom deps into `peerDependencies` [(#155)](https://github.com/btzr-io/Villain/issues/155)
+- Split main css into different files for each component [(#99)](https://github.com/btzr-io/Villain/issues/99)
 
 ## [0.0.9] - [2019-10-15]
 
