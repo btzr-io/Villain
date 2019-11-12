@@ -102,10 +102,9 @@ An example archive has been provided to play around inside [`./build/testFile`](
 - Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
 
 ## Known issues  
-
-- Some `.rar` and `.cbr` fail to load ([#1](https://github.com/btzr-io/Villain/issues/1)).
-- Accessibility issues ([#23](https://github.com/btzr-io/Villain/issues/23)).
-- Encrypted archived are not yet supported ([#26](https://github.com/btzr-io/Villain/issues/26)).
+- Accessibility issues [#23](https://github.com/btzr-io/Villain/issues/23)
+- Some `.rar` and `.cbr` fail to load [#1](https://github.com/btzr-io/Villain/issues/1)
+- Encrypted archived are not yet supported [#26](https://github.com/btzr-io/Villain/issues/26)
 
 ## Credits
 
