@@ -1,9 +1,9 @@
-<h1 align=center>
- <img align=center width="40%" src="https://user-images.githubusercontent.com/14793624/59959492-854cd400-9475-11e9-9149-4d21baa5591c.png" />
-</h1>
+<h2 align=center>
+ <img width="40%" src="https://user-images.githubusercontent.com/14793624/59959492-854cd400-9475-11e9-9149-4d21baa5591c.png" />
+</h2>
 
 <h2 align=center>
-  <a href="https://david-dm.org/btzr-io/Villain" title="dependencies status">
+  <a href="https://www.npmjs.com/package/villain-react" title="dependencies status">
     <img alt="npm" src="https://img.shields.io/npm/v/villain-react">
   </a>
   <a href="https://david-dm.org/btzr-io/Villain" title="dependencies status">
@@ -15,7 +15,7 @@
 </h2>
 
 <h4 align="center">
-An open source web-based comic book reader.
+The open source web-based comic book reader that you need, but don't deserve.
 </h4>
 
 <br/>
@@ -48,7 +48,7 @@ const workerUrl = 'path to ../build/worker-bundle.js',
 
 Import the component and the css styles
 
-```JSX
+```JS
 // Component
 import Villain from 'villain-react'
 
