@@ -1,3 +1,47 @@
+.villain.Dark {
+  --bg-color: #131313;
+  --fg-color: #fff;
+  --icon-color: var(--fg-color);
+  --slider-bg: rgba(255, 255, 255, 0.1);
+  --slider-track-bg: #fff;
+  --slider-buffer-bg: rgba(255, 255, 255, 0.4);
+  --input-border-focus: rgba(255, 255, 255, 0.4);
+  --input-bg: rgba(0, 0, 0, 0.24);
+  --input-border: rgba(0, 0, 0, 0.24);
+  --input-focus-bg: rgba(225, 225, 225, 0.15);
+  --button-bg: rgba(255, 255, 255, 0.1);
+  --button-active-bg: rgba(255, 255, 255, 0.15);
+  --button-hover-bg: var(--button-active-bg);
+  --toolbar-bg: #282828;
+  --toolbar-border: rgba(255, 255, 255, 0.2);
+  --toolbar-height: 50px;
+  --tooltip-bg: #575a67;
+  --tooltip-fg: var(--fg-color);
+  --toggler-bg: rgba(255, 255, 255, 0.24);
+}
+
+.villain.Light {
+  --bg-color: #f7f7f7;
+  --fg-color: #757575;
+  --icon-color: var(--fg-color);
+  --slider-bg: rgba(0, 0, 0, 0.1);
+  --slider-buffer-bg: rgba(0, 0, 0, 0.2);
+  --slider-track-bg: var(--fg-color);
+  --input-bg: #fff;
+  --input-border: rgba(180, 180, 180, 0.4);
+  --input-border-focus: rgba(150, 150, 150, 0.4);
+  --input-focus-bg: rgba(200, 200, 200, 0.24);
+  --button-bg: rgba(0, 0, 0, 0.1);
+  --button-active-bg: rgba(0, 0, 0, 0.15);
+  --button-hover-bg: var(--button-active-bg);
+  --toolbar-bg: #fff;
+  --toolbar-border: rgba(0, 0, 0, 0.2);
+  --toolbar-height: 50px;
+  --tooltip-bg: rgba(24, 24, 24, 0.64);
+  --tooltip-fg: #fff;
+  --toggler-bg: rgba(0, 0, 0, 0.24);
+}
+
 .menu {
   /* Vars */
   --menu-width: 220px;
@@ -29,8 +73,7 @@
 }
 
 .menu-item {
-  padding: 6px 8px;
-  margin: 4px 0;
+  padding: 8px;
   border: 0;
   background: transparent;
   font-size: 14px;
@@ -152,50 +195,6 @@
 
 .villain .villain-icon {
   fill: var(--icon-color);
-}
-
-.villain.Dark {
-  --bg-color: #131313;
-  --fg-color: #fff;
-  --icon-color: var(--fg-color);
-  --slider-bg: rgba(255, 255, 255, 0.1);
-  --slider-track-bg: #fff;
-  --slider-buffer-bg: rgba(255, 255, 255, 0.4);
-  --input-border-focus: rgba(255, 255, 255, 0.4);
-  --input-bg: rgba(0, 0, 0, 0.24);
-  --input-border: rgba(0, 0, 0, 0.24);
-  --input-focus-bg: rgba(225, 225, 225, 0.15);
-  --button-bg: rgba(255, 255, 255, 0.1);
-  --button-active-bg: rgba(255, 255, 255, 0.15);
-  --button-hover-bg: var(--button-active-bg);
-  --toolbar-bg: #282828;
-  --toolbar-border: rgba(255, 255, 255, 0.2);
-  --toolbar-height: 50px;
-  --tooltip-bg: #575a67;
-  --tooltip-fg: var(--fg-color);
-  --toggler-bg: rgba(255, 255, 255, 0.24);
-}
-
-.villain.Light {
-  --bg-color: #f7f7f7;
-  --fg-color: #757575;
-  --icon-color: var(--fg-color);
-  --slider-bg: rgba(0, 0, 0, 0.1);
-  --slider-buffer-bg: rgba(0, 0, 0, 0.2);
-  --slider-track-bg: var(--fg-color);
-  --input-bg: #fff;
-  --input-border: rgba(180, 180, 180, 0.4);
-  --input-border-focus: rgba(150, 150, 150, 0.4);
-  --input-focus-bg: rgba(200, 200, 200, 0.24);
-  --button-bg: rgba(0, 0, 0, 0.1);
-  --button-active-bg: rgba(0, 0, 0, 0.15);
-  --button-hover-bg: var(--button-active-bg);
-  --toolbar-bg: #fff;
-  --toolbar-border: rgba(0, 0, 0, 0.2);
-  --toolbar-height: 50px;
-  --tooltip-bg: rgba(24, 24, 24, 0.64);
-  --tooltip-fg: #fff;
-  --toggler-bg: rgba(0, 0, 0, 0.24);
 }
 
 .villain-toolbar .villain-input {
