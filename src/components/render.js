@@ -303,14 +303,11 @@ class CanvasRender extends Component {
   }
 
   componentWillUnmount() {
+    const { container } = this.props
     // Remove event listeners
     document.removeEventListener('blur', this.handleBlur, true)
     document.removeEventListener('focus', this.handleFocus, true)
-    onFullscreenChange(
-      this.props.container.current,
-      'remove',
-      this.handleFullscreenChange
-    )
+    onFullscreenChange(container, 'remove', this.handleFullscreenChange)
     // Destroy OpenSeaDragon viewer
     this.viewer.destroy()
     this.viewer = null

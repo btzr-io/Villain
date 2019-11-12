@@ -74,11 +74,12 @@ const SettingsMenu = React.forwardRef((props, ref) => {
         getContent: item => getLanguageName(item),
       },
     },
+    /*
     { itemType: 'separator' },
     {
       icon: mdiKeyboard,
       content: Localize['Keyboard shortcuts'],
-    },
+    }, */
   ]
 
   return (
