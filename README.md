@@ -104,6 +104,7 @@ An example archive has been provided to play around inside [`./build/testFile`](
 ## Known issues  
 
 - Some `.rar` and `.cbr` fail to load ([#1](https://github.com/btzr-io/Villain/issues/1)).
+- Accessibility issues ([#23](https://github.com/btzr-io/Villain/issues/23)).
 - Encrypted archived are not yet supported ([#26](https://github.com/btzr-io/Villain/issues/26)).
 
 ## Credits
