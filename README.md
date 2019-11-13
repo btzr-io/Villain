@@ -22,7 +22,7 @@ The open source web-based comic book reader that you need, but don't deserve.
 
 ## Installation
 
-```SHELL
+```shell
 $ yarn add villain-react
 ```
   
@@ -33,7 +33,7 @@ so you will need to provide the path of `webworker`:
 
 > The webworker bundle lives in libarchive.js/dist folder so you need to make sure that it is available in your public folder since it will not get bundled if you're using bundler (it's all bundled up already)
 
-```JSX
+```js
 const workerUrl = 'path to ../build/worker-bundle.js',
 ```
 ### Formats
