@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [1.0.1] - [UNRELEASED]
+
+### Added
+
+- New files of project's logo [(#180)](https://github.com/btzr-io/Villain/issues/180)
+
+### Changed
+
+- Css styles refactoring [(#140)](https://github.com/btzr-io/Villain/issues/140):
+- Add `villain` prefix to css styles
+- Better naming convention for css classes
+
 ## [1.0.0] - [2019-11-11]
 
 ### Added
