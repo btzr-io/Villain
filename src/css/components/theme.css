@@ -1,4 +1,4 @@
-.villain.Dark {
+.villain[data-theme='Dark'] {
   --bg-color: #131313;
   --fg-color: #fff;
   --icon-color: var(--fg-color);
@@ -20,7 +20,7 @@
   --toggler-bg: rgba(255, 255, 255, 0.24);
 }
 
-.villain.Light {
+.villain[data-theme='Light'] {
   --bg-color: #f7f7f7;
   --fg-color: #757575;
   --icon-color: var(--fg-color);

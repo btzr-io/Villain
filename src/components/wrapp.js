@@ -24,13 +24,13 @@ const Wrapp = ({ children, width, height, externalOptions }) => {
   return (
     <div
       ref={container}
+      style={size}
       className={clsx(
         'villain',
-        theme,
         fullscreen && 'villain--fullscreen',
         !autoHideControls && 'villain--static'
       )}
-      style={size}
+      data-theme={theme}
     >
       {children(container ? container.current : null)}
     </div>
