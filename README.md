@@ -49,7 +49,7 @@ const workerUrl = 'path to ../build/worker-bundle.js',
 
 Import the component and the css styles
 
-```JS
+```js
 // Component
 import Villain from 'villain-react'
 
