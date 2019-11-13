@@ -16,6 +16,9 @@ The open source web-based comic book reader that you need, but don't deserve.
   <a href="https://github.com/btzr-io/Villain/graphs/contributors">
     <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btzr-io/Villain.svg" alt="contributors">
   </a>
+ <a href="https://github.com/btzr-io/Villain/blob/master/LICENSE">
+ <img alt="GitHub license" src="https://img.shields.io/github/license/btzr-io/Villain">
+ </a>
 </h3>
 
 
@@ -49,7 +52,7 @@ const workerUrl = 'path to ../build/worker-bundle.js',
 
 Import the component and the css styles
 
-```JS
+```js
 // Component
 import Villain from 'villain-react'
 
