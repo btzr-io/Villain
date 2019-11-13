@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [1.0.2] - [UNRELEASED]
+
+### Fixes
+
+- Can't properly fit pages to viewer bounds (book mode) [(#132)](https://github.com/btzr-io/Villain/issues/132)
+
 ## [1.0.1] - [2019-11-12]
 
 ### Added
