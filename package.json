@@ -19,7 +19,12 @@
     "dist/"
   ],
   "keywords": [
-    "react"
+    "comic",
+    "comics",
+    "comic book",
+    "react",
+    "reader",
+    "viewer"
   ],
   "author": "Baltazar Gomez",
   "license": "MIT",
