@@ -11,8 +11,8 @@ All notable changes to this project will be documented in this file. The format 
 ### Changed
 
 - Css styles refactoring [(#140)](https://github.com/btzr-io/Villain/issues/140):
-- Add `villain` prefix to css styles
-- Better naming convention for css classes
+  * Add `villain` prefix to css styles
+  * Better naming convention for css classes
 
 ## [1.0.0] - [2019-11-11]
 
