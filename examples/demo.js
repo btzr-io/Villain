@@ -6,7 +6,7 @@ import './demo.css'
 
 class Demo extends Component {
   state = {
-    file: '/build/testFile/Example-archive.zip',
+    file: 'src/archives/example.zip',
     options: {
       preview: 0,
       theme: { type: 'select', value: 'Light', options: ['Dark', 'Light'] },
@@ -75,7 +75,7 @@ class Demo extends Component {
           <Villain
             file={this.state.file}
             options={options}
-            workerUrl={'/build/worker-bundle.js'}
+            workerUrl={'src/worker-bundle.js'}
           />
         </div>
       </div>
