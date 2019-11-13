@@ -36,20 +36,14 @@ class CanvasRender extends Component {
   getTargetZoom = (scale = 1) => {
     const { viewport, world } = this.viewer
     const count = world.getItemCount()
-    // MAX: Original size (1:1)
-    if (count > 1) {
-      const tile = world.getItemAt(0)
-      return tile.imageToViewportZoom(scale)
-    } else if (count && count === 1) {
-      return viewport.imageToViewportZoom(scale)
-    }
+    return viewport.imageToViewportZoom(scale)
   }
 
   updateZoomLimits = () => {
     const { viewport } = this.viewer
     const targetZoom = 0.9
     const realTargetZoom = this.getTargetZoom()
-    const imageBounds = this.viewer.world.getItemAt(0).getBounds()
+    const imageBounds = this.viewer.world.getHomeBounds()
     const viewportBounds = viewport.getBounds()
     const imageAspect = imageBounds.width / imageBounds.height
     const viewportAspect = viewportBounds.width / viewportBounds.height
@@ -269,15 +263,8 @@ class CanvasRender extends Component {
 
   fitPagesLegacy() {
     const { viewport, world } = this.viewer
-    const count = world.getItemCount()
-    const tiledImage = world.getItemAt(0)
-
-    if (tiledImage) {
-      const bounds = tiledImage.getBounds()
-      const margin = 8 / viewport.getContainerSize().x
-      bounds.width = (bounds.width + margin) * count
-      viewport.fitBoundsWithConstraints(bounds, true)
-    }
+    const bounds = world.getHomeBounds()
+    viewport.fitBoundsWithConstraints(bounds, true)
   }
 
   fitPages(orientation) {
