@@ -31,16 +31,16 @@ const ToolbarButton = React.forwardRef(
         onClick={onClick}
         aria-label={tooltip}
         className={clsx(
-          'button',
-          typeClass && `button-${typeClass}`,
-          active && 'button--active'
+          'villain-button',
+          typeClass && `villain-button--${typeClass}`,
+          active && 'villain-button--active'
         )}
         {...otherButtonProps}
       >
         {icon && (
           <Icon path={icon} size={iconSize || '24px'} className={'villain-icon'} />
         )}
-        {label && <span className={'villain-button-label'}>{label}</span>}
+        {label && <span className={'villain-button__label'}>{label}</span>}
         {children}
       </Button>
     )

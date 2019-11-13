@@ -1,6 +1,6 @@
 /* toolbar */
 
-.villain-toolbar.villain-toolbar-hide:not(:hover) {
+.villain-toolbar--hide:not(:hover) {
   opacity: 0;
   transform: translate3d(0, 50px, 0);
   transition-delay: 0.8s;
@@ -32,7 +32,7 @@
   transition-delay: 0.2s;
 }
 
-.villain-toolbar .divider {
+.villain-toolbar__divider {
   height: 1em;
   width: 2px;
   margin: 0 12px;
@@ -40,19 +40,19 @@
   background: var(--toolbar-border);
 }
 
-.villain-toolbar-group {
+.villain-toolbar__group {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 4px;
 }
 
-.villain-toolbar-group[disabled] {
+.villain-toolbar__group[disabled] {
   opacity: 0.4;
   user-select: none;
   pointer-events: none;
 }
 
-.villain-toolbar-group-expand {
+.villain-toolbar__group--expand {
   flex-grow: 1;
 }

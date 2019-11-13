@@ -19,7 +19,7 @@ const sliderStyle = {
 const Track = ({ source, target, getTrackProps }) => {
   return (
     <div
-      className="slider-track"
+      className="villain-slider__track"
       style={{
         zIndex: 0,
         left: `${source.percent}%`,
@@ -80,7 +80,7 @@ const SliderUI = ({
 
         <Handles>
           {({ handles, activeHandleID, getHandleProps }) => (
-            <div className="slider-handles">
+            <div className="villain-slider__handles">
               {handles.map(handle => (
                 <Handle
                   key={handle.id}
@@ -97,7 +97,7 @@ const SliderUI = ({
 
         <Tracks right={reversed} left={!reversed}>
           {({ tracks, getTrackProps }) => (
-            <div className="slider-tracks">
+            <div className="villain-slider__tracks">
               {tracks.map(({ id, source, target }) => (
                 <Track
                   key={id}
@@ -112,7 +112,7 @@ const SliderUI = ({
       </Slider>
 
       <div
-        className={'buffer'}
+        className={'villain-slider__buffer'}
         style={{
           width: `${bufferProgress}%`,
           borderRadius: '4px',

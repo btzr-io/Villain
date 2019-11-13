@@ -1,0 +1,41 @@
+.villain {
+  --font-family: Helvetica. Arial, sans-serif;
+  position: relative;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-family: var(--font-family);
+  /* Size limits */
+  min-height: 359px;
+  min-width: 640px;
+}
+
+.villain--fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0;
+  z-index: 99;
+}
+
+.villain--static {
+  .villain-toolbar {
+    margin: 0;
+    border-radius: 0;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+  }
+
+  .villain-canvas {
+    bottom: var(--toolbar-height);
+  }
+}
+
+.villain-icon {
+  fill: var(--icon-color);
+}

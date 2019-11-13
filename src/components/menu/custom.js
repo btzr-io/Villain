@@ -18,22 +18,22 @@ import {
 } from '@mdi/js'
 
 export const CustomSeparator = props => (
-  <MenuSeparator {...props} className={'menu-separator'} />
+  <MenuSeparator {...props} className={'villain-menu__separator'} />
 )
 
 export const CustomItem = ({ children, ...props }) => (
-  <MenuItem as={Button} className={'menu-item'} {...props}>
-    <div className={'menu-item-content'}>
-      <div className={'mneu-item-label'}>{children}</div>
+  <MenuItem as={Button} className={'villain-menu__item'} {...props}>
+    <div className={'villain-menu__item__content'}>
+      <div className={'villain-menu__item__label'}>{children}</div>
     </div>
   </MenuItem>
 )
 
 export const CustomCheckbox = ({ children, ...props }) => (
   <MenuItemCheckbox as={Button} {...props}>
-    <div className={'menu-item-content'}>
-      <div className={'mneu-item-label'}>{children}</div>
-      <div className={'menu-item-toggler'} />
+    <div className={'villain-menu__item__content'}>
+      <div className={'villain-menu__item__label'}>{children}</div>
+      <div className={'villain-menu__item__toggler'} />
     </div>
   </MenuItemCheckbox>
 )
@@ -45,20 +45,20 @@ export const CustomRadio = ({ children, ...props }) => (
     iconSize={'20px'}
     {...props}
   >
-    <div className={'menu-item-content'}>
-      <div className={'mneu-item-label'}>{children}</div>
+    <div className={'villain-menu__item__content'}>
+      <div className={'villain-menu__item__label'}>{children}</div>
     </div>
   </MenuItemRadio>
 )
 
 export const CustomSubmenu = ({ children, ...props }) => (
   <MenuItem {...props} as={Button}>
-    <div className={'menu-item-content'}>
-      <div className={'menu-item-label'}>{children}</div>
+    <div className={'villain-menu__item__content'}>
+      <div className={'villain-menu__item__label'}>{children}</div>
       <Icon
         path={mdiChevronRight}
         size={'24px'}
-        className={'villain-icon menu-item-icon'}
+        className={'villain-icon villain-menu__item__icon'}
       />
     </div>
   </MenuItem>
@@ -66,7 +66,7 @@ export const CustomSubmenu = ({ children, ...props }) => (
 
 export const MenuHeader = ({ title, closeSubmenu, menuProps, ...props }) => {
   return (
-    <div {...props} className={'menu-header'}>
+    <div {...props} className={'villain-menu__header'}>
       <CustomItem {...menuProps} icon={mdiChevronLeft} onClick={closeSubmenu}>
         {title}
       </CustomItem>

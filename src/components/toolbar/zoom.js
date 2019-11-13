@@ -79,7 +79,7 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
   }
 
   return (
-    <React.Fragment>
+    <div className={'villain-toolbar__group'}>
       <ToolbarItem
         {...toolbarItemProps}
         typeClass={'icon'}
@@ -102,7 +102,11 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
       />
 
       {/* This wrapper is used to force an update for the initial value and when the zoom buttons trigger a change */}
-      <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
+      <div
+        className={'villain-wrapper-input'}
+        data-focus={focusState}
+        onClick={handleClick}
+      >
         <ToolbarItem
           {...toolbarItemProps}
           step={1}
@@ -127,7 +131,7 @@ const ZoomControls = ({ disabled, onUpdate, toolbarItemProps }) => {
 
         <div className={'villain-label villain-label--center'}>%</div>
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

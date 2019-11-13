@@ -1,4 +1,4 @@
-.tooltip-villain {
+.villain-tooltip {
   color: var(--tooltip-fg, #fff);
   background-color: var(--tooltip-bg, #575a67);
   width: max-content;
@@ -6,4 +6,34 @@
   padding: 4px 8px;
   border-radius: 4px;
   margin-bottom: 8px;
+}
+
+.villain-tooltip--slider {
+  position: relative;
+  text-align: center;
+  font-family: var(--font-family);
+}
+
+.villain-tooltip--slider__container {
+  margin: 0;
+  z-index: 1;
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-fg);
+  font-size: 14px;
+  font-weight: 700;
+  max-width: 64px;
+  min-width: 24px;
+  height: 24px;
+  padding: 2px;
+  line-height: 24px;
+  display: block;
+  border-radius: 50% 50% 0 50%;
+  position: absolute;
+  left: -25%;
+  bottom: 42px;
+  transform: rotate(45deg);
+}
+
+.villain-tooltip--slider__text {
+  transform: rotate(-45deg);
 }

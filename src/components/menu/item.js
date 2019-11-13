@@ -24,8 +24,8 @@ export function Item({
   }
 
   const itemClass = clsx(
-    itemType !== 'separator' && 'menu-item',
-    itemType && `menu-${itemType}`
+    itemType !== 'separator' && 'villain-menu__item',
+    itemType && `villain-menu__${itemType}`
   )
 
   return (

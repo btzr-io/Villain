@@ -1,4 +1,4 @@
-.menu {
+.villain-menu {
   /* Vars */
   --menu-width: 220px;
   width: var(--menu-width);
@@ -10,25 +10,25 @@
   max-height: 240px;
 }
 
-.menu-item .villain-icon {
+.villain-menu__item .villain-icon {
   margin-right: 12px;
   width: 24px;
   height: 24px;
 }
 
-.menu-radio .villain-icon {
+.villain-menu__radio .villain-icon {
   margin-right: 14px;
 }
 
-.menu-item:first-child {
+.villain-menu__item:first-child {
   margin-top: 0;
 }
 
-.menu-item:last-child {
+.villain-menu__item:last-child {
   margin-bottom: 0;
 }
 
-.menu-item {
+.villain-menu__item {
   padding: 8px;
   border: 0;
   background: transparent;
@@ -43,7 +43,7 @@
   cursor: pointer;
 }
 
-.menu-item-content {
+.villain-menu__item__content {
   display: flex;
   justify-content: space-between;
   align-self: center;
@@ -51,11 +51,11 @@
   flex-grow: 1 1 0;
   width: 100%;
 }
-.menu-item .menu-item-icon {
+.villain-menu__item .villain-menu__item__icon {
   margin: 0;
 }
 
-.menu-item-toggler {
+.villain-menu__item__toggler {
   height: 16px;
   width: 30px;
   border-radius: 16px;
@@ -64,7 +64,7 @@
   background: var(--toggler-bg);
 }
 
-.menu-item-toggler::after {
+.villain-menu__item__toggler::after {
   content: '';
   display: block;
   background: var(--toolbar-bg);
@@ -78,28 +78,28 @@
   border-radius: 12px;
 }
 
-.menu-checkbox[aria-checked='true'] .menu-item-toggler::after {
+.villain-menu__checkbox[aria-checked='true'] .villain-menu__item__toggler::after {
   left: initial;
   right: 0;
   transform: translate(0, -50%);
 }
 
-.menu-checkbox[aria-checked='true'] .menu-item-toggler {
+.villain-menu__checkbox[aria-checked='true'] .villain-menu__item__toggler {
   background: var(--fg-color);
 }
 
-.menu-item:focus {
+.villain-menu__item:focus {
   background: var(--button-bg);
 }
 
-.menu-separator {
+.villain-menu__separator {
   border: 0;
   margin: 0;
   border-top: 1px solid var(--fg-color);
   opacity: 0.2;
 }
 
-.menu--panel {
+.villain-menu__panel {
   margin: 0;
   padding: 0;
   width: var(--menu-width);
@@ -107,15 +107,15 @@
   background: var(--toolbar-bg);
 }
 
-.menu--animated-content {
+.villain-menu__animated-content {
   margin: auto;
 }
 
-.menu-header .menu-item {
+.villain-menu__header .villain-menu__item {
   margin: 0;
 }
 
-.menu-title {
+.villain-menu__title {
   padding: 8px;
   margin: 4px 0;
   display: block;

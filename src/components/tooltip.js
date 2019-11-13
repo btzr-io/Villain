@@ -22,7 +22,7 @@ const Tooltip = React.forwardRef(
           {...tooltipState}
           style={style}
           unstable_portal={false}
-          className={'tooltip-villain'}
+          className={'villain-tooltip'}
         >
           {title}
         </ReakitTooltip>

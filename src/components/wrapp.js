@@ -27,7 +27,7 @@ const Wrapp = ({ children, width, height, externalOptions }) => {
       className={clsx(
         'villain',
         theme,
-        fullscreen && 'villain-fullscreen',
+        fullscreen && 'villain--fullscreen',
         !autoHideControls && 'villain--static'
       )}
       style={size}

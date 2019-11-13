@@ -1,13 +1,3 @@
-.villain-fullscreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  margin: 0;
-  z-index: 99;
-}
-
 .villain-canvas {
   width: 100%;
   position: absolute;
@@ -17,10 +7,6 @@
   bottom: 0;
   margin: 0;
   z-index: 0;
-}
-
-.openseadragon-message {
-  display: none !important;
 }
 
 .villain-overlay {
@@ -61,6 +47,11 @@
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
-  -webkit-animation: load 1.1s infinite linear;
-  animation: load 1.1s infinite linear;
+  -webkit-animation: villain-animation-load 1.1s infinite linear;
+  animation: villain-animation-load 1.1s infinite linear;
+}
+
+/* Hide openseadragon error messages */
+.openseadragon-message {
+  display: none !important;
 }

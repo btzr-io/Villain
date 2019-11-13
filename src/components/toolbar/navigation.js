@@ -73,7 +73,7 @@ const Navigation = ({ toolbarItemProps }) => {
   }
 
   return (
-    <div className={'villain-toolbar-group'}>
+    <div className={'villain-toolbar__group'}>
       <ToolbarItem
         {...toolbarItemProps}
         typeClass={'icon'}
@@ -96,7 +96,11 @@ const Navigation = ({ toolbarItemProps }) => {
         focusable
       />
 
-      <div className={'wrapper-input'} data-focus={focusState} onClick={handleClick}>
+      <div
+        className={'villain-wrapper-input'}
+        data-focus={focusState}
+        onClick={handleClick}
+      >
         <ToolbarItem
           {...toolbarItemProps}
           min={1}

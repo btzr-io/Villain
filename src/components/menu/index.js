@@ -13,7 +13,7 @@ import {
 const MenuPanel = React.forwardRef(
   ({ title, items, list, openSubmenu, closeSubmenu, menuProps }, ref) => {
     return (
-      <div className={'menu--panel'} ref={ref}>
+      <div className={'villain-menu__panel'} ref={ref}>
         {title && (
           <MenuHeader menuProps={menuProps} closeSubmenu={closeSubmenu} title={title} />
         )}
@@ -162,16 +162,16 @@ const MenuWithTooltip = React.forwardRef(
             </MenuDisclosure>
           )}
         </TooltipReference>
-        <Tooltip {...tooltipState} className={`tooltip-villain`} unstable_portal={false}>
+        <Tooltip {...tooltipState} className={`villain-tooltip`} unstable_portal={false}>
           {tooltip}
         </Tooltip>
         <Menu
           {...menu}
-          className={'menu'}
+          className={'villain-menu'}
           aria-label={ariaLabel}
           style={{ height: `${height}px` }}
         >
-          <div className={'menu--animated-content'}>
+          <div className={'villain-menu__animated-content'}>
             {!submenuState.show ? (
               <MenuPanel
                 menuProps={menu}

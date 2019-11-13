@@ -114,7 +114,7 @@ const Toolbar = ({
     <ToolbarBase
       {...toolbar}
       aria-label={'Toolbar'}
-      className={clsx('villain-toolbar', !showControls && 'villain-toolbar-hide')}
+      className={clsx('villain-toolbar', !showControls && 'villain-toolbar--hide')}
     >
       <NavigationControls
         currentPage={currentPage}
@@ -122,7 +122,7 @@ const Toolbar = ({
         toolbarItemProps={toolbar}
       />
 
-      <div className={'villain-toolbar-group villain-toolbar-group-expand'}>
+      <div className={'villain-toolbar__group villain-toolbar__group--expand'}>
         <Slider
           max={totalPages}
           value={currentPage}
@@ -133,14 +133,14 @@ const Toolbar = ({
         />
       </div>
 
-      <div className={'villain-toolbar-group'} disabled={renderError}>
+      <div className={'villain-toolbar__group'} disabled={renderError}>
         <ZoomControls
           onUpdate={updateZoom}
           currentZoom={currentZoom}
           disabled={renderError}
           toolbarItemProps={toolbar}
         />
-        <ToolbarSeparator className="divider" />
+        <ToolbarSeparator className="villain-toolbar__divider" />
 
         <ToolbarItem {...toolbar} as={Settings} />
 
