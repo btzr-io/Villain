@@ -2,7 +2,11 @@
  <img width="40%" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true" />
 </h2>
 
-<h2 align=center>
+<h4 align="center">
+The open source web-based comic book reader that you need, but don't deserve.
+</h4>
+
+<h3 align=center>
   <a href="https://www.npmjs.com/package/villain-react" title="dependencies status">
     <img alt="npm" src="https://img.shields.io/npm/v/villain-react">
   </a>
@@ -12,11 +16,8 @@
   <a href="https://github.com/btzr-io/Villain/graphs/contributors">
     <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btzr-io/Villain.svg" alt="contributors">
   </a>
-</h2>
+</h3>
 
-<h4 align="center">
-The open source web-based comic book reader that you need, but don't deserve.
-</h4>
 
 <br/>
 
