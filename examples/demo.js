@@ -8,7 +8,7 @@ class Demo extends Component {
   state = {
     file: 'src/archives/example.zip',
     options: {
-      preview: 0,
+      preview: '',
       theme: { type: 'select', value: 'Light', options: ['Dark', 'Light'] },
       mangaMode: false,
       allowFullScreen: true,
@@ -120,7 +120,7 @@ const parseEvent = target => {
   let value = target.value
   if (target.type === 'checkbox') value = target.checked
   else if (target.type === 'file') value = target.files[0]
-  else if (!isNaN(Number(value))) value = Number(value)
+  else if (!isNaN(Number(value))) value = value === '' ? '' : Number(value)
   return { name, value }
 }
 
