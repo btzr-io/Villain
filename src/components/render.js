@@ -261,7 +261,7 @@ class CanvasRender extends Component {
           nextPageBounds = nextPage.getBounds()
         }
 
-        // Auto resize page to fit nextPage
+        // Auto resize page to fit next page
         if (nextPageBounds.height > firstPageBounds.height) {
           firstPage.setHeight(nextPageBounds.height, true)
           // Recalculate bounds
@@ -311,10 +311,10 @@ class CanvasRender extends Component {
   componentDidMount() {
     const { initialPage } = this.props
     this.initOpenSeaDragon()
-    this.renderPage(initialPage)
   }
 
   componentWillUnmount() {
+    this.renderPage(initialPage)
     const { container } = this.props
     // Remove event listeners
     document.removeEventListener('blur', this.handleBlur, true)
