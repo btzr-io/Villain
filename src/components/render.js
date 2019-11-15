@@ -33,6 +33,7 @@ class CanvasRender extends Component {
     this.clearScrollingDelay = null
   }
 
+// Get the max target zoom
   getTargetZoom = (scale = 1) => {
     let zooms = []
     const { viewport, world } = this.viewer
@@ -261,7 +262,7 @@ class CanvasRender extends Component {
           nextPageBounds = nextPage.getBounds()
         }
 
-        // Auto resize page to fit next page
+        // Auto resize page to fit next page height
         if (nextPageBounds.height > firstPageBounds.height) {
           firstPage.setHeight(nextPageBounds.height, true)
           // Recalculate bounds
