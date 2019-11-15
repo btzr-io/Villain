@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file. The format 
 
 - Can't properly fit pages to viewer bounds (book mode) [(#132)](https://github.com/btzr-io/Villain/issues/132)
 
+### Changed
+
+- Render improvements [(#219)](https://github.com/btzr-io/Villain/issues/219)
+
 ## [1.0.1] - [2019-11-12]
 
 ### Added
