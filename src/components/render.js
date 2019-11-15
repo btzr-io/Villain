@@ -233,37 +233,56 @@ class CanvasRender extends Component {
   }
 
   renderLayout() {
-    const { viewport, world } = this.viewer
-    const { currentPage } = this.context.state
+    const { world } = this.viewer
     const pos = new OpenSeaDragon.Point(0, 0)
     const count = world.getItemCount()
 
     // Cache tile data
     let bounds = null
-    let tiledImage = null
+    let nextPage = null
+    let firstPage = null
+    let nextPageBounds = null
     let firstPageBounds = null
 
-    for (let i = 0; i < count; i++) {
-      // Get current page
-      tiledImage = world.getItemAt(i)
+    if (count > 0) {
+      // Page view (single page)
+      firstPage = world.getItemAt(0)
+      firstPageBounds = firstPage.getBounds()
 
-      if (tiledImage) {
-        // Get page bounds
-        bounds = tiledImage.getBounds()
-        // Get first page bounds
-        if (i === 0) firstPageBounds = bounds
-        // Auto resize pages to fit first page height
-        else {
-          tiledImage.setHeight(firstPageBounds.height, true)
+      // Book view ( two pages )
+      if (count > 1) {
+        nextPage = world.getItemAt(1)
+        nextPageBounds = nextPage.getBounds()
+
+        // Auto resize page to fit first page height
+        if (firstPageBounds.height > nextPageBounds.height) {
+          nextPage.setHeight(firstPageBounds.height, true)
+          // Recalculate bounds
+          nextPageBounds = nextPage.getBounds()
         }
-        // Recalculate bounds
-        bounds = tiledImage.getBounds()
-        // Position next page
-        tiledImage.setPosition(pos, true)
-        pos.x += bounds.width
+
+        // Auto resize page to fit nextPage
+        if (nextPageBounds.height > firstPageBounds.height) {
+          firstPage.setHeight(nextPageBounds.height, true)
+          // Recalculate bounds
+          firstPageBounds = firstPage.getBounds()
+        }
+      }
+
+      // Set position for first page
+      if (firstPage && firstPageBounds) {
+        firstPage.setPosition(pos, true)
+        pos.x += firstPageBounds.width
+      }
+
+      // Set position for next page
+      if (nextPage && nextPageBounds) {
+        nextPage.setPosition(pos, true)
+        pos.x += nextPageBounds.width
       }
     }
-    // Update viewer zoom
+
+    // Fit pages on viewer and apply bounds
     this.fitPages()
   }
 
