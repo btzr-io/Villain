@@ -13,30 +13,7 @@ const railStyle = {
 }
 
 const SliderRail = ({ activeHandleID, getEventData, getRailProps }) => {
-  const [value, setValue] = useState(null)
-  const [percent, setPercent] = useState(null)
-
-  const onMouseEnter = () => {
-    document.addEventListener('mousemove', onMouseMove)
-  }
-
-  const onMouseLeave = () => {
-    setValue(null)
-    setPercent(null)
-    document.removeEventListener('mousemove', onMouseMove)
-  }
-
-  const onMouseMove = e => {
-    if (activeHandleID) {
-      setValue(null)
-      setPercent(null)
-    } else {
-      setValue(getEventData(e).value)
-      setPercent(getEventData(e).percent)
-    }
-  }
-
-  return <div style={railStyle} {...getRailProps({ onMouseEnter, onMouseLeave })} />
+  return <div style={railStyle} {...getRailProps()} />
 }
 
 SliderRail.propTypes = {

@@ -34,8 +34,15 @@ class CanvasRender extends Component {
   }
 
   getTargetZoom = (scale = 1) => {
-    const { viewport } = this.viewer
-    return viewport.imageToViewportZoom(scale)
+    let zooms = []
+    const { viewport, world } = this.viewer
+    const count = world.getItemCount()
+
+    for (let i = 0; i < count; i++) {
+      zooms[i] = world.getItemAt(i).imageToViewportZoom(scale)
+    }
+
+    return Math.max(zooms)
   }
 
   updateZoomLimits = () => {
