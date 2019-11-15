@@ -1,13 +1,13 @@
 .villain-menu {
   /* Vars */
-  --menu-width: 220px;
+  --menu-width: 240px;
   width: var(--menu-width);
+  max-height: 280px;
   background: var(--toolbar-bg);
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  overflow-y: auto;
   overflow-x: hidden;
-  max-height: 240px;
+  overflow-y: auto;
 }
 
 .villain-menu__item .villain-icon {
@@ -102,13 +102,13 @@
 .villain-menu__panel {
   margin: 0;
   padding: 0;
-  width: var(--menu-width);
+  width: 100%;
   display: block;
   background: var(--toolbar-bg);
 }
 
 .villain-menu__animated-content {
-  margin: auto;
+  margin: 0;
 }
 
 .villain-menu__header .villain-menu__item {

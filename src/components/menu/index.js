@@ -1,6 +1,7 @@
 import React from 'react'
 import { MenuHeader } from '@/components/menu/custom'
 import { Item, ItemList } from '@/components/menu/item'
+
 import {
   Menu,
   MenuDisclosure,
@@ -60,7 +61,7 @@ const MenuWithTooltip = React.forwardRef(
     const subRef = React.useRef(null)
     const mainRef = React.useRef(null)
 
-    const [height, setHeight] = React.useState(0)
+    const [menuHeight, setMenuHeight] = React.useState(0)
     const [submenuState, setSubmenuState] = React.useState({ ...defaultSubmenuState })
 
     const getHeight = element => {
@@ -82,7 +83,7 @@ const MenuWithTooltip = React.forwardRef(
 
     const handleMenuOpen = () => {
       const mainElement = mainRef.current
-      mainElement && setHeight(getHeight(mainElement))
+      mainElement && setMenuHeight(getHeight(mainElement))
       reset()
     }
 
@@ -140,16 +141,13 @@ const MenuWithTooltip = React.forwardRef(
       const mainElement = mainRef.current
       // Submenu open
       if (submenuState.show) {
-        subElement && setHeight(getHeight(subElement))
+        subElement && setMenuHeight(getHeight(subElement))
       } else {
-        mainElement && setHeight(getHeight(mainElement))
+        mainElement && setMenuHeight(getHeight(mainElement))
       }
       menu.first()
+      menu.unstable_update()
     }, [submenuState.show])
-    // Hanlde size updates
-    React.useEffect(() => {
-      height && menu.unstable_update()
-    }, [height])
 
     return (
       <React.Fragment>
@@ -167,31 +165,29 @@ const MenuWithTooltip = React.forwardRef(
         </Tooltip>
         <Menu
           {...menu}
+          style={{ height: menuHeight }}
           className={'villain-menu'}
           aria-label={ariaLabel}
-          style={{ height: `${height}px` }}
         >
-          <div className={'villain-menu__animated-content'}>
-            {!submenuState.show ? (
-              <MenuPanel
-                menuProps={menu}
-                items={items}
-                openSubmenu={handleSubmenuOpen}
-                closeSubmenu={handleSubmenuClose}
-                ref={mainRef}
-              />
-            ) : (
-              <MenuPanel
-                menuProps={menu}
-                list={submenuState.list}
-                title={submenuState.title}
-                items={submenuState.items}
-                openSubmenu={handleSubmenuOpen}
-                closeSubmenu={handleSubmenuClose}
-                ref={subRef}
-              />
-            )}
-          </div>
+          {!submenuState.show ? (
+            <MenuPanel
+              menuProps={menu}
+              items={items}
+              openSubmenu={handleSubmenuOpen}
+              closeSubmenu={handleSubmenuClose}
+              ref={mainRef}
+            />
+          ) : (
+            <MenuPanel
+              menuProps={menu}
+              list={submenuState.list}
+              title={submenuState.title}
+              items={submenuState.items}
+              openSubmenu={handleSubmenuOpen}
+              closeSubmenu={handleSubmenuClose}
+              ref={subRef}
+            />
+          )}
         </Menu>
       </React.Fragment>
     )
