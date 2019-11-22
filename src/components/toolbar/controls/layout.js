@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '@/components/toolbar/button'
-import Localize from '@/localize'
 import { ReaderContext } from '@/context'
 import { mdiBookOpen, mdiBookOpenOutline } from '@mdi/js'
 
@@ -12,7 +11,7 @@ const LayoutButton = React.memo(
         icon={bookMode ? mdiBookOpen : mdiBookOpenOutline}
         onClick={() => toggleSetting('bookMode')}
         disabled={disabled}
-        tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
+        tooltip={bookMode ? 'Page view' : 'Book view'}
         tooltipPlacement={allowFullScreen ? 'top' : 'top-end'}
         focusable
       />

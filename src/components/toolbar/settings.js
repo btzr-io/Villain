@@ -1,7 +1,8 @@
 import React from 'react'
 import Menu from '@/components/menu'
-import Button from '@/components/toolbar/button'
+import Localized from '@/components/localized'
 import Localize from '@/localize'
+import Button from '@/components/toolbar/button'
 import { ReaderContext } from '@/context'
 
 import getLanguageName from '@/lib/language-name'
@@ -23,7 +24,7 @@ const SettingsButton = React.memo(
       ref={ref}
       icon={mdiSettings}
       typeClass={'icon'}
-      tooltip={Localize['Settings']}
+      tooltip={'Settings'}
     />
   ))
 )
@@ -51,7 +52,7 @@ const SettingsMenu = React.forwardRef(
       {
         id: 'toggler-manga-mode',
         icon: mdiPagePrevious,
-        content: Localize['Manga mode'],
+        content: 'Manga mode',
         checked: isMangaMode,
         itemType: 'checkbox',
         onChange: handleMangaToggle,
@@ -59,7 +60,7 @@ const SettingsMenu = React.forwardRef(
       {
         id: 'toggler-dark-theme',
         icon: mdiBrightness4,
-        content: Localize['Dark theme'],
+        content: 'Dark theme',
         checked: isDarkTheme,
         itemType: 'checkbox',
         onChange: handleThemeToggle,
@@ -68,9 +69,9 @@ const SettingsMenu = React.forwardRef(
       {
         id: 'submenu-select-langauge',
         icon: mdiTranslate,
-        content: Localize['Language'],
+        content: 'Language',
         itemType: 'submenu',
-        nestedTitle: Localize['Languages'],
+        nestedTitle: 'Languages',
         nestedList: {
           items: Localize.getAvailableLanguages(),
           getProps: ({ item, closeSubmenu, title }) => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Icon from '@mdi/react'
+import Localized from '@/components/localized'
 import { MenuGroup } from 'reakit'
 import { CustomItems } from '@/components/menu/custom'
 
@@ -24,7 +25,7 @@ export const Item = React.memo(
 
       return (
         <ContainerType onClick={handleClick} className={itemClass} {...props} ref={ref}>
-          {content || children}
+          { content ? (<Localized value={content} />) : children}
         </ContainerType>
       )
     }
@@ -38,15 +39,9 @@ export const ItemList = React.memo(
         {items.map((item, index) => (
           <Item
             {...menuProps}
-            {...React.useMemo(() => getProps({ item, closeSubmenu, title }), [
-              item,
-              title,
-              closeSubmenu,
-            ])}
+            {...getProps({ item, title, closeSubmenu })}
             key={item}
-          >
-            {React.useMemo(() => getContent(item), [item])}
-          </Item>
+          >{getContent && getContent(item)}</Item>
         ))}
       </MenuGroup>
     )

@@ -1,6 +1,7 @@
 import React from 'react'
 import Icon from '@mdi/react'
 import Button from '@/components/toolbar/button'
+import Localized from '@/components/localized'
 
 import {
   MenuItem,
@@ -70,7 +71,7 @@ export const MenuHeader = React.forwardRef(
     return (
       <div {...props} className={'villain-menu__header'}>
         <CustomItem {...menuProps} icon={mdiChevronLeft} onClick={closeSubmenu} ref={ref}>
-          {title}
+          <Localized value={title} />
         </CustomItem>
         <CustomSeparator {...menuProps} style={{ margin: 0 }} />
       </div>

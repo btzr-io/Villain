@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import React, { Component } from 'react'
 import OpenSeaDragon from 'openseadragon'
-import Localize from '@/localize'
 import OSDConfig from '@/osd.config'
 import RenderError from '@/components/renderError'
 import ToolbarConsumer from '@/components/toolbar'
@@ -354,7 +353,7 @@ class CanvasRender extends React.PureComponent {
         />
         <div id={id} className={'villain-canvas'} />
         {renderError && (
-          <RenderError message={Localize['Invalid image']} icon={mdiImageBrokenVariant} />
+          <RenderError message={'Invalid image'} icon={mdiImageBrokenVariant} />
         )}
       </React.Fragment>
     )

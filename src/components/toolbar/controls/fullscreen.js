@@ -1,16 +1,13 @@
 import React from 'react'
 import Button from '@/components/toolbar/button'
-import Localize from '@/localize'
 import { ReaderContext } from '@/context'
 import { mdiFullscreen, mdiFullscreenExit } from '@mdi/js'
 import { toggleFullscreen } from '@/lib/full-screen'
 
 const FullscreenButton = React.memo(
-  ({ fullscreen, allowFullScreen, container, disabled }) => {
+  ({ fullscreen, container, disabled }) => {
     const handleToggleFullscreen = () => {
-      if (allowFullScreen) {
         toggleFullscreen(container)
-      }
     }
 
     return (
@@ -19,7 +16,7 @@ const FullscreenButton = React.memo(
         icon={fullscreen ? mdiFullscreenExit : mdiFullscreen}
         onClick={handleToggleFullscreen}
         disabled={disabled}
-        tooltip={fullscreen ? Localize['Exit fullscreen'] : Localize['Enter fullscreen']}
+        tooltip={fullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
         tooltipPlacement={'top-end'}
         focusable
       />
@@ -30,7 +27,7 @@ const FullscreenButton = React.memo(
 const FullscreenConsumer = React.memo(({ container, disabled }) => (
   <ReaderContext.Consumer>
     {({ fullscreen, allowFullScreen }) => (
-      <FullscreenButton
+      allowFullScreen && <FullscreenButton
         disabled={disabled}
         container={container}
         fullscreen={fullscreen}

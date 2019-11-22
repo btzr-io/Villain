@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
 import { asyncForEach, fetchArchive, isValidImageType } from '@/lib/utils'
 import { ReaderContext } from '@/context'
-import Localize from '@/localize'
 
 // Components
 import RenderError from '@/components/renderError'
@@ -59,7 +58,7 @@ const Uncompress = React.memo(
             handleExtractedFile(file, index)
           })
         } else {
-          context.trigger('error', Localize['Cant open archive'])
+          context.trigger('error', 'Cant open archive')
         }
       } catch (err) {
         // Handle Errors

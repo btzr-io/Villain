@@ -4,7 +4,6 @@ import { ReaderContext } from '@/context'
 import { ToolbarItem } from 'reakit'
 
 // Uitls
-import Localize from '@/localize'
 import { useFocus } from '@/lib/use-focus'
 
 // Icons
@@ -16,7 +15,7 @@ const ZoomInButton = memo(({ zoomIn, disabled }) => {
       {({ canZoomIn }) => (
         <Button
           typeClass={'icon'}
-          tooltip={Localize['Zoom in']}
+          tooltip={'Zoom in'}
           icon={mdiPlus}
           disabled={!canZoomIn || disabled}
           onClick={zoomIn}
@@ -33,7 +32,7 @@ const ZoomOutButton = memo(({ zoomOut, disabled }) => {
       {({ canZoomOut }) => (
         <Button
           typeClass={'icon'}
-          tooltip={Localize['Zoom out']}
+          tooltip={'Zoom out'}
           icon={mdiMinus}
           disabled={!canZoomOut || disabled}
           onClick={zoomOut}

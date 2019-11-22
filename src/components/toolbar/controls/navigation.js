@@ -122,13 +122,13 @@ const NavigationControls = () => {
               icon={mdiChevronLeft}
               action={mangaMode ? navigateForward : navigateBackward}
               disabled={mangaMode ? isLastPage : isFirstPage}
-              tooltip={mangaMode ? Localize['Next page'] : Localize['Previous page']}
+              tooltip={mangaMode ? 'Next page' : 'Previous page'}
             />
             <NavigationButton
               icon={mdiChevronRight}
               action={mangaMode ? navigateBackward : navigateForward}
               disabled={mangaMode ? isFirstPage : isLastPage}
-              tooltip={mangaMode ? Localize['Previous page'] : Localize['Next page']}
+              tooltip={mangaMode ? 'Previous page' : 'Next page'}
             />
           </>
         )}

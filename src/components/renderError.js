@@ -1,5 +1,6 @@
 import React from 'react'
 import Icon from '@mdi/react'
+import Localized from '@/components/localized'
 
 const Error = React.memo(props => {
   const { icon, message } = props
@@ -7,7 +8,9 @@ const Error = React.memo(props => {
     <div className={'villain-overlay villain-overlay--canvas'}>
       <Icon className={'villain-icon'} path={icon} size={3} />
       <div className={'villain-overlay--message'}>
-        <h3>{message}</h3>
+        <h3>
+        <Localized value={message} />
+        </h3>
       </div>
     </div>
   )

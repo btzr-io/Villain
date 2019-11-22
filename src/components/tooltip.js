@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Localized from '@/components/localized'
 import { useTooltipState, Tooltip as ReakitTooltip, TooltipReference } from 'reakit'
 import { animated, useSpring } from 'react-spring'
 
@@ -43,7 +44,7 @@ const Tooltip = React.forwardRef(
           className={'villain-tooltip'}
           as={animated.div}
         >
-          {title}
+        <Localized value={title} />
         </ReakitTooltip>
       </>
     )

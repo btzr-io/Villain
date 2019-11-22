@@ -7,7 +7,6 @@ import ZoomControls from '@/components/toolbar/controls/zoom'
 import LayoutButton from '@/components/toolbar/controls/layout'
 import FullscreenButton from '@/components/toolbar/controls/fullscreen'
 import NavigationControls from '@/components/toolbar/controls/navigation'
-import Localize from '@/localize'
 import { ReaderContext } from '@/context'
 
 import {
@@ -75,7 +74,7 @@ const Toolbar = memo(
             onClick={togglePin}
             disabled={renderError}
             tooltip={
-              autoHideControls ? Localize['Pin toolbar'] : Localize['Unpin toolbar']
+              autoHideControls ? 'Pin toolbar' : 'Unpin toolbar'
             }
             focusable
           />
