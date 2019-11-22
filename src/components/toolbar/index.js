@@ -73,9 +73,7 @@ const Toolbar = memo(
             icon={autoHideControls ? mdiPin : mdiPinOff}
             onClick={togglePin}
             disabled={renderError}
-            tooltip={
-              autoHideControls ? 'Pin toolbar' : 'Unpin toolbar'
-            }
+            tooltip={autoHideControls ? 'Pin toolbar' : 'Unpin toolbar'}
             focusable
           />
 
