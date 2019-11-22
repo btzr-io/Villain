@@ -4,13 +4,19 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [1.0.2] - [UNRELEASED]
 
-### Fixes
+### Added
 
-- Can't properly fit pages to viewer bounds (book mode) [(#132)](https://github.com/btzr-io/Villain/issues/132)
+- Basic animations [(#213)](https://github.com/btzr-io/Villain/issues/213)
 
 ### Changed
 
 - Render improvements [(#219)](https://github.com/btzr-io/Villain/issues/219)
+
+### Fixed
+
+- Reverse mode (manga) is not optimized [(#221)](https://github.com/Villain/issues/221)
+- Can't properly fit pages to viewer bounds (book mode) [(#132)](https://github.com/btzr-io/Villain/issues/132)
+- Performance issues on Focus / blur event listener [(#220)](https://github.com/btzr-io/Villain/issues/220)
 
 ## [1.0.1] - [2019-11-12]
 
@@ -21,8 +27,8 @@ All notable changes to this project will be documented in this file. The format 
 ### Changed
 
 - Css styles refactoring [(#140)](https://github.com/btzr-io/Villain/issues/140):
-  * Add `villain` prefix to css styles
-  * Better naming convention for css classes
+  - Add `villain` prefix to css styles
+  - Better naming convention for css classes
 
 ## [1.0.0] - [2019-11-11]
 
