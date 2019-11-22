@@ -1,14 +1,25 @@
 import React, { useState } from 'react'
 import clsx from 'clsx'
 import Villain from '@/index.js'
-import './demo.css'
-import Field from './src/components/Field/field.js'
-import { isObject, isBoolean, parseEvent } from './src/components/Others/others'
+import Field from './components/field.js'
+
+export const isObject = value =>
+  value && typeof value === 'object' && value.constructor === Object
+
+export const isBoolean = value => typeof value === 'boolean'
+
+export const parseEvent = target => {
+  const name = target.name
+  let value = target.value
+  if (target.type === 'checkbox') value = target.checked
+  else if (target.type === 'file') value = target.files[0]
+  else if (!isNaN(Number(value))) value = value === '' ? '' : Number(value)
+  return { name, value }
+}
 
 const Demo = () => {
-  const [file, setFile] = useState('src/archives/example.zip')
+  const [file, setFile] = useState('static/archives/example.zip')
   const [options, setOptions] = useState({
-    preview: '',
     theme: { type: 'select', value: 'Light', options: ['Dark', 'Light'] },
     mangaMode: false,
     allowFullScreen: true,
@@ -16,7 +27,7 @@ const Demo = () => {
     allowGlobalShortcuts: false,
   })
 
-  const handleChange = ({ target }) => {
+  const handleFileChange = ({ target }) => {
     const { value } = parseEvent(target)
     setFile(value)
   }
@@ -58,12 +69,16 @@ const Demo = () => {
       <aside>
         <div className="form">
           <h3>Options</h3>
-          <Field name="file" type="file" onChange={handleChange} />
+          <Field name="file" type="file" onChange={handleFileChange} />
           {optionsToFields()}
         </div>
       </aside>
       <div className="instance">
-        <Villain file={file} options={optionsProps} workerUrl={'src/worker-bundle.js'} />
+        <Villain
+          file={file}
+          options={optionsProps}
+          workerUrl={'static/worker-bundle.js'}
+        />
       </div>
     </div>
   )

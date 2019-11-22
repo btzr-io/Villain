@@ -1,7 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
 import Villain from '@/index.js'
-import '../../../demo.css'
 
 function Field({ name, type = 'text', value, options = [], onChange }) {
   let input = <input {...{ name, type, value, onChange }} />

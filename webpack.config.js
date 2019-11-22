@@ -29,10 +29,10 @@ module.exports = {
   },
   devServer: {
     contentBase: exampleDirectory,
-    publicPath: '/src',
+    publicPath: '/static',
     port: 8080,
     before(app, server) {
-      app.use('/examples/src', express.static(buildDirectory))
+      app.use('/examples/static', express.static(buildDirectory))
     },
   },
   resolve: {
