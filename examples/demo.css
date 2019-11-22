@@ -91,10 +91,6 @@ body,
   display: inline-block;
 }
 
-.villain-demo .field select::-ms-expand {
-  display: none;
-}
-
 .villain-demo .instance {
   align-self: center;
   margin: 0 auto;

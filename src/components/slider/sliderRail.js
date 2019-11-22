@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 const railStyle = {
@@ -12,9 +12,9 @@ const railStyle = {
   zIndex: -1,
 }
 
-const SliderRail = ({ activeHandleID, getEventData, getRailProps }) => {
+const SliderRail = memo(({ activeHandleID, getEventData, getRailProps }) => {
   return <div style={railStyle} {...getRailProps()} />
-}
+})
 
 SliderRail.propTypes = {
   activeHandleID: PropTypes.string,

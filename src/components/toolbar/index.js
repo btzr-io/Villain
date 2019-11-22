@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react'
+import React, { memo, useEffect, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import Button from './button'
-import Settings from './settings'
-import ZoomControls from './zoom'
-import NavigationControls from './navigation'
 import Slider from '@/components/slider'
+import Settings from './settings'
+import ZoomControls from '@/components/toolbar/controls/zoom'
+import LayoutButton from '@/components/toolbar/controls/layout'
+import FullscreenButton from '@/components/toolbar/controls/fullscreen'
+import NavigationControls from '@/components/toolbar/controls/navigation'
 import Localize from '@/localize'
 import { ReaderContext } from '@/context'
-import { getNestedFocus, getInteractionFocus } from '@/lib/use-focus'
 
 import {
   Toolbar as ToolbarBase,
@@ -20,171 +21,94 @@ import {
   mdiPin,
   mdiPinOff,
   mdiBookOpen,
-  mdiFullscreen,
   mdiWeatherNight,
-  mdiFullscreenExit,
   mdiBookOpenOutline,
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
-const Toolbar = ({
-  container,
-  updateZoom,
-  renderError,
-  showControls,
-  toggleFullscreen,
-}) => {
-  const {
-    state,
-    toggleSetting,
-    navigateForward,
-    navigateBackward,
-    navigateToPage,
-    togglePin,
-    toggleTheme,
-  } = useContext(ReaderContext)
+const Toolbar = memo(
+  ({ visible, container, updateZoom, zoomIn, zoomOut, ...context }) => {
+    const { togglePin, renderError, autoHideControls } = context
 
-  const {
-    pages,
-    bookMode,
-    mangaMode,
-    totalPages,
-    fullscreen,
-    currentPage,
-    currentZoom,
-    allowFullScreen,
-    autoHideControls,
-    allowGlobalShortcuts,
-  } = state
+    return (
+      <div
+        aria-label={'Toolbar'}
+        className={clsx('villain-toolbar', !visible && 'villain-toolbar--hide')}
+      >
+        <NavigationControls />
 
-  // Note:? We should provide an api to add, define, overwrite key shortcuts
-  const handleShortcuts = useCallback(
-    event => {
-      // Check if it should restrict listening for key shortcuts on player focus
-      if (getInteractionFocus()) {
-        return
-      }
+        <ReaderContext.Consumer>
+          {({ pages, totalPages, currentPage, mangaMode, navigateToPage }) => {
+            const bufferProgress = Math.round((pages.length / totalPages) * 10) * 10
 
-      if (!allowGlobalShortcuts && !getNestedFocus(container)) {
-        return
-      }
+            return (
+              totalPages && (
+                <div className={'villain-toolbar__group villain-toolbar__group--expand'}>
+                  <Slider
+                    max={totalPages}
+                    value={currentPage}
+                    reversed={mangaMode}
+                    onChange={navigateToPage}
+                    bufferProgress={bufferProgress}
+                  />
+                </div>
+              )
+            )
+          }}
+        </ReaderContext.Consumer>
 
-      const navigateRight = mangaMode ? navigateBackward : navigateForward
-      const navigateLeft = mangaMode ? navigateForward : navigateBackward
+        <div className={'villain-toolbar__group'} disabled={renderError}>
+          <ZoomControls
+            zoomIn={zoomIn}
+            zoomOut={zoomOut}
+            onUpdate={updateZoom}
+            disabled={renderError}
+          />
 
-      switch (event.key) {
-        // Toggle fullscreen of viewer.
-        // Note: Current conflict with openseadragon key shortcuts.
-        // Note: PreventDefault is used to remove flp shortcut.
-        case 'f':
-          event.preventDefault()
-          toggleFullscreen()
-          break
+          <hr className="villain-toolbar__divider" />
 
-        // Navigation to next page (previous when in mangaMode)
-        case 'ArrowRight':
-          navigateRight()
-          break
+          <Settings />
 
-        // Navigation to previous page (next when in mangaMode)
-        case 'ArrowLeft':
-          navigateLeft()
-          break
-      }
-    },
-    [allowGlobalShortcuts, mangaMode, navigateBackward, navigateForward, toggleFullscreen]
-  )
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleShortcuts)
-
-    return () => {
-      document.removeEventListener('keydown', handleShortcuts)
-    }
-  }, [handleShortcuts])
-
-  const fullScreenIcon = fullscreen ? mdiFullscreenExit : mdiFullscreen
-
-  //TODO: Memoize this
-  const progress = (pages.length / totalPages) * 100
-
-  const toolbar = useToolbarState()
-
-  return (
-    <ToolbarBase
-      {...toolbar}
-      aria-label={'Toolbar'}
-      className={clsx('villain-toolbar', !showControls && 'villain-toolbar--hide')}
-    >
-      <NavigationControls
-        currentPage={currentPage}
-        totalPages={totalPages}
-        toolbarItemProps={toolbar}
-      />
-
-      <div className={'villain-toolbar__group villain-toolbar__group--expand'}>
-        <Slider
-          max={totalPages}
-          value={currentPage}
-          bufferProgress={progress}
-          onChange={navigateToPage}
-          reversed={mangaMode}
-          toolbarItemProps={toolbar}
-        />
-      </div>
-
-      <div className={'villain-toolbar__group'} disabled={renderError}>
-        <ZoomControls
-          onUpdate={updateZoom}
-          currentZoom={currentZoom}
-          disabled={renderError}
-          toolbarItemProps={toolbar}
-        />
-        <ToolbarSeparator className="villain-toolbar__divider" />
-
-        <ToolbarItem {...toolbar} as={Settings} />
-
-        <ToolbarItem
-          {...toolbar}
-          typeClass={'icon'}
-          icon={autoHideControls ? mdiPin : mdiPinOff}
-          onClick={togglePin}
-          disabled={renderError}
-          tooltip={autoHideControls ? Localize['Pin toolbar'] : Localize['Unpin toolbar']}
-          as={Button}
-          focusable
-        />
-
-        <ToolbarItem
-          {...toolbar}
-          typeClass={'icon'}
-          icon={bookMode ? mdiBookOpen : mdiBookOpenOutline}
-          onClick={() => toggleSetting('bookMode')}
-          disabled={renderError}
-          tooltip={bookMode ? Localize['Page view'] : Localize['Book view']}
-          tooltipPlacement={allowFullScreen ? 'top' : 'top-end'}
-          as={Button}
-          focusable
-        />
-
-        {allowFullScreen && (
-          <ToolbarItem
-            {...toolbar}
+          <Button
             typeClass={'icon'}
-            icon={fullScreenIcon}
-            onClick={toggleFullscreen}
+            icon={autoHideControls ? mdiPin : mdiPinOff}
+            onClick={togglePin}
             disabled={renderError}
             tooltip={
-              fullscreen ? Localize['Exit fullscreen'] : Localize['Enter fullscreen']
+              autoHideControls ? Localize['Pin toolbar'] : Localize['Unpin toolbar']
             }
-            tooltipPlacement={'top-end'}
-            as={Button}
             focusable
           />
-        )}
-      </div>
-    </ToolbarBase>
-  )
-}
 
-export default Toolbar
+          <LayoutButton disabled={renderError} />
+
+          <FullscreenButton container={container} disabled={renderError} />
+        </div>
+      </div>
+    )
+  }
+)
+
+const ToolbarConsumer = memo(props => (
+  <ReaderContext.Consumer>
+    {({
+      // State
+      focus,
+      hover,
+      renderError,
+      autoHideControls,
+      // Actions
+      togglePin,
+    }) => (
+      <Toolbar
+        {...props}
+        visible={!autoHideControls || focus || hover}
+        renderError={renderError}
+        autoHideControls={autoHideControls}
+        togglePin={togglePin}
+      />
+    )}
+  </ReaderContext.Consumer>
+))
+
+export default ToolbarConsumer

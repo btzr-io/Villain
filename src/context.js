@@ -25,7 +25,6 @@ const defaultSettings = {
   language: 'en',
   mangaMode: false,
   bookMode: false,
-  fullscreen: false,
   showControls: false,
   autoHideControls: false,
   allowGlobalShortcuts: false,
@@ -39,128 +38,121 @@ export const ReaderContext = React.createContext()
 
 // Create provider for context
 export class ReaderProvider extends Component {
-  state = { ...defaultContext, ...this.props.externalOptions }
+  constructor(props) {
+    super(props)
 
-  updateState = (data, callback) => {
-    this.setState(data, callback)
-  }
-
-  clear = () => {
-    this.setState({ ...defaultState })
-  }
-
-  toggleSetting = setting => {
-    this.setState(prevState => ({ [setting]: !prevState[setting] }))
-  }
-
-  createPage = page => {
-    const pages = this.state.pages.concat(page)
-    if (page.index === 0) {
-      this.setState({
-        ready: true,
-        error: null,
-        currentPage: 0,
-        pages,
-      })
-    } else {
-      this.setState({ pages })
-    }
-  }
-
-  trigger = (eventName, data) => {
-    if (eventName === 'error' && data) {
-      console.error(data)
-      this.setState({ ready: false, error: data })
+    this.updateState = (data, callback) => {
+      this.setState(data, callback)
     }
 
-    if (eventName === 'loaded' && data) {
-      this.setState({ ...data })
+    this.clear = () => {
+      this.setState({ ...defaultState })
     }
-  }
 
-  togglePin = () => {
-    this.setState(prevState => ({
-      autoHideControls: !prevState.autoHideControls,
-    }))
-  }
-
-  toggleTheme = () => {
-    this.setState(prevState => ({
-      theme: prevState.theme === 'Light' ? 'Dark' : 'Light',
-    }))
-  }
-
-  toggleControls(show = true) {
-    this.setState({ showControls: show })
-  }
-
-  navigateToPage = pageIndex => {
-    this.setState(prevState => {
-      const { totalPages } = prevState
-      const lastIndex = totalPages - 1
-      // Validate page index
-      if (pageIndex < 0 || pageIndex > lastIndex) return {}
-      // Update state
-      const isLastPage = pageIndex === lastIndex
-      const isFirstPage = pageIndex === 0
-      return { isLastPage, isFirstPage, currentPage: pageIndex }
-    })
-  }
-
-  navigateForward = () => {
-    const { isLastPage, currentPage } = this.state
-    if (!isLastPage) {
-      this.navigateToPage(currentPage + 1)
+    this.toggleSetting = setting => {
+      this.setState(prevState => ({ [setting]: !prevState[setting] }))
     }
-  }
 
-  navigateBackward = () => {
-    const { isFirstPage, currentPage } = this.state
-    if (!isFirstPage) {
-      this.navigateToPage(currentPage - 1)
-    }
-  }
-
-  getPage = index => {
-    const { pages, bookMode, mangaMode, totalPages } = this.state
-    const page = pages[index]
-    const nextIndex = index + 1
-    const nextPageExists = nextIndex >= 0 || nextIndex < totalPages
-    const shouldRenderBookMode =
-      nextPageExists && !(index === 0 || index === totalPages - 1)
-
-    // Return two pages
-    if (bookMode && shouldRenderBookMode) {
-      const nextPage = pages[nextIndex]
-      if (mangaMode) {
-        return [nextPage, page]
+    this.createPage = page => {
+      const pages = this.state.pages.concat(page)
+      if (page.index === 0) {
+        this.setState({
+          ready: true,
+          error: null,
+          currentPage: 0,
+          pages,
+        })
+      } else {
+        this.setState({ pages })
       }
-      return [page, nextPage]
     }
 
-    // Return single page
-    return page
+    this.trigger = (eventName, data) => {
+      if (eventName === 'error' && data) {
+        console.error(data)
+        this.setState({ ready: false, error: data })
+      }
+
+      if (eventName === 'loaded' && data) {
+        this.setState({ ...data })
+      }
+    }
+
+    this.togglePin = () => {
+      this.setState(prevState => ({
+        autoHideControls: !prevState.autoHideControls,
+      }))
+    }
+
+    this.navigateToPage = pageIndex => {
+      this.setState(prevState => {
+        const { totalPages } = prevState
+        const lastIndex = totalPages - 1
+        // Validate page index
+        if (pageIndex < 0 || pageIndex > lastIndex) return {}
+        // Update state
+        const isLastPage = pageIndex === lastIndex
+        const isFirstPage = pageIndex === 0
+        return { isLastPage, isFirstPage, currentPage: pageIndex }
+      })
+    }
+
+    this.navigateForward = () => {
+      const { isLastPage, currentPage } = this.state
+      if (!isLastPage) {
+        this.navigateToPage(currentPage + 1)
+      }
+    }
+
+    this.navigateBackward = () => {
+      const { isFirstPage, currentPage } = this.state
+      if (!isFirstPage) {
+        this.navigateToPage(currentPage - 1)
+      }
+    }
+
+    this.getPage = index => {
+      const { pages, bookMode } = this.state
+      const page = pages && pages.length && pages[index]
+      // Page source exists
+      if (page) {
+        const nextIndex = index + 1
+        const nextPageExists = nextIndex < pages.length
+        const shouldRenderBookMode = bookMode && nextPageExists && index > 0
+        // Return two pages:
+        // Cover (first page) will always render as a single page
+        if (shouldRenderBookMode) {
+          const nextPage = pages[nextIndex]
+          return [page, nextPage]
+        }
+        // Return single page
+        return page
+      }
+      // No pages found
+      return null
+    }
+
+    this.state = {
+      // Actions
+      clear: this.clear,
+      trigger: this.trigger,
+      getPage: this.getPage,
+      updateState: this.updateState,
+      createPage: this.createPage,
+      toggleSetting: this.toggleSetting,
+      togglePin: this.togglePin,
+      navigateToPage: this.navigateToPage,
+      navigateForward: this.navigateForward,
+      navigateBackward: this.navigateBackward,
+      // Options
+      ...defaultContext,
+      ...this.props.externalOptions,
+    }
   }
 
   render() {
     return (
-      <ReaderContext.Provider
-        value={{
-          state: this.state,
-          // Actions
-          clear: this.clear,
-          trigger: this.trigger,
-          getPage: this.getPage,
-          togglePin: this.togglePin,
-          createPage: this.createPage,
-          updateState: this.updateState,
-          toggleTheme: this.toggleTheme,
-          toggleSetting: this.toggleSetting,
-          navigateToPage: this.navigateToPage,
-          navigateForward: this.navigateForward,
-          navigateBackward: this.navigateBackward,
-        }}
-      >
+      <ReaderContext.Provider value={this.state}>
         {this.props.children}
       </ReaderContext.Provider>
     )

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Loader = ({ id }) => (
+const Loader = React.memo(({ id }) => (
   <div className="villain-overlay" id={id}>
     <div className="villain-loader-indicator" />
   </div>
-)
+))
 
-export default React.memo(Loader)
+export default Loader

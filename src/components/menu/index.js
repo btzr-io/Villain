@@ -1,15 +1,9 @@
 import React from 'react'
 import { MenuHeader } from '@/components/menu/custom'
 import { Item, ItemList } from '@/components/menu/item'
+import { animated, useSpring } from 'react-spring'
 
-import {
-  Menu,
-  MenuDisclosure,
-  Tooltip,
-  TooltipReference,
-  useTooltipState,
-  useMenuState,
-} from 'reakit'
+import { Menu, MenuDisclosure, useMenuState } from 'reakit'
 
 const MenuPanel = React.forwardRef(
   ({ title, items, list, openSubmenu, closeSubmenu, menuProps }, ref) => {
@@ -26,16 +20,15 @@ const MenuPanel = React.forwardRef(
             closeSubmenu={closeSubmenu}
           />
         ) : (
-          items.map(({ nestedTitle, nestedItems, nestedList, ...itemProps }, index) => {
-            const itemKey = `${itemProps.itemType || 'item'}-${index}`
+          items &&
+          items.map(({ nestedTitle, nestedItems, nestedList, ...itemProps }) => {
             return (
               <Item
                 {...menuProps}
                 {...itemProps}
+                key={itemProps.id}
                 title={title}
                 openSubmenu={openSubmenu}
-                index={index}
-                key={itemKey}
               />
             )
           })
@@ -45,36 +38,39 @@ const MenuPanel = React.forwardRef(
   }
 )
 
+const PureMenuPanel = React.memo(MenuPanel)
+
 const defaultSubmenuState = {
-  show: false,
+  id: null,
   list: null,
-  index: null,
   title: null,
   items: null,
+  visible: false,
 }
 
-const MenuWithTooltip = React.forwardRef(
+const BaseMenu = React.forwardRef(
   ({ disclosure, tooltip, items, placement, ariaLabel, ...props }, ref) => {
-    const menu = useMenuState({ placement, gutter: 20 })
-    const tooltipState = useTooltipState({ placement })
-
+    const menu = useMenuState({ placement, gutter: 20, unstable_animated: true })
     const subRef = React.useRef(null)
     const mainRef = React.useRef(null)
 
     const [menuHeight, setMenuHeight] = React.useState(0)
-    const [submenuState, setSubmenuState] = React.useState({ ...defaultSubmenuState })
+    const [submenuState, setSubmenuState] = React.useState(defaultSubmenuState)
+    const [animationState, setAnimationState] = React.useState(false)
+
+    const maxHeight = 240
 
     const getHeight = element => {
       const bounds = element.getBoundingClientRect()
-      return bounds.height
+      return bounds.height > maxHeight ? maxHeight : bounds.height
     }
 
     const reset = () => {
       setSubmenuState({ ...defaultSubmenuState })
     }
 
-    const handleSubmenuOpen = index => {
-      setSubmenuState({ index })
+    const handleSubmenuOpen = id => {
+      setSubmenuState({ ...submenuState, id })
     }
 
     const handleSubmenuClose = () => {
@@ -84,30 +80,56 @@ const MenuWithTooltip = React.forwardRef(
     const handleMenuOpen = () => {
       const mainElement = mainRef.current
       mainElement && setMenuHeight(getHeight(mainElement))
-      reset()
     }
 
     const handleMenuClose = () => {
       reset()
     }
 
+    const handleAnimationStart = () => {
+      setAnimationState(true)
+    }
+
+    const handleAnimationRest = () => {
+      setAnimationState(false)
+      menu.unstable_stopAnimation()
+    }
+
+    const [menuAnimatedProps, updateMenuSpring, stopMenuSpring] = useSpring(() => ({
+      height: `${menuHeight}px`,
+      opacity: 0,
+      onRest: handleAnimationRest,
+      onStart: handleAnimationStart,
+      config: { clamp: true, velocity: 5, friction: 20 },
+    }))
+
     // Handle menu
     React.useEffect(() => {
-      // On menu open
       if (menu.visible) {
         handleMenuOpen()
-      } else {
-        // On menu close
+      }
+      // Animated opacity
+      updateMenuSpring({ opacity: menu.visible ? 1 : 0 })
+    }, [menu.visible])
+
+    React.useEffect(() => {
+      if (!animationState && !menu.visible) {
         handleMenuClose()
       }
-    }, [menu.visible])
+    }, [animationState])
+
+    React.useEffect(() => {
+      // Animated height
+      updateMenuSpring({ height: `${menuHeight}px` })
+    }, [menuHeight])
 
     // Handle submenu
     React.useEffect(() => {
       // Update submenu content
-      if (submenuState.index || submenuState.index === 0) {
+      if (submenuState.id) {
         // Check if selected iteam exist
-        const selected = items[submenuState.index]
+        const selected =
+          items && items.length > 0 && items.find(item => item.id === submenuState.id)
 
         if (selected) {
           // Contains a list of similar items
@@ -120,12 +142,13 @@ const MenuWithTooltip = React.forwardRef(
           const hasNestedItems = selected.nestedItems && selected.nestedItems.length > 0
 
           // Validate state update
-          const show = hasNestedList || hasNestedItems
+          const visible = hasNestedList || hasNestedItems
 
           // Update submenu state and show it
-          if (show) {
+          if (visible) {
             setSubmenuState({
-              show,
+              ...submenuState,
+              visible: true,
               list: hasNestedList ? selected.nestedList : null,
               items: hasNestedItems ? selected.nestedItems : null,
               title: selected.nestedTitle,
@@ -133,65 +156,60 @@ const MenuWithTooltip = React.forwardRef(
           }
         }
       }
-    }, [submenuState.index, items])
+    }, [submenuState.id])
 
     // Submenu transition
     React.useEffect(() => {
       const subElement = subRef.current
       const mainElement = mainRef.current
       // Submenu open
-      if (submenuState.show) {
+      if (submenuState.visible) {
         subElement && setMenuHeight(getHeight(subElement))
       } else {
         mainElement && setMenuHeight(getHeight(mainElement))
       }
-      menu.first()
+
       menu.unstable_update()
-    }, [submenuState.show])
+    }, [submenuState.visible])
 
     return (
       <React.Fragment>
-        <TooltipReference ref={ref} {...tooltipState} {...props}>
-          {referenceProps => (
-            <MenuDisclosure {...menu} {...referenceProps}>
-              {disclosureProps =>
-                React.cloneElement(React.Children.only(disclosure), disclosureProps)
-              }
-            </MenuDisclosure>
-          )}
-        </TooltipReference>
-        <Tooltip {...tooltipState} className={`villain-tooltip`} unstable_portal={false}>
-          {tooltip}
-        </Tooltip>
+        <MenuDisclosure {...props} {...menu} as={disclosure} ref={ref} />
         <Menu
           {...menu}
           style={{ height: menuHeight }}
           className={'villain-menu'}
           aria-label={ariaLabel}
         >
-          {!submenuState.show ? (
-            <MenuPanel
-              menuProps={menu}
-              items={items}
-              openSubmenu={handleSubmenuOpen}
-              closeSubmenu={handleSubmenuClose}
-              ref={mainRef}
-            />
-          ) : (
-            <MenuPanel
-              menuProps={menu}
-              list={submenuState.list}
-              title={submenuState.title}
-              items={submenuState.items}
-              openSubmenu={handleSubmenuOpen}
-              closeSubmenu={handleSubmenuClose}
-              ref={subRef}
-            />
-          )}
+          <animated.div
+            style={menuAnimatedProps}
+            data-animation={animationState}
+            className={'villain-menu__animated-content'}
+          >
+            {!submenuState.visible ? (
+              <PureMenuPanel
+                menuProps={menu}
+                items={items}
+                openSubmenu={handleSubmenuOpen}
+                closeSubmenu={handleSubmenuClose}
+                ref={mainRef}
+              />
+            ) : (
+              <PureMenuPanel
+                menuProps={menu}
+                list={submenuState.list}
+                title={submenuState.title}
+                items={submenuState.items}
+                openSubmenu={handleSubmenuOpen}
+                closeSubmenu={handleSubmenuClose}
+                ref={subRef}
+              />
+            )}
+          </animated.div>
         </Menu>
       </React.Fragment>
     )
   }
 )
 
-export default MenuWithTooltip
+export default React.memo(BaseMenu)

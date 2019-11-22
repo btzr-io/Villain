@@ -37,7 +37,7 @@
   --toolbar-bg: #fff;
   --toolbar-border: rgba(0, 0, 0, 0.2);
   --toolbar-height: 50px;
-  --tooltip-bg: rgba(24, 24, 24, 0.64);
+  --tooltip-bg: var(--fg-color);
   --tooltip-fg: #fff;
   --toggler-bg: rgba(0, 0, 0, 0.24);
 }

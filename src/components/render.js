@@ -1,29 +1,23 @@
 import clsx from 'clsx'
 import React, { Component } from 'react'
 import OpenSeaDragon from 'openseadragon'
-import OSDConfig from '@/osd.config'
-import Toolbar from '@/components/toolbar'
-import RenderError from '@/components/renderError'
 import Localize from '@/localize'
+import OSDConfig from '@/osd.config'
+import RenderError from '@/components/renderError'
+import ToolbarConsumer from '@/components/toolbar'
 import { ReaderContext } from '../context'
-import { getKeyByValue } from '@/lib/utils'
+import { getKeyByValue, debounce } from '@/lib/utils'
 import { getNestedFocus } from '@/lib/use-focus'
-
-import {
-  onFullscreenChange,
-  fullscreenElement,
-  toggleFullscreen,
-} from '@/lib/full-screen'
+import { memoizeZoomClamp, memoizeZoomPercent } from '@/lib/zoom-parser'
+import { fullscreenElement, onFullscreenChange } from '@/lib/full-screen'
 
 // Icons
 import { mdiImageBrokenVariant } from '@mdi/js'
 
-class CanvasRender extends Component {
+class CanvasRender extends React.PureComponent {
   static defaultProps = {
     initialPage: 0,
   }
-
-  static contextType = ReaderContext
 
   constructor(props) {
     super(props)
@@ -33,7 +27,7 @@ class CanvasRender extends Component {
     this.clearScrollingDelay = null
   }
 
-// Get the max target zoom
+  // Get the max target zoom
   getTargetZoom = (scale = 1) => {
     let zooms = []
     const { viewport, world } = this.viewer
@@ -65,34 +59,32 @@ class CanvasRender extends Component {
 
   updateZoom = (scale = 1) => {
     const { viewport } = this.viewer
-    const max = this.getTargetZoom()
+    const max = viewport.getMaxZoom()
     const min = viewport.getMinZoom()
 
-    let zoom = scale
-
-    // Convert to int
-    if (typeof zoom === 'string') {
-      zoom = parseInt(zoom)
-    }
-
-    if (zoom) {
-      // Prevent maz zoom
-      if (zoom > 100) {
-        zoom = 100
-      }
-      // Calculate zoom from user input
-      zoom = (zoom / 100) * this.getTargetZoom()
-      // Fix max
-      if (zoom > max) {
-        zoom = max
-      }
-      // Fix min
-      if (zoom < min) {
-        zoom = min
-      }
+    if (scale) {
+      // Clamp zoom value
+      let zoom = memoizeZoomClamp(scale, max, min)
       // Update
-      viewport.zoomTo(zoom, null, true)
+      viewport.zoomTo(zoom, true)
+      viewport.ensureVisible(true)
     }
+  }
+
+  zoomIn = () => {
+    const { viewport } = this.viewer
+    const max = viewport.getMaxZoom()
+    const zoom = viewport.getZoom()
+    const currentZoom = memoizeZoomPercent(zoom, max)
+    this.updateZoom(currentZoom + 10)
+  }
+
+  zoomOut = () => {
+    const { viewport } = this.viewer
+    const max = viewport.getMaxZoom()
+    const zoom = viewport.getZoom()
+    const currentZoom = memoizeZoomPercent(zoom, max)
+    this.updateZoom(currentZoom - 10)
   }
 
   zoomToOriginalSize = () => {
@@ -101,61 +93,59 @@ class CanvasRender extends Component {
   }
 
   handleFocus = () => {
-    const { container } = this.props
-    this.context.updateState({ focus: getNestedFocus(container) })
+    const { updateContextState } = this.props
+    updateContextState({ focus: true })
   }
 
   handleBlur = () => {
-    this.context.updateState({ focus: false })
+    const { updateContextState } = this.props
+    updateContextState({ focus: false })
   }
 
   handleEnter = () => {
-    const { autoHideControls } = this.context.state
-
-    if (autoHideControls) {
-      this.context.updateState({ hover: true })
-    }
+    const { updateContextState } = this.props
+    updateContextState({ hover: true })
   }
 
   handleExit = () => {
-    const { autoHideControls } = this.context.state
-
-    if (autoHideControls) {
-      this.context.updateState({ hover: false })
-    }
+    const { updateContextState } = this.props
+    updateContextState({ hover: false })
   }
 
   handleError = error => {
+    const { updateCotextState } = this.props
     this.viewer.close()
-    this.context.updateState({ renderError: true })
+    updateContextState({ renderError: true })
     // Debug error
     console.error(error)
   }
 
   handleFullscreenChange = () => {
+    const { updateContextState } = this.props
     const fullscreen = fullscreenElement() !== null
-    this.context.updateState({ fullscreen })
+    updateContextState({ fullscreen })
     this.updateZoomLimits()
   }
 
   handleZoom = ({ zoom }) => {
     const { viewport } = this.viewer
+    const { updateContextState } = this.props
     const min = viewport.getMinZoom()
-    const targetZoom = viewport.getMaxZoom()
-    const currentZoom = parseInt((zoom / targetZoom) * 100)
-    const canZoomIn = zoom < targetZoom && currentZoom < 100
+    const max = viewport.getMaxZoom()
+    const currentZoom = memoizeZoomPercent(zoom, max)
+    const canZoomIn = zoom < max && currentZoom < 100
     const canZoomOut = zoom > min
-    this.context.updateState({ currentZoom, canZoomIn, canZoomOut })
+    updateContextState({ currentZoom, canZoomIn, canZoomOut })
   }
 
-  handleZoomOptimized = event => {
+  handleZoomOptimized = debounce(event => {
     // Unable to update zoom on scroll inside this event handler:
     // - Bad peformance from multiple context update state calls
     // - Small delay for text updating noticeable.
     if (!this.isScrolling) {
       this.handleZoom(event)
     }
-  }
+  }, 200)
 
   handleScrollOptimized = () => {
     // Reset scrolling flag
@@ -166,18 +156,11 @@ class CanvasRender extends Component {
     this.clearScrollingDelay = setTimeout(() => {
       this.isScrolling = false
       this.handleZoomOptimized({ zoom: this.viewer.viewport.getZoom() })
-    }, 750)
+    }, 400)
   }
 
-  toggleFullscreen = () => {
-    const { container } = this.props
-    const { allowFullScreen } = this.context.state
-    if (allowFullScreen) toggleFullscreen(container)
-  }
-
-  initOpenSeaDragon() {
-    const { id, container } = this.props
-    const { pages } = this.context.state
+  initOpenSeaDragon = () => {
+    const { id, container, pages, renderError, updateContextState } = this.props
 
     // Detect browser vendor
     this.browser = getKeyByValue(OpenSeaDragon.BROWSERS, OpenSeaDragon.Browser.vendor)
@@ -188,9 +171,12 @@ class CanvasRender extends Component {
     // Events handler
     this.viewer.addHandler('open', () => {
       this.renderLayout()
-      this.updateZoomLimits()
-      this.viewer.viewport.zoomTo(this.viewer.viewport.getMinZoom(), null, true)
-      this.context.updateState({ renderError: false })
+      this.fitBounds()
+
+      // Prevent unessesart context updates
+      if (renderError) {
+        updateContextState({ renderError: false })
+      }
     })
 
     // Events handler
@@ -198,18 +184,12 @@ class CanvasRender extends Component {
       this.updateZoomLimits()
     })
 
-    // Fallback to improve peformance on firefox browser.
-    // We should look into what other browsers should use this:
-    if (this.browser === 'FIREFOX') {
-      // Fix issue with animations and peformance, see:
-      // https://github.com/btzr-io/Villain/issues/66
-      this.viewer.addHandler('zoom', this.handleZoomOptimized)
-      this.viewer.addHandler('canvas-scroll', this.handleScrollOptimized)
-    } else {
-      // This can run smooth on chromium based browsers (chrome, brave, electon)
-      // But still needs more optimizations!
-      this.viewer.addHandler('zoom', this.handleZoom)
-    }
+    // Fallback to improve peformance on zoom upodates"
+    // Fix issue with animations and peformance, see:
+    // https://github.com/btzr-io/Villain/issues/66
+    this.viewer.addHandler('zoom', this.handleZoomOptimized)
+    // Optimized scroll event
+    this.viewer.addHandler('canvas-scroll', this.handleScrollOptimized)
 
     this.viewer.addHandler('canvas-exit', this.handleExit)
 
@@ -217,15 +197,15 @@ class CanvasRender extends Component {
 
     this.viewer.addHandler('open-failed', this.handleError)
 
-    document.addEventListener('blur', this.handleBlur, true)
+    this.viewer.canvas.addEventListener('blur', this.handleBlur)
 
-    document.addEventListener('focus', this.handleFocus, true)
+    this.viewer.canvas.addEventListener('focus', this.handleFocus)
 
     onFullscreenChange(container, 'add', this.handleFullscreenChange)
   }
 
   renderPage(index) {
-    const page = this.context.getPage(index)
+    const page = this.props.getPage(index)
     page && this.viewer.open(page)
   }
 
@@ -233,26 +213,38 @@ class CanvasRender extends Component {
     this.renderPage(0)
   }
 
+  fitBounds() {
+    const { viewport } = this.viewer
+    this.fitPages()
+    this.updateZoomLimits()
+    viewport.zoomTo(viewport.getMinZoom(), null, true)
+  }
+
   renderLayout() {
     const { world } = this.viewer
+    const { mangaMode, bookMode } = this.props
     const pos = new OpenSeaDragon.Point(0, 0)
     const count = world.getItemCount()
 
     // Cache tile data
     let bounds = null
-    let nextPage = null
+    // first page
     let firstPage = null
-    let nextPageBounds = null
+    let firstPageIndex = bookMode && mangaMode && count > 1 ? 1 : 0
     let firstPageBounds = null
+    // Next page
+    let nextPage = null
+    let nextPageBounds = null
+    let nextPageIndex = bookMode && mangaMode ? 0 : 1
 
     if (count > 0) {
       // Page view (single page)
-      firstPage = world.getItemAt(0)
+      firstPage = world.getItemAt(firstPageIndex)
       firstPageBounds = firstPage.getBounds()
 
       // Book view ( two pages )
       if (count > 1) {
-        nextPage = world.getItemAt(1)
+        nextPage = world.getItemAt(nextPageIndex)
         nextPageBounds = nextPage.getBounds()
 
         // Auto resize page to fit first page height
@@ -282,9 +274,6 @@ class CanvasRender extends Component {
         pos.x += nextPageBounds.width
       }
     }
-
-    // Fit pages on viewer and apply bounds
-    this.fitPages()
   }
 
   fitPagesLegacy() {
@@ -312,14 +301,14 @@ class CanvasRender extends Component {
   componentDidMount() {
     const { initialPage } = this.props
     this.initOpenSeaDragon()
+    this.renderPage(initialPage)
   }
 
   componentWillUnmount() {
-    this.renderPage(initialPage)
     const { container } = this.props
     // Remove event listeners
-    document.removeEventListener('blur', this.handleBlur, true)
-    document.removeEventListener('focus', this.handleFocus, true)
+    //  document.removeEventListener('blur', this.handleBlur, true)
+    //  document.removeEventListener('focus', this.handleFocus, true)
     onFullscreenChange(container, 'remove', this.handleFullscreenChange)
     // Destroy OpenSeaDragon viewer
     this.viewer.destroy()
@@ -327,21 +316,10 @@ class CanvasRender extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      bookMode,
-      mangaMode,
-      totalPages,
-      currentPage,
-      autoHideControls,
-    } = this.props.contextState
-
-    const prevContextState = prevProps.contextState
+    const { bookMode, mangaMode, totalPages, currentPage } = this.props
 
     // Page changed
-    if (
-      currentPage !== prevContextState.currentPage ||
-      bookMode !== prevContextState.bookMode
-    ) {
+    if (currentPage !== prevProps.currentPage || bookMode !== prevProps.bookMode) {
       // Render new valid page
       if (currentPage >= 0 && currentPage < totalPages) {
         this.renderPage(currentPage)
@@ -349,32 +327,30 @@ class CanvasRender extends Component {
     }
 
     // Page changed
-    if (bookMode !== prevContextState.bookMode) {
+    if (bookMode !== prevProps.bookMode) {
       if (bookMode) {
         // Trigger re-render layout
         this.renderLayout()
+        this.fitBounds()
       }
     }
 
-    // re-render page when mangaMode is changed
-    if (mangaMode !== prevContextState.mangaMode) {
-      this.renderPage(currentPage)
+    // Re-render layout when mangaMode and there and book mode is active
+    if (mangaMode !== prevProps.mangaMode && bookMode) {
+      this.renderLayout()
     }
   }
 
   render() {
-    const { id, container, renderError, contextState } = this.props
-    const { focus, hover, autoHideControls } = contextState
-    const showControls = !autoHideControls || hover || focus
+    const { id, container, renderError } = this.props
 
     return (
       <React.Fragment>
-        <Toolbar
+        <ToolbarConsumer
           container={container}
           updateZoom={this.updateZoom}
-          renderError={renderError}
-          showControls={showControls}
-          toggleFullscreen={this.toggleFullscreen}
+          zoomIn={this.zoomIn}
+          zoomOut={this.zoomOut}
         />
         <div id={id} className={'villain-canvas'} />
         {renderError && (
@@ -385,4 +361,50 @@ class CanvasRender extends Component {
   }
 }
 
-export default CanvasRender
+const CanvasRenderConsumer = React.memo(({ container }) => {
+  return (
+    <ReaderContext.Consumer>
+      {({
+        // State
+        ready,
+        error,
+        hover,
+        pages,
+        bookMode,
+        mangaMode,
+        totalPages,
+        currentPage,
+        renderError,
+        allowFullScreen,
+        allowGlobalShortcuts,
+        // Actions
+        getPage,
+        updateState,
+      }) => {
+        const shouldRender = ready && !error
+
+        return (
+          shouldRender && (
+            <CanvasRender
+              id={'villain-osd-canvas'}
+              hover={hover}
+              pages={pages}
+              container={container}
+              currentPage={currentPage}
+              getPage={getPage}
+              bookMode={bookMode}
+              mangaMode={mangaMode}
+              totalPages={totalPages}
+              renderError={renderError}
+              allowFullScreen={allowFullScreen}
+              allowGlobalShortcuts={allowGlobalShortcuts}
+              updateContextState={updateState}
+            />
+          )
+        )
+      }}
+    </ReaderContext.Consumer>
+  )
+})
+
+export default CanvasRenderConsumer

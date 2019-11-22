@@ -1,7 +1,50 @@
-import React, { useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Tooltip from './tooltip'
-import { ToolbarItem } from 'reakit'
+import Button from '@/components/toolbar/button'
+import { animated, useSpring } from 'react-spring'
+
+const HandlerTooltip = memo(({ value, visible }) => {
+  const [shouldRender, setShouldRender] = useState(false)
+
+  const [tooltipAnimatedProps, updateTooltipSpring, stopTooltipSpring] = useSpring(
+    () => ({
+      delay: 0,
+      opacity: 1,
+      transform: 'scale(1)',
+      config: { clamp: true, velocity: 14, friction: 20 },
+    })
+  )
+
+  useEffect(() => {
+    updateTooltipSpring({
+      delay: visible ? 200 : 800,
+      opacity: visible ? 1 : 0,
+      onRest: () => {
+        if (!visible) {
+          setShouldRender(false)
+        }
+      },
+      onStart: () => {
+        if (visible) {
+          setShouldRender(true)
+        }
+      },
+      transform: `scale(${visible ? 1 : 0})`,
+    })
+  }, [visible])
+
+  return (
+    shouldRender && (
+      <animated.div className="villain-tooltip--slider" style={tooltipAnimatedProps}>
+        {value}
+      </animated.div>
+    )
+  )
+})
+
+HandlerTooltip.propTypes = {
+  value: PropTypes.number,
+}
 
 const Handle = ({
   domain: [min, max],
@@ -9,7 +52,6 @@ const Handle = ({
   isActive,
   disabled,
   getHandleProps,
-  toolbarItemProps,
 }) => {
   const [mouseOver, setMouseOver] = useState(false)
 
@@ -21,9 +63,10 @@ const Handle = ({
     setMouseOver(false)
   }
 
+  const showTooltip = (mouseOver || isActive) && !disabled
+
   return (
-    <ToolbarItem
-      {...toolbarItemProps}
+    <Button
       role="slider"
       aria-valuemin={min}
       aria-valuemax={max}
@@ -32,6 +75,7 @@ const Handle = ({
         height: 14,
         width: 14,
         left: `${percent}%`,
+        display: 'block',
         position: 'absolute',
         transform: 'translate(-50%, -50%)',
         WebkitTapHighlightColor: 'rgba(0,0,0,0)',
@@ -41,15 +85,15 @@ const Handle = ({
         zIndex: 1,
         margin: 0,
         padding: 0,
+        outline: 'none',
       }}
       {...getHandleProps(id, {
         onMouseEnter: onMouseEnter,
         onMouseLeave: onMouseLeave,
       })}
-      as={'button'}
     >
-      {(mouseOver || isActive) && !disabled ? <Tooltip value={value} /> : null}
-    </ToolbarItem>
+      <HandlerTooltip value={value} visible={showTooltip} />
+    </Button>
   )
 }
 
@@ -65,4 +109,4 @@ Handle.propTypes = {
   disabled: PropTypes.bool,
 }
 
-export default React.memo(Handle)
+export default memo(Handle)

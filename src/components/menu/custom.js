@@ -17,42 +17,43 @@ import {
   mdiRadioboxMarked,
 } from '@mdi/js'
 
-export const CustomSeparator = props => (
-  <MenuSeparator {...props} className={'villain-menu__separator'} />
-)
+export const CustomSeparator = React.forwardRef((props, ref) => (
+  <MenuSeparator {...props} ref={ref} className={'villain-menu__separator'} />
+))
 
-export const CustomItem = ({ children, ...props }) => (
-  <MenuItem as={Button} className={'villain-menu__item'} {...props}>
+export const CustomItem = React.forwardRef(({ children, ...props }, ref) => (
+  <MenuItem as={Button} className={'villain-menu__item'} {...props} ref={ref}>
     <div className={'villain-menu__item__content'}>
       <div className={'villain-menu__item__label'}>{children}</div>
     </div>
   </MenuItem>
-)
+))
 
-export const CustomCheckbox = ({ children, ...props }) => (
-  <MenuItemCheckbox as={Button} {...props}>
+export const CustomCheckbox = React.forwardRef(({ children, ...props }, ref) => (
+  <MenuItemCheckbox as={Button} {...props} ref={ref}>
     <div className={'villain-menu__item__content'}>
       <div className={'villain-menu__item__label'}>{children}</div>
       <div className={'villain-menu__item__toggler'} />
     </div>
   </MenuItemCheckbox>
-)
+))
 
-export const CustomRadio = ({ children, ...props }) => (
+export const CustomRadio = React.forwardRef(({ children, ...props }, ref) => (
   <MenuItemRadio
     as={Button}
     icon={props.checked ? mdiRadioboxMarked : mdiRadioboxBlank}
     iconSize={'20px'}
     {...props}
+    ref={ref}
   >
     <div className={'villain-menu__item__content'}>
       <div className={'villain-menu__item__label'}>{children}</div>
     </div>
   </MenuItemRadio>
-)
+))
 
-export const CustomSubmenu = ({ children, ...props }) => (
-  <MenuItem {...props} as={Button}>
+export const CustomSubmenu = React.forwardRef(({ children, ...props }, ref) => (
+  <MenuItem {...props} ref={ref} as={Button}>
     <div className={'villain-menu__item__content'}>
       <div className={'villain-menu__item__label'}>{children}</div>
       <Icon
@@ -62,23 +63,25 @@ export const CustomSubmenu = ({ children, ...props }) => (
       />
     </div>
   </MenuItem>
+))
+
+export const MenuHeader = React.forwardRef(
+  ({ title, closeSubmenu, menuProps, ...props }, ref) => {
+    return (
+      <div {...props} className={'villain-menu__header'}>
+        <CustomItem {...menuProps} icon={mdiChevronLeft} onClick={closeSubmenu} ref={ref}>
+          {title}
+        </CustomItem>
+        <CustomSeparator {...menuProps} style={{ margin: 0 }} />
+      </div>
+    )
+  }
 )
 
-export const MenuHeader = ({ title, closeSubmenu, menuProps, ...props }) => {
-  return (
-    <div {...props} className={'villain-menu__header'}>
-      <CustomItem {...menuProps} icon={mdiChevronLeft} onClick={closeSubmenu}>
-        {title}
-      </CustomItem>
-      <CustomSeparator {...menuProps} style={{ margin: 0 }} />
-    </div>
-  )
-}
-
 export const CustomItems = {
-  item: CustomItem,
-  radio: CustomRadio,
-  submenu: CustomSubmenu,
-  checkbox: CustomCheckbox,
-  separator: CustomSeparator,
+  item: React.memo(CustomItem),
+  radio: React.memo(CustomRadio),
+  submenu: React.memo(CustomSubmenu),
+  checkbox: React.memo(CustomCheckbox),
+  separator: React.memo(CustomSeparator),
 }

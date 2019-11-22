@@ -57,4 +57,4 @@ const ToolbarButton = React.forwardRef(
   }
 )
 
-export default ToolbarButton
+export default React.memo(ToolbarButton)

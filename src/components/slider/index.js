@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
 import Handle from './handle'
 import SliderRail from './sliderRail'
@@ -16,7 +16,7 @@ const sliderStyle = {
   zIndex: 99,
 }
 
-const Track = ({ source, target, getTrackProps }) => {
+const Track = memo(({ source, target, getTrackProps }) => {
   return (
     <div
       className="villain-slider__track"
@@ -28,18 +28,23 @@ const Track = ({ source, target, getTrackProps }) => {
       {...getTrackProps()}
     />
   )
-}
+})
+
+const BufferLoader = memo(({ bufferProgress, reversed }) => {
+  return (
+    <div
+      className={'villain-slider__buffer'}
+      style={{
+        width: `${bufferProgress}%`,
+        right: reversed ? 0 : 'initial',
+      }}
+    />
+  )
+})
 
 const defaultValues = [1]
 
-const SliderUI = ({
-  max = 1,
-  bufferProgress = 0,
-  reversed,
-  onChange,
-  value,
-  toolbarItemProps,
-}) => {
+const SliderUI = memo(({ max = 1, bufferProgress = 0, reversed, onChange, value }) => {
   const [seeking, setSeeking] = useState(false)
   const [values, setValue] = useState(defaultValues.slice())
 
@@ -88,7 +93,6 @@ const SliderUI = ({
                   domain={domain}
                   isActive={handle.id === activeHandleID}
                   getHandleProps={getHandleProps}
-                  toolbarItemProps={toolbarItemProps}
                 />
               ))}
             </div>
@@ -110,17 +114,9 @@ const SliderUI = ({
           )}
         </Tracks>
       </Slider>
-
-      <div
-        className={'villain-slider__buffer'}
-        style={{
-          width: `${bufferProgress}%`,
-          borderRadius: '4px',
-          right: reversed ? 0 : 'initial',
-        }}
-      />
+      <BufferLoader bufferProgress={bufferProgress} reversed={reversed} />
     </div>
   )
-}
+})
 
-export default React.memo(SliderUI)
+export default SliderUI
