@@ -3,12 +3,12 @@ const express = require('express')
 const webpack = require('webpack')
 
 const buildDirectory = path.resolve(__dirname, 'build')
-const exampleDirectory = path.resolve(__dirname, 'examples')
+const devSandboxDirectory = path.resolve(__dirname, 'dev-sandbox')
 
 module.exports = {
-  entry: './examples/index.js',
+  entry: './dev-sandbox/index.js',
   output: {
-    path: exampleDirectory,
+    path: devSandboxDirectory,
     publicPath: '/',
     filename: 'bundle.js',
   },
@@ -28,11 +28,11 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: exampleDirectory,
+    contentBase: devSandboxDirectory,
     publicPath: '/static',
     port: 8080,
     before(app, server) {
-      app.use('/examples/static', express.static(buildDirectory))
+      app.use('./dev-sandbox/static', express.static(buildDirectory))
     },
   },
   resolve: {
