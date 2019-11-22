@@ -92,6 +92,7 @@ const ToolbarConsumer = memo(props => (
       // State
       focus,
       hover,
+      fullscreen,
       renderError,
       autoHideControls,
       // Actions
@@ -99,7 +100,7 @@ const ToolbarConsumer = memo(props => (
     }) => (
       <Toolbar
         {...props}
-        visible={!autoHideControls || focus || hover}
+        visible={!autoHideControls || focus || ( hover && !fullscreen) }
         renderError={renderError}
         autoHideControls={autoHideControls}
         togglePin={togglePin}
