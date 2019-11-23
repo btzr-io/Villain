@@ -29,7 +29,7 @@ The open source web-based comic book reader that you need, but don't deserve.
 ```shell
 $ yarn add villain-react
 ```
-  
+
 ## WebWorker
 
 This component uses the [libarchivejs](https://github.com/nika-begiashvili/libarchivejs) for the extraction process,
@@ -85,9 +85,9 @@ Available options to customize the reader component:
 
 | Name                 | Type   | Default | Description                                          |
 | -------------------- | ------ | ------- | ---------------------------------------------------- |
-| preview              | number | null    | Load and render only the provided number of images.  |
 | theme                | string | 'Dark'  | Choose CSS styling from between ('Light', 'Dark).    |
-| mangaMode            | bool   | false   | Select in order to read right to left.               |
+| maxPages             | number | 500     | Max number of pages to extract and render.           |
+| mangaMode            | bool   | false   | Read right to left.                                  |
 | allowFullScreen      | bool   | true    | Show full screen button.                             |
 | autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.              |
 | allowGlobalShortcuts | bool   | false   | Allows shortcuts without having to focus the viewer. |

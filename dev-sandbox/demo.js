@@ -21,6 +21,7 @@ const Demo = () => {
   const [file, setFile] = useState('static/archives/example.zip')
   const [options, setOptions] = useState({
     theme: { type: 'select', value: 'Light', options: ['Dark', 'Light'] },
+    maxPages: 500,
     mangaMode: false,
     allowFullScreen: true,
     autoHideControls: false,

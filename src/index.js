@@ -29,12 +29,12 @@ const Villain = ({ file, options, workerUrl }) => {
 
 Villain.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
-  width: PropTypes.string,
-  height: PropTypes.string,
   options: PropTypes.shape({
     theme: PropTypes.string,
+    maxPages: PropTypes.number,
     workerUrl: PropTypes.string,
-    preview: PropTypes.number,
+    allowFullscreen: PropTypes.boolean,
+    allowGlobalShortcuts: PropTypes.boolean,
   }),
 }
 

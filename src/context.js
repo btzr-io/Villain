@@ -21,8 +21,9 @@ const defaultSettings = {
   // Settings
   theme: 'Dark',
   language: 'en',
-  mangaMode: false,
+  maxPages: 500,
   bookMode: false,
+  mangaMode: false,
   showControls: false,
   autoHideControls: false,
   allowGlobalShortcuts: false,

@@ -21,7 +21,7 @@ const Uncompress = React.memo(
     })
 
     // Context sate
-    const { ready, error, preview, pages, load } = context
+    const { ready, error, maxPages, pages, load } = context
 
     const loadArchiveFromUrl = url => {
       fetchArchive(url, extract, handleError)
@@ -51,7 +51,7 @@ const Uncompress = React.memo(
         const list = await openArchive(blob)
 
         if (list && list.length > 0) {
-          const items = preview ? list.splice(0, preview) : list
+          const items = maxPages && maxPages < list.length ? list.splice(0, maxPages) : list
 
           await asyncForEach(items, async (item, index) => {
             const file = await item.file.extract()
@@ -92,7 +92,7 @@ const Uncompress = React.memo(
       }
       // Load archive data
       const { type, size } = file
-      const totalPages = preview && preview < images.length ? preview : images.length
+      const totalPages = maxPages && maxPages < images.length ? maxPages : images.length
       const archiveData = { type, size, totalPages }
       context.trigger('loaded', archiveData)
 
@@ -155,7 +155,7 @@ const UncompressConsumer = React.memo(props => {
         error,
         ready,
         pages,
-        preview,
+        maxPages,
         // Actions
         clear,
         trigger,
@@ -168,7 +168,7 @@ const UncompressConsumer = React.memo(props => {
             error={error}
             ready={ready}
             pages={pages}
-            preview={preview}
+            maxPages={maxPages}
             clear={clear}
             trigger={trigger}
             createPage={createPage}
@@ -181,7 +181,6 @@ const UncompressConsumer = React.memo(props => {
 
 Uncompress.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
-  preview: PropTypes.number,
   workerUrl: PropTypes.string,
 }
 
