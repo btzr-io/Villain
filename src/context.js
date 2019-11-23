@@ -5,8 +5,6 @@ const defaultState = {
   type: null,
   pages: [],
   ready: false,
-  focus: false,
-  hover: false,
   error: null,
   totalPages: 0,
   fullscreen: false,

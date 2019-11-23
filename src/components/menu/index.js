@@ -49,7 +49,7 @@ const defaultSubmenuState = {
 }
 
 const BaseMenu = React.forwardRef(
-  ({ disclosure, tooltip, items, placement, ariaLabel, ...props }, ref) => {
+  ({ disclosure, tooltip, items, placement, ariaLabel, forceClose, ...props }, ref) => {
     const menu = useMenuState({ placement, gutter: 20, unstable_animated: true })
     const subRef = React.useRef(null)
     const mainRef = React.useRef(null)
@@ -111,6 +111,13 @@ const BaseMenu = React.forwardRef(
       // Animated opacity
       updateMenuSpring({ opacity: menu.visible ? 1 : 0 })
     }, [menu.visible])
+
+    // Handle parent close
+    React.useEffect(() => {
+      if (forceClose) {
+        menu.hide()
+      }
+    }, [forceClose])
 
     React.useEffect(() => {
       if (!animationState && !menu.visible) {

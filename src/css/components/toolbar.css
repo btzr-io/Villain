@@ -1,6 +1,6 @@
 /* toolbar */
 
-.villain-toolbar--hide:not(:hover) {
+.villain-toolbar.villain-toolbar--hide {
   opacity: 0;
   transform: translate3d(0, 50px, 0);
   transition-delay: 0.8s;

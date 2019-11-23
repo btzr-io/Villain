@@ -28,11 +28,30 @@ import {
 const Toolbar = memo(
   ({ visible, container, updateZoom, zoomIn, zoomOut, ...context }) => {
     const { togglePin, renderError, autoHideControls } = context
+    const [show, setShow] = React.useState(true)
+    const [hover, setHover] = React.useState(false)
+
+    const handleMouseEnter = () => {
+      setHover(true)
+    }
+
+    const handleMouseExit = () => {
+      setHover(false)
+    }
+
+    useEffect(() => {
+      const newState = visible || hover
+      if (newState !== show) {
+        setShow(newState)
+      }
+    }, [visible, hover])
 
     return (
       <div
         aria-label={'Toolbar'}
-        className={clsx('villain-toolbar', !visible && 'villain-toolbar--hide')}
+        onMouseOver={handleMouseEnter}
+        onMouseLeave={handleMouseExit}
+        className={clsx('villain-toolbar', !show && 'villain-toolbar--hide')}
       >
         <NavigationControls />
 
@@ -66,7 +85,7 @@ const Toolbar = memo(
 
           <hr className="villain-toolbar__divider" />
 
-          <Settings />
+          <Settings forceClose={!show} />
 
           <Button
             typeClass={'icon'}
@@ -86,27 +105,60 @@ const Toolbar = memo(
   }
 )
 
-const ToolbarConsumer = memo(props => (
-  <ReaderContext.Consumer>
-    {({
-      // State
-      focus,
-      hover,
-      fullscreen,
-      renderError,
-      autoHideControls,
-      // Actions
-      togglePin,
-    }) => (
-      <Toolbar
-        {...props}
-        visible={!autoHideControls || focus || ( hover && !fullscreen) }
-        renderError={renderError}
-        autoHideControls={autoHideControls}
-        togglePin={togglePin}
-      />
-    )}
-  </ReaderContext.Consumer>
-))
+const ToolbarConsumer = memo(props => {
+  // Local state is used instead of context for better peformance
+  const [hover, setHover] = useState(false)
+  const [focus, setFocus] = useState(false)
+
+  const handleMouseOver = () => {
+    setHover(true)
+  }
+
+  const handleMouseLeave = () => {
+    setHover(false)
+  }
+
+  const handleFocus = () => {
+    setFocus(true)
+  }
+
+  const handleBlur = () => {
+    setFocus(false)
+  }
+
+  useEffect(() => {
+    props.container.addEventListener('blur', handleBlur, true)
+    props.container.addEventListener('focus', handleFocus, true)
+    props.container.addEventListener('mouseover', handleMouseOver)
+    props.container.addEventListener('mouseleave', handleMouseLeave)
+    return () => {
+      props.container.removeEventListener('blur', handleBlur, true)
+      props.container.removeEventListener('focus', handleFocus, true)
+      props.container.removeEventListener('mouseover', handleMouseOver)
+      props.container.removeEventListener('mouseleave', handleMouseLeave)
+    }
+  }, [])
+
+  return (
+    <ReaderContext.Consumer>
+      {({
+        // State
+        fullscreen,
+        renderError,
+        autoHideControls,
+        // Actions
+        togglePin,
+      }) => (
+        <Toolbar
+          {...props}
+          visible={!autoHideControls || focus || (hover && !fullscreen)}
+          renderError={renderError}
+          autoHideControls={autoHideControls}
+          togglePin={togglePin}
+        />
+      )}
+    </ReaderContext.Consumer>
+  )
+})
 
 export default ToolbarConsumer

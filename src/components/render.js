@@ -91,26 +91,6 @@ class CanvasRender extends React.PureComponent {
     this.viewer.viewport.zoomTo(targetZoom, null, true)
   }
 
-  handleFocus = () => {
-    const { updateContextState } = this.props
-    updateContextState({ focus: true })
-  }
-
-  handleBlur = () => {
-    const { updateContextState } = this.props
-    updateContextState({ focus: false })
-  }
-
-  handleEnter = () => {
-    const { updateContextState } = this.props
-    updateContextState({ hover: true })
-  }
-
-  handleExit = () => {
-    const { updateContextState } = this.props
-    updateContextState({ hover: false })
-  }
-
   handleError = error => {
     const { updateCotextState } = this.props
     this.viewer.close()
@@ -190,15 +170,7 @@ class CanvasRender extends React.PureComponent {
     // Optimized scroll event
     this.viewer.addHandler('canvas-scroll', this.handleScrollOptimized)
 
-    this.viewer.addHandler('canvas-exit', this.handleExit)
-
-    this.viewer.addHandler('canvas-enter', this.handleEnter)
-
     this.viewer.addHandler('open-failed', this.handleError)
-
-    this.viewer.canvas.addEventListener('blur', this.handleBlur)
-
-    this.viewer.canvas.addEventListener('focus', this.handleFocus)
 
     onFullscreenChange(container, 'add', this.handleFullscreenChange)
   }
@@ -306,8 +278,6 @@ class CanvasRender extends React.PureComponent {
   componentWillUnmount() {
     const { container } = this.props
     // Remove event listeners
-    //  document.removeEventListener('blur', this.handleBlur, true)
-    //  document.removeEventListener('focus', this.handleFocus, true)
     onFullscreenChange(container, 'remove', this.handleFullscreenChange)
     // Destroy OpenSeaDragon viewer
     this.viewer.destroy()

@@ -30,7 +30,7 @@ const SettingsButton = React.memo(
 )
 
 const SettingsMenu = React.forwardRef(
-  ({ theme, mangaMode, updateContextState, ...toolbarProps }, ref) => {
+  ({ theme, mangaMode, forceClose, updateContextState }, ref) => {
     const handleThemeToggle = () => {
       updateContextState(prevState => ({
         theme: prevState.theme === 'Dark' ? 'Light' : 'Dark',
@@ -92,11 +92,11 @@ const SettingsMenu = React.forwardRef(
 
     return (
       <Menu
-        {...toolbarProps}
         ref={ref}
         items={menuItems}
         placement={'top'}
         disclosure={SettingsButton}
+        forceClose={forceClose}
         ariaLabel={Localize['Settings']}
       />
     )
