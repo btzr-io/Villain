@@ -10,10 +10,10 @@ import { ReaderContext, ReaderProvider } from '@/context'
 // Styles
 import '@/css'
 
-const Villain = ({ file, options, workerUrl }) => {
+const Villain = ({ file, style, options, workerUrl }) => {
   return (
     <ReaderProvider externalOptions={options}>
-      <Wrapp>
+      <Wrapp style={style}>
         {container => (
           <React.Fragment>
             <KeyboardConsumer container={container} />
@@ -29,10 +29,10 @@ const Villain = ({ file, options, workerUrl }) => {
 
 Villain.propTypes = {
   file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
+  workerUrl: PropTypes.string,
   options: PropTypes.shape({
     theme: PropTypes.string,
     maxPages: PropTypes.number,
-    workerUrl: PropTypes.string,
     allowFullscreen: PropTypes.boolean,
     allowGlobalShortcuts: PropTypes.boolean,
   }),

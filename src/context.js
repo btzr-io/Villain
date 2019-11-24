@@ -24,7 +24,7 @@ const defaultSettings = {
   maxPages: 500,
   bookMode: false,
   mangaMode: false,
-  showControls: false,
+  allowFullScreen: true,
   autoHideControls: false,
   allowGlobalShortcuts: false,
 }
