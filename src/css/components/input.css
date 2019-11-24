@@ -1,6 +1,7 @@
 .villain-toolbar .villain-input {
   -moz-appearance: textfield;
   text-align: right;
+  height: 1rem;
   max-width: 38px;
   font-size: 14px;
   font-family: var(--font-family);

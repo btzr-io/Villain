@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file. The format 
 ### Changed
 - Update build
 
+## [1.0.4] - [2019-11-23]
+
+### Fixed
+
+- Fix scss styles not build on bundle [(See commit)](https://github.com/btzr-io/Villain/commit/8fbfa0d2a7d5bda3bcb713c80efd9a769bd0ef8f)
+
 ## [1.0.3] - [2019-11-23]
 
 ### Added
