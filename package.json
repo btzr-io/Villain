@@ -1,6 +1,6 @@
 {
   "name": "villain-react",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An open source web based comic book reader as a react component",
   "main": "./dist/villain.js",
   "scripts": {
