@@ -1,4 +1,3 @@
-import css from 'rollup-plugin-css-porter'
 import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
@@ -7,7 +6,7 @@ import alias from 'rollup-plugin-alias'
 import { terser } from 'rollup-plugin-terser'
 import json from 'rollup-plugin-json'
 import path from 'path'
-import scss from 'rollup-plugin-scss'
+import postcss from 'rollup-plugin-postcss'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -27,25 +26,10 @@ export default {
   },
 
   plugins: [
-    css({
-      raw: './dist/style.css',
-      minified: './dist/style.min.css',
-    }),
-    scss({
-      output: true,
-
-      // Filename to write all styles to
-      output: 'style.css',
-
-      output: function(styles, styleNodes) {
-        writeFileSync('style.css', styles)
-      },
-
-      // Disable any style output or callbacks, import as string
-      output: false,
-
-      // Determine if node process should be terminated on error (default: false)
-      failOnError: true,
+    postcss({
+       extract: './dist/style.css',
+       modules: false,
+       minimize: true,
     }),
     babel({
       exclude: 'node_modules/**',
@@ -54,7 +38,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
     alias({
-      resolve: ['/index.js', '/index.jsx', '.js', '.jsx', '.json'], //optional, by default this will just look for .js files or folders
+      resolve: ['/index.js', '/index.jsx', '.js', '.jsx', '.json', '.css', '.scss'], //optional, by default this will just look for .js files or folders
     }),
     json(),
     resolve(),

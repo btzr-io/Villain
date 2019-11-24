@@ -57,7 +57,7 @@ Import the component and the css styles
 import Villain from 'villain-react'
 
 // Css styles
-import 'villain-react/dist/style.min.css'
+import 'villain-react/dist/style.css'
 
 // Path of the comicbook archive
 const url = '/files/test.cbz'
