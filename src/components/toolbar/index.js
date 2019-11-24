@@ -10,13 +10,6 @@ import NavigationControls from '@/components/toolbar/controls/navigation'
 import { ReaderContext } from '@/context'
 
 import {
-  Toolbar as ToolbarBase,
-  ToolbarItem,
-  ToolbarSeparator,
-  useToolbarState,
-} from 'reakit'
-
-import {
   mdiPin,
   mdiPinOff,
   mdiBookOpen,

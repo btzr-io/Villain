@@ -1,7 +1,6 @@
 import React, { memo, useRef, useState, useEffect } from 'react'
 import Button from '@/components/toolbar/button'
 import { ReaderContext } from '@/context'
-import { ToolbarItem } from 'reakit'
 
 //Utils
 import Localize from '@/localize'
