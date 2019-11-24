@@ -2,16 +2,17 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+
+## [1.0.5] - [2019-11-23]
+
+### Fixed
+
+- Fix scss styles not build on bundle [(See commit)](https://github.com/btzr-io/Villain/commit/e73fee8c762a9f571c986524d69c5c3629d6fc00)
+
 ## [1.0.4] - [2019-11-23]
 
 ### Changed
 - Update build
-
-## [1.0.4] - [2019-11-23]
-
-### Fixed
-
-- Fix scss styles not build on bundle [(See commit)](https://github.com/btzr-io/Villain/commit/8fbfa0d2a7d5bda3bcb713c80efd9a769bd0ef8f)
 
 ## [1.0.3] - [2019-11-23]
 
