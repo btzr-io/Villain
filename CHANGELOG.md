@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [1.0.3] - [Unreleased]
+## [1.0.3] - [2019-11-23]
+
+### Added
+
+- New `maxPages` prop [(See commit)](https://github.com/btzr-io/Villain/commit/8fbfa0d2a7d5bda3bcb713c80efd9a769bd0ef8f)
+
+
+### Changed
+
+- Improve toolbar auto-hide behavior  [(See commit)](https://github.com/btzr-io/Villain/commit/146f50f323d44c3d732219c13f01b46449f945de)
+- Better opacity for disabled buttons  [(See commit)](https://github.com/btzr-io/Villain/commit/4d592a7f8e5abe4436f7adaa684d43cf23139cf8)
+- Remove deprecated preview mode [(See commit)](https://github.com/btzr-io/Villain/commit/8fbfa0d2a7d5bda3bcb713c80efd9a769bd0ef8f)
 
 ## [1.0.2] - [2019-11-21]
 
@@ -16,6 +27,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Fixed
 
+- Localization not updating strings [(See commit)](https://github.com/btzr-io/Villain/commit/06a9831761c4599991033e55a24a15be2b086e1a)
 - Reverse mode (manga) is not optimized [(#221)](https://github.com/Villain/issues/221)
 - Can't properly fit pages to viewer bounds (book mode) [(#132)](https://github.com/btzr-io/Villain/issues/132)
 - Performance issues on Focus / blur event listener [(#220)](https://github.com/btzr-io/Villain/issues/220)
