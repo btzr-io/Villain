@@ -76,6 +76,7 @@ Available props of the component:
 | Name      | Type               | Default             | Description                           |
 | ----------| ------------------ | ------------------- | ------------------------------------- |
 | file      | string, file, blob | null                | Path or file source of the archive.   |
+| style     | Object             | null                | Inline styles for root container.     |
 | options   | object             | [options](https://github.com/btzr-io/Villain#options) | Options to customize the reader component   |
 | workerUrl | string             | null                | Path to libarchive.js `worker-bundle` |
 
