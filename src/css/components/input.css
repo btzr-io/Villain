@@ -1,6 +1,7 @@
 .villain-toolbar .villain-input {
   -moz-appearance: textfield;
   text-align: right;
+  color: var(--fg-color);
   height: 1rem;
   max-width: 38px;
   font-size: 14px;
@@ -8,7 +9,6 @@
   font-weight: 700;
   background: var(--input-bg);
   border: 0;
-  color: var(--fg-color);
 }
 
 .villain-toolbar .villain-input:focus {
@@ -40,10 +40,10 @@
   min-width: 52px;
   background: var(--input-bg);
   border: 2px solid var(--input-border);
-  padding: 2px 4px;
+  padding: 2px 6px;
   color: var(--fg-color);
-  margin: 0 6px;
-  border-radius: 4px;
+  margin: 0 8px;
+  border-radius: 16px;
   cursor: pointer;
 }
 
@@ -58,6 +58,10 @@
   min-width: 0;
   text-align: right;
   flex: 1 1 0;
+}
+
+.villain-wrapper-input .villain-input:focus {
+  box-shadow: none;
 }
 
 .villain-wrapper-input .villain-label {

@@ -60,11 +60,6 @@ const BaseMenu = React.forwardRef(
 
     const maxHeight = 240
 
-    const getHeight = element => {
-      const bounds = element.getBoundingClientRect()
-      return bounds.height > maxHeight ? maxHeight : bounds.height
-    }
-
     const reset = () => {
       setSubmenuState({ ...defaultSubmenuState })
     }
@@ -75,11 +70,6 @@ const BaseMenu = React.forwardRef(
 
     const handleSubmenuClose = () => {
       reset()
-    }
-
-    const handleMenuOpen = () => {
-      const mainElement = mainRef.current
-      mainElement && setMenuHeight(getHeight(mainElement))
     }
 
     const handleMenuClose = () => {
@@ -103,11 +93,25 @@ const BaseMenu = React.forwardRef(
       config: { clamp: true, velocity: 5, friction: 20 },
     }))
 
+    React.useEffect(() => {
+      // Animated height
+      updateMenuSpring({ height: `${menuHeight}px` })
+    }, [menuHeight])
+
     // Handle menu
     React.useEffect(() => {
-      if (menu.visible) {
-        handleMenuOpen()
+      if (menu.visible && mainRef.current !== null) {
+        // In rare cases like on electron, this will be executed before the menu
+        // is truly visible, so height will always be equal to "0px"
+        // - Todo: Find a better solution for this!
+        setTimeout(() => {
+          const mainElementHeight = mainRef.current.clientHeight
+          const nextHeight = mainElementHeight > maxHeight ? maxHeight : mainElementHeight
+          setMenuHeight(nextHeight)
+          menu.unstable_update()
+        }, 100)
       }
+
       // Animated opacity
       updateMenuSpring({ opacity: menu.visible ? 1 : 0 })
     }, [menu.visible])
@@ -124,11 +128,6 @@ const BaseMenu = React.forwardRef(
         handleMenuClose()
       }
     }, [animationState])
-
-    React.useEffect(() => {
-      // Animated height
-      updateMenuSpring({ height: `${menuHeight}px` })
-    }, [menuHeight])
 
     // Handle submenu
     React.useEffect(() => {
@@ -167,15 +166,25 @@ const BaseMenu = React.forwardRef(
 
     // Submenu transition
     React.useEffect(() => {
-      const subElement = subRef.current
-      const mainElement = mainRef.current
       // Submenu open
-      if (submenuState.visible) {
-        subElement && setMenuHeight(getHeight(subElement))
-      } else {
-        mainElement && setMenuHeight(getHeight(mainElement))
+      if (submenuState.visible && subRef.current) {
+        const subElementHeight = subRef.current.clientHeight
+        const nextHeight = subElementHeight > maxHeight ? maxHeight : subElementHeight
+
+        if (menuHeight !== nextHeight) {
+          setMenuHeight(nextHeight)
+        }
       }
 
+      // Submenu close
+      if (!submenuState.visible && mainRef.current) {
+        const mainElementHeight = mainRef.current.clientHeight
+        const nextHeight = mainElementHeight > maxHeight ? maxHeight : mainElementHeight
+
+        if (menuHeight !== nextHeight) {
+          setMenuHeight(nextHeight)
+        }
+      }
       menu.unstable_update()
     }, [submenuState.visible])
 
