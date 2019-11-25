@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [1.0.6] - [2019-11-24]
+
+### Added
+
+- Style prop to pass in-line styles to the main container [(See commit)](https://github.com/btzr-io/Villain/commit/8fbfa0d2a7d5bda3bcb713c80efd9a769bd0ef8f)
+
+### Changed
+
+- Minor css changes [(See commit)](https://github.com/btzr-io/Villain/commit/132825d32dd09b0b2852f201cb95c374fe68b41c)
+
+### Fixed
+
+- Minor patch for electron [(See commit)](https://github.com/btzr-io/Villain/commit/132825d32dd09b0b2852f201cb95c374fe68b41c)
+  - Fix css issues on electron
+  - Fix menu height not updating on electron
 
 ## [1.0.5] - [2019-11-23]
 
