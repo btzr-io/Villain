@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [1.0.6] - [UNRELEASED]
+## [1.0.7] - [UNRELEASED]
 
 ### Changed
 
-- Rename "file" prop to "source"
+- Rename "file" prop to "source" [(See commit)](https://github.com/btzr-io/Villain/commit/cc59bfa8ec82ee090b4ccd3e427aa1eebad570cd)
 
 ### Fixed
 
