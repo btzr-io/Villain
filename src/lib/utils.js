@@ -1,7 +1,9 @@
 // Regex to detect image type
 const regexImage = new RegExp(
-  /^[a-zA-Z0-9_@()-][a-zA-Z0-9_.@()-\s]+.(jpeg|jpg|png|bpm|webp)$/
+  /^[\p{L}\p{N}_@()-][\p{L}\p{N}_.@()-\s]+.(jpeg|jpg|png|bpm|webp)$/
 )
+
+// /^[a-zA-Z0-9_@()-][a-zA-Z0-9_.@()-\s]+.(jpeg|jpg|png|bpm|webp)$/
 
 // Handle response status
 const status = response => {
