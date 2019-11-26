@@ -17,11 +17,6 @@ const status = response => {
 
 // Check if file is a valid image-type
 export const isValidImageType = name => regexImage.test(name)
-// Extract file MIME Type
-export const getMimeType = name => {
-  const mime = regexImage.exec(name)
-  return `image/${mime ? mime[1] : 'jpeg'}`
-}
 
 // Load archive from server
 export const fetchArchive = (url, callback, errorCallback) => {
