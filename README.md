@@ -61,15 +61,15 @@ import Villain from 'villain-react'
 // Css styles
 import 'villain-react/dist/style.css'
 
-// Path of the comicbook archive
-const url = '/files/test.cbz'
+// Path of the comicbook archive, it can also be a file or blob
+const url = './files/test.cbz'
 
 // Path of the libarchivejs webworker bundle
 const workerUrl = 'path to ../build/worker-bundle.js',
 
 //...
 
-<Villain file={url} options={opts} />
+<Villain source={url} options={opts} />
 ```
 
 ### Props
