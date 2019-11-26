@@ -10,7 +10,7 @@ import { ReaderContext, ReaderProvider } from '@/context'
 // Styles
 import '@/css'
 
-const Villain = ({ file, style, options, workerUrl }) => {
+const Villain = ({ source, style, options, workerUrl }) => {
   return (
     <ReaderProvider externalOptions={options}>
       <Wrapp style={style}>
@@ -18,7 +18,7 @@ const Villain = ({ file, style, options, workerUrl }) => {
           <React.Fragment>
             <KeyboardConsumer container={container} />
             <OptionsConsumer options={options} />
-            <UncompressConsumer file={file} workerUrl={workerUrl} />
+            <UncompressConsumer source={source} workerUrl={workerUrl} />
             <CanvasRenderConsumer container={container} />
           </React.Fragment>
         )}
@@ -28,7 +28,7 @@ const Villain = ({ file, style, options, workerUrl }) => {
 }
 
 Villain.propTypes = {
-  file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
+  source: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
   workerUrl: PropTypes.string,
   options: PropTypes.shape({
     theme: PropTypes.string,

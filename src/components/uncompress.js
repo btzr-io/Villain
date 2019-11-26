@@ -13,7 +13,7 @@ import { mdiFileAlert } from '@mdi/js'
 import { setState } from 'expect/build/jestMatchersObject'
 
 const Uncompress = React.memo(
-  ({ file = null, workerUrl = null, children, ...context }) => {
+  ({ source = null, workerUrl = null, children, ...context }) => {
     const state = useState({
       size: null,
       name: null,
@@ -51,7 +51,8 @@ const Uncompress = React.memo(
         const list = await openArchive(blob)
 
         if (list && list.length > 0) {
-          const items = maxPages && maxPages < list.length ? list.splice(0, maxPages) : list
+          const items =
+            maxPages && maxPages < list.length ? list.splice(0, maxPages) : list
 
           await asyncForEach(items, async (item, index) => {
             const file = await item.file.extract()
@@ -112,28 +113,28 @@ const Uncompress = React.memo(
     }, [])
 
     useEffect(() => {
-      if (!file) {
+      if (!source) {
         setState({ name: null, size: null, type: null })
         return
       }
 
-      const { name, size, type } = file
+      const { name, size, type } = source
       setState({ name, size, type })
 
       // Loading archive from url
-      if (typeof file === 'string') {
+      if (typeof source === 'string') {
         // Remove previous archive data
         context.clear()
         // Load archive from valid source
-        loadArchiveFromUrl(file)
+        loadArchiveFromUrl(source)
       }
 
       // Loading archive from blob or file
-      if (file instanceof Blob) {
+      if (source instanceof Blob) {
         context.clear()
-        loadArchiveFromBlob(file)
+        loadArchiveFromBlob(source)
       }
-    }, [file])
+    }, [source])
 
     return (
       <React.Fragment>
@@ -180,7 +181,7 @@ const UncompressConsumer = React.memo(props => {
 })
 
 Uncompress.propTypes = {
-  file: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
+  source: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
   workerUrl: PropTypes.string,
 }
 

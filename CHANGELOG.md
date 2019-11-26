@@ -2,14 +2,16 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-
 ## [1.0.6] - [UNRELEASED]
+
+### Changed
+
+- Rename "file" prop to "source"
 
 ### Fixed
 
 - Incorrect target zoom on book mode [(See commit)](https://github.com/btzr-io/Villain/commit/8419754b36a43ad46c921238eeeb50420c844e0c)
 - Use more inclusive regexp for matching file paths [(#227)](https://github.com/btzr-io/Villain/issues/227)
-
 
 ## [1.0.6] - [2019-11-24]
 
@@ -36,6 +38,7 @@ All notable changes to this project will be documented in this file. The format 
 ## [1.0.4] - [2019-11-23]
 
 ### Changed
+
 - Update build
 
 ## [1.0.3] - [2019-11-23]
@@ -44,11 +47,10 @@ All notable changes to this project will be documented in this file. The format 
 
 - New `maxPages` prop [(See commit)](https://github.com/btzr-io/Villain/commit/8fbfa0d2a7d5bda3bcb713c80efd9a769bd0ef8f)
 
-
 ### Changed
 
-- Improve toolbar auto-hide behavior  [(See commit)](https://github.com/btzr-io/Villain/commit/146f50f323d44c3d732219c13f01b46449f945de)
-- Better opacity for disabled buttons  [(See commit)](https://github.com/btzr-io/Villain/commit/4d592a7f8e5abe4436f7adaa684d43cf23139cf8)
+- Improve toolbar auto-hide behavior [(See commit)](https://github.com/btzr-io/Villain/commit/146f50f323d44c3d732219c13f01b46449f945de)
+- Better opacity for disabled buttons [(See commit)](https://github.com/btzr-io/Villain/commit/4d592a7f8e5abe4436f7adaa684d43cf23139cf8)
 - Remove deprecated preview mode [(See commit)](https://github.com/btzr-io/Villain/commit/8fbfa0d2a7d5bda3bcb713c80efd9a769bd0ef8f)
 
 ## [1.0.2] - [2019-11-21]

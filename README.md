@@ -21,7 +21,6 @@ The open source web-based comic book reader that you need, but don't deserve.
  </a>
 </h3>
 
-
 <br/>
 
 ## Installation
@@ -40,13 +39,16 @@ so you will need to provide the path of `webworker`:
 ```js
 const workerUrl = 'path to ../build/worker-bundle.js',
 ```
+
 ### Formats
- Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs)
-  - `ZIP`
-  - `7-Zip`
-  - `RAR v4`
-  - `RAR v5`
-  - `TAR`
+
+Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs)
+
+- `ZIP`
+- `7-Zip`
+- `RAR v4`
+- `RAR v5`
+- `TAR`
 
 ## Usage
 
@@ -69,16 +71,17 @@ const workerUrl = 'path to ../build/worker-bundle.js',
 
 <Villain file={url} options={opts} />
 ```
+
 ### Props
 
 Available props of the component:
 
-| Name      | Type               | Default             | Description                           |
-| ----------| ------------------ | ------------------- | ------------------------------------- |
-| file      | string, file, blob | null                | Path or file source of the archive.   |
-| style     | Object             | null                | Inline styles for root container.     |
-| options   | object             | [options](https://github.com/btzr-io/Villain#options) | Options to customize the reader component   |
-| workerUrl | string             | null                | Path to libarchive.js `worker-bundle` |
+| Name      | Type               | Default                                               | Description                               |
+| --------- | ------------------ | ----------------------------------------------------- | ----------------------------------------- |
+| style     | Object             | null                                                  | Inline styles for root container.         |
+| source    | string, file, blob | null                                                  | Path or file source of the archive.       |
+| options   | object             | [options](https://github.com/btzr-io/Villain#options) | Options to customize the reader component |
+| workerUrl | string             | null                                                  | Path to libarchive.js `worker-bundle`     |
 
 ### Options
 
@@ -106,7 +109,8 @@ An example archive has been provided to play around inside [`./build/testFile`](
 - A good resource for archives can be found here: https://archive.org/details/comics.
 - Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
 
-## Known issues  
+## Known issues
+
 - Accessibility issues [#23](https://github.com/btzr-io/Villain/issues/23)
 - Some `.rar` and `.cbr` fail to load [#1](https://github.com/btzr-io/Villain/issues/1)
 - Encrypted archived are not yet supported [#26](https://github.com/btzr-io/Villain/issues/26)

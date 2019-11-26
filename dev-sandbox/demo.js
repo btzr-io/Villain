@@ -76,7 +76,7 @@ const Demo = () => {
       </aside>
       <div className="instance">
         <Villain
-          file={file}
+          source={file}
           options={optionsProps}
           workerUrl={'static/worker-bundle.js'}
         />
