@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+
+## [1.0.6] - [UNRELEASED]
+
+### Fixed
+
+- Incorrect target zoom on book mode [(See commit)](https://github.com/btzr-io/Villain/commit/8419754b36a43ad46c921238eeeb50420c844e0c)
+- Use more inclusive regexp for matching file paths [(#227)](https://github.com/btzr-io/Villain/issues/227)
+
+
 ## [1.0.6] - [2019-11-24]
 
 ### Added
