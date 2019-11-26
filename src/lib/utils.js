@@ -1,9 +1,10 @@
 // Regex to detect image type
-const regexImage = new RegExp(
-  /^[\p{L}\p{N}_@()-][\p{L}\p{N}_.@()-\s]+.(jpeg|jpg|png|bpm|webp)$/
-)
+// Note: Unicode symbols are remplaced "*" on libarchivejs
+// See: https://github.com/nika-begiashvili/libarchivejs/issues/19
 
-// /^[a-zA-Z0-9_@()-][a-zA-Z0-9_.@()-\s]+.(jpeg|jpg|png|bpm|webp)$/
+const regexImage = new RegExp(
+  /(^[\p{L}\p{N}*@()_-]([\p{L}\p{N}\s.*@()_-]+)?)+.(jpeg|jpg|png|bpm|webp)$/
+)
 
 // Handle response status
 const status = response => {
@@ -15,8 +16,10 @@ const status = response => {
 }
 
 // Check if file is a valid image-type
-export const isValidImageType = name => regexImage.test(name)
-
+export const isValidImageType = name => {
+  console.info(name, regexImage, regexImage.test(name))
+return   regexImage.test(name)
+}
 // Extract file MIME Type
 export const getMimeType = name => {
   const mime = regexImage.exec(name)
