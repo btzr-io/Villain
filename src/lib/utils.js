@@ -16,10 +16,7 @@ const status = response => {
 }
 
 // Check if file is a valid image-type
-export const isValidImageType = name => {
-  console.info(name, regexImage, regexImage.test(name))
-return   regexImage.test(name)
-}
+export const isValidImageType = name => regexImage.test(name)
 // Extract file MIME Type
 export const getMimeType = name => {
   const mime = regexImage.exec(name)

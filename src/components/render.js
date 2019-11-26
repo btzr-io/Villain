@@ -36,7 +36,7 @@ class CanvasRender extends React.PureComponent {
       zooms[i] = world.getItemAt(i).imageToViewportZoom(scale)
     }
 
-    return Math.max(zooms)
+    return Math.max(zooms) || zooms[0]
   }
 
   updateZoomLimits = () => {
