@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Archive } from 'libarchive.js/main'
 import { asyncForEach, fetchArchive, isValidImageType } from '@/lib/utils'
@@ -20,6 +20,8 @@ const Uncompress = React.memo(
       type: null,
     })
 
+    const archive = useRef(null)
+
     // Context sate
     const { ready, error, maxPages, pages, load } = context
 
@@ -38,6 +40,11 @@ const Uncompress = React.memo(
           URL.revokeObjectURL(page.src)
         })
       }
+      // Free up memory
+      if (archive.current) {
+        archive.current_.worker.terminate()
+        archive.current = null
+      }
     }
 
     const handleError = err => {
@@ -47,24 +54,30 @@ const Uncompress = React.memo(
 
     const extract = async blob => {
       try {
-        // Compressed files 1437
-        const list = await openArchive(blob)
+        // Compressed files
+        const images = await openArchive(blob)
 
-        if (list && list.length > 0) {
+        if (images && images.length > 0) {
           const items =
-            maxPages && maxPages < list.length ? list.splice(0, maxPages) : list
+            maxPages && maxPages < images.length ? images.splice(0, maxPages) : images
 
           await asyncForEach(items, async (item, index) => {
             const file = await item.file.extract()
             handleExtractedFile(file, index)
+            // After last itme free up memory
+            if (index === items.length - 1) {
+              archive.current._worker.terminate()
+            }
           })
         } else {
           context.trigger('error', 'Cant open archive')
+          archive.current._worker.terminate()
         }
       } catch (err) {
         // Handle Errors
         console.error(err)
         handleError(err)
+        archive.current._worker.terminate()
       }
     }
 
@@ -79,8 +92,8 @@ const Uncompress = React.memo(
 
     const openArchive = async file => {
       // Open archive
-      const archive = await Archive.open(file)
-      const compressedFiles = await archive.getFilesArray()
+      archive.current = await Archive.open(file)
+      const compressedFiles = await archive.current.getFilesArray()
       const images = compressedFiles.filter(item => isValidImageType(item.file.name))
 
       if (images.length > 1 && false) {
@@ -96,7 +109,6 @@ const Uncompress = React.memo(
       const totalPages = maxPages && maxPages < images.length ? maxPages : images.length
       const archiveData = { type, size, totalPages }
       context.trigger('loaded', archiveData)
-
       // If returns null it means that the archive is empty
       // or don't contains any valid images.
       // Note: Improve error message.

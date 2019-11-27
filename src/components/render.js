@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { Component } from 'react'
+import React from 'react'
 import OpenSeaDragon from 'openseadragon'
 import OSDConfig from '@/osd.config'
 import RenderError from '@/components/renderError'
@@ -13,7 +13,7 @@ import { fullscreenElement, onFullscreenChange } from '@/lib/full-screen'
 // Icons
 import { mdiImageBrokenVariant } from '@mdi/js'
 
-class CanvasRender extends React.PureComponent {
+class CanvasRender extends React.Component {
   static defaultProps = {
     initialPage: 0,
   }
@@ -23,6 +23,7 @@ class CanvasRender extends React.PureComponent {
     this.viewer = null
     this.browser = null
     this.isScrolling = false
+    this.OSDContainer = React.createRef()
     this.clearScrollingDelay = null
   }
 
@@ -145,7 +146,11 @@ class CanvasRender extends React.PureComponent {
     this.browser = getKeyByValue(OpenSeaDragon.BROWSERS, OpenSeaDragon.Browser.vendor)
 
     // Create viewer
-    this.viewer = OpenSeaDragon({ id, tileSources: pages[0], ...OSDConfig })
+    this.viewer = OpenSeaDragon({
+      element: this.OSDContainer.current,
+      tileSources: pages[0],
+      ...OSDConfig,
+    })
 
     // Events handler
     this.viewer.addHandler('open', () => {
@@ -321,7 +326,7 @@ class CanvasRender extends React.PureComponent {
           zoomIn={this.zoomIn}
           zoomOut={this.zoomOut}
         />
-        <div id={id} className={'villain-canvas'} />
+        <div ref={this.OSDContainer} className={'villain-canvas'} />
         {renderError && (
           <RenderError message={'Invalid image'} icon={mdiImageBrokenVariant} />
         )}
@@ -355,7 +360,6 @@ const CanvasRenderConsumer = React.memo(({ container }) => {
         return (
           shouldRender && (
             <CanvasRender
-              id={'villain-osd-canvas'}
               hover={hover}
               pages={pages}
               container={container}
