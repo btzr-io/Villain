@@ -10,8 +10,10 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Fixed
 
+- Worker is not terminated [(228)](https://github.com/btzr-io/Villain/issues/228)
 - Incorrect target zoom on book mode [(See commit)](https://github.com/btzr-io/Villain/commit/8419754b36a43ad46c921238eeeb50420c844e0c)
 - Use more inclusive regexp for matching file paths [(#227)](https://github.com/btzr-io/Villain/issues/227)
+- Can't render more than one instance of the component [(#229)](https://github.com/btzr-io/Villain/issues/229)
 
 ## [1.0.6] - [2019-11-24]
 
