@@ -10,16 +10,10 @@ import Loader from '@/components/loader'
 
 // Icons
 import { mdiFileAlert } from '@mdi/js'
-import { setState } from 'expect/build/jestMatchersObject'
 
 const Uncompress = React.memo(
   ({ source = null, workerUrl = null, children, ...context }) => {
-    const state = useState({
-      size: null,
-      name: null,
-      type: null,
-    })
-
+    
     const archive = useRef(null)
 
     // Context sate
@@ -54,7 +48,7 @@ const Uncompress = React.memo(
 
     const extract = async blob => {
       try {
-        // Compressed files
+        // Get compressed files
         const images = await openArchive(blob)
 
         if (images && images.length > 0) {
@@ -104,11 +98,9 @@ const Uncompress = React.memo(
           return 0
         })
       }
-      // Load archive data
-      const { type, size } = file
+      // Check limits
       const totalPages = maxPages && maxPages < images.length ? maxPages : images.length
-      const archiveData = { type, size, totalPages }
-      context.trigger('loaded', archiveData)
+      context.updateCotextState({ totalPages })
       // If returns null it means that the archive is empty
       // or don't contains any valid images.
       // Note: Improve error message.
@@ -125,25 +117,20 @@ const Uncompress = React.memo(
     }, [])
 
     useEffect(() => {
-      if (!source) {
-        setState({ name: null, size: null, type: null })
-        return
-      }
+      // Remove previous archive data
+      context.clear()
 
-      const { name, size, type } = source
-      setState({ name, size, type })
+      // Empty source
+      if (!source) { return }
 
       // Loading archive from url
       if (typeof source === 'string') {
-        // Remove previous archive data
-        context.clear()
         // Load archive from valid source
         loadArchiveFromUrl(source)
       }
 
       // Loading archive from blob or file
       if (source instanceof Blob) {
-        context.clear()
         loadArchiveFromBlob(source)
       }
     }, [source])
@@ -173,6 +160,7 @@ const UncompressConsumer = React.memo(props => {
         clear,
         trigger,
         createPage,
+        updateState,
       }) => {
         return (
           <Uncompress
@@ -184,6 +172,7 @@ const UncompressConsumer = React.memo(props => {
             maxPages={maxPages}
             clear={clear}
             trigger={trigger}
+            updateCotextState={updateState}
             createPage={createPage}
           />
         )

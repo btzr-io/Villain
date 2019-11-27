@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 
 const defaultState = {
-  size: 0,
-  type: null,
   pages: [],
   ready: false,
   error: null,
   totalPages: 0,
+  canZoomIn: false,
+  canZoomOut: false,
   fullscreen: false,
   isLastPage: false,
   isFirstPage: true,
   currentPage: null,
   currentZoom: null,
-  canZoomIn: false,
-  canZoomOut: false,
   renderError: false,
 }
 
@@ -70,10 +68,6 @@ export class ReaderProvider extends Component {
       if (eventName === 'error' && data) {
         console.error(data)
         this.setState({ ready: false, error: data })
-      }
-
-      if (eventName === 'loaded' && data) {
-        this.setState({ ...data })
       }
     }
 
