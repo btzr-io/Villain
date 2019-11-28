@@ -3,13 +3,13 @@
 
 If you'd like to help support the future of the project, here are somethings you can do: 
 
-## Feedback
+### Feedback
 
-Feel free to leave some feedback, ideas or share your insights.
-Also you can request new features that can improve usability or accesibility by creating a new [feature request](https://github.com/btzr-io/Villain/issues/new?assignees=&labels=&template=feature_request.md&title=)
+- Feel free to leave some feedback, ideas or share your insights.
+- Also you can request new features that can improve usability or accesibility by creating a new [feature request](https://github.com/btzr-io/Villain/issues/new?assignees=&labels=&template=feature_request.md&title=)
 ### Report bugs
 
-Found an issue ? Please report it so we can fix it. see the list of [bugs](https://github.com/btzr-io/Villain/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+- Found an issue ? Please report it so we can fix it. see the list of [bugs](https://github.com/btzr-io/Villain/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 
 ### Donations
