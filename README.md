@@ -30,15 +30,16 @@ The open source web-based comic book reader that you need, but don't deserve.
 
 A simple open source web-based reader with focus on usability and accesibility for:
 
+- Manga
 - Comic books
 - Graphic novels
-- Illustrated books 
+- Illustrated books
 
 ## How?
 It relays on modern web apis and frameworks like react, webworkers and webAssembly:
 
-- So dont expect it to work on a hot potato.
-- Usage with modern browsers is recommended.
+- So dont expect it to work on a hot potato
+- Usage with modern browsers is recommended
 
 You should be able to integrate `villain` in any modern website or react application.
 
