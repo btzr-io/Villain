@@ -26,22 +26,17 @@ The open source web-based comic book reader that you need, but don't deserve.
  <img alt="Screen preview" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/Screenshot_2019-11-27%20Villain%20Demo.png">
 </h3>
 
-## Installation
+### Features
 
-```shell
-$ yarn add villain-react
-```
+- Dark / light theme
+- Manga mode ( Read right to left or default left to right )
+- Full screen mode ( Browser fullscreen API integration )
+- Easy page navigation : prev / next page buttons, slider component as well and a text input for accessibility
+- Keyboard shortcuts ( I need to document this )
+- Localization of strings ( Multi language support for the UI )
+- Layout mode : Single page / Book ( two pages )
 
-## WebWorker
-
-This project uses [libarchivejs](https://github.com/nika-begiashvili/libarchivejs) for extracting compressed archives,
-so you will need to provide the path of `webworker`:
-
-> The webworker bundle lives in libarchive.js/dist folder so you need to make sure that it is available in your public folder since it will not get bundled if you're using bundler (it's all bundled up already)
-
-```js
-const workerUrl = 'path to ../build/worker-bundle.js',
-```
+A killer feature is missing ? Open a [feature request](https://github.com/btzr-io/Villain/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
 ### Formats
 
@@ -53,64 +48,37 @@ Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashv
 - `RAR v5`
 - `TAR`
 
-## Usage
-
-Import the component and the css styles
-
-```js
-// Component
-import Villain from 'villain-react'
-
-// Css styles
-import 'villain-react/dist/style.css'
-
-// Path of the comicbook archive, it can also be a file or blob
-const url = './files/test.cbz'
-
-// Path of the libarchivejs webworker bundle
-const workerUrl = 'path to ../build/worker-bundle.js',
-
-//...
-
-<Villain source={url} options={opts} />
-```
-
-### Props
-
-Available props of the component:
-
-| Name      | Type               | Default                                               | Description                               |
-| --------- | ------------------ | ----------------------------------------------------- | ----------------------------------------- |
-| style     | Object             | null                                                  | Inline styles for root container.         |
-| source    | string, file, blob | null                                                  | Path or file source of the archive.       |
-| options   | object             | [options](https://github.com/btzr-io/Villain#options) | Options to customize the reader component |
-| workerUrl | string             | null                                                  | Path to libarchive.js `worker-bundle`     |
-
-### Options
-
-Available options to customize the reader component:
-
-| Name                 | Type   | Default | Description                                          |
-| -------------------- | ------ | ------- | ---------------------------------------------------- |
-| theme                | string | 'Dark'  | Choose CSS styling from between ('Light', 'Dark).    |
-| maxPages             | number | 500     | Max number of pages to extract and render.           |
-| mangaMode            | bool   | false   | Read right to left.                                  |
-| allowFullScreen      | bool   | true    | Show full screen button.                             |
-| autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.              |
-| allowGlobalShortcuts | bool   | false   | Allows shortcuts without having to focus the viewer. |
-
 ## Development
 
-Run `yarn` command to install the dependencies.
+This repository is now a `mono-repo` and is maintained with [lerna](https://github.com/lerna/lerna)
 
-To start the development run `yarn start`, this will open up `localhost:8080` on your default browser:
+### Setup
 
-- This uses webpack-dev-server and includes hot-reloading.
+Before you jump in the code please follow the initial setup guide for development:
 
-An example archive has been provided to play around inside [`./build/testFile`](https://github.com/btzr-io/Villain/tree/master/build/testFile)
+1. Clone or fork this repository.
+2. Run `yarn` command to install the project dependencies.
+3. Run `yarn bootstrap` to install all dependencies from internal packages and link any cross-dependencies.
 
-- A good resource for archives can be found here: https://archive.org/details/comics.
-- Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
+Thats it! Now you are ready to start fixing bugs and implementing new features. :tada:
+
+### Packages
+
+Available packages living inside this repository:
+
+| Name                                                                                   | version | Description     |
+| -------------------------------------------------------------------------------------- | ------- | --------------- |
+| [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) | 1.0.7   | react component |
+
+### Commands
+
+Available package scripts for development:
+
+| Name        | Description                                                                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bootstrap   | Bootstrap the packages in the current mono repo                                                                                                         |
+| build:react | Build production version of [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react)                                      |
+| start:react | Start development webpack-dev-server (includes hot-reloading) of [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) |
 
 ## Known issues
 
