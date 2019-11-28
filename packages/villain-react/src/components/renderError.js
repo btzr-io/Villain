@@ -9,7 +9,7 @@ const Error = React.memo(props => {
       <Icon className={'villain-icon'} path={icon} size={3} />
       <div className={'villain-overlay--message'}>
         <h3>
-        <Localized value={message} />
+          <Localized value={message} />
         </h3>
       </div>
     </div>

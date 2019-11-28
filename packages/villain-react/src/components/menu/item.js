@@ -25,7 +25,7 @@ export const Item = React.memo(
 
       return (
         <ContainerType onClick={handleClick} className={itemClass} {...props} ref={ref}>
-          { content ? (<Localized value={content} />) : children}
+          {content ? <Localized value={content} /> : children}
         </ContainerType>
       )
     }
@@ -37,11 +37,9 @@ export const ItemList = React.memo(
     return (
       <MenuGroup {...menuProps}>
         {items.map((item, index) => (
-          <Item
-            {...menuProps}
-            {...getProps({ item, title, closeSubmenu })}
-            key={item}
-          >{getContent && getContent(item)}</Item>
+          <Item {...menuProps} {...getProps({ item, title, closeSubmenu })} key={item}>
+            {getContent && getContent(item)}
+          </Item>
         ))}
       </MenuGroup>
     )

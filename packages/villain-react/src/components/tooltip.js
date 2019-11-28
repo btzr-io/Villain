@@ -44,7 +44,7 @@ const Tooltip = React.forwardRef(
           className={'villain-tooltip'}
           as={animated.div}
         >
-        <Localized value={title} />
+          <Localized value={title} />
         </ReakitTooltip>
       </>
     )

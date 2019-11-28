@@ -13,7 +13,6 @@ import { mdiFileAlert } from '@mdi/js'
 
 const Uncompress = React.memo(
   ({ source = null, workerUrl = null, children, ...context }) => {
-    
     const archive = useRef(null)
 
     // Context sate
@@ -121,7 +120,9 @@ const Uncompress = React.memo(
       context.clear()
 
       // Empty source
-      if (!source) { return }
+      if (!source) {
+        return
+      }
 
       // Loading archive from url
       if (typeof source === 'string') {

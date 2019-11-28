@@ -12,5 +12,4 @@ describe('Toolbar <Button/>', () => {
     button.simulate('click')
     expect(props.onClick).toHaveBeenCalledTimes(1)
   })
-
 })

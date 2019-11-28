@@ -1,10 +1,10 @@
 import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
-import replace from 'rollup-plugin-replace'
-import alias from 'rollup-plugin-alias'
+import replace from '@rollup/plugin-replace'
+import alias from '@rollup/plugin-alias'
 import { terser } from 'rollup-plugin-terser'
-import json from 'rollup-plugin-json'
+import json from '@rollup/plugin-json'
 import path from 'path'
 import postcss from 'rollup-plugin-postcss'
 import { fileURLToPath } from 'url'
@@ -27,9 +27,9 @@ export default {
 
   plugins: [
     postcss({
-       extract: './dist/style.css',
-       modules: false,
-       minimize: true,
+      extract: './dist/style.css',
+      modules: false,
+      minimize: true,
     }),
     babel({
       exclude: 'node_modules/**',
