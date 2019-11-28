@@ -4,7 +4,8 @@
   "description": "An open source web based comic book reader as a react component",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build:react": "lerna run build:react",
+    "start:react": "lerna run --scope villain-react  start --parallel",
+    "build:react": "lerna run --scope villain-react  build --stream",
     "format": "pretty-quick",
     "format:css": "npx prettier --config ./.prettierrc --write **/*.css.module"
   },
