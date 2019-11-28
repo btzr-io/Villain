@@ -26,7 +26,23 @@ The open source web-based comic book reader that you need, but don't deserve.
  <img alt="Screen preview" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/Screenshot_2019-11-27%20Villain%20Demo.png">
 </h3>
 
-### Features
+## What?
+
+A simple open source web-based reader with focus on usability and accesibility for:
+
+- Comic books
+- Graphic novels
+- Illustrated books 
+
+## How?
+It relays on modern web apis and frameworks like react, webworkers and webAssembly:
+
+- So dont expect it to work on a hot potato.
+- Usage with modern browsers is recommended.
+
+You should be able to integrate `villain` in any modern website or react application.
+
+## Features
 
 - Dark / light theme
 - Manga mode ( Read right to left or default left to right )
@@ -38,7 +54,7 @@ The open source web-based comic book reader that you need, but don't deserve.
 
 A killer feature is missing ? Open a [feature request](https://github.com/btzr-io/Villain/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
-### Formats
+## Formats
 
 Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashvili/libarchivejs)
 
