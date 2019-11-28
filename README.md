@@ -1,4 +1,4 @@
-<h2 align=center>
+<h2 align="center">
  <img width="40%" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true" />
 </h2>
 
@@ -20,8 +20,11 @@ The open source web-based comic book reader that you need, but don't deserve.
  <img alt="GitHub license" src="https://img.shields.io/github/license/btzr-io/Villain">
  </a>
 </h3>
-
 <br/>
+
+<h3 align="center">
+ <img alt="Screen preview" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/Screenshot_2019-11-27%20Villain%20Demo.png">
+</h3>
 
 ## Installation
 
