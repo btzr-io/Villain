@@ -40,7 +40,7 @@ Easy to integrate on any modern website or react application.
 ## How?
 It relays on modern web apis and frameworks like react, webworkers and webAssembly:
 
-- So dont expect it to work on a hot potato
+- Dont expect it to work on a hot potato
 - Usage with modern browsers is recommended
 
 ## Features
