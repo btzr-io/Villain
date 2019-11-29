@@ -10,18 +10,17 @@ The open source web-based comic book reader that you need, but don't deserve.
   <a href="https://www.npmjs.com/package/villain-react" title="dependencies status">
     <img alt="npm" src="https://img.shields.io/npm/v/villain-react">
   </a>
-  <a href="https://david-dm.org/btzr-io/Villain" title="dependencies status">
-    <img src="https://david-dm.org/btzr-io/Villain/status.svg"/>
-  </a>
   <a href="https://github.com/btzr-io/Villain/graphs/contributors">
     <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btzr-io/Villain.svg" alt="contributors">
   </a>
  <a href="https://github.com/btzr-io/Villain/blob/master/LICENSE">
  <img alt="GitHub license" src="https://img.shields.io/github/license/btzr-io/Villain">
  </a>
+  <a href="https://github.com/lerna/lerna">
+ <img alt="Lerna" src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg">
+ </a>
 </h3>
 <br/>
-
 <h3 align="center">
  <img alt="Screen preview" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/Screenshot_2019-11-27%20Villain%20Demo.png">
 </h3>
