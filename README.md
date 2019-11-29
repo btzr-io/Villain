@@ -35,7 +35,7 @@ A simple open source web-based reader for:
 - Graphic novels
 - Illustrated books
 
-Easy to integrate on any modern website or react application.
+Works on the client side and is easy to integrate on any modern website or react application.
 
 ## How?
 It relays on cutting-edge  web apis and frameworks like react, webworkers and webAssembly:
