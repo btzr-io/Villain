@@ -1,11 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
-const devSandboxDirectory = path.resolve(__dirname, 'dev-sandbox')
+const devServerDirectory = path.resolve(__dirname, 'dev-server')
 
 module.exports = {
-  entry: './dev-sandbox/index.js',
+  entry: './src/index.js',
   output: {
-    path: devSandboxDirectory,
+    path: devServerDirectory,
     publicPath: '/bundles/',
     filename: 'bundle.js',
   },
@@ -26,8 +26,7 @@ module.exports = {
   },
   devServer: {
     port: 8080,
-    compress: true,
-    contentBase: devSandboxDirectory,
+    contentBase: devServerDirectory,
   },
   resolve: {
     alias: {
