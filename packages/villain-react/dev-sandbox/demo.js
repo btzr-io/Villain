@@ -23,6 +23,7 @@ const Demo = () => {
     theme: { type: 'select', value: 'Light', options: ['Dark', 'Light'] },
     maxPages: 500,
     mangaMode: false,
+    forceSort: false,
     allowFullScreen: true,
     autoHideControls: false,
     allowGlobalShortcuts: false,

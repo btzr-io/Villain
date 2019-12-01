@@ -87,14 +87,15 @@ Available props of the component:
 
 Available options to customize the reader component:
 
-| Name                 | Type   | Default | Description                                          |
-| -------------------- | ------ | ------- | ---------------------------------------------------- |
-| theme                | string | 'Dark'  | Choose CSS styling from between ('Light', 'Dark).    |
-| maxPages             | number | 500     | Max number of pages to extract and render.           |
-| mangaMode            | bool   | false   | Read right to left.                                  |
-| allowFullScreen      | bool   | true    | Show full screen button.                             |
-| autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.              |
-| allowGlobalShortcuts | bool   | false   | Allows shortcuts without having to focus the viewer. |
+| Name                 | Type   | Default | Description                                                                     |
+| -------------------- | ------ | ------- | ------------------------------------------------------------------------------- |
+| theme                | string | 'Dark'  | Choose CSS styling from between ('Light', 'Dark).                               |
+| maxPages             | number | 500     | Max number of pages to extract and render.                                      |
+| mangaMode            | bool   | false   | Read right to left.                                                             |
+| forceSort            | bool   | false   | Fix sort order of pages ([#235](https://github.com/btzr-io/Villain/issues/235)) |
+| allowFullScreen      | bool   | true    | Show full screen button.                                                        |
+| autoHideControls     | bool   | false   | Set initial auto hide state of toolbar.                                         |
+| allowGlobalShortcuts | bool   | false   | Allows shortcuts without having to focus the viewer.                            |
 
 ## Development
 

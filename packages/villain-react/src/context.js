@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+// State
 const defaultState = {
   pages: [],
   ready: false,
@@ -15,13 +16,14 @@ const defaultState = {
   renderError: false,
 }
 
+// Settings
 const defaultSettings = {
-  // Settings
   theme: 'Dark',
   language: 'en',
   maxPages: 500,
   bookMode: false,
   mangaMode: false,
+  forceSort: false,
   allowFullScreen: true,
   autoHideControls: false,
   allowGlobalShortcuts: false,

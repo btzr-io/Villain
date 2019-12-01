@@ -16,7 +16,7 @@ const Uncompress = React.memo(
     const archive = useRef(null)
 
     // Context sate
-    const { ready, error, maxPages, pages, load } = context
+    const { ready, error, maxPages, pages, load, forceSort } = context
 
     const loadArchiveFromUrl = url => {
       fetchArchive(url, extract, handleError)
@@ -76,7 +76,7 @@ const Uncompress = React.memo(
 
     const handleExtractedFile = (file, index) => {
       const { size, name } = file
-      const defaultPageOpts = { type: 'image' }
+      const defaultPageOpts = { type: 'image', buildPyramid: false }
       const url = URL.createObjectURL(file)
       const page = { index, url, name, size, ...defaultPageOpts }
 
@@ -88,8 +88,9 @@ const Uncompress = React.memo(
       archive.current = await Archive.open(file)
       const compressedFiles = await archive.current.getFilesArray()
       const images = compressedFiles.filter(item => isValidImageType(item.file.name))
-
-      if (images.length > 1 && false) {
+      // Omly on rare cases the archive contnent will require sorting.
+      // See: https://github.com/btzr-io/Villain/issues/235
+      if (images.length > 1 && forceSort) {
         // Fix sort order
         images.sort((a, b) => {
           if (a.file.name > b.file.name) return 1
@@ -157,6 +158,7 @@ const UncompressConsumer = React.memo(props => {
         ready,
         pages,
         maxPages,
+        forceSort,
         // Actions
         clear,
         trigger,
@@ -170,11 +172,12 @@ const UncompressConsumer = React.memo(props => {
             error={error}
             ready={ready}
             pages={pages}
-            maxPages={maxPages}
             clear={clear}
             trigger={trigger}
-            updateCotextState={updateState}
+            maxPages={maxPages}
+            forceSort={forceSort}
             createPage={createPage}
+            updateCotextState={updateState}
           />
         )
       }}
