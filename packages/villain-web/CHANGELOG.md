@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file. The format 
 
 - Option to force sorting order [(#237)](https://github.com/btzr-io/Villain/issues/237)
 
+### Fixed
+
+- Wrong sort order on some archives [(#235)]((https://github.com/btzr-io/Villain/issues/235)
+
 ## [1.0.7] - [2019-11-27]
 
 ### Changed
