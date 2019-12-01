@@ -1,5 +1,5 @@
 <h2 align="center">
- <img width="40%" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true" />
+ <img width="32%" src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true" />
 </h2>
 
 <h4 align="center">
