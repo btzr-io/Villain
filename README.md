@@ -93,8 +93,8 @@ Available package scripts for development:
 
 | Name | Description |
 | --- | --- |
-| deploy | Deploy villain-web to github pages |
-| bootstrap   | Bootstrap the packages in the current mono repo |
+| deploy | Deploy [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web) to github pages |
+| bootstrap | Bootstrap the packages in the current mono repo |
 | start:web | Start development webpack-dev-server (includes hot-reloading) of [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web) |
 | build:web | Build production version of [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web) |
 | start:react | Start development webpack-dev-server (includes hot-reloading) of [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) |
