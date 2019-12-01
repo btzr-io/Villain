@@ -84,6 +84,7 @@ Available packages living inside this repository:
 
 | Name                                                                                   | version | Description     |
 | -------------------------------------------------------------------------------------- | ------- | --------------- |
+| [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web)     | 0.0.1 (beta) |  web app + embed api |
 | [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) | 1.0.7   | react component |
 
 ### Commands
