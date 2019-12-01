@@ -76,7 +76,7 @@ const Uncompress = React.memo(
 
     const handleExtractedFile = (file, index) => {
       const { size, name } = file
-      const defaultPageOpts = { type: 'image', buildPyramid: false }
+      const defaultPageOpts = { type: 'image', buildPyramid: true }
       const url = URL.createObjectURL(file)
       const page = { index, url, name, size, ...defaultPageOpts }
 
