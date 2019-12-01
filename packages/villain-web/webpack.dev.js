@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const devServerDirectory = path.resolve(__dirname, 'dev-server')
 
 module.exports = {
+  mode: 'development',
   entry: './src/index.js',
   output: {
     path: devServerDirectory,

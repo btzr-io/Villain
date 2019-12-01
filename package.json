@@ -3,7 +3,10 @@
   "private": true,
   "description": "An open source web based comic book reader as a react component",
   "scripts": {
+    "deploy": "chmod +x deploy.sh && ./deploy.sh",
     "bootstrap": "lerna bootstrap",
+    "start:web": "lerna run --scope villain-web  start --parallel",
+    "build:web": "lerna run --scope villain-web build --stream",
     "start:react": "lerna run --scope villain-react  start --parallel",
     "build:react": "lerna run --scope villain-react  build --stream",
     "format": "pretty-quick",

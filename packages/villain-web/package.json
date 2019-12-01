@@ -4,8 +4,8 @@
   "description": "An open source web based comic book reader",
   "main": "./dist/villain.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.dev.config.js --mode development --open --hot",
-    "test": "jest"
+    "start": "webpack-dev-server --open --hot --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -28,11 +28,6 @@
     "url": "https://github.com/btzr-io/Villain/issues"
   },
   "homepage": "https://github.com/btzr-io/Villain#readme",
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>test/setupTests.js"
-    ]
-  },
   "dependencies": {
     "clsx": "^1.0.4",
     "history": "^4.10.1",
@@ -61,8 +56,11 @@
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.6.0",
     "eslint-plugin-react": "^7.16.0",
+    "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "reakit": "^1.0.0-beta.13",
@@ -75,6 +73,7 @@
     "rollup-plugin-terser": "^5.1.2",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
+    "terser-webpack-plugin": "^2.2.1",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1",

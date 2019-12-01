@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom'
 import queryString from 'query-string'
 import { createPath } from 'history'
 import App from './components/app'
+import router from '@/router'
 import history from '@/history'
-import router from './router'
 
 import '@/css/index.css'
 
 const context = { pathname: null, query: null }
-const container = document.getElementById('app')
+const container = document.body
 
 let appInstance
 let currentLocation = history.location
@@ -20,8 +20,8 @@ const scrollPositionsHistory = {}
 async function onLocationChange(location, action) {
 
   // Get route location ( for static location )
-  const routePath = location.hash ? location.hash.replace('#/', '/') : location.pathname
-
+  const routePath = location.hash ? location.hash.replace('#/', '/') :  '/'
+  console.info(location.pathname)
   // Remember the latest scroll position for the previous location
   scrollPositionsHistory[currentLocation.key] = {
     scrollX: window.pageXOffset,
