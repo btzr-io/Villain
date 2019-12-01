@@ -100,6 +100,10 @@ Available package scripts for development:
 | start:react | Start development webpack-dev-server (includes hot-reloading) of [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) |
 | build:react | Build production version of [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) |
 
+```sh
+yarn command-name
+```
+
 
 ## Known issues
 
