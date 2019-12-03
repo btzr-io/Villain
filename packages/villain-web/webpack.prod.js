@@ -1,9 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
-const TerserJSPlugin = require('terser-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const buildDirectory = path.resolve(__dirname, 'dist')
 
@@ -14,7 +14,7 @@ module.exports = {
     path: buildDirectory,
     publicPath: '',
     filename: 'bundle.js',
-    chunkFilename: '[name].[chunkhash].js'
+    chunkFilename: '[name].[chunkhash].js',
   },
   module: {
     rules: [
@@ -38,26 +38,47 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
-   new MiniCssExtractPlugin({
-       filename: "[name].css",
-   }),
-   new HtmlWebpackPlugin()
- ],
- externals: {
- // 'react': 'react', // Case matters here
- // 'react-dom' : 'reactDOM' // Case matters here
-},
- optimization: {
-  minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
-  splitChunks: {
-     cacheGroups: {
-       styles: {
-         name: 'styles',
-         test: /\.css$/,
-         chunks: 'all',
-         enforce: true,
-       },
-     },
-   },
- },
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
+    new HtmlWebpackPlugin({
+      meta: {
+        viewport: 'width=device-width, user-scalable=no, initial-scale=1',
+        keywords: 'villlain, reader, comic, comic book, web',
+        type: {
+          content: 'website',
+          property: 'og:type',
+        },
+        title: {
+          name: 'title',
+          content: 'Villain',
+          property: 'og:title',
+        },
+        description: {
+          name: 'description',
+          content:
+            "The open source web-based comic book reader that you need, but don't deserve.",
+          property: 'og:description',
+        },
+      },
+    }),
+  ],
+
+  externals: {
+    // 'react': 'react', // Case matters here
+    // 'react-dom' : 'reactDOM' // Case matters here
+  },
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
+  },
 }
