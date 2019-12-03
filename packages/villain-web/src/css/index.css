@@ -48,13 +48,21 @@ body {
   margin: 0.4rem;
 }
 
+.github-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  width: 80px;
+  height: 80px;
+  display: block;
+}
+
 .github-corner svg {
   fill: #2e2e2e;
   color: #fff;
-  position: absolute;
-  top: 0;
-  border: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .github-corner:hover .octo-arm {
