@@ -1,9 +1,28 @@
 import React from 'react'
+import Reader from '@/components/reader'
+import Landing from '@/components/landing'
 
 function App({ context, children }) {
-  // NOTE: If you need to add or modify header, footer etc. of the app,
-  // please do that inside the Layout component.
-  return <React.Fragment>{React.cloneElement(children, context)}</React.Fragment>
+  const [file, setFile] = React.useState(null)
+  const [source, setSource] = React.useState(null)
+  const handleFileChange = e => {
+    setFile(e.target.files[0])
+  }
+
+  // Update source
+  React.useEffect(() => {
+    setSource(context.src || file)
+  }, [file, context])
+
+  return (
+    <React.Fragment>
+      {!source ? (
+        <Landing handleFileChange={handleFileChange} />
+      ) : (
+        <Reader source={source} />
+      )}
+    </React.Fragment>
+  )
 }
 
 export default React.memo(App)

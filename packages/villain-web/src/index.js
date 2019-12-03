@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import queryString from 'query-string'
 import { createPath } from 'history'
 import App from './components/app'
-import router from '@/router'
 import history from '@/history'
 
 import '@/css/index.css'
@@ -18,10 +17,9 @@ const scrollPositionsHistory = {}
 
 // Re-render the app when window.location changes
 async function onLocationChange(location, action) {
-
   // Get route location ( for static location )
-  const routePath = location.hash ? location.hash.replace('#/', '/') :  '/'
-  console.info(location.pathname)
+  const routePath = location.hash ? location.hash.replace('#/', '/') : '/'
+
   // Remember the latest scroll position for the previous location
   scrollPositionsHistory[currentLocation.key] = {
     scrollX: window.pageXOffset,
@@ -39,24 +37,15 @@ async function onLocationChange(location, action) {
   try {
     context.pathname = routePath
     context.query = queryString.parse(location.search)
-    // Traverses the list of routes in the order they are defined until
-    // it finds the first route that matches provided URL path string
-    // and whose action method returns anything other than `undefined`.
-    const route = await router.resolve(context)
 
     // Prevent multiple page renders during the routing process
     if (currentLocation.key !== location.key) {
       return
     }
 
-    if (route.redirect) {
-      history.replace(route.redirect)
-      return
-    }
-
     const renderReactApp = ReactDOM.render
 
-    appInstance = renderReactApp(<App context={context}>{route.component}</App>, container, () => {
+    appInstance = renderReactApp(<App context={context} />, container, () => {
       if (isInitialRender) {
         // Switch off the native scroll restoration behavior and handle it manually
         // https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration
@@ -66,15 +55,6 @@ async function onLocationChange(location, action) {
 
         return
       }
-
-      document.title = route.title
-
-      // Update necessary tags in <head> at runtime here, ie:
-      // updateMeta('keywords', route.keywords);
-      // updateCustomMeta('og:url', route.canonicalUrl);
-      // updateCustomMeta('og:image', route.imageUrl);
-      // updateLink('canonical', route.canonicalUrl);
-      // etc.
 
       let scrollX = 0
       let scrollY = 0

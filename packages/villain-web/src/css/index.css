@@ -6,18 +6,80 @@
 html,
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
   height: 100%;
+  font-size: 1rem;
+  color: #2e2e2e;
 }
 
-#app {
-  height: 100%;
-  width: 100%;
-  margin: 0;
+.landing {
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.landing__message {
+  margin: 1.2rem;
+  max-width: 80%;
+  font-size: 1.2rem;
 }
 
 .villain {
   border: 0 !important;
   width: 100%;
   height: 100%;
+}
+
+.button {
+  font-weight: bold;
+  padding: 0.4rem 0.8rem;
+  border: 0.2rem solid #2e2e2e;
+  border-radius: 24px;
+  cursor: pointer;
+  margin: 0.4rem;
+}
+
+.github-corner svg {
+  fill: #2e2e2e;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+}
+
+.github-corner:hover .octo-arm {
+  transform-origin: 130px 106px;
+  animation: octocat-wave 560ms ease-in-out;
+}
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
 }
