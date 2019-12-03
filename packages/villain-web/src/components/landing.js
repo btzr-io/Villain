@@ -3,7 +3,7 @@ import React from 'react'
 function GithubCorner() {
   return (
     <a
-      href="https://your-url"
+      href="https://github.com/btzr-io/Villain"
       className="github-corner"
       aria-label="View source on GitHub"
     >
