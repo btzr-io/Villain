@@ -12,7 +12,6 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: buildDirectory,
-    publicPath: '',
     filename: 'bundle.js',
     chunkFilename: '[name].[chunkhash].js',
   },
@@ -42,6 +41,9 @@ module.exports = {
       filename: '[name].css',
     }),
     new HtmlWebpackPlugin({
+      hash: true,
+      title: 'Villain',
+      minify: { collapseWhitespace: true },
       meta: {
         viewport: 'width=device-width, user-scalable=no, initial-scale=1',
         keywords: 'villlain, reader, comic, comic book, web',

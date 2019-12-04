@@ -1,4 +1,6 @@
 import React from 'react'
+import Icon from '@mdi/react'
+import { mdiHeart } from '@mdi/js'
 
 function GithubCorner() {
   return (
@@ -42,19 +44,33 @@ function Landing({ handleFileChange }) {
   // NOTE: If you need to add or modify header, footer etc. of the app,
   // please do that inside the Layout component.
   return (
-    <div className={'landing'}>
-      <GithubCorner />
-      <img
-        width="264rem"
-        src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true"
-      />
-      <div className="landing__message">
-        <b>Open</b> a comic book or <b>drop</b> it here.
+    <React.Fragment>
+      <div className={'landing'}>
+        <GithubCorner />
+        <img
+          className={'logo'}
+          src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true"
+        />
+        <div className="landing__message">
+          <b>Open</b> a comic book or <b>drop</b> it here.
+        </div>
+        <div className="landing__message">
+          <FileButton onChange={handleFileChange} />
+        </div>
       </div>
-      <div className="landing__message">
-        <FileButton onChange={handleFileChange} />
-      </div>
-    </div>
+      <footer>
+        {' '}
+        Made with{' '}
+        <Icon
+          className="footer__icon"
+          aria-label="love"
+          path={mdiHeart}
+          size={0.72}
+          color="#ff6b6b"
+        />{' '}
+        for the web, no trackers, no ads!{' '}
+      </footer>
+    </React.Fragment>
   )
 }
 

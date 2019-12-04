@@ -30,12 +30,10 @@
   "homepage": "https://github.com/btzr-io/Villain#readme",
   "dependencies": {
     "clsx": "^1.0.4",
-    "history": "^4.10.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.9.0",
     "react-localization": "^1.0.15",
     "react-spring": "^8.0.27",
-    "universal-router": "^8.3.0",
     "villain-react": "^1.0.7"
   },
   "devDependencies": {
