@@ -5,11 +5,11 @@ import 'villain-react/dist/style.css'
 export default function Reader({ source }) {
   const [options, setOptions] = React.useState({
     theme: 'Light',
-    maxPages: 100,
+    maxPages: 500,
+    forceSort: true,
     mangaMode: false,
     allowFullScreen: true,
-    autoHideControls: false,
-    allowGlobalShortcuts: false,
+    allowGlobalShortcuts: true,
   })
 
   return (

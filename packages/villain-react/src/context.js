@@ -18,12 +18,12 @@ const defaultState = {
 
 // Settings
 const defaultSettings = {
-  theme: 'Dark',
+  theme: 'Light',
   language: 'en',
   maxPages: 500,
   bookMode: false,
   mangaMode: false,
-  forceSort: false,
+  forceSort: true,
   allowFullScreen: true,
   autoHideControls: false,
   allowGlobalShortcuts: false,
