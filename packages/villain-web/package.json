@@ -34,7 +34,7 @@
     "query-string": "^6.9.0",
     "react-localization": "^1.0.15",
     "react-spring": "^8.0.27",
-    "villain-react": "^1.0.7"
+    "villain-react": "^1.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
