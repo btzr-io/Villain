@@ -1,6 +1,7 @@
 import React from 'react'
 import Icon from '@mdi/react'
-import { mdiHeart } from '@mdi/js'
+import { mdiHeart, mdiArrowDownBoldBoxOutline } from '@mdi/js'
+import { useDropzone } from 'react-dropzone'
 
 function GithubCorner() {
   return (
@@ -26,50 +27,91 @@ function GithubCorner() {
   )
 }
 
+function Footer() {
+  return (
+    <footer>
+      Made with{' '}
+      <Icon
+        className="footer__icon"
+        aria-label="love"
+        path={mdiHeart}
+        size={0.72}
+        color="#ff6b6b"
+      />{' '}
+      for the web, no trackers, no ads!
+    </footer>
+  )
+}
+
 function FileButton({ onChange }) {
+  const handleChange = React.useCallback(
+    e => {
+      const { files } = e.target
+      onChange(files)
+    },
+    [onChange]
+  )
+
   return (
     <label className={'button file-input'}>
       <input
         type="file"
         name="input-name"
         style={{ display: 'none' }}
-        onChange={onChange}
+        onChange={handleChange}
       />
       <span id="input-file-replacer">Select file</span>
     </label>
   )
 }
 
+function DropZone() {
+  return (
+    <div className={'landing__content'}>
+      <Icon
+        className="footer__icon"
+        aria-label="love"
+        path={mdiArrowDownBoldBoxOutline}
+        size={4}
+        color="currentColor"
+      />{' '}
+      <div className={'landing__message'}>Drop it here!</div>
+    </div>
+  )
+}
+
 function Landing({ handleFileChange }) {
-  // NOTE: If you need to add or modify header, footer etc. of the app,
-  // please do that inside the Layout component.
+  const onDrop = React.useCallback(
+    acceptedFiles => {
+      handleFileChange(acceptedFiles)
+    },
+    [handleFileChange]
+  )
+
+  const { getRootProps, isDragActive } = useDropzone({ onDrop })
+
   return (
     <React.Fragment>
-      <div className={'landing'}>
-        <GithubCorner />
-        <img
-          className={'logo'}
-          src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true"
-        />
-        <div className="landing__message">
-          <b>Open</b> a comic book or <b>drop</b> it here.
-        </div>
-        <div className="landing__message">
-          <FileButton onChange={handleFileChange} />
-        </div>
+      <GithubCorner />
+      <div {...getRootProps({ className: 'landing' })}>
+        {!isDragActive ? (
+          <div className={'landing__content'}>
+            <img
+              className={'logo'}
+              src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true"
+            />
+            <div className="landing__message">
+              <b>Open</b> a comic book or <b>drop</b> it here.
+            </div>
+            <div className="landing__message">
+              <FileButton onChange={handleFileChange} />
+            </div>
+          </div>
+        ) : (
+          <DropZone />
+        )}
       </div>
-      <footer>
-        {' '}
-        Made with{' '}
-        <Icon
-          className="footer__icon"
-          aria-label="love"
-          path={mdiHeart}
-          size={0.72}
-          color="#ff6b6b"
-        />{' '}
-        for the web, no trackers, no ads!{' '}
-      </footer>
+      <Footer />
     </React.Fragment>
   )
 }

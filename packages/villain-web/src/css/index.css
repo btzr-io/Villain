@@ -41,12 +41,17 @@ footer {
   bottom: 40px;
   text-align: center;
   position: absolute;
+}
+
+.landing,
+.landing__content {
   display: flex;
   flex-direction: column;
+  align-self: center;
   align-items: center;
   align-content: center;
   justify-content: center;
-  min-height: 320px;
+  width: 100%;
 }
 
 .landing__message {
@@ -84,6 +89,7 @@ footer {
   width: 80px;
   height: 80px;
   display: block;
+  z-index: 1;
 }
 
 .github-corner svg {
@@ -141,6 +147,7 @@ footer {
 
   .landing__message {
     font-size: 1rem;
+    margin: 0.72rem;
   }
 
   .button {

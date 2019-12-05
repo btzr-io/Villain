@@ -32,6 +32,7 @@
     "clsx": "^1.0.4",
     "prop-types": "^15.7.2",
     "query-string": "^6.9.0",
+    "react-dropzone": "^10.2.1",
     "react-localization": "^1.0.15",
     "react-spring": "^8.0.27",
     "villain-react": "^1.0.8"

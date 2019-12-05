@@ -5,10 +5,10 @@ import Landing from '@/components/landing'
 function App({ context, children }) {
   const [file, setFile] = React.useState(null)
   const [source, setSource] = React.useState(context.query.src)
-  console.info(context)
-  const handleFileChange = e => {
-    setFile(e.target.files[0])
-  }
+
+  const handleFileChange = React.useCallback(files => {
+    setFile(files[0])
+  })
 
   // Update source
   React.useEffect(() => {
