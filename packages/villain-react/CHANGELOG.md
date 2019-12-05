@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Fixed
 
-- Wrong sort order on some archives [(#235)]((https://github.com/btzr-io/Villain/issues/235)
+- Wrong sort order on some archives [(#235)](https://github.com/btzr-io/Villain/issues/235)
 
 ## [1.0.7] - [2019-11-27]
 
