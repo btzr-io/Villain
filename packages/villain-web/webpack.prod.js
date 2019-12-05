@@ -13,7 +13,7 @@ module.exports = {
   output: {
     path: buildDirectory,
     filename: 'bundle.js',
-    chunkFilename: '[name].[chunkhash].js',
+    chunkFilename: '[name].chunk.js',
   },
   module: {
     rules: [
@@ -38,12 +38,12 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: 'style.css',
     }),
     new HtmlWebpackPlugin({
       hash: true,
       title: 'Villain',
-      minify: { collapseWhitespace: true },
+      minify: false,
       meta: {
         viewport: 'width=device-width, user-scalable=no, initial-scale=1',
         keywords: 'villlain, reader, comic, comic book, web',
@@ -72,15 +72,5 @@ module.exports = {
   },
   optimization: {
     minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
-    },
   },
 }

@@ -98,7 +98,7 @@ function Landing({ handleFileChange }) {
           <div className={'landing__content'}>
             <img
               className={'logo'}
-              src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.svg?sanitize=true"
+              src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo.png"
             />
             <div className="landing__message">
               <b>Open</b> a comic book or <b>drop</b> it here.
