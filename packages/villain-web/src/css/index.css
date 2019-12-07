@@ -46,7 +46,7 @@ footer {
   bottom: 40px;
   text-align: center;
   height: calc(100vh - 40px);
-  min-height: 320px;
+  min-height: 380px;
 }
 
 .landing,
