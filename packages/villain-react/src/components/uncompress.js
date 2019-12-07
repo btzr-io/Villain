@@ -35,7 +35,7 @@ const Uncompress = React.memo(
       }
       // Free up memory
       if (archive.current) {
-        archive.current_.worker.terminate()
+        archive.current._worker.terminate()
         archive.current = null
       }
     }
