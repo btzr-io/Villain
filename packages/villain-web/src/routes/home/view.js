@@ -8,13 +8,10 @@ function View() {
     <Layout>
       <div className={'landing'}>
         <div className={'landing__content'}>
-          <div className="landing__message">
-            <img
-              className="logo"
-              src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo-small.png"
-            />
-          </div>
-
+          <img
+            className="logo"
+            src="https://raw.githubusercontent.com/btzr-io/Villain/master/artworks/logo-small.png"
+          />
           <div className="landing__message">
             An open source web-based comic book reader.
           </div>
