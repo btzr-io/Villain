@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '@/components/layout'
 import UrlInput from '@/components/urlInput'
 
-const API = 'https://villain.js.org/?src='
+const API = 'https://villain.js.org/#/reader?src='
 
 function CodeSnippet({ content }) {
   const template = `<iframe
