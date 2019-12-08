@@ -60,7 +60,6 @@ function View({ query }) {
   // Update source
   React.useEffect(() => {
     setSource(query.src || file)
-    console.info(source)
   }, [file, query])
 
   const onDrop = React.useCallback(

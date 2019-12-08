@@ -1,10 +1,12 @@
 import React from 'react'
+import Nav from '@/components/nav'
 import Footer from '@/components/footer'
 import GithubCorner from '@/components/githubCorner'
 
-function App({ context, children }) {
+function Layout({ children }) {
   return (
     <React.Fragment>
+      <Nav />
       <GithubCorner />
       {children}
       <Footer />
@@ -12,4 +14,4 @@ function App({ context, children }) {
   )
 }
 
-export default React.memo(App)
+export default React.memo(Layout)

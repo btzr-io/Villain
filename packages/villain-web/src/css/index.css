@@ -33,6 +33,60 @@ footer {
   box-sizing: border-box;
 }
 
+nav {
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+nav ul {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+nav ul li {
+  list-style: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 16px;
+}
+
+.link {
+  position: relative;
+  height: 100%;
+  line-height: 40px;
+  vertical-align: middle;
+  border: 0;
+  opacity: 0.8;
+  font-weight: bold;
+}
+
+.link::after {
+  content: '';
+  height: 2px;
+  background: #2e2e2e;
+  width: 0%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  border-radius: 4px;
+}
+
+.link--active {
+  opacity: 1;
+}
+
+.link--active::after {
+  width: 100%;
+}
+
 .footer__icon {
   margin: 4px;
   vertical-align: baseline;
@@ -45,8 +99,8 @@ footer {
   right: 0;
   bottom: 40px;
   text-align: center;
-  height: calc(100vh - 40px);
   min-height: 380px;
+  height: calc(100vh - 80px);
 }
 
 .landing,

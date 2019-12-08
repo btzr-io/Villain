@@ -5,6 +5,7 @@ import queryString from 'query-string'
 import router from '@/router'
 import history from '@/history'
 import App from './components/app'
+import parseLocation from '@/parseLocation'
 
 import '@/css/index.css'
 
@@ -13,19 +14,6 @@ const container = document.body
 
 let appInstance = null
 let currentLocation = history.location
-
-function parseLocation(location) {
-  let path = location.hash ? location.hash.replace('#', '') : '/'
-  let query = location.search
-
-  if (!query) {
-    const parts = path.split('?')
-    path = parts[0]
-    query = parts[1]
-  }
-
-  return { path, query }
-}
 
 async function onLocationChange(location, action) {
   const parsed = parseLocation(location)
