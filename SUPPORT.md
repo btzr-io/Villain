@@ -19,7 +19,9 @@ Consider making a donation:
 
 | Crypto | Adress |
 | ------ | ------ |
+| **BAT** |  0xd3bcec62285b9209d96499f1d05d257eaf5b0439 |
 | **Bitcoin** | 36StGtp6CVwYN8JkiqfcTnZKWeYiKbahuH |
 | **Etherum** | 0xd3bcec62285b9209d96499f1d05d257eaf5b0439 |
 | **Stellar** | GBEL2WZKLEVGGNJPXFNIXXNE62XNF75MYP6OJOC4IQRFMMG4DH5NQB4T |
+| **Lite coin** | MHvsepTBqc7aqVocPQfFBpkTT7Wp331gRe |
 | **LBRY credits** | bQaC73Mgs7D2vPk7oogej6Zx9YvGqf7znw |
