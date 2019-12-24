@@ -59,7 +59,7 @@
     "@rollup/plugin-replace": "^2.2.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.5",
-    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "css-loader": "^3.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
