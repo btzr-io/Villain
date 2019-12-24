@@ -14,10 +14,10 @@ const Routes = {
 
 const routesMap = Object.entries(Routes)
 
-const Link = React.memo(({ active, href, children, hash }) => {
+const Link = React.memo(({ active, href, children, className, hash }) => {
   return (
     <li>
-      <a href={ hash ? '#' + href : href} className={clsx('link', active && 'link--active')}>
+      <a href={ hash ? '#' + href : href} className={clsx('link', active && 'link--active', className)}>
         {children}
       </a>
     </li>
@@ -31,8 +31,8 @@ function Nav() {
   return (
     <nav className="nav">
      <ul>
-     <Link href={'/'} active={'/' === path} hash>
-     Villain
+     <Link href={'/'}  className='link--main' hash>
+     <img src="https://raw.githubusercontent.com/btzr-io/Villain/master/logo-text.svg?sanitize=true" className="header-logo"/>
      </Link>
      </ul>
       <ul>

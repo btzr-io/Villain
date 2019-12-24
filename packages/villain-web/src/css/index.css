@@ -4,7 +4,8 @@
 */
 
 :root {
---nav-height: 54px;
+--nav-height: 50px;
+--footer-height: 50px;
 }
 
 
@@ -29,7 +30,7 @@ a {
 
 footer {
   width: 100%;
-  height: 40px;
+  height: var(--footer-height);
   text-align: center;
   border-top: 1px solid rgba(0, 0, 0, 0.4);
   display: flex;
@@ -100,8 +101,19 @@ nav ul li {
   border-radius: 4px;
 }
 
+.link--main,
 .link--active {
   opacity: 1;
+}
+
+.link--main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link--main::after {
+  display: none;
 }
 
 .link--active::after {
@@ -121,7 +133,7 @@ nav ul li {
   bottom: 40px;
   text-align: center;
   min-height: 350px;
-  height: calc(100vh - 40px - var(--nav-height));
+  height: calc(100vh - var(--footer-height) - var(--nav-height));
 }
 
 .landing,
@@ -316,4 +328,11 @@ nav ul li {
   .button--icon {
     padding: 0;
   }
+}
+
+
+.header-logo {
+  height: 44%;
+  margin: 0;
+  padding: 0;
 }
