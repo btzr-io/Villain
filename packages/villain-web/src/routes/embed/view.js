@@ -21,7 +21,7 @@ function View() {
 
   return (
     <Layout>
-      <div className="landing">
+      <section>
         <div className={'landing__content'}>
           <div className="landing__message">
             <h2>Embed API</h2>
@@ -33,7 +33,7 @@ function View() {
           <UrlInput onChange={handleUrlChange} submit={false} />
           <CodeSnippet content={url} />
         </div>
-      </div>
+      </section>
     </Layout>
   )
 }

@@ -73,7 +73,7 @@ function View({ query }) {
 
   return !source ? (
     <Layout>
-      <div {...getRootProps({ className: 'landing' })}>
+      <section {...getRootProps()}>
         {!isDragActive ? (
           <div className={'landing__content'}>
             <div className="landing__message">
@@ -91,7 +91,7 @@ function View({ query }) {
         ) : (
           <DropZone />
         )}
-      </div>
+      </section>
     </Layout>
   ) : (
     <Reader source={source} />

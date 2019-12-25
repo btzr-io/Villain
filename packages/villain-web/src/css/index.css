@@ -16,7 +16,7 @@ body {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 1rem;
   color: #2e2e2e;
 }
@@ -24,19 +24,61 @@ body {
 a {
   text-decoration: none;
   padding: 1px;
+  margin: 4px;
   color: #2e2e2e;
   border-bottom: 1px dotted #2e2e2e;
 }
 
-footer {
+h1, footer {
   width: 100%;
-  height: var(--footer-height);
+  min-height: var(--footer-height);
   text-align: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
+}
+
+section {
+  margin: 0;
+  text-align: center;
+  min-height: calc(100vh - var(--footer-height) - var(--nav-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+section:first-of-type {
+  padding-top: var(--nav-height);
+}
+
+
+.card {
+  display: inline-block;
+  max-width: 200px;
+  vertical-align: top;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  margin: 16px;
+  padding: 32px;
+  border-radius: 8px;
+}
+
+.card__icon {
+  opacity: 0.5;
+}
+
+.card__description {
+  font-size: 0.9em;
+}
+
+.card__title,
+.card__description {
+  margin: 16px;
 }
 
 nav {
@@ -48,6 +90,11 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: #fff;
 }
 
 nav ul {
@@ -126,14 +173,11 @@ nav ul li {
 }
 
 .landing {
-  margin: auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 40px;
+  margin-top: var(--nav-height);
   text-align: center;
   min-height: 350px;
-  height: calc(100vh - var(--footer-height) - var(--nav-height));
+  height: calc(100vh - var(--nav-height));
+  padding: 0 !important;
 }
 
 .landing,
@@ -275,7 +319,8 @@ nav ul li {
 
 .logo {
   margin: 0;
-  max-width: 224px;
+  max-width: 200px;
+  margin-bottom: 16px;
 }
 
 .github-corner:hover .octo-arm {

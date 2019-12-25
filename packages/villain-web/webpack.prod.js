@@ -46,7 +46,7 @@ module.exports = {
       minify: false,
       meta: {
         viewport: 'width=device-width, user-scalable=no, initial-scale=1',
-        keywords: 'villlain, reader, comic, comic book, web',
+        keywords: 'villain, reader, comic, comic book, web',
         type: {
           content: 'website',
           property: 'og:type',
