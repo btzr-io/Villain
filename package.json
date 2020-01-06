@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/btzr-io/Villain#readme",
   "devDependencies": {
-    "lerna": "^3.20.0",
+    "lerna": "^3.20.2",
     "prettier": "^1.17.0",
     "pretty-quick": "^2.0.0"
   },
