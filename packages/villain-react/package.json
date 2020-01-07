@@ -41,7 +41,7 @@
     "memoize-one": "^5.1.1",
     "openseadragon": "^2.4.1",
     "prop-types": "^15.7.2",
-    "react-compound-slider": "^2.3.0",
+    "react-compound-slider": "^2.5.0",
     "react-localization": "^1.0.15",
     "react-spring": "^8.0.27"
   },
