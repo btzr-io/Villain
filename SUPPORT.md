@@ -14,8 +14,7 @@ If you'd like to help support the future of the project, here are somethings you
 
 ### Donations
 
-Consider making a donation:
-
+Consider making a donation: https://opencollective.com/villain
 
 | Crypto | Adress |
 | ------ | ------ |
