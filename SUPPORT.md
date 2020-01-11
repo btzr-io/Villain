@@ -1,7 +1,7 @@
 
 # :heart: Support
 
-If you'd like to help support the future of the project, here are somethings you can do: 
+If you'd like to help support the future of the project, here are some things you can do: 
 
 ### Feedback
 
