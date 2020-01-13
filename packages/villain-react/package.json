@@ -49,7 +49,7 @@
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-react": "^7.8.0",
     "babel-plugin-transform-xregexp": "^1.0.0",
     "@mdi/js": "^4.7.95",
     "@mdi/react": "^1.1.1",
