@@ -67,7 +67,7 @@
     "eslint-plugin-react": "^7.16.0",
     "jest": "^24.9.0",
     "node-sass": "^4.13.0",
-    "react": "^16.8.6",
+    "react": "^16.13.0",
     "react-dom": "^16.8.6",
     "reakit": "^1.0.0-beta.14",
     "rollup": "^2.0.5",
@@ -84,7 +84,7 @@
     "worker-loader": "^2.0.0"
   },
   "peerDependencies": {
-    "react": "^16.8.6",
+    "react": "^16.13.0",
     "react-dom": "^16.8.6",
     "reakit": "^1.0.0-beta.14"
   }
