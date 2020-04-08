@@ -45,7 +45,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
-    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.7.4",
     "@mdi/js": "^4.7.95",
     "@mdi/react": "^1.2.1",
