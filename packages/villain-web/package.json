@@ -33,7 +33,7 @@
     "history": "^4.10.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.12.0",
-    "react": "^16.12.0",
+    "react": "^16.13.1",
     "react-dom": "^16.12.0",
     "react-dropzone": "^10.2.1",
     "react-localization": "^1.0.15",
