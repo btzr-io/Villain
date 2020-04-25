@@ -6,7 +6,7 @@ import RenderError from '@/components/renderError'
 import ToolbarConsumer from '@/components/toolbar'
 import { ReaderContext } from '../context'
 import { getKeyByValue, debounce } from '@/lib/utils'
-import { getNestedFocus } from '@/lib/use-focus'
+import { getNestedFocus } from '@/hooks/use-focus'
 import { memoizeZoomClamp, memoizeZoomPercent } from '@/lib/zoom-parser'
 import { fullscreenElement, onFullscreenChange } from '@/lib/full-screen'
 

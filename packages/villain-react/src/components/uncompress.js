@@ -35,7 +35,10 @@ const Uncompress = React.memo(
       }
       // Free up memory
       if (archive.current) {
-        archive.current._worker.terminate()
+        // Terminate webworker
+        if(archive.current_webworker) {
+          archive.current._webworker.terminate()
+        }
         archive.current = null
       }
     }
@@ -43,6 +46,8 @@ const Uncompress = React.memo(
     const handleError = err => {
       console.error(err)
       context.trigger('error', err.message || err)
+      // Try to free memory
+      handleDestroy()
     }
 
     const extract = async blob => {
@@ -59,18 +64,15 @@ const Uncompress = React.memo(
             handleExtractedFile(file, index)
             // After last itme free up memory
             if (index === items.length - 1) {
-              archive.current._worker.terminate()
+              handleDestroy()
             }
           })
         } else {
-          context.trigger('error', 'Cant open archive')
-          archive.current._worker.terminate()
+          handleError('error', 'Cant open archive')
         }
       } catch (err) {
         // Handle Errors
-        console.error(err)
         handleError(err)
-        archive.current._worker.terminate()
       }
     }
 

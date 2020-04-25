@@ -3,7 +3,7 @@ import Button from '@/components/toolbar/button'
 import { ReaderContext } from '@/context'
 
 // Uitls
-import { useFocus } from '@/lib/use-focus'
+import { useFocus } from '@/hooks/use-focus'
 
 // Icons
 import { mdiPlus, mdiMinus } from '@mdi/js'
