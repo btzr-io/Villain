@@ -27,6 +27,12 @@ const NavigationInput = memo(({ totalPages, currentPage, navigateToPage }) => {
   const [inputRef, setInputFocus] = useFocus()
 
   useEffect(() => {
+    // Inital navigation:
+    // This will check if there are more pages to navigate
+    triggerNavigation()
+  }, [])
+
+  useEffect(() => {
     resetInput()
   }, [currentPage])
 
