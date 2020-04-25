@@ -10,7 +10,7 @@ import getLanguageName from '@/lib/language-name'
 import Icon from '@mdi/react'
 
 import {
-  mdiSettings,
+  mdiCog,
   mdiKeyboard,
   mdiTranslate,
   mdiBrightness4,
@@ -22,7 +22,7 @@ const SettingsButton = React.memo(
     <Button
       {...props}
       ref={ref}
-      icon={mdiSettings}
+      icon={mdiCog}
       typeClass={'icon'}
       tooltip={'Settings'}
     />
