@@ -10,10 +10,10 @@ import { ReaderContext, ReaderProvider } from '@/context'
 // Styles
 import '@/css'
 
-const Villain = ({ source, style, options, workerUrl }) => {
+const Villain = ({ source, style, className, options, workerUrl }) => {
   return (
     <ReaderProvider externalOptions={options}>
-      <Wrapp style={style}>
+      <Wrapp className={className} style={style}>
         {container => (
           <React.Fragment>
             <KeyboardConsumer container={container} />
@@ -29,6 +29,7 @@ const Villain = ({ source, style, options, workerUrl }) => {
 
 Villain.propTypes = {
   source: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Blob)]),
+  className: PropTypes.string,
   workerUrl: PropTypes.string,
   options: PropTypes.shape({
     theme: PropTypes.string,
