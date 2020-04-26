@@ -4,7 +4,7 @@ import { ReaderContext } from '@/context'
 
 //Utils
 import Localize from '@/localize'
-import { useFocus } from '@/lib/use-focus'
+import { useFocus } from '@/hooks/use-focus'
 
 // Icons
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
@@ -25,6 +25,12 @@ const NavigationInput = memo(({ totalPages, currentPage, navigateToPage }) => {
   const [state, setState] = useState({ value: currentPage || 1 })
   const [focusState, setFocusState] = useState(false)
   const [inputRef, setInputFocus] = useFocus()
+
+  useEffect(() => {
+    // Inital navigation:
+    // This will check if there are more pages to navigate
+    triggerNavigation()
+  }, [])
 
   useEffect(() => {
     resetInput()

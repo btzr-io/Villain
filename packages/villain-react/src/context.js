@@ -10,7 +10,7 @@ const defaultState = {
   canZoomOut: false,
   fullscreen: false,
   isLastPage: false,
-  isFirstPage: true,
+  isFirstPage: false,
   currentPage: null,
   currentZoom: null,
   renderError: false,

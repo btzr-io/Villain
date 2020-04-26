@@ -1,6 +1,6 @@
 import React from 'react'
 import { ReaderContext } from '@/context'
-import { getNestedFocus, getInteractionFocus } from '@/lib/use-focus'
+import { getNestedFocus, getInteractionFocus } from '@/hooks/use-focus'
 import { toggleFullscreen } from '@/lib/full-screen'
 
 const KeyboardConsumer = React.memo(({ container }) => {
