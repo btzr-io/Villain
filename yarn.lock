@@ -2027,10 +2027,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.4.0.tgz#0e1bdf8d021e7ea58affade33d9d607e11365915"
   integrity sha512-NMrDy6EWh9TPdSRiHmHH2ye1v5U0gBD7pRYwSwJvomx7Bm4GG04vu63dYiVzebLOx2obPpJugew06xVP0Nk7hA==
 
-"@rollup/plugin-alias@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-3.0.0.tgz#3ac4952d05d5a700b0d918b18f312db0aa2b006f"
-  integrity sha512-MYlgCptgl/VgyMvqkqn/XxYMph6xv83cdgj6aKQHjFnhVFXn1N/IJfrSdgQAxRFqfHUCZyTxEPlHfmlgRzTG1w==
+"@rollup/plugin-alias@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-3.1.1.tgz#bb96cf37fefeb0a953a6566c284855c7d1cd290c"
+  integrity sha512-hNcQY4bpBUIvxekd26DBPgF7BT4mKVNDF5tBG4Zi+3IgwLxGYRY0itHs9D0oLVwXM5pvJDWJlBQro+au8WaUWw==
   dependencies:
     slash "^3.0.0"
 
