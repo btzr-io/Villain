@@ -9,6 +9,7 @@
     "build:web": "lerna run --scope villain-web build --stream",
     "start:react": "lerna run --scope villain-react  start --parallel",
     "build:react": "lerna run --scope villain-react  build --stream",
+    "start:react-new": "lerna --scope dev-sandbox run start",
     "format": "pretty-quick",
     "format:css": "npx prettier --config ./.prettierrc --write **/*.css.module"
   },
@@ -25,7 +26,7 @@
     "viewer"
   ],
   "workspaces": [
-    "packages/*"
+    "packages/**"
   ],
   "author": "Baltazar Gomez",
   "license": "MIT",
