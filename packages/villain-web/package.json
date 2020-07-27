@@ -30,7 +30,7 @@
   "homepage": "https://github.com/btzr-io/Villain#readme",
   "dependencies": {
     "clsx": "^1.1.1",
-    "history": "^4.10.1",
+    "history": "^5.0.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.1",
     "react": "^16.12.0",
