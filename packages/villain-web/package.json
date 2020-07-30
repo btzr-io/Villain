@@ -47,7 +47,7 @@
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.7.4",
-    "@mdi/js": "^4.7.95",
+    "@mdi/js": "^5.4.55",
     "@mdi/react": "^1.2.1",
     "babel-plugin-module-resolver": "^4.0.0",
     "css-loader": "^3.6.0",
