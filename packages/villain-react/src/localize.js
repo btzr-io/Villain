@@ -8,6 +8,7 @@ import PT from '@/locales/messages.pt.json'
 import RU from '@/locales/messages.ru.json'
 import ID from '@/locales/messages.id.json'
 import ZH from '@/locales/messages.zh.json'
+import KO from '@/locales/messages.ko.json'
 
 const localize = new LocalizedStrings({
   EN,
@@ -18,6 +19,7 @@ const localize = new LocalizedStrings({
   RU,
   ID,
   ZH,
+  KO,
 })
 
 export default localize
