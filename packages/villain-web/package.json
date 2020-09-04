@@ -38,7 +38,7 @@
     "react-dropzone": "^10.2.1",
     "react-localization": "^1.0.15",
     "react-spring": "^8.0.27",
-    "reakit": "^1.0.2",
+    "reakit": "^1.2.4",
     "universal-router": "^8.3.0",
     "villain-react": "^1.0.8"
   },
