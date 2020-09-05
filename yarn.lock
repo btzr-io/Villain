@@ -1942,10 +1942,10 @@
   resolved "https://registry.yarnpkg.com/@mdi/js/-/js-5.0.45.tgz#50859fbbf5dda70b6f27603c9374077c2295145f"
   integrity sha512-zYNV7g+nhURRTnZbFDEIm1XHWWbj6lyqFg9ZqQ72p918UuR6+L/0s1FeM57EhGmNQsCiN/Ika42H1owD91f3Iw==
 
-"@mdi/react@^1.1.1", "@mdi/react@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@mdi/react/-/react-1.2.1.tgz#24279784e080728e953f3c1a71f49c64031dee47"
-  integrity sha512-1IRIVCT07vlLmaZjVtGfyfwCMivg/tCtPj0+r1BKrkoh9z4xLf+M1TD0LhjJPO+4+O0ibW+xrNRvf+boRRtX9A==
+"@mdi/react@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@mdi/react/-/react-1.4.0.tgz#7f6bad1bd8801226d0e5bad91659b215ce68a93f"
+  integrity sha512-OUH9RhfDJPhybQL3owwrSDIXz2yVKXg5lYeOZjyRCiT9wqywNK0FeYyDByOwNIZnnIQoQYmuSrMv+pOX0Uqkmw==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
