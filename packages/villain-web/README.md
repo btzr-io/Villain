@@ -104,7 +104,7 @@ To start the development run `yarn start`, this will open up `localhost:8080` on
 
 - This uses webpack-dev-server and includes hot-reloading.
 
-An example archive has been provided to play around inside [`./build/testFile`](https://github.com/btzr-io/Villain/tree/master/build/testFile)
+An example archive has been provided to play around inside [`./packages/villain-web/dev-server/static/archives`](https://github.com/xgirma/Villain/tree/master/packages/villain-web/dev-server/static/archives)
 
 - A good resource for archives can be found here: https://archive.org/details/comics.
 - Alternative, any compressed folder (zip, rar, tar, etc) with a few images will also do the job.
