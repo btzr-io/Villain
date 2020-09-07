@@ -10,7 +10,9 @@
     "start:react": "lerna run --scope villain-react  start --parallel",
     "build:react": "lerna run --scope villain-react  build --stream",
     "format": "pretty-quick",
-    "format:css": "npx prettier --config ./.prettierrc --write **/*.css.module"
+    "format:css": "npx prettier --config ./.prettierrc --write **/*.css.module",
+    "docs:copy": "node ./docs",
+    "docsify:serve": "npx docsify serve ./docs"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,7 @@
   },
   "homepage": "https://github.com/btzr-io/Villain#readme",
   "devDependencies": {
+    "docsify-cli": "^4.4.1",
     "lerna": "^3.20.2",
     "prettier": "^1.17.0",
     "pretty-quick": "^2.0.0"
