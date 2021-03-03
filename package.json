@@ -37,7 +37,7 @@
   "homepage": "https://github.com/btzr-io/Villain#readme",
   "devDependencies": {
     "docsify-cli": "^4.4.1",
-    "lerna": "^3.20.2",
+    "lerna": "^4.0.0",
     "prettier": "^1.17.0",
     "pretty-quick": "^2.0.0"
   },
