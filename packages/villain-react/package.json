@@ -52,7 +52,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-transform-xregexp": "^1.0.0",
     "@mdi/js": "^5.0.45",
-    "@mdi/react": "^1.1.1",
+    "@mdi/react": "^1.5.0",
     "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-json": "^4.0.1",
     "@rollup/plugin-node-resolve": "^6.1.0",
