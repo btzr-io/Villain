@@ -1,0 +1,108 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+  open-pull-requests-limit: 10
+  labels:
+  - dependencies
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: webpack
+    versions:
+    - 5.17.0
+    - 5.20.0
+    - 5.21.2
+    - 5.22.0
+    - 5.23.0
+    - 5.24.0
+    - 5.24.1
+    - 5.24.2
+    - 5.24.3
+    - 5.24.4
+    - 5.25.0
+    - 5.25.1
+    - 5.26.0
+    - 5.26.2
+    - 5.26.3
+    - 5.27.1
+    - 5.27.2
+    - 5.28.0
+    - 5.30.0
+    - 5.31.0
+    - 5.31.2
+    - 5.32.0
+    - 5.33.2
+    - 5.34.0
+    - 5.35.0
+    - 5.35.1
+  - dependency-name: dompurify
+    versions:
+    - 2.2.6
+    - 2.2.7
+  - dependency-name: docsify
+    versions:
+    - 4.12.0
+  - dependency-name: html-webpack-plugin
+    versions:
+    - 4.5.1
+    - 5.0.0
+    - 5.1.0
+  - dependency-name: react-dropzone
+    versions:
+    - 11.2.4
+    - 11.3.0
+    - 11.3.1
+  - dependency-name: worker-loader
+    versions:
+    - 3.0.7
+  - dependency-name: lerna
+    versions:
+    - 3.22.1
+  - dependency-name: "@mdi/react"
+    versions:
+    - 1.4.0
+- package-ecosystem: npm
+  directory: "/packages/villain-react"
+  schedule:
+    interval: daily
+    time: "07:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: css-loader
+    versions:
+    - 5.0.1
+    - 5.0.2
+    - 5.1.0
+    - 5.1.1
+    - 5.1.2
+    - 5.1.3
+    - 5.2.0
+    - 5.2.1
+    - 5.2.2
+  - dependency-name: eslint
+    versions:
+    - 7.18.0
+    - 7.19.0
+    - 7.20.0
+    - 7.21.0
+    - 7.22.0
+    - 7.23.0
+    - 7.24.0
+  - dependency-name: "@rollup/plugin-node-resolve"
+    versions:
+    - 11.1.0
+    - 11.1.1
+    - 11.2.0
+  - dependency-name: webpack-cli
+    versions:
+    - 4.4.0
+    - 4.5.0
+  - dependency-name: sass-loader
+    versions:
+    - 10.1.1
+  - dependency-name: worker-loader
+    versions:
+    - 3.0.7
