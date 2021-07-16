@@ -55,7 +55,7 @@
     "@mdi/react": "^1.1.1",
     "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-json": "^4.0.1",
-    "@rollup/plugin-node-resolve": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.2",
     "@rollup/plugin-replace": "^2.3.0",
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.0.5",
