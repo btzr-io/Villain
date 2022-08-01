@@ -1,14 +1,14 @@
 {
-  "name": "villain-project",
-  "private": true,
-  "description": "An open source web based comic book reader as a react component",
+  "name": "Wallace",
+  "private": false,
+  "description": "An Improved open source web based comic book reader as a react component",
   "scripts": {
     "deploy": "chmod +x deploy.sh && ./deploy.sh",
     "bootstrap": "lerna bootstrap",
-    "start:web": "lerna run --scope villain-web  start --parallel",
-    "build:web": "lerna run --scope villain-web build --stream",
-    "start:react": "lerna run --scope villain-react  start --parallel",
-    "build:react": "lerna run --scope villain-react  build --stream",
+    "start:web": "lerna run --scope Wallace-web  start --parallel",
+    "build:web": "lerna run --scope Wallace-web build --stream",
+    "start:react": "lerna run --scope Wallace-react  start --parallel",
+    "build:react": "lerna run --scope Wallace-react  build --stream",
     "format": "pretty-quick",
     "format:css": "npx prettier --config ./.prettierrc --write **/*.css.module",
     "docs:copy": "node ./docs",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/btzr-io/Villain.git"
+    "url": "git+https://github.com/ggle3000/Wallace.git"
   },
   "keywords": [
     "comic",
@@ -29,12 +29,12 @@
   "workspaces": [
     "packages/*"
   ],
-  "author": "Baltazar Gomez",
+  "authors": "B. Gomez , Isiah W.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/btzr-io/Villain/issues"
+    "url": "https://github.com/ggle3000/Wallace/issues"
   },
-  "homepage": "https://github.com/btzr-io/Villain#readme",
+  "homepage": "https://github.com/ggle3000/Wallace##readme",
   "devDependencies": {
     "docsify-cli": "^4.4.1",
     "lerna": "^3.20.2",
