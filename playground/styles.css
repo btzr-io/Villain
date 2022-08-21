@@ -1,0 +1,347 @@
+.villain-viewer {
+  position: relative;
+  max-width: 700px;
+  min-width: 480px;
+  min-height: 480px;
+  background: black;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  --main-color: #f75959;
+  --card-color: rgba(40, 40, 40, 0.94);
+  --overlay-color: rgba(40, 40, 40, 0.68);
+  --text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+.label--overlay {
+  position: absolute;
+  z-index: 99;
+  right: 0;
+  background: var(--overlay-color);
+  padding: 6px 14px;
+  font-size: 0.9em;
+  margin: 24px;
+  border-radius: 24px;
+  text-shadow: var(--text-shadow);
+}
+
+.villain-viewer--fullscreen {
+  max-width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+.villain-viewer button {
+  cursor: pointer;
+}
+
+.villain-button svg {
+  filter: drop-shadow(0px 0px 2px rgb(0 0 0 / 0.4));
+}
+
+.villain-controls__navigation,
+.villain-controls__section,
+.villain-controls--left,
+.villain-controls--right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.villain-viewer span {
+  margin: 4px;
+}
+
+.villain-label {
+  margin: 18px 0;
+  font-size: 0.92em;
+  min-width: 80px;
+}
+
+.villian-render {
+  width: 100%;
+  height: 100%;
+  position: absolute !important;
+}
+
+.villain-slider {
+  background: rgba(255, 255, 255, 0.2);
+  position: relative;
+  width: 100%;
+  min-width: 100px;
+  margin: 0;
+}
+
+.villain-slider__track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  z-index: 1;
+  border-radius: 6px;
+  background-color: var(--main-color);
+  cursor: pointer;
+}
+
+.villain-button--control-overlay-right:hover,
+.villain-button--control-overlay-right:active,
+.villain-button--control-overlay-left:active,
+.villain-button--control-overlay-left:hover {
+  background: var(--card-color);
+}
+
+.villain-button--control-overlay-right,
+.villain-button--control-overlay-left,
+.villain-button--control,
+.villain-button--control-label {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.villain-button--control {
+  margin-left: 24px;
+  padding: 4px;
+}
+
+.villain-controls--left .villain-button--control {
+  margin-left: 0;
+  margin-right: 18px;
+}
+
+.villain-button--control-overlay-left {
+  left: 0;
+}
+
+.villain-button--control-overlay-right {
+  right: 0;
+}
+
+.villain-button--control-overlay-right,
+.villain-button--control-overlay-left {
+  background: var(--overlay-color);
+  box-shadow: var(--text-color);
+  position: absolute;
+  top: 45%;
+  padding: 4px;
+  border-radius: 50px;
+  margin: 0 24px;
+  transition: all 0.2s ease;
+  background: var(--overlay-color);
+}
+
+.villain-controls__navigation .villain-button--control {
+  margin: 6px;
+}
+
+.villain-button[role="slider"] {
+  background: var(--main-color);
+}
+
+.villain-slider__buffer {
+  z-index: 0;
+  margin: 0;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  height: 5px;
+  transform: translate(0%, -50%);
+  transition: width 0.3s ease;
+  will-change: width;
+}
+
+.villain-controls {
+  padding: 0 32px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.villain-controls--right {
+  margin-right: 4px;
+}
+
+.villain-controls__background {
+  height: 61px;
+  padding-top: 37px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  background-position: bottom;
+  position: absolute;
+  pointer-events: none;
+  background-repeat: repeat-x;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADGCAYAAAAT+OqFAAAAdklEQVQoz42QQQ7AIAgEF/T/D+kbq/RWAlnQyyazA4aoAB4FsBSA/bFjuF1EOL7VbrIrBuusmrt4ZZORfb6ehbWdnRHEIiITaEUKa5EJqUakRSaEYBJSCY2dEstQY7AuxahwXFrvZmWl2rh4JZ07z9dLtesfNj5q0FU3A5ObbwAAAABJRU5ErkJggg==");
+}
+
+.tooltiptext {
+  color: #f0f0f0;
+  background: var(--overlay-color);
+  text-align: center;
+  border-radius: 40px;
+  padding: 6px 14px;
+  z-index: 1;
+  display: inline-block;
+  font-size: 0.8em;
+  box-sizing: content-box;
+  text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--overlay-color) transparent transparent transparent;
+}
+
+.menu {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  bottom: 48px;
+  opacity: 0;
+  right: 0;
+  background: var(--card-color);
+  margin: 24px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  font-size: 0.86em;
+  z-index: 2;
+  box-sizing: border-box;
+  transition-duration: 0.2s;
+  transition-property: width, height;
+  will-change: width, height;
+}
+
+.menu-panels {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  will-change: transform;
+}
+
+.menu-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0 12px;
+  min-width: 200px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  transition-property: opacity;
+  transition-duration: 0.2s;
+  will-change: opacity;
+  max-height: 260px;
+  overflow-y: auto;
+  scroll-padding-top: 12px;
+  scroll-padding-bottom: 12px;
+}
+
+.menu-panel[hidden] {
+  display: block;
+  opacity: 0;
+}
+
+.menu-item:first-child {
+  margin-top: 12px;
+}
+
+.menu-item {
+  padding: 6px 12px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  display: inline-flex;
+  box-sizing: border-box;
+  color: inherit;
+  font-size: inherit;
+  border: 0;
+  background: 0;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.menu .menu-item__toggler {
+  width: 32px;
+  height: 10px;
+  border-radius: 16px;
+  background: rgba(200, 200, 200, 0.2);
+  position: relative;
+  box-shadow: var(--text-shadow);
+  transition: all 0.2s ease;
+}
+
+button[aria-checked="true"] .menu-item__toggler {
+  background: var(--main-color);
+}
+
+button[aria-checked="true"] .menu-item__toggler::after {
+  background: white;
+  left: 50%;
+}
+
+.menu-item__value {
+  font-size: 0.98em;
+  opacity: 0.8;
+}
+
+.menu-item__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu[hidden] {
+  pointer-events: none;
+}
+
+.menu[hidden] .menu-item {
+  pointer-events: inherit;
+}
+
+.menu-item__value,
+.menu-item__toggler {
+  margin-left: 18px;
+}
+
+.menu-item__toggler::after {
+  content: "";
+  display: block;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  background: red;
+  border-radius: 16px;
+  background-color: rgba(220, 220, 220, 0.8);
+  box-shadow: var(--text-shadow);
+  transition: all 0.2s ease;
+}
+
+.menu-item:focus {
+  background: rgba(180, 180, 180, 0.2);
+}
