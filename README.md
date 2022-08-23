@@ -68,28 +68,15 @@ Supported archives formats by [`libarchive.js`](https://github.com/nika-begiashv
 - `RAR v5`
 - `TAR`
 
-## Development
-
-This repository is now a `mono-repo` and is maintained with [lerna](https://github.com/lerna/lerna)
-
-### Setup
+## Development:
 
 Before you jump in the code please follow the initial setup guide for development:
 
 1. Clone or fork this repository.
 2. Run `yarn` command to install the project dependencies.
-3. Run `yarn bootstrap` to install all dependencies from internal packages and link any cross-dependencies.
 
-Thats it! Now you are ready to start fixing bugs and implementing new features. :tada:
+That's it! Now you are ready to start fixing bugs and implementing new features. :tada:
 
-### Packages
-
-Available packages living inside this repository:
-
-| Name                                                                                   | version      | Description         |
-| -------------------------------------------------------------------------------------- | ------------ | ------------------- |
-| [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web)     | 0.0.1 (beta) | web app + embed api |
-| [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) | 1.0.7        | react component     |
 
 ### Commands
 
@@ -98,13 +85,6 @@ Available package scripts for development:
 | Name          | Description                                                                                                                                             |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | deploy        | Deploy [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web) to github pages                                               |
-| bootstrap     | Bootstrap the packages in the current mono repo                                                                                                         |
-| start:web     | Start development webpack-dev-server (includes hot-reloading) of [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web)     |
-| build:web     | Build production version of [villain-web](https://github.com/btzr-io/Villain/tree/master/packages/villain-web)                                          |
-| start:react   | Start development webpack-dev-server (includes hot-reloading) of [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react) |
-| build:react   | Build production version of [villain-react](https://github.com/btzr-io/Villain/tree/master/packages/villain-react)                                      |
-| docs:copy     | Prepare documents for docsify-cli                                                                                                                       |
-| docsify:serve | Serve docsify generated document on localhost:3000                                                                                                      |
 
 ```sh
 yarn command-name

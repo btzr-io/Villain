@@ -1,3 +1,0 @@
-- [Get Started](get-started.md)
-- [Villain web](villain-web.md)
-- [Villain React](villain-react.md)
