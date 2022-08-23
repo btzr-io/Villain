@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "license": "MIT",
   "homepage": "https://github.com/btzr-io/Villain",
-  "description": "An open source web based comic book reader as a react component",
+  "description": "An open source web based comic book reader",
   "files": [
     "dist/"
   ],
@@ -48,7 +48,6 @@
     "rollup-plugin-commonjs-alternate": "^0.8.0",
     "rollup-plugin-hot-css": "^0.5.1",
     "rollup-plugin-react-refresh": "0.0.3",
-    "rollup-plugin-static-files": "^0.2.0",
     "rollup-plugin-terser": "^7.0.2",
     "shx": "^0.3.3"
   }

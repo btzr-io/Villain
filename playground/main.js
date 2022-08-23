@@ -1,17 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { StateProvider } from "@/store";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Villain } from '@/main.js'
 
-import App from "@/component/app";
-import "./styles.css";
+import './styles.css'
 
-let root = document.querySelector("#app");
+let root = document.querySelector('#app')
 
 ReactDOM.render(
   <React.Fragment>
-    <StateProvider>
-      <App />
-    </StateProvider>
+    <Villain />
   </React.Fragment>,
   root
-);
+)

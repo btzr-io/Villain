@@ -1,24 +1,17 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useCallback,
-  forwardRef,
-} from "react";
-import Slider from "@/component/controls/slider";
-import { LAYOUT_MODE } from "@/constants";
+import React, { Fragment, useContext, useCallback } from 'react'
+import Slider from '@/component/controls/slider'
+import { LAYOUT_MODE } from '@/constants'
 import {
   useNavigation,
   useProgress,
   useFullscreenStatus,
   useLayout,
   useOptions,
-} from "@/hooks";
-import Button from "@/component/controls/button";
-import { Icon } from "@mdi/react";
-import { LANGUAGES } from "@/constants";
-import { closeFullscreen } from "@/utils";
+} from '@/hooks'
+import Button from '@/component/controls/button'
+import { Icon } from '@mdi/react'
+import { LANGUAGES } from '@/constants'
+
 import {
   mdiPlay,
   mdiPause,
@@ -36,83 +29,82 @@ import {
   mdiPlusCircleOutline,
   mdiMinusCircleOutline,
   mdiPagePreviousOutline,
-} from "@mdi/js";
+} from '@mdi/js'
 
-import MenuButton from "@/component/controls/menu";
+import MenuButton from '@/component/controls/menu'
 
 const Controls = ({ zoom, viewerActions }) => {
-  const [layout, setLayout] = useLayout();
-  const { zoomIn, zoomOut } = viewerActions;
-  const { options, setOptions } = useOptions();
+  const [layout, setLayout] = useLayout()
+  const { zoomIn, zoomOut } = viewerActions
+  const { options, setOptions } = useOptions()
   const { totalPages, currentPageNumber, currentPage, back, forward, go } =
-    useNavigation();
-  const progress = useProgress();
-  const bufferPercent = Math.round(progress * 100);
-  const [isFullscreen, toggleFullscreen] = useFullscreenStatus();
+    useNavigation()
+  const progress = useProgress()
+  const bufferPercent = Math.round(progress * 100)
+  const [isFullscreen, toggleFullscreen] = useFullscreenStatus()
 
   const toggleLayoutMode = () => {
-    const newLayout =
-      layout === LAYOUT_MODE.BOOK ? LAYOUT_MODE.PAGE : LAYOUT_MODE.BOOK;
-    setLayout(newLayout);
-  };
+    const newLayout = layout === LAYOUT_MODE.BOOK ? LAYOUT_MODE.PAGE : LAYOUT_MODE.BOOK
+    setLayout(newLayout)
+  }
 
   const togglePlay = () => {
-    setOptions({ play: !options.play });
-  };
+    setOptions({ play: !options.play })
+  }
 
   const items = [
     {
-      label: "Loop",
-      role: "checkbox",
+      label: 'Loop',
+      role: 'checkbox',
       value: options.loop,
       onChange: (loop) => setOptions({ loop: !options.loop }),
     },
     {
-      label: "Manga mode",
-      role: "checkbox",
+      label: 'Manga mode',
+      role: 'checkbox',
       value: options.mangaMode,
       onChange: (mangaMode) => setOptions({ mangaMode: !options.mangaMode }),
     },
     {
-      label: "Playback interval",
+      label: 'Playback interval',
       value: `${options.playbackInterval}s`,
       onChange: (playbackInterval) => setOptions({ playbackInterval }),
       submenu: [3, 6, 12, 24, 30, 60].map((duration, i) => {
-        return { label: `${duration}s`, value: duration };
+        return { label: `${duration}s`, value: duration }
       }),
     },
     {
-      label: "Language",
+      label: 'Language',
       value: LANGUAGES[options.language],
       onChange: (language) => setOptions({ language }),
       submenu: Object.entries(LANGUAGES).map(([code, name], i) => {
-        return { label: name, value: code };
+        return { label: name, value: code }
       }),
     },
-  ];
+  ]
 
   return (
     <Fragment>
       <div
-        role={"meter"}
+        role={'meter'}
         aria-label="Zoom level"
         aria-valuenow={zoom}
         aria-valuemin="0"
         aria-valuemax="100"
-        className={"label--overlay"}
+        className={'label--overlay'}
       >
-        {" "}
+        {' '}
         <span aria-hidden="true">{`${zoom}%`}</span>
       </div>
       <Button
         icon={mdiChevronLeft}
-        typeClass={"control-overlay-left"}
+        typeClass={'control-overlay-left'}
         iconSize={1.68}
         onClick={back}
       />
       <Button
         icon={mdiChevronRight}
-        typeClass={"control-overlay-right"}
+        typeClass={'control-overlay-right'}
         iconSize={1.68}
         onClick={forward}
       />
@@ -130,37 +122,31 @@ const Controls = ({ zoom, viewerActions }) => {
             <Button
               icon={options.play ? mdiPause : mdiPlay}
               onClick={togglePlay}
-              typeClass={"control"}
+              typeClass={'control'}
               iconSize={1.3}
             />
             <div className="villain-label">
               <span className="label">{currentPageNumber}</span>
-              <span className="label">{"/"}</span>
+              <span className="label">{'/'}</span>
               <span className="label">{totalPages}</span>
             </div>
           </div>
           <div className="villain-controls--right">
-            <Button
-              icon={mdiPlusCircleOutline}
-              typeClass={"control"}
-              onClick={zoomIn}
-            />
+            <Button icon={mdiPlusCircleOutline} typeClass={'control'} onClick={zoomIn} />
             <Button
               icon={mdiMinusCircleOutline}
-              typeClass={"control"}
+              typeClass={'control'}
               onClick={zoomOut}
             />
-            <MenuButton icon={mdiCog} typeClass={"control"} items={items} />
+            <MenuButton icon={mdiCog} typeClass={'control'} items={items} />
             <Button
-              icon={
-                layout === LAYOUT_MODE.BOOK ? mdiBookOpen : mdiBookOpenOutline
-              }
+              icon={layout === LAYOUT_MODE.BOOK ? mdiBookOpen : mdiBookOpenOutline}
               onClick={toggleLayoutMode}
-              typeClass={"control"}
+              typeClass={'control'}
             />
             <Button
               icon={isFullscreen ? mdiFullscreenExit : mdiFullscreen}
-              typeClass={"control"}
+              typeClass={'control'}
               iconSize={1.1}
               onClick={toggleFullscreen}
             />
@@ -168,7 +154,7 @@ const Controls = ({ zoom, viewerActions }) => {
         </div>
       </div>
     </Fragment>
-  );
-};
+  )
+}
 
-export default Controls;
+export default Controls

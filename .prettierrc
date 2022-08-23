@@ -8,10 +8,6 @@
     {
       "files": [".prettierrc", ".babelrc"],
       "options": { "parser": "json" }
-    },
-    {
-      "files": "**/*.css.module",
-      "options": { "parser": "css" }
     }
   ]
 }
